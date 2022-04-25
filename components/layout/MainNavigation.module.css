@@ -37,3 +37,22 @@
 .header a.active {
   color: white;
 }
+
+.badge {
+  background-color: #cc2062;
+  color: white;
+  border-radius: 12px;
+  padding: 0 1rem;
+  margin-left: 0.5rem;
+}
+
+.link {
+  color: inherit;
+  padding-top: 15px;
+  padding-left: 2px;
+  padding-right: 5px;
+}
+
+.dropdownLink {
+  text-align: center;
+}
