@@ -14,7 +14,7 @@ async function handler(req, res) {
 
     const result = await meetupsCollection.insertOne(data);
 
-    console.log(result); //try catch to error handle if you wish
+     //try catch to error handle if you wish
 
     client.close();
 

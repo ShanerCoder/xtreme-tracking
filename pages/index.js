@@ -6,6 +6,7 @@ function HomePage(props) {
   return (
     <>
       <Head>
+        <title>Xtreme Tracking</title>
         <meta name="home page" content="Browse meetings available" />
       </Head>
       <MeetupList meetups={props.meetups} />
@@ -16,7 +17,6 @@ function HomePage(props) {
 export async function getStaticProps() {
   // fetch data from an API
 
-  MongoClient.connect();
   const client = await MongoClient.connect(
     "mongodb+srv://shaner:X1FFY8qVQ5yYi3AE@cluster0.vxyoc.mongodb.net/meetups?retryWrites=true&w=majority"
   );
@@ -41,6 +41,7 @@ export async function getStaticProps() {
     },
     revalidate: 300,
   };
+  console.log(props);
 }
 
 export default HomePage;
