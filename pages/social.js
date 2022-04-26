@@ -80,15 +80,15 @@ export async function getServerSideProps() {
 
   const db = client.db();
 
-  const meetupsCollection = db.collection("user-posts");
+  const userpostsCollection = db.collection("user-posts");
 
-  const meetups = await meetupsCollection.find().sort({ _id: -1 }).toArray();
+  const userpostList = await userpostsCollection.find().sort({ _id: -1 }).toArray();
 
   client.close();
 
   return {
     props: {
-      userposts: meetups.map((post) => ({
+      userposts: userpostList.map((post) => ({
         id: post._id.toString(),
         //username: post.username
         postText: post.postText,
