@@ -67,7 +67,7 @@ export async function getStaticProps() {
         dateAdded: post.dateAdded,
       })),
     },
-    revalidate: 300,
+    revalidate: 1,
   };
 }
 
