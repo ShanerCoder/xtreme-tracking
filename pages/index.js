@@ -41,7 +41,6 @@ export async function getStaticProps() {
     },
     revalidate: 300,
   };
-  console.log(props);
 }
 
 export default HomePage;

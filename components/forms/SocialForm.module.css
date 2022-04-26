@@ -25,3 +25,9 @@
   margin-top: 1rem;
   text-align: right;
 }
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

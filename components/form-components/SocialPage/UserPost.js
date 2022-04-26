@@ -5,7 +5,10 @@ function UserPost(props) {
   return (
     <div>
       <p className={classes.dateTime}>
-        {props.postDate} at {props.postTime}
+        {
+          //props.postDate} at {props.postTime}
+        }
+        {props.dateAdded}
       </p>
       <div className={classes.postBubble}>{props.postText}</div>
     </div>
