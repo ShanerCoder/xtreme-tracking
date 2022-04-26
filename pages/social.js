@@ -39,7 +39,7 @@ function SocialPage(props) {
     </section>
   );
 }
-
+/*
 export async function getStaticProps() {
   // fetch data from an API
 
@@ -67,7 +67,37 @@ export async function getStaticProps() {
         dateAdded: post.dateAdded,
       })),
     },
-    revalidate: 0.1,
+    revalidate: 1,
+  };
+}*/
+
+export async function getServerSideProps() {
+  // fetch data from an API
+
+  const client = await MongoClient.connect(
+    "mongodb+srv://shaner:X1FFY8qVQ5yYi3AE@cluster0.vxyoc.mongodb.net/user-posts?retryWrites=true&w=majority"
+  );
+
+  const db = client.db();
+
+  const meetupsCollection = db.collection("user-posts");
+
+  const meetups = await meetupsCollection
+    .find()
+    .sort({ dateAdded: -1 })
+    .toArray();
+
+  client.close();
+
+  return {
+    props: {
+      userposts: meetups.map((post) => ({
+        id: post._id.toString(),
+        //username: post.username
+        postText: post.postText,
+        dateAdded: post.dateAdded,
+      })),
+    },
   };
 }
 
