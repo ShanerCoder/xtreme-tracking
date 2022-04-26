@@ -82,10 +82,7 @@ export async function getServerSideProps() {
 
   const meetupsCollection = db.collection("user-posts");
 
-  const meetups = await meetupsCollection
-    .find()
-    .sort({ dateAdded: -1 })
-    .toArray();
+  const meetups = await meetupsCollection.find().sort({ _id: -1 }).toArray();
 
   client.close();
 
