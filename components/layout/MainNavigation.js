@@ -15,7 +15,11 @@ function MainNavigation() {
     <div>
       <Navbar bg="light" variant={"light"} expand="lg">
         <Container>
-          <Navbar.Brand>Xtreme Tracking</Navbar.Brand>
+          <Navbar.Brand>
+            <Link href="/">
+              <p className={classes.link}>Xtreme Tracking</p>
+            </Link>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -29,7 +33,7 @@ function MainNavigation() {
               <Link href="/social">
                 <p className={classes.link}>Social</p>
               </Link>
-              <Link href="/new-meetup">
+              <Link href="/">
                 <p className={classes.link}>Tracking</p>
               </Link>
             </Nav>
@@ -50,10 +54,10 @@ function MainNavigation() {
               }
               id="collasible-nav-dropdown"
             >
-              <Link href="/">
+              <Link href="/login">
                 <p className={classes.dropdownLink}>Log In</p>
               </Link>
-              <Link href="/">
+              <Link href="/register">
                 <p className={classes.dropdownLink}>Sign Up</p>
               </Link>
             </NavDropdown>

@@ -19,3 +19,7 @@ button {
     background-color: #a50e48;
     border-color: #a50e48;
   }
+
+  .center {
+    text-align: center;
+  }

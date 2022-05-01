@@ -3,9 +3,8 @@ import Card from "../components/ui/Card";
 import LighterDiv from "../components/ui/LighterDiv";
 import classes from "./PageStyling.module.css";
 import BannerImage from "../components/ui/BannerImage";
-import MeetupList from "../components/meetups/MeetupList";
-import { MongoClient } from "mongodb";
 import { useRouter } from "next/router";
+import { dbConnect } from "../lib/db-connect";
 
 function SocialPage(props) {
   const router = useRouter();
@@ -35,56 +34,22 @@ function SocialPage(props) {
           />
         </Card>
       </LighterDiv>
-      <SocialForm userposts={props.userposts} onAddPost={addPostHandler} />
+      {<SocialForm userposts={props.userposts} onAddPost={addPostHandler} />}
     </section>
   );
 }
-/*
-export async function getStaticProps() {
-  // fetch data from an API
-
-  const client = await MongoClient.connect(
-    "mongodb+srv://shaner:X1FFY8qVQ5yYi3AE@cluster0.vxyoc.mongodb.net/user-posts?retryWrites=true&w=majority"
-  );
-
-  const db = client.db();
-
-  const meetupsCollection = db.collection("user-posts");
-
-  const meetups = await meetupsCollection
-    .find()
-    .sort({ dateAdded: -1 })
-    .toArray();
-
-  client.close();
-
-  return {
-    props: {
-      userposts: meetups.map((post) => ({
-        id: post._id.toString(),
-        //username: post.username
-        postText: post.postText,
-        dateAdded: post.dateAdded,
-      })),
-    },
-    revalidate: 1,
-  };
-}*/
 
 export async function getServerSideProps() {
   // fetch data from an API
 
-  const client = await MongoClient.connect(
-    "mongodb+srv://shaner:X1FFY8qVQ5yYi3AE@cluster0.vxyoc.mongodb.net/user-posts?retryWrites=true&w=majority"
-  );
-
+  const client = await dbConnect();
   const db = client.db();
+  const userpostsCollection = await db.collection("user-posts");
 
-  const userpostsCollection = db.collection("user-posts");
-
-  const userpostList = await userpostsCollection.find().sort({ _id: -1 }).toArray();
-
-  client.close();
+  const userpostList = await userpostsCollection
+    .find()
+    .sort({ _id: -1 })
+    .toArray();
 
   return {
     props: {

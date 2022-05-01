@@ -1,12 +1,11 @@
-import { MongoClient, Timestamp } from "mongodb";
+import { MongoClient } from "mongodb";
+import { dbConnect } from "../../lib/db-connect";
 
 async function handler(req, res) {
   if (req.method === "POST") {
     const data = req.body;
 
-    const client = await MongoClient.connect(
-      "mongodb+srv://shaner:X1FFY8qVQ5yYi3AE@cluster0.vxyoc.mongodb.net/user-posts?retryWrites=true&w=majority"
-    );
+    const client = await dbConnect();
 
     const db = client.db();
 
@@ -18,8 +17,6 @@ async function handler(req, res) {
     });
 
     //try catch to error handle if you wish
-
-    client.close();
 
     res.status(201).json({ message: "Post inserted" });
   }

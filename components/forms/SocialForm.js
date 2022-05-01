@@ -1,4 +1,3 @@
-import MeetupItem from "../meetups/MeetupItem";
 import DarkerDiv from "../ui/DarkerDiv";
 import LighterDiv from "../ui/LighterDiv";
 import { useRef } from "react";
