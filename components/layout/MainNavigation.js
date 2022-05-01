@@ -55,7 +55,7 @@ function MainNavigation() {
               id="collasible-nav-dropdown"
             >
               <Link href="/login">
-                <p className={classes.dropdownLink}>Log In</p>
+                <p className={classes.dropdownLink}>Register</p>
               </Link>
               <Link href="/register">
                 <p className={classes.dropdownLink}>Sign Up</p>

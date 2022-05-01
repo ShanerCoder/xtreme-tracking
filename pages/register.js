@@ -5,7 +5,6 @@ function RegisterPage() {
   const router = useRouter();
 
   async function addUserHandler(newUserData) {
-    console.log(newUserData);
     const response = await fetch("/api/user-accounts", {
       method: "POST",
       body: JSON.stringify(newUserData),
@@ -17,8 +16,8 @@ function RegisterPage() {
     console.log(newUserData);
     console.log(response);
     const data = await response.json();
-
-    router.push("/");
+    console.log(data.hasError);
+    //router.push("/");
   }
 
   return (
