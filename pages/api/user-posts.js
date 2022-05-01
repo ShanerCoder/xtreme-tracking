@@ -1,9 +1,13 @@
-import { MongoClient } from "mongodb";
 import { dbConnect } from "../../lib/db-connect";
+import {
+  errorHandler,
+  responseHandler,
+  validateAllFields,
+} from "../../utils/common";
 
 async function handler(req, res) {
   if (req.method === "POST") {
-    const data = req.body;
+    const { postText } = req.body;
 
     const client = await dbConnect();
 
@@ -12,14 +16,15 @@ async function handler(req, res) {
     const meetupsCollection = db.collection("user-posts");
 
     const result = await meetupsCollection.insertOne({
-      postText: data.postText,
+      postText: postText,
       dateAdded: Date(),
     });
 
-    //try catch to error handle if you wish
-
-    res.status(201).json({ message: "Post inserted" });
-  }
+    if (result) responseHandler(result, res, 201);
+    else {
+      errorHandler("User failed to be created", res);
+    }
+  } else errorHandler("Invalid Request Type", res);
 }
 
 export default handler;

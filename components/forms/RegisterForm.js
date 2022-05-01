@@ -3,28 +3,34 @@ import Card from "../ui/Card";
 import classes from "./RegisterForm.module.css";
 import Form from "react-bootstrap/Form";
 
-function RegisterForm() {
-  const titleInputRef = useRef();
-  const imageInputRef = useRef();
-  const addressInputRef = useRef();
-  const descriptionInputRef = useRef();
+function RegisterForm(props) {
+  const usernameInputRef = useRef();
+  const passwordInputRef = useRef();
+  const emailInputRef = useRef();
+  const forenameInputRef = useRef();
+  const surnameInputRef = useRef();
+  const PTUserRef = useRef();
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    const enteredTitle = titleInputRef.current.value;
-    const enteredImage = imageInputRef.current.value;
-    const enteredAddress = addressInputRef.current.value;
-    const enteredDescription = descriptionInputRef.current.value;
+    const enteredUsername = usernameInputRef.current.value;
+    const enteredPassword = passwordInputRef.current.value;
+    const enteredEmail = emailInputRef.current.value;
+    const enteredForename = forenameInputRef.current.value;
+    const enteredSurname = surnameInputRef.current.value;
+    const ptUser = PTUserRef.current.checked;
 
-    const meetupData = {
-      title: enteredTitle,
-      image: enteredImage,
-      address: enteredAddress,
-      description: enteredDescription,
+    const newUserData = {
+      username: enteredUsername,
+      password: enteredPassword,
+      email: enteredEmail,
+      forename: enteredForename,
+      surname: enteredSurname,
+      personalTrainerAccount: ptUser,
     };
 
-    router.push("/");
+    props.onAddUser(newUserData);
   }
 
   return (
@@ -32,42 +38,44 @@ function RegisterForm() {
       <form className={classes.form} onSubmit={handleSubmit}>
         <div className={classes.control}>
           <label htmlFor="title">Username</label>
-          <input type="text" required id="title" ref={titleInputRef} />
+          <input type="text" required id="title" ref={usernameInputRef} />
         </div>
         <div className={classes.control}>
           <label htmlFor="address">Password</label>
-          <input type="text" required id="address" ref={addressInputRef} />
+          <input type="password" required id="address" ref={passwordInputRef} />
         </div>
         <div className={classes.control}>
           <label htmlFor="title">Email</label>
-          <input type="text" required id="title" ref={titleInputRef} />
+          <input type="email" required id="title" ref={emailInputRef} />
         </div>
         <div className={classes.control}>
           <label htmlFor="title">Forename</label>
-          <input type="text" required id="title" ref={titleInputRef} />
+          <input type="text" required id="title" ref={forenameInputRef} />
           <label htmlFor="title">Surname</label>
-          <input type="text" required id="title" ref={titleInputRef} />
+          <input type="text" required id="title" ref={surnameInputRef} />
         </div>
         <div className="center">
           <p>Client or Personal Trainer?</p>
-          {["radio"].map((type) => (
-            <div key={`inline-${type}`} className="mb-3">
-              <Form.Check
-                inline
-                label="Client"
-                name="group1"
-                type={type}
-                id={`inline-${type}-1`}
-              />
-              <Form.Check
-                inline
-                label="Personal Trainer"
-                name="group1"
-                type={type}
-                id={`inline-${type}-2`}
-              />
-            </div>
-          ))}
+
+          <div className="mb-3">
+            <Form.Check
+              inline
+              label="Client"
+              name="group1"
+              type="radio"
+              id={`inline-radio-1`}
+              required
+            />
+            <Form.Check
+              inline
+              label="Personal Trainer"
+              name="group1"
+              type="radio"
+              id={`inline-radio-2`}
+              ref={PTUserRef}
+              required
+            />
+          </div>
           <div>
             <p>This can be changed later</p>
           </div>
