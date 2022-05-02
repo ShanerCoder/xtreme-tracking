@@ -1,5 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import UserPost from "../../../components/form-components/SocialPage/UserPost";
+import User from "../../../models/user";
+import Post from "../../../models/post";
 
 function NextAuth() {
   providers: [
@@ -19,7 +22,8 @@ function NextAuth() {
         //const user = { id: 1, name: "J Smith", email: "jsmith@example.com" };
 
         const { username, password } = credentials;
-        console.log(email + " - " + password);
+        console.log(username + " - " + password);
+        Post.find;
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
           return user;

@@ -5,9 +5,7 @@ import classes from "./PageStyling.module.css";
 import BannerImage from "../components/ui/BannerImage";
 import { useRouter } from "next/router";
 import { dbConnect } from "../lib/db-connect";
-import { mongoose, Schema } from "mongoose";
-import { Post } from "../models/post";
-import getPosts from "../models/getModels/getPosts";
+import Post from "../models/post";
 
 function SocialPage(props) {
   const router = useRouter();
@@ -46,7 +44,8 @@ export async function getServerSideProps() {
   // fetch data from an API
 
   await dbConnect();
-  const post = getPosts();
+  const post = Post.find();
+  console.log(post);
   const filter = {};
   const userpostList = await post.find(filter).sort({ _id: -1 });
   return {

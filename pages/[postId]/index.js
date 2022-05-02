@@ -1,9 +1,7 @@
-import { mongoose, Schema } from "mongoose";
 import PostDetails from "../../components/form-components/SocialPage/PostDetails";
 import { dbConnect } from "../../lib/db-connect";
 import classes from "../PageStyling.module.css";
-import { Post } from "../../models/post";
-import getPosts from "../../models/getModels/getPosts";
+import Post from "../../models/post";
 
 function PostThreadView(props) {
   return (
@@ -22,7 +20,7 @@ function PostThreadView(props) {
 
 export async function getStaticPaths() {
   await dbConnect();
-  let post = getPosts();
+  let post = Post.find();
   const filter = {};
   const userpostsList = await post.find(filter).select("_id");
 
@@ -43,9 +41,8 @@ export async function getStaticProps(context) {
 
   await dbConnect();
 
-  let post = getPosts();
   const filter = { _id: postId };
-  const selectedPost = await post.findOne(filter);
+  const selectedPost = await Post.findOne(filter);
 
   return {
     props: {
