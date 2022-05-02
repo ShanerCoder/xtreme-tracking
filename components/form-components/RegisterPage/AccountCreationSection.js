@@ -19,7 +19,7 @@ function AccountCreationSection(props) {
     const enteredEmail = emailInputRef.current.value;
     const enteredForename = forenameInputRef.current.value;
     const enteredSurname = surnameInputRef.current.value;
-    const ptUser = PTUserRef.current.checked;
+    //const ptUser = PTUserRef.current.checked;
 
     const newUserData = {
       username: enteredUsername,
@@ -27,7 +27,7 @@ function AccountCreationSection(props) {
       email: enteredEmail,
       forename: enteredForename,
       surname: enteredSurname,
-      personalTrainerAccount: ptUser,
+      //personalTrainerAccount: ptUser,
     };
 
     props.onSubmit(newUserData);

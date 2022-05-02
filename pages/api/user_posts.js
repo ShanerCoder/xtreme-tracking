@@ -4,25 +4,20 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../utils/common";
+import Post from "../../models/post";
 
 async function handler(req, res) {
   if (req.method === "POST") {
-    const { postText } = req.body;
+    validateAllFields(req.body);
+    await dbConnect();
 
-    const client = await dbConnect();
+    const post = new Post(req.body);
 
-    const db = client.db();
-
-    const meetupsCollection = db.collection("user-posts");
-
-    const result = await meetupsCollection.insertOne({
-      postText: postText,
-      dateAdded: Date(),
-    });
+    const result = await post.save();
 
     if (result) responseHandler(result, res, 201);
     else {
-      errorHandler("User failed to be created", res);
+      errorHandler("Post failed to be created", res);
     }
   } else errorHandler("Invalid Request Type", res);
 }

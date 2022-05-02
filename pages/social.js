@@ -5,12 +5,15 @@ import classes from "./PageStyling.module.css";
 import BannerImage from "../components/ui/BannerImage";
 import { useRouter } from "next/router";
 import { dbConnect } from "../lib/db-connect";
+import { mongoose, Schema } from "mongoose";
+import { Post } from "../models/post";
+import getPosts from "../models/getModels/getPosts";
 
 function SocialPage(props) {
   const router = useRouter();
 
   async function addPostHandler(NewPostData) {
-    const response = await fetch("/api/user-posts", {
+    const response = await fetch("/api/user_posts", {
       method: "POST",
       body: JSON.stringify(NewPostData),
       headers: {
@@ -42,22 +45,17 @@ function SocialPage(props) {
 export async function getServerSideProps() {
   // fetch data from an API
 
-  const client = await dbConnect();
-  const db = client.db();
-  const userpostsCollection = await db.collection("user-posts");
-
-  const userpostList = await userpostsCollection
-    .find()
-    .sort({ _id: -1 })
-    .toArray();
-
+  await dbConnect();
+  const post = getPosts();
+  const filter = {};
+  const userpostList = await post.find(filter).sort({ _id: -1 });
   return {
     props: {
       userposts: userpostList.map((post) => ({
         id: post._id.toString(),
         //username: post.username
         postText: post.postText,
-        dateAdded: post.dateAdded,
+        dateAdded: post.createdAt.toString(),
       })),
     },
   };

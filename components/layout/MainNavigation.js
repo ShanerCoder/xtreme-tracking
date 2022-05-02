@@ -55,10 +55,10 @@ function MainNavigation() {
               id="collasible-nav-dropdown"
             >
               <Link href="/login">
-                <p className={classes.dropdownLink}>Register</p>
+                <p className={classes.dropdownLink}>Log In</p>
               </Link>
               <Link href="/register">
-                <p className={classes.dropdownLink}>Sign Up</p>
+                <p className={classes.dropdownLink}>Register</p>
               </Link>
             </NavDropdown>
           </Navbar.Collapse>

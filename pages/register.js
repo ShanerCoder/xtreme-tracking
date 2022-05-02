@@ -5,7 +5,7 @@ function RegisterPage() {
   const router = useRouter();
 
   async function addUserHandler(newUserData) {
-    const response = await fetch("/api/user-accounts", {
+    const response = await fetch("/api/user_accounts", {
       method: "POST",
       body: JSON.stringify(newUserData),
       headers: {
@@ -28,3 +28,4 @@ function RegisterPage() {
   );
 }
 export default RegisterPage;
+//OverwriteModelError: Cannot overwrite `user_accounts` model once compiled.

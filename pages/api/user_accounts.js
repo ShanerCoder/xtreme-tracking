@@ -5,30 +5,29 @@ import {
   validateAllFields,
 } from "../../utils/common";
 import bcrypt from "bcrypt";
+import User from "../../models/user";
 
 async function handler(req, res) {
   if (req.method === "POST") {
     try {
       const { username, email, forename, surname } = req.body;
       validateAllFields(req.body);
-      const client = await dbConnect();
+      await dbConnect();
 
       const hashPassword = await bcrypt.hash(req.body.password, 8);
 
-      const db = client.db();
-
-      const userAccounts = await db.collection("user-accounts");
-
-      const result = await userAccounts.insertOne({
-        username: username,
+      const user = new User({
+        username,
         password: hashPassword,
-        email: email,
-        forename: forename,
-        surname: surname,
-        //accountStreak: 0,
+        email,
+        forename,
+        surname,
       });
+      const result = await user.save();
 
       if (result) {
+        const userDoc = result._doc;
+        delete userDoc.password;
         responseHandler(result, res, 201);
       } else {
         errorHandler("User failed to be created", res);
