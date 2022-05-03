@@ -10,7 +10,7 @@ import {
   Nav,
 } from "react-bootstrap";
 
-function MainNavigation() {
+function MainNavigation(props) {
   return (
     <div>
       <Navbar bg="light" variant={"light"} expand="lg">
@@ -46,21 +46,31 @@ function MainNavigation() {
               />
               <Button variant="outline-success">Search</Button>
             </Form>
-            <NavDropdown
-              title={
-                <span>
-                  <i className="fad fa-newspaper"></i> Profile
-                </span>
-              }
-              id="collasible-nav-dropdown"
-            >
-              <Link href="/login">
-                <p className={classes.dropdownLink}>Log In</p>
-              </Link>
-              <Link href="/register">
-                <p className={classes.dropdownLink}>Register</p>
-              </Link>
-            </NavDropdown>
+            {!props.authenticated ? (
+              <NavDropdown
+                title={
+                  <span>
+                    <i className="fad fa-newspaper"></i> Profile
+                  </span>
+                }
+                id="collasible-nav-dropdown"
+              >
+                <Link href="/login">
+                  <p className={classes.dropdownLink}>Log In</p>
+                </Link>
+                <Link href="/register">
+                  <p className={classes.dropdownLink}>Register</p>
+                </Link>
+              </NavDropdown>
+            ) : (
+              <>
+                <Link href="/">
+                  <p className={classes.link}>View Profile</p>
+                </Link>
+                <Button variant="outline-success">Sign Out</Button>
+              </>
+            )}
+            {console.log(props.authenticated)}
           </Navbar.Collapse>
         </Container>
       </Navbar>

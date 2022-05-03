@@ -6,6 +6,7 @@ import BannerImage from "../components/ui/BannerImage";
 import { useRouter } from "next/router";
 import { dbConnect } from "../lib/db-connect";
 import Post from "../models/post";
+import User from "../models/user";
 
 function SocialPage(props) {
   const router = useRouter();
@@ -45,7 +46,9 @@ export async function getServerSideProps() {
 
   await dbConnect();
   const post = Post.find();
-  console.log(post);
+  const user = await User.findOne({ username: "test" });
+  const userDoc = user._doc;
+  console.log(userDoc);
   const filter = {};
   const userpostList = await post.find(filter).sort({ _id: -1 });
   return {

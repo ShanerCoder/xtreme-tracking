@@ -53,7 +53,15 @@
   padding-right: 5px;
 }
 
-.link:hover {
+.profileLink {
+  color: inherit;
+  text-align: right;
+  padding-top: 15px;
+  padding-left: 2px;
+  padding-right: 5px;
+}
+
+.link:hover, .profileLink:hover {
   background-color: #F2F5F8;
   cursor: pointer;
 }
