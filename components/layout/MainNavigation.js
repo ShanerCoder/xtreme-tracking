@@ -36,6 +36,9 @@ function MainNavigation(props) {
               <Link href="/">
                 <p className={classes.link}>Tracking</p>
               </Link>
+              <Link href="/updates">
+                <p className={classes.link}>Update History</p>
+              </Link>
             </Nav>
             <Form className="d-flex">
               <FormControl
