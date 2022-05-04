@@ -7,19 +7,23 @@ import UpdateHistoryForm from "../components/forms/UpdateHistoryForm";
 function UpdateHistoryPage() {
   const data = [
     {
-      version: 0.1,
+      version: "0.1",
       changes: [
         { change: "Social Page Added" },
         { change: "Navigation Page Added" },
       ],
     },
     {
-      version: 0.2,
+      version: "0.2",
       changes: [
         { change: "Account Registration Added" },
         { change: "Account Login Added" },
         { change: "Update History Page Added" },
       ],
+    },
+    {
+      version: "0.2.1",
+      changes: [{ change: "Error Page Messages Added" }],
     },
   ];
 
