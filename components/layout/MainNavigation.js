@@ -70,7 +70,9 @@ function MainNavigation(props) {
                 <Button variant="outline-success">Sign Out</Button>
               </>
             )}
-            //{console.log(props.authenticated)}
+            {
+              //console.log(props.authenticated)
+            }
           </Navbar.Collapse>
         </Container>
       </Navbar>
