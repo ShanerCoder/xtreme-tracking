@@ -22,20 +22,19 @@ export const validateAllFields = (fields) => {
 
 export const getValue = (obj, path, defaultValue) => {
   try {
-    if(!(obj instanceof Array)){
+    if (!(obj instanceof Array)) {
       let myValue = obj;
-      for (let key of path){
-        if(!(key in myValue)){
+      for (let key of path) {
+        if (!(key in myValue)) {
           return defaultValue;
-        }else{
+        } else {
           myValue = myValue[key];
         }
       }
       return myValue;
     }
-  }
-  catch(error){
+  } catch (error) {
     console.log({ error });
     return defaultValue;
   }
-}
+};

@@ -13,11 +13,8 @@ function RegisterPage() {
       },
     });
 
-    console.log(newUserData);
-    console.log(response);
     const data = await response.json();
-    console.log(data.hasError);
-    //router.push("/");
+    router.push("/login");
   }
 
   return (

@@ -9,7 +9,7 @@ function Layout(props) {
   const user = getValue(state, ["user"], null);
   const authenticated = getValue(state, ["user", "authenticated"], false);
 
-  console.log({ state });
+  //console.log({ state });
 
   return (
     <div>
