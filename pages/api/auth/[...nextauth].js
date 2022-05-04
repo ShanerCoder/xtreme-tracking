@@ -14,11 +14,9 @@ export default NextAuth({
         if (!user) throw new Error("User not found");
         const userDoc = user._doc;
         const isMatched = await bcrypt.compare(password, userDoc.password);
-        console.log("is matched: " + isMatched);
         if (user && isMatched) {
           // Any object returned will be saved in `user` property of the JWT
           delete userDoc.password;
-          console.log({ userDoc });
           return userDoc;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
@@ -31,11 +29,9 @@ export default NextAuth({
   ],
   callbacks: {
     async session(session, user) {
-      console.log(user);
       if (user && user) {
-        session.user.id = user;
+        session.user.id = user.id;
         session.user.username = user.username;
-        console.log({ session });
       }
       return session;
     },
@@ -43,7 +39,6 @@ export default NextAuth({
       if (user && user._id) {
         token.id = user._id;
         token.username = user.username;
-        console.log({ token });
       }
       return token;
     },

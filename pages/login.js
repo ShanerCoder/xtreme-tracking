@@ -16,7 +16,6 @@ function LoginPage() {
       ...existingUserData,
       redirect: false,
     });
-    console.log(result);
     if (!result.error) {
       const session = await getSession();
       dispatch({ type: authConstants.LOGIN_SUCCESS, payload: session });
@@ -26,9 +25,6 @@ function LoginPage() {
       dispatch({ type: authConstants.LOGIN_FAILURE, payload: result.error });
       setErrorMessage(result.error);
     }
-    const session = await getSession();
-    console.log({ session });
-    console.log({ result });
   }
 
   return (
