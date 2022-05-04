@@ -1,6 +1,7 @@
-import { MongoClient, ObjectId } from "mongodb";
 import PostDetails from "../../components/form-components/SocialPage/PostDetails";
+import { dbConnect } from "../../lib/db-connect";
 import classes from "../PageStyling.module.css";
+import Post from "../../models/post";
 
 function PostThreadView(props) {
   return (
@@ -18,19 +19,11 @@ function PostThreadView(props) {
 }
 
 export async function getStaticPaths() {
-  const client = await MongoClient.connect(
-    "mongodb+srv://shaner:X1FFY8qVQ5yYi3AE@cluster0.vxyoc.mongodb.net/user-posts?retryWrites=true&w=majority"
-  );
+  await dbConnect();
+  let post = Post.find();
+  const filter = {};
+  const userpostsList = await post.find(filter).select("_id");
 
-  const db = client.db();
-
-  const userpostsCollection = db.collection("user-posts");
-
-  const userpostsList = await userpostsCollection
-    .find({}, { _id: 1 })
-    .toArray();
-
-  client.close();
   return {
     fallback: "blocking",
     paths: userpostsList.map((post) => ({
@@ -46,20 +39,10 @@ export async function getStaticProps(context) {
 
   const postId = context.params.postId;
 
-  const client = await MongoClient.connect(
-    "mongodb+srv://shaner:X1FFY8qVQ5yYi3AE@cluster0.vxyoc.mongodb.net/user-posts?retryWrites=true&w=majority"
-  );
+  await dbConnect();
 
-  const db = client.db();
-
-  const meetupsCollection = db.collection("user-posts");
-
-  const selectedPost = await meetupsCollection.findOne(
-    { _id: ObjectId(postId) },
-    {}
-  );
-
-  client.close();
+  const filter = { _id: postId };
+  const selectedPost = await Post.findOne(filter);
 
   return {
     props: {
@@ -67,10 +50,9 @@ export async function getStaticProps(context) {
         id: selectedPost._id.toString(),
         //username: post.username
         postText: selectedPost.postText,
-        dateAdded: selectedPost.dateAdded,
+        dateAdded: selectedPost.createdAt.toString(),
       },
     },
   };
 }
-
 export default PostThreadView;

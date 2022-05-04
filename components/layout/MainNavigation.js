@@ -10,12 +10,16 @@ import {
   Nav,
 } from "react-bootstrap";
 
-function MainNavigation() {
+function MainNavigation(props) {
   return (
     <div>
       <Navbar bg="light" variant={"light"} expand="lg">
         <Container>
-          <Navbar.Brand>Xtreme Tracking</Navbar.Brand>
+          <Navbar.Brand>
+            <Link href="/">
+              <p className={classes.link}>Xtreme Tracking</p>
+            </Link>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -29,7 +33,7 @@ function MainNavigation() {
               <Link href="/social">
                 <p className={classes.link}>Social</p>
               </Link>
-              <Link href="/new-meetup">
+              <Link href="/">
                 <p className={classes.link}>Tracking</p>
               </Link>
             </Nav>
@@ -42,21 +46,33 @@ function MainNavigation() {
               />
               <Button variant="outline-success">Search</Button>
             </Form>
-            <NavDropdown
-              title={
-                <span>
-                  <i className="fad fa-newspaper"></i> Profile
-                </span>
-              }
-              id="collasible-nav-dropdown"
-            >
-              <Link href="/">
-                <p className={classes.dropdownLink}>Log In</p>
-              </Link>
-              <Link href="/">
-                <p className={classes.dropdownLink}>Sign Up</p>
-              </Link>
-            </NavDropdown>
+            {!props.authenticated ? (
+              <NavDropdown
+                title={
+                  <span>
+                    <i className="fad fa-newspaper"></i> Profile
+                  </span>
+                }
+                id="collasible-nav-dropdown"
+              >
+                <Link href="/login">
+                  <p className={classes.dropdownLink}>Log In</p>
+                </Link>
+                <Link href="/register">
+                  <p className={classes.dropdownLink}>Register</p>
+                </Link>
+              </NavDropdown>
+            ) : (
+              <>
+                <Link href="/">
+                  <p className={classes.link}>View Profile</p>
+                </Link>
+                <Button variant="outline-success">Sign Out</Button>
+              </>
+            )}
+            {
+              //console.log(props.authenticated)
+            }
           </Navbar.Collapse>
         </Container>
       </Navbar>
