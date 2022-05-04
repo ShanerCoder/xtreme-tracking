@@ -11,8 +11,8 @@ const reducer = (state, action) => {
       return {
         ...state,
         user: {
-          authenticating: true,
           ...state.user,
+          authenticating: true,
         },
       };
     }

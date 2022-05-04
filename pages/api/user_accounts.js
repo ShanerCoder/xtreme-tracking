@@ -24,7 +24,6 @@ async function handler(req, res) {
         surname,
       });
       const result = await user.save();
-
       if (result) {
         const userDoc = result._doc;
         delete userDoc.password;
@@ -33,7 +32,9 @@ async function handler(req, res) {
         errorHandler("User failed to be created", res);
       }
     } catch (exception) {
-      errorHandler("An error has occurred creating a user account", res);
+      if (exception.name === "MongoServerError" && exception.code === 11000) {
+        errorHandler("This Username or Email is already in use!", res);
+      } else errorHandler("An error has occurred creating a user account", res);
     }
   } else errorHandler("Invalid Request Type", res);
 }
