@@ -46,9 +46,6 @@ export async function getServerSideProps() {
 
   await dbConnect();
   const post = Post.find();
-  const user = await User.findOne({ username: "test" });
-  const userDoc = user._doc;
-  console.log(userDoc);
   const filter = {};
   const userpostList = await post.find(filter).sort({ _id: -1 });
   return {
