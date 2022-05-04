@@ -1,6 +1,6 @@
 import LoginForm from "../components/forms/LoginForm";
 import { getSession, signIn } from "next-auth/client";
-import { useState } from "react/cjs/react.development";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { authConstants } from "../context/constants";
 import { useStore } from "../context";
