@@ -25,6 +25,16 @@ function UpdateHistoryPage() {
       version: "0.2.1",
       changes: [{ change: "Error Page Messages Added" }],
     },
+    {
+      version: "0.2.2",
+      changes: [
+        { change: "BUGFIX: Session no longer resets on refresh" },
+        {
+          change: "No longer able to visit register/sign in page if signed in",
+        },
+        { change: "Can now sign out using the 'Sign Out' button" },
+      ],
+    },
   ];
 
   return (
