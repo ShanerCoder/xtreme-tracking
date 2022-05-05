@@ -2,7 +2,6 @@ import DarkerDiv from "../ui/DarkerDiv";
 import UpdatePost from "../form-components/UpdatesPage/UpdatePost";
 function UpdateHistoryForm(props) {
   const updates = props.updates;
-  console.log({ updates });
   return (
     <DarkerDiv>
       {props.updates

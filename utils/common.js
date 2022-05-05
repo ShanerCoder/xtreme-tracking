@@ -34,7 +34,6 @@ export const getValue = (obj, path, defaultValue) => {
       return myValue;
     }
   } catch (error) {
-    console.log({ error });
     return defaultValue;
   }
 };
