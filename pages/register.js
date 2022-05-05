@@ -1,10 +1,14 @@
 import RegisterForm from "../components/forms/RegisterForm";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useStore } from "../context";
+import { getValue } from "../utils/common";
 
 function RegisterPage() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [state] = useStore();
+  const user = getValue(state, ["user"], null);
 
   async function addUserHandler(newUserData) {
     const response = await fetch("/api/user_accounts", {
@@ -24,6 +28,10 @@ function RegisterPage() {
       setErrorMessage(null);
       router.push("/login");
     }
+  }
+
+  if (user && user.authenticated) {
+    router.replace("/");
   }
 
   return (

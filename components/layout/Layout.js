@@ -8,12 +8,22 @@ import { authConstants } from "../../context/constants";
 
 function Layout(props) {
   const [state, dispatch] = useStore();
-  const user = getValue(state, ["user"], null);
-  const authenticated = getValue(state, ["user", "authenticated"], false);
+  useEffect(async () => {
+    const authenticated = getValue(state, ["user", "authenticated"], false);
+    if (!authenticated) {
+      dispatch({ type: authConstants.LOGIN_REQUEST });
+      const session = await getSession();
+      if (session) {
+        dispatch({ type: authConstants.LOGIN_SUCCESS, payload: session });
+      } else {
+        dispatch({ type: authConstants.LOGIN_FAILURE, payload: session });
+      }
+    }
+  }, []);
 
   return (
     <div>
-      <MainNavigation authenticated={authenticated} />
+      <MainNavigation />
       <main className={classes.main}>{props.children}</main>
     </div>
   );

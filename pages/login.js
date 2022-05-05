@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { authConstants } from "../context/constants";
 import { useStore } from "../context";
+import { getValue } from "../utils/common";
 
 function LoginPage() {
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
   const [state, dispatch] = useStore();
+  const user = getValue(state, ["user"], null);
 
   async function authenticateUserHandler(existingUserData) {
     dispatch({ type: authConstants.LOGIN_REQUEST });
@@ -25,6 +27,10 @@ function LoginPage() {
       dispatch({ type: authConstants.LOGIN_FAILURE, payload: result.error });
       setErrorMessage(result.error);
     }
+  }
+
+  if (user && user.authenticated) {
+    router.replace("/");
   }
 
   return (

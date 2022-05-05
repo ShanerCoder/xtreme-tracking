@@ -9,8 +9,19 @@ import {
   Button,
   Nav,
 } from "react-bootstrap";
+import {
+  checkIfUserIsAuthenticated,
+  signUserOut,
+} from "../../context/stateSession";
+import { signOut } from "next-auth/client";
+import { useStore } from "../../context";
+import { getValue } from "../../utils/common";
+import { authConstants } from "../../context/constants";
 
 function MainNavigation(props) {
+  const [state, dispatch] = useStore();
+  const user = getValue(state, ["user"], null);
+  const authenticated = getValue(state, ["user", "authenticated"], false);
   return (
     <div>
       <Navbar bg="light" variant={"light"} expand="lg">
@@ -49,7 +60,7 @@ function MainNavigation(props) {
               />
               <Button variant="outline-success">Search</Button>
             </Form>
-            {!props.authenticated ? (
+            {!authenticated ? (
               <NavDropdown
                 title={
                   <span>
@@ -70,7 +81,16 @@ function MainNavigation(props) {
                 <Link href="/">
                   <p className={classes.link}>View Profile</p>
                 </Link>
-                <Button variant="outline-success">Sign Out</Button>
+                <Button
+                  variant="outline-success"
+                  onClick={() => {
+                    signOut({ redirect: false }).then((result) => {
+                      dispatch({ type: authConstants.LOGIN_FAILURE });
+                    });
+                  }}
+                >
+                  Sign Out
+                </Button>
               </>
             )}
             {
