@@ -19,7 +19,6 @@ function UpdatePost(props) {
 
       {hotfixes ? (
         <>
-          <h3>Hotfixes:</h3>
           {props.hotfixes.map((hotfix) => (
             <div key={hotfix.version} className={classes.hotfixSpacing}>
               <h3>
