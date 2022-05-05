@@ -11,7 +11,9 @@ function UpdateHistoryForm(props) {
           <UpdatePost
             key={update.version}
             version={update.version}
+            date={update.date}
             changes={update.changes}
+            hotfixes={update.hotfixes}
           />
         ))}
     </DarkerDiv>

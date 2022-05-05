@@ -8,6 +8,7 @@ function UpdateHistoryPage() {
   const data = [
     {
       version: "0.1",
+      date: "25/04/22",
       changes: [
         { change: "Social Page Added" },
         { change: "Navigation Page Added" },
@@ -15,24 +16,30 @@ function UpdateHistoryPage() {
     },
     {
       version: "0.2",
+      date: "05/05/22",
       changes: [
         { change: "Account Registration Added" },
         { change: "Account Login Added" },
         { change: "Update History Page Added" },
       ],
-    },
-    {
-      version: "0.2.1",
-      changes: [{ change: "Error Page Messages Added" }],
-    },
-    {
-      version: "0.2.2",
-      changes: [
-        { change: "BUGFIX: Session no longer resets on refresh" },
+      hotfixes: [
         {
-          change: "No longer able to visit register/sign in page if signed in",
+          version: "0.2.1",
+          date: "06/05/22",
+          changes: [{ change: "Error Page Messages Added" }],
         },
-        { change: "Can now sign out using the 'Sign Out' button" },
+        {
+          version: "0.2.2",
+          date: "07/05/22",
+          changes: [
+            { change: "BUGFIX: Session no longer resets on refresh" },
+            {
+              change:
+                "No longer able to visit register/sign in page if signed in",
+            },
+            { change: "Can now sign out using the 'Sign Out' button" },
+          ],
+        },
       ],
     },
   ];
