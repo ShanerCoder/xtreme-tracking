@@ -43,6 +43,7 @@ function AccountCreationSection(props) {
             required
             id="title"
             placeholder="Username"
+            maxLength="25"
             ref={usernameInputRef}
           />
         </div>
@@ -53,6 +54,7 @@ function AccountCreationSection(props) {
             required
             id="address"
             placeholder="Password"
+            maxLength="40"
             ref={passwordInputRef}
           />
         </div>
@@ -63,6 +65,7 @@ function AccountCreationSection(props) {
             required
             id="title"
             placeholder="Email"
+            maxLength="100"
             ref={emailInputRef}
           />
         </div>
@@ -73,6 +76,7 @@ function AccountCreationSection(props) {
             required
             id="title"
             placeholder="Forename"
+            maxLength="25"
             ref={forenameInputRef}
           />
           <label htmlFor="title">Surname</label>
@@ -81,6 +85,7 @@ function AccountCreationSection(props) {
             required
             id="title"
             placeholder="Surname"
+            maxLength="25"
             ref={surnameInputRef}
           />
         </div>

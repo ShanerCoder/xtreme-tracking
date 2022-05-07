@@ -10,10 +10,6 @@ import {
   Button,
   Nav,
 } from "react-bootstrap";
-import {
-  checkIfUserIsAuthenticated,
-  signUserOut,
-} from "../../context/stateSession";
 import { signOut } from "next-auth/client";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
