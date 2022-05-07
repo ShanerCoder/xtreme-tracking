@@ -9,7 +9,7 @@
   },
   {
     "version": "0.2",
-    "date": "05/05/22",
+    "date": "02/05/22",
     "changes": [
       { "change": "Account Registration Added" },
       { "change": "Account Login Added" },
@@ -18,12 +18,12 @@
     "hotfixes": [
       {
         "version": "0.2.1",
-        "date": "06/05/22",
+        "date": "04/05/22",
         "changes": [{ "change": "Error Page Messages Added" }]
       },
       {
         "version": "0.2.2",
-        "date": "07/05/22",
+        "date": "05/05/22",
         "changes": [
           { "change": "BUGFIX: Session no longer resets on refresh" },
           {
@@ -40,8 +40,11 @@
     "date": "07/05/22",
     "changes": [
       { "change": "Profile Pages Added" },
-      { "change": "Small UI Update" },
-      { "change": "Can now view Profile Pages through the Social Page" }
+      { "change": "View Profile Button now takes you to your Profile Page" },
+      { "change": "Accounts now required to post on the Social Page" },
+      { "change": "Can now see who created a post on the Social Page" },
+      { "change": "Can now view Profile Pages through the Social Page" },
+      { "change": "Small UI Update" }
     ]
   }
 ]
