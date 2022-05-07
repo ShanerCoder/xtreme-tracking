@@ -31,14 +31,14 @@ function ProfileForm(props) {
               </p>
               <Row className={classes.profileButtonsSection}>
                 <Col xs={6}>
-                  <button>SEND A PRIVATE MESSAGE</button>
+                  <button>COMING SOON</button>
                 </Col>
                 <Col xs={6}>
-                  <button>REQUEST A CONSULTATION</button>
+                  <button>COMING NOT AS SOON</button>
                 </Col>
               </Row>
             </Col>
-            {ownProfilePage ? <Col xs={1}>Own Page</Col> : <></>}
+            {ownProfilePage ? <Col xs={1}>Settings COMING SOONISH</Col> : <></>}
           </Row>
         </Card>
       </LighterDiv>

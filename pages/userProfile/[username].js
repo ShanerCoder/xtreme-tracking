@@ -2,7 +2,6 @@ import { dbConnect } from "../../lib/db-connect";
 import Profile from "../../models/userProfile";
 import User from "../../models/user";
 import ProfileForm from "../../components/forms/ProfileForm";
-import { errorHandler } from "../../utils/common";
 
 function ProfileView(props) {
   return (
@@ -45,8 +44,8 @@ export async function getStaticProps(context) {
   try {
     const usernameFilter = { username: username };
     const selectedUser = await User.findOne(usernameFilter);
-    const profileFilter = { id: selectedUser.id };
-    const selectedProfile = await Profile.findOne(profileFilter);
+    const userId = selectedUser.id;
+    const selectedProfile = await Profile.findOne({ _id: userId });
     return {
       props: {
         user: {
