@@ -6,12 +6,17 @@ function UserPost(props) {
   const router = useRouter();
 
   function viewThreadHandler() {
-    router.push("/" + props.id);
+    router.push("userPosts/" + props.id);
   }
 
   return (
     <div>
-      <PostDetails postText={props.postText} dateAdded={props.dateAdded} />
+      <PostDetails
+        //posterId={props.posterId}
+        username={props.username}
+        postText={props.postText}
+        dateAdded={props.dateAdded}
+      />
       <div className={classes.actions}>
         <button onClick={viewThreadHandler}>View Thread</button>
       </div>

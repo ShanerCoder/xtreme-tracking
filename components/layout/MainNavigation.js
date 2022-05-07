@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "react-bootstrap";
+import { useRouter } from "next/router";
 import classes from "./MainNavigation.module.css";
 import {
   Navbar,
@@ -22,6 +23,7 @@ function MainNavigation(props) {
   const [state, dispatch] = useStore();
   const user = getValue(state, ["user"], null);
   const authenticated = getValue(state, ["user", "authenticated"], false);
+  const router = useRouter();
   return (
     <div>
       <Navbar bg="light" variant={"light"} expand="lg">
@@ -48,7 +50,7 @@ function MainNavigation(props) {
                 <p className={classes.link}>Tracking</p>
               </Link>
               <Link href="/updates">
-                <p className={classes.link}>Update History</p>
+                <p className={classes.link}>Updates</p>
               </Link>
             </Nav>
             <Form className="d-flex">
@@ -58,7 +60,9 @@ function MainNavigation(props) {
                 className="me-2"
                 aria-label="Search"
               />
-              <Button variant="outline-success">Search</Button>
+              {
+                //<Button variant="outline-success">Search</Button>
+              }
             </Form>
             {!authenticated ? (
               <NavDropdown
@@ -78,7 +82,7 @@ function MainNavigation(props) {
               </NavDropdown>
             ) : (
               <>
-                <Link href="/">
+                <Link href={"/userProfile/" + user.username}>
                   <p className={classes.link}>View Profile</p>
                 </Link>
                 <Button
@@ -86,6 +90,7 @@ function MainNavigation(props) {
                   onClick={() => {
                     signOut({ redirect: false }).then((result) => {
                       dispatch({ type: authConstants.LOGIN_FAILURE });
+                      router.replace("/");
                     });
                   }}
                 >
@@ -93,9 +98,6 @@ function MainNavigation(props) {
                 </Button>
               </>
             )}
-            {
-              //console.log(props.authenticated)
-            }
           </Navbar.Collapse>
         </Container>
       </Navbar>

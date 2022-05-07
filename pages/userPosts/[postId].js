@@ -9,7 +9,7 @@ function PostThreadView(props) {
       <PostDetails
         key={props.userposts.id}
         id={props.userposts.id}
-        //username={props.userposts.username}
+        username={props.userposts.username}
         postText={props.userposts.postText}
         dateAdded={props.userposts.dateAdded}
       />
@@ -42,13 +42,14 @@ export async function getStaticProps(context) {
   await dbConnect();
 
   const filter = { _id: postId };
+  console.log(postId);
   const selectedPost = await Post.findOne(filter);
-
+  console.log(selectedPost.id);
   return {
     props: {
       userposts: {
         id: selectedPost._id.toString(),
-        //username: post.username
+        username: selectedPost.username,
         postText: selectedPost.postText,
         dateAdded: selectedPost.createdAt.toString(),
       },

@@ -1,61 +1,21 @@
 import Card from "../components/ui/Card";
 import LighterDiv from "../components/ui/LighterDiv";
-import classes from "./PageStyling.module.css";
 import BannerImage from "../components/ui/BannerImage";
 import UpdateHistoryForm from "../components/forms/UpdateHistoryForm";
+import updateHistory from "../components/assets/updateHistory.json";
 
 function UpdateHistoryPage() {
-  const data = [
-    {
-      version: "0.1",
-      date: "25/04/22",
-      changes: [
-        { change: "Social Page Added" },
-        { change: "Navigation Page Added" },
-      ],
-    },
-    {
-      version: "0.2",
-      date: "05/05/22",
-      changes: [
-        { change: "Account Registration Added" },
-        { change: "Account Login Added" },
-        { change: "Update History Page Added" },
-      ],
-      hotfixes: [
-        {
-          version: "0.2.1",
-          date: "06/05/22",
-          changes: [{ change: "Error Page Messages Added" }],
-        },
-        {
-          version: "0.2.2",
-          date: "07/05/22",
-          changes: [
-            { change: "BUGFIX: Session no longer resets on refresh" },
-            {
-              change:
-                "No longer able to visit register/sign in page if signed in",
-            },
-            { change: "Can now sign out using the 'Sign Out' button" },
-          ],
-        },
-      ],
-    },
-  ];
+  const history = updateHistory;
 
   return (
     <section>
       <LighterDiv>
         <Card>
-          <h2 className={classes.center}>Update History</h2>
-          <BannerImage
-            className={classes.center}
-            imageSource="/socialpage/BannerImage.png"
-          />
+          <h2 className="center">Update History</h2>
+          <BannerImage imageSource="/socialpage/BannerImage.png" />
         </Card>
       </LighterDiv>
-      <UpdateHistoryForm updates={data} />
+      <UpdateHistoryForm updates={history} />
     </section>
   );
 }
