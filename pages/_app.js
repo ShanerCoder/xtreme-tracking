@@ -1,9 +1,9 @@
 import Head from "next/head";
 
+import { SSRProvider } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
 import Layout from "../components/layout/Layout";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { SSRProvider } from "react-bootstrap";
 import { StoreProvider } from "../context";
 
 function MyApp({ Component, pageProps }) {

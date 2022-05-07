@@ -1,0 +1,20 @@
+.profilePicture {
+  width:98%;
+  height: 80%;
+  padding: 20px;
+  border-radius: 10%;
+  min-width: 80px;
+}
+
+.profileDescription {
+  padding-top: 40px
+}
+
+.profileButtonsSection {
+  padding-top: 40px
+}
+
+.profileButtonsSection button {
+  width: 98%;
+  border-radius: 10px;
+}

@@ -1,6 +1,5 @@
 import Card from "../components/ui/Card";
 import LighterDiv from "../components/ui/LighterDiv";
-import classes from "./PageStyling.module.css";
 import BannerImage from "../components/ui/BannerImage";
 import UpdateHistoryForm from "../components/forms/UpdateHistoryForm";
 
@@ -48,11 +47,8 @@ function UpdateHistoryPage() {
     <section>
       <LighterDiv>
         <Card>
-          <h2 className={classes.center}>Update History</h2>
-          <BannerImage
-            className={classes.center}
-            imageSource="/socialpage/BannerImage.png"
-          />
+          <h2 className="center">Update History</h2>
+          <BannerImage imageSource="/socialpage/BannerImage.png" />
         </Card>
       </LighterDiv>
       <UpdateHistoryForm updates={data} />

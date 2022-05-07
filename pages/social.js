@@ -1,7 +1,6 @@
 import SocialForm from "../components/forms/SocialForm";
 import Card from "../components/ui/Card";
 import LighterDiv from "../components/ui/LighterDiv";
-import classes from "./PageStyling.module.css";
 import BannerImage from "../components/ui/BannerImage";
 import { useRouter } from "next/router";
 import { dbConnect } from "../lib/db-connect";
@@ -26,18 +25,18 @@ function SocialPage(props) {
   }
 
   return (
-    <section>
+    <>
       <LighterDiv>
         <Card>
-          <h2 className={classes.center}>Social Page</h2>
+          <h2 className="center">Social Page</h2>
           <BannerImage
-            className={classes.center}
+            className="center"
             imageSource="/socialpage/BannerImage.png"
           />
         </Card>
       </LighterDiv>
       {<SocialForm userposts={props.userposts} onAddPost={addPostHandler} />}
-    </section>
+    </>
   );
 }
 
@@ -52,7 +51,8 @@ export async function getServerSideProps() {
     props: {
       userposts: userpostList.map((post) => ({
         id: post._id.toString(),
-        //username: post.username
+        //posterId: post.posterId,
+        username: post.username,
         postText: post.postText,
         dateAdded: post.createdAt.toString(),
       })),

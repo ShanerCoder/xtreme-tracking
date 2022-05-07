@@ -6,6 +6,7 @@ import {
 } from "../../utils/common";
 import bcrypt from "bcrypt";
 import User from "../../models/user";
+import UserProfile from "../../models/userProfile";
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -23,18 +24,33 @@ async function handler(req, res) {
         forename,
         surname,
       });
-      const result = await user.save();
-      if (result) {
-        const userDoc = result._doc;
+      const userResult = await user.save();
+      if (userResult) {
+        const userDoc = userResult._doc;
         delete userDoc.password;
-        responseHandler(result, res, 201);
+
+        const profileId = userDoc._id;
+        const profilePicture = null;
+        const profileDescription = "This is a test description";
+        const userProfile = new UserProfile({
+          _id: profileId,
+          profilePictureURL: profilePicture,
+          profileDescription: profileDescription,
+        });
+        const profileResult = await userProfile.save();
+        if (profileResult) {
+          responseHandler(userResult, res, 201);
+        } else errorHandler("User Created, Profile Failed to be created", res);
       } else {
         errorHandler("User failed to be created", res);
       }
     } catch (exception) {
       if (exception.name === "MongoServerError" && exception.code === 11000) {
         errorHandler("This Username or Email is already in use!", res);
-      } else errorHandler("An error has occurred creating a user account", res);
+      } else {
+        console.log(exception);
+        errorHandler("An error has occurred creating a user account", res);
+      }
     }
   } else errorHandler("Invalid Request Type", res);
 }
