@@ -6,7 +6,7 @@ import PrivateMessage from "../../models/privateMessage";
 import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
 
-function SocialPage(props) {
+function ViewMessages(props) {
   const router = useRouter();
   const numberOfMessages = props.privateMessages.length;
 
@@ -63,13 +63,9 @@ export async function getServerSideProps({ req }) {
     };
   } catch (error) {
     return {
-      props: {
-        privateMessage: {
-          error: true,
-        },
-      },
+      notFound: true,
     };
   }
 }
 
-export default SocialPage;
+export default ViewMessages;

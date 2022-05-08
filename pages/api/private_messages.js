@@ -36,6 +36,16 @@ async function handler(req, res) {
       console.log(exception);
       errorHandler("An error has occurred creating this message", res);
     }
+  } else if (req.method === "DELETE") {
+    try {
+      await dbConnect();
+      const deleteMessageResult = await PrivateMessage.deleteOne({
+        _id: req.body,
+      });
+      if (deleteMessageResult) responseHandler(deleteMessageResult, res, 200);
+    } catch (error) {
+      errorHandler("Failed to delete this Message", res);
+    }
   } else errorHandler("Invalid Request Type", res);
 }
 

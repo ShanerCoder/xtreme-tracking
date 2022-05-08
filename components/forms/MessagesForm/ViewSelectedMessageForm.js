@@ -1,8 +1,22 @@
 import classes from "./ViewSelectedMessageForm.module.css";
 import { Col, Row } from "react-bootstrap";
+import { useState } from "react";
 
 function ViewMessagesForm(props) {
-  console.log(props);
+  let confirmDelete = false;
+  const [deleteButtonText, setDeleteButtonText] = useState(
+    "Permanently Delete This Message"
+  );
+
+  function handleDeleteButton() {
+    if (!confirmDelete) {
+      confirmDelete = true;
+      setDeleteButtonText("Click twice to confirm deletion of this message.");
+    } else {
+      props.handleDelete();
+    }
+  }
+
   const message = props.privateMessage;
   return (
     <>
@@ -13,10 +27,10 @@ function ViewMessagesForm(props) {
       <div>
         <Row className={classes.messageButtonsSection}>
           <Col xs="4">
-            <button>Write Response</button>
+            <button onClick={props.handleWriteResponse}>Write Response</button>
           </Col>
           <Col xs={{ span: 4, offset: 4 }}>
-            <button>Delete Message</button>
+            <button onClick={handleDeleteButton}>{deleteButtonText}</button>
           </Col>
         </Row>
       </div>

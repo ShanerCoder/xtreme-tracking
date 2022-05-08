@@ -5,16 +5,61 @@ import PrivateMessage from "../../../models/privateMessage";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../components/ui/LighterDiv";
 import ViewSelectedMessageForm from "../../../components/forms/MessagesForm/ViewSelectedMessageForm";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 function selectedMessage(props) {
-  //console.log({ props });
+  const [errorMessage, setErrorMessage] = useState(null);
+  const router = useRouter();
+
+  async function handleDelete() {
+    const response = await fetch("/api/private_messages", {
+      method: "DELETE",
+      body: JSON.stringify(props.privateMessage.id),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      router.push("/viewMessages/" + props.privateMessage.id);
+    } else {
+      setErrorMessage(null);
+      router.push("/viewMessages");
+    }
+  }
+
+  function handleWriteResponse() {
+    router.push(
+      "/userProfile/privateMessage/" + props.privateMessage.usernameFrom
+    );
+  }
+
   return (
     <>
+      {errorMessage && (
+        <p
+          className="center"
+          style={{
+            textTransform: "capitalize",
+            color: "red",
+            "font-size": "45px",
+          }}
+        >
+          {errorMessage}
+        </p>
+      )}
       <LighterDiv>
         <h2 className={(classes.padding_top, "center")}>
           Viewing {props.privateMessage.usernameFrom}'s Message
         </h2>
-        <ViewSelectedMessageForm privateMessage={props.privateMessage} />
+        <ViewSelectedMessageForm
+          privateMessage={props.privateMessage}
+          handleDelete={handleDelete}
+          handleWriteResponse={handleWriteResponse}
+        />
       </LighterDiv>
     </>
   );
@@ -54,11 +99,7 @@ export async function getServerSideProps(context) {
       };
   } catch (error) {
     return {
-      props: {
-        privateMessage: {
-          error: true,
-        },
-      },
+      notFound: true,
     };
   }
 }
