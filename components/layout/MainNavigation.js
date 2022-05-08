@@ -14,12 +14,22 @@ import { signOut } from "next-auth/client";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
 import { authConstants } from "../../context/constants";
+import { useRef } from "react";
 
 function MainNavigation(props) {
   const [state, dispatch] = useStore();
   const user = getValue(state, ["user"], null);
   const authenticated = getValue(state, ["user", "authenticated"], false);
+  const searchInputRef = useRef();
   const router = useRouter();
+
+  function handleSearch(event) {
+    event.preventDefault();
+    const userToSearch = searchInputRef.current.value;
+    router.push("/userProfile/" + userToSearch);
+    searchInputRef.current.value = null;
+  }
+
   return (
     <div>
       <Navbar bg="light" variant={"light"} expand="lg">
@@ -49,49 +59,61 @@ function MainNavigation(props) {
                 <p className={classes.link}>Updates</p>
               </Link>
             </Nav>
-            <Form className="d-flex">
-              <FormControl
+            <form className="d-flex" onSubmit={handleSearch}>
+              <input
                 type="search"
-                placeholder="Search"
+                placeholder="Search User"
                 className="me-2"
                 aria-label="Search"
+                ref={searchInputRef}
               />
-              {
-                //<Button variant="outline-success">Search</Button>
-              }
-            </Form>
+              {<button variant="outline-success">Search</button>}
+            </form>
             {!authenticated ? (
               <NavDropdown
                 title={
                   <span>
-                    <i className="fad fa-newspaper"></i> Profile
+                    <i className="fad fa-newspaper"></i> Sign In
                   </span>
                 }
                 id="collasible-nav-dropdown"
               >
                 <Link href="/login">
-                  <p className={classes.dropdownLink}>Log In</p>
+                  <p className={classes.dropdownLink}>Existing Account</p>
                 </Link>
                 <Link href="/register">
-                  <p className={classes.dropdownLink}>Register</p>
+                  <p className={classes.dropdownLink}>New Account</p>
                 </Link>
               </NavDropdown>
             ) : (
               <>
-                <Link href={"/userProfile/" + user.username}>
-                  <p className={classes.link}>View Profile</p>
-                </Link>
-                <Button
-                  variant="outline-success"
-                  onClick={() => {
-                    signOut({ redirect: false }).then((result) => {
-                      dispatch({ type: authConstants.LOGIN_FAILURE });
-                      router.replace("/");
-                    });
-                  }}
+                <NavDropdown
+                  title={
+                    <span>
+                      <i className="fad fa-newspaper"></i> Account Options
+                    </span>
+                  }
+                  id="collasible-nav-dropdown"
                 >
-                  Sign Out
-                </Button>
+                  <Link href={"/userProfile/" + user.username}>
+                    <p className={classes.dropdownLink}>View Profile</p>
+                  </Link>
+                  <Link href="/viewMessages">
+                    <p className={classes.dropdownLink}>View Messages</p>
+                  </Link>
+                  <Button
+                    variant="outline-danger"
+                    className={classes.signOutButton}
+                    onClick={() => {
+                      signOut({ redirect: false }).then((result) => {
+                        dispatch({ type: authConstants.LOGIN_FAILURE });
+                        //router.replace("/");
+                      });
+                    }}
+                  >
+                    Sign Out
+                  </Button>
+                </NavDropdown>
               </>
             )}
           </Navbar.Collapse>

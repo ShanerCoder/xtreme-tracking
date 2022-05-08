@@ -1,0 +1,57 @@
+.form {
+  padding: 1rem;
+}
+
+.control {
+  margin-bottom: 0.5rem;
+}
+
+.control label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.control textarea {
+  display: block;
+  font: inherit;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 1pxrem;
+  width: 100%;
+}
+
+.actions {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.messageBubble {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  padding: 5px;
+}
+
+.messageSection {
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.messageButtonsSection {
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.messageButtonsSection button {
+  width: 98%;
+  margin-left: 1%;
+  border-radius: 10px;
+}

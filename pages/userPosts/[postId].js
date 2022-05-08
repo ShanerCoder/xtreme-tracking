@@ -42,9 +42,7 @@ export async function getStaticProps(context) {
   await dbConnect();
 
   const filter = { _id: postId };
-  console.log(postId);
   const selectedPost = await Post.findOne(filter);
-  console.log(selectedPost.id);
   return {
     props: {
       userposts: {

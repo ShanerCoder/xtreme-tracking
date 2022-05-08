@@ -21,7 +21,7 @@ function LoginPage() {
     if (!result.error) {
       const session = await getSession();
       dispatch({ type: authConstants.LOGIN_SUCCESS, payload: session });
-      //router.replace('/');
+      router.push('/');
       setErrorMessage(null);
     } else {
       dispatch({ type: authConstants.LOGIN_FAILURE, payload: result.error });

@@ -45,6 +45,18 @@
       { "change": "Can now see who created a post on the Social Page" },
       { "change": "Can now view Profile Pages through the Social Page" },
       { "change": "Small UI Update" }
+    ],
+    "hotfixes": [
+      {
+        "version": "0.3.1",
+        "date": "08/05/22",
+        "changes": [
+          { "change": "Messaging Functionality Added" },
+          { "change": "Search Button Functionality Added" },
+          { "change": "View Messages Page Added" },
+          { "change": "Delete Messages Functionality Added" }
+        ]
+      }
     ]
   }
 ]

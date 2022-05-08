@@ -61,12 +61,16 @@
   padding-right: 5px;
 }
 
-.link:hover, .profileLink:hover {
+.link:hover, .profileLink:hover, .dropdownLink:hover {
   background-color: #F2F5F8;
   cursor: pointer;
 }
 
 .dropdownLink {
   text-align: center;
-  cursor: pointer;
+}
+
+.signOutButton {
+  width:90%;
+  margin-left: 5%;
 }

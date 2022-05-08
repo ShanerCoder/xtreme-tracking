@@ -5,11 +5,18 @@ import classes from "./ProfileForm.module.css";
 import { Col, Row } from "react-bootstrap";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
+import { useRouter } from "next/router";
 
 function ProfileForm(props) {
-  const [state, dispatch] = useStore();
+  const router = useRouter();
+  const [state] = useStore();
   const user = getValue(state, ["user"], null);
   let ownProfilePage = user.id == props.id;
+
+  function handlePrivateMessage() {
+    router.push("/userProfile/privateMessage/" + props.username);
+  }
+
   return (
     <>
       <LighterDiv>
@@ -30,10 +37,14 @@ function ProfileForm(props) {
                 {props.profileDescription}
               </p>
               <Row className={classes.profileButtonsSection}>
-                <Col xs={6}>
-                  <button>COMING SOON</button>
-                </Col>
-                <Col xs={6}>
+                {!ownProfilePage && (
+                  <Col>
+                    <button onClick={handlePrivateMessage}>
+                      Send A Private Message
+                    </button>
+                  </Col>
+                )}
+                <Col>
                   <button>COMING NOT AS SOON</button>
                 </Col>
               </Row>
