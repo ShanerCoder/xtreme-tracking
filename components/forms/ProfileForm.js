@@ -14,7 +14,7 @@ function ProfileForm(props) {
   let ownProfilePage = user.id == props.id;
 
   function handlePrivateMessage() {
-    router.replace("/userProfile/privateMessage/" + props.username);
+    router.push("/userProfile/privateMessage/" + props.username);
   }
 
   return (

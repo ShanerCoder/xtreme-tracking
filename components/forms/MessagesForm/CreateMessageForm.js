@@ -1,16 +1,13 @@
-import LighterDiv from "../ui/LighterDiv";
-import Card from "../ui/Card";
-import classes from "./MessageForm.module.css";
+import LighterDiv from "../../ui/LighterDiv";
+import Card from "../../ui/Card";
+import classes from "./CreateMessageForm.module.css";
 import { useRef } from "react";
 function MessageForm(props) {
   const messageRef = useRef();
 
   function handleSubmit(event) {
     event.preventDefault();
-    const enteredMessage = {
-      message: messageRef.current.value,
-    };
-    props.submitHandler(enteredMessage);
+    props.submitHandler(messageRef.current.value);
   }
 
   return (
