@@ -5,12 +5,17 @@ import BannerImage from "../components/ui/BannerImage";
 import { useRouter } from "next/router";
 import { dbConnect } from "../lib/db-connect";
 import Post from "../models/post";
-import User from "../models/user";
+import { useStore } from "../context";
+import { getValue } from "../utils/common";
+import { getSession } from "next-auth/client";
 
 function SocialPage(props) {
   const router = useRouter();
+  const [state] = useStore();
+  const user = getValue(state, ["user"], null);
 
   async function addPostHandler(NewPostData) {
+    const session = await getSession();
     const response = await fetch("/api/user_posts", {
       method: "POST",
       body: JSON.stringify(NewPostData),
@@ -35,7 +40,13 @@ function SocialPage(props) {
           />
         </Card>
       </LighterDiv>
-      {<SocialForm userposts={props.userposts} onAddPost={addPostHandler} />}
+      {
+        <SocialForm
+          userposts={props.userposts}
+          onAddPost={addPostHandler}
+          user={user}
+        />
+      }
     </>
   );
 }

@@ -7,15 +7,23 @@ import LighterDiv from "../../../components/ui/LighterDiv";
 import ViewSelectedMessageForm from "../../../components/forms/MessagesForm/ViewSelectedMessageForm";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useStore } from "../../../context";
+import { getValue } from "../../../utils/common";
 
 function selectedMessage(props) {
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
+  const [state] = useStore();
+  const user = getValue(state, ["user"], null);
 
   async function handleDelete() {
+    const deleteMessage = {
+      username: user.username,
+      messageId: props.privateMessage.id,
+    };
     const response = await fetch("/api/private_messages", {
       method: "DELETE",
-      body: JSON.stringify(props.privateMessage.id),
+      body: JSON.stringify(deleteMessage),
       headers: {
         "Content-Type": "application/json",
       },
@@ -37,7 +45,6 @@ function selectedMessage(props) {
     );
   }
 
-  console.log(props.privateMessage.privateMessage);
   return (
     <>
       {errorMessage && (

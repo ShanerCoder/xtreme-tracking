@@ -1,13 +1,10 @@
 import ViewMessagesForm from "../../components/forms/MessagesForm/ViewMessagesForm";
 import LighterDiv from "../../components/ui/LighterDiv";
-import { useRouter } from "next/router";
 import { dbConnect } from "../../lib/db-connect";
 import PrivateMessage from "../../models/privateMessage";
-import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
 
 function ViewMessages(props) {
-  const router = useRouter();
   const numberOfMessages = props.privateMessages.length;
 
   return (
@@ -41,7 +38,6 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
-    const cryptr = new Cryptr(process.env.SECRET_KEY);
     const privateMessage = PrivateMessage.find();
     const filter = { usernameToReceive: session.user.username };
     const privateMessageList = await privateMessage

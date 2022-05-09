@@ -3,19 +3,17 @@ import LighterDiv from "../ui/LighterDiv";
 import Card from "../ui/Card";
 import classes from "./SocialForm.module.css";
 import UserPost from "../form-components/SocialPage/UserPost";
-import { useStore } from "../../context";
-import { getValue } from "../../utils/common";
 import NewPost from "../form-components/SocialPage/NewPost";
 
 function SocialForm(props) {
-  const [state] = useStore();
-  const user = getValue(state, ["user"], null);
-
   return (
     <>
       <DarkerDiv>
-        {user.authenticated ? (
-          <NewPost onAddPost={props.onAddPost} currentUser={user.username} />
+        {props.user.authenticated ? (
+          <NewPost
+            onAddPost={props.onAddPost}
+            currentUser={props.user.username}
+          />
         ) : (
           <h3 className="center">Create a Free Account to create new posts!</h3>
         )}

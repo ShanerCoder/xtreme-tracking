@@ -64,7 +64,9 @@
           { "change": "Message Spacing Added Site-Wide" },
           { "change": "Profile loading speed improved" },
           { "change": "Search speed improved" },
-          { "change": "View Thread button on Social Page Removed - May be re-added in a future change" }
+          { "change": "View Thread button on Social Page Removed - May be re-added in a future change" },
+          { "change": "Security Improvement: API requests require sessions now" },
+          { "change": "Bug Fix: Can no longer send empty messages" }
         ]
       }
     ]
