@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 function ProfileView(props) {
-  const [state, dispatch] = useStore();
+  const [state] = useStore();
   const user = getValue(state, ["user"], null);
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();

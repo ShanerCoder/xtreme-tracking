@@ -6,10 +6,20 @@ import {
 } from "../../utils/common";
 import PrivateMessage from "../../models/privateMessage";
 import Cryptr from "cryptr";
+import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  const session = await getSession({ req });
+  if (!session) {
+    errorHandler("Session does not exist", res);
+    return null;
+  }
   if (req.method === "POST") {
     try {
+      if (session.user.username != req.body.usernameWhoSent) {
+        errorHandler("Username does not match with Session", res);
+        return null;
+      }
       const cryptr = new Cryptr(process.env.SECRET_KEY);
       const { usernameToReceive, usernameWhoSent } = req.body;
       validateAllFields(req.body);
@@ -38,9 +48,13 @@ async function handler(req, res) {
     }
   } else if (req.method === "DELETE") {
     try {
+      if (session.user.username != req.body.username) {
+        errorHandler("Username does not match with Session", res);
+        return null;
+      }
       await dbConnect();
       const deleteMessageResult = await PrivateMessage.deleteOne({
-        _id: req.body,
+        _id: req.body.messageId,
       });
       if (deleteMessageResult) responseHandler(deleteMessageResult, res, 200);
     } catch (error) {
