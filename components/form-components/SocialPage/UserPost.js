@@ -17,9 +17,9 @@ function UserPost(props) {
         postText={props.postText}
         dateAdded={props.dateAdded}
       />
-      <div className={classes.actions}>
+      {/*<div className={classes.actions}>
         <button onClick={viewThreadHandler}>View Thread</button>
-      </div>
+  </div>*/}
     </div>
   );
 }

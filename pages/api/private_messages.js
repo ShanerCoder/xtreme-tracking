@@ -32,8 +32,8 @@ async function handler(req, res) {
       } else {
         errorHandler("Message Failed to be created", res);
       }
-    } catch (exception) {
-      console.log(exception);
+    } catch (error) {
+      console.log(error);
       errorHandler("An error has occurred creating this message", res);
     }
   } else if (req.method === "DELETE") {

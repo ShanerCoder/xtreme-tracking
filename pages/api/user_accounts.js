@@ -44,11 +44,11 @@ async function handler(req, res) {
       } else {
         errorHandler("User failed to be created", res);
       }
-    } catch (exception) {
-      if (exception.name === "MongoServerError" && exception.code === 11000) {
+    } catch (error) {
+      if (error.name === "MongoServerError" && error.code === 11000) {
         errorHandler("This Username or Email is already in use!", res);
       } else {
-        console.log(exception);
+        console.log(error);
         errorHandler("An error has occurred creating a user account", res);
       }
     }

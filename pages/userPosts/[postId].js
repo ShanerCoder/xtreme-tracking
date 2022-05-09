@@ -18,40 +18,28 @@ function PostThreadView(props) {
   );
 }
 
-export async function getStaticPaths() {
-  await dbConnect();
-  let post = Post.find();
-  const filter = {};
-  const userpostsList = await post.find(filter).select("_id");
+export async function getServerSideProps(context) {
+  try {
+    const postId = context.query.postId;
 
-  return {
-    fallback: "blocking",
-    paths: userpostsList.map((post) => ({
-      params: {
-        postId: post._id.toString(),
+    await dbConnect();
+
+    const filter = { _id: postId };
+    const selectedPost = await Post.findOne(filter);
+    return {
+      props: {
+        userposts: {
+          id: selectedPost._id.toString(),
+          username: selectedPost.username,
+          postText: selectedPost.postText,
+          dateAdded: selectedPost.createdAt.toString(),
+        },
       },
-    })),
-  };
-}
-
-export async function getStaticProps(context) {
-  // fetch data for a single meetup
-
-  const postId = context.params.postId;
-
-  await dbConnect();
-
-  const filter = { _id: postId };
-  const selectedPost = await Post.findOne(filter);
-  return {
-    props: {
-      userposts: {
-        id: selectedPost._id.toString(),
-        username: selectedPost.username,
-        postText: selectedPost.postText,
-        dateAdded: selectedPost.createdAt.toString(),
-      },
-    },
-  };
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 }
 export default PostThreadView;

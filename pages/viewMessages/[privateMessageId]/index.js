@@ -37,6 +37,7 @@ function selectedMessage(props) {
     );
   }
 
+  console.log(props.privateMessage.privateMessage);
   return (
     <>
       {errorMessage && (

@@ -33,7 +33,6 @@ function ViewMessages(props) {
 }
 
 export async function getServerSideProps({ req }) {
-  // fetch data from an API
   try {
     const session = await getSession({ req });
     if (!session) {
@@ -45,7 +44,6 @@ export async function getServerSideProps({ req }) {
     const cryptr = new Cryptr(process.env.SECRET_KEY);
     const privateMessage = PrivateMessage.find();
     const filter = { usernameToReceive: session.user.username };
-    //const filter = { usernameToReceive: "edison" };
     const privateMessageList = await privateMessage
       .find(filter)
       .sort({ _id: -1 });
@@ -56,7 +54,6 @@ export async function getServerSideProps({ req }) {
           id: message._id.toString(),
           username: message.usernameToReceive,
           usernameFrom: message.usernameWhoSent,
-          //privateMessage: cryptr.decrypt(message.privateMessage),
           dateCreated: message.createdAt.toString(),
         })),
       },

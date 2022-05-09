@@ -46,4 +46,3 @@ function RegisterPage() {
   );
 }
 export default RegisterPage;
-//OverwriteModelError: Cannot overwrite `user_accounts` model once compiled.

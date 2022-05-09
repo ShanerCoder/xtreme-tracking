@@ -18,30 +18,11 @@ function ProfileView(props) {
   );
 }
 
-export async function getStaticPaths() {
-  await dbConnect();
-  let user = User.find();
-  const filter = {};
-  const userprofileList = await user.find(filter).select("username");
-
-  return {
-    fallback: "blocking",
-    paths: userprofileList.map((user) => ({
-      params: {
-        username: user.username.toString(),
-      },
-    })),
-  };
-}
-
-export async function getStaticProps(context) {
-  // fetch data for a single meetup
-
-  const username = context.params.username;
-
-  await dbConnect();
-
+export async function getServerSideProps(context) {
   try {
+    const username = context.query.username;
+    await dbConnect();
+
     const usernameFilter = { username: username };
     const selectedUser = await User.findOne(usernameFilter);
     const userId = selectedUser.id;
@@ -60,7 +41,7 @@ export async function getStaticProps(context) {
         },
       },
     };
-  } catch (exception) {
+  } catch (error) {
     return {
       notFound: true,
     };
