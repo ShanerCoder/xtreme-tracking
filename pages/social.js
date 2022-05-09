@@ -16,7 +16,6 @@ function SocialPage(props) {
 
   async function addPostHandler(NewPostData) {
     const session = await getSession();
-    console.log({ session });
     const response = await fetch("/api/user_posts", {
       method: "POST",
       body: JSON.stringify(NewPostData),

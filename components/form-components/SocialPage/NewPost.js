@@ -9,13 +9,15 @@ function NewPost(props) {
     event.preventDefault();
     const enteredPostText = postTextRef.current.value;
 
-    const postData = {
-      //posterId: user.id,
-      username: props.currentUser,
-      postText: enteredPostText,
-    };
+    if (enteredPostText != "") {
+      const postData = {
+        //posterId: user.id,
+        username: props.currentUser,
+        postText: enteredPostText,
+      };
 
-    props.onAddPost(postData);
+      props.onAddPost(postData);
+    }
     postTextRef.current.value = "";
   }
 
