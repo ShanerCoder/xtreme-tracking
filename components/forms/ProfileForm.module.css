@@ -7,11 +7,14 @@
 }
 
 .profileDescription {
-  padding-top: 40px
+  padding-top: 40px;
+  
+  white-space: pre-line;
+  word-wrap: break-word;
 }
 
 .profileButtonsSection {
-  padding-top: 40px
+  padding-top: 40px;
 }
 
 .profileButtonsSection button {

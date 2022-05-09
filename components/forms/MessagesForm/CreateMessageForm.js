@@ -16,11 +16,11 @@ function MessageForm(props) {
         <form className={classes.form} onSubmit={handleSubmit}>
           <h2 className="center">{props.messageTitle}</h2>
           <div className={classes.control}>
-            <label htmlFor="title">{props.messageSubject}</label>
+            <label htmlFor="message">{props.messageSubject}</label>
             <textarea
               rows="5"
               required
-              id="title"
+              id="message"
               placeholder="Message"
               maxLength="400"
               ref={messageRef}

@@ -41,8 +41,6 @@ function SocialPage(props) {
 }
 
 export async function getServerSideProps() {
-  // fetch data from an API
-
   await dbConnect();
   const post = Post.find();
   const filter = {};

@@ -56,6 +56,16 @@
           { "change": "View Messages Page Added" },
           { "change": "Delete Messages Functionality Added" }
         ]
+      },
+      {
+        "version": "0.3.2",
+        "date": "09/05/22",
+        "changes": [
+          { "change": "Message Spacing Added Site-Wide" },
+          { "change": "Profile loading speed improved" },
+          { "change": "Search speed improved" },
+          { "change": "View Thread button on Social Page Removed - May be re-added in a future change" }
+        ]
       }
     ]
   }

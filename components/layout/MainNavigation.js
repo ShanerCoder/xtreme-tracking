@@ -107,7 +107,7 @@ function MainNavigation(props) {
                     onClick={() => {
                       signOut({ redirect: false }).then((result) => {
                         dispatch({ type: authConstants.LOGIN_FAILURE });
-                        //router.replace("/");
+                        router.replace("/");
                       });
                     }}
                   >
