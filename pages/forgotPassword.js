@@ -26,27 +26,7 @@ function ForgotPasswordPage() {
       setErrorMessage(data.errorMessage);
       router.push("/forgotPassword");
     } else {
-      emailjs.init("ZkE0JKCJDBvAmrn6s");
-      console.log("About to send email");
-      emailjs
-        .send(
-          "gmail",
-          "XTForgotPassword",
-          {
-            to_name: data.body,
-            URL: "http://test.com",
-          },
-          "ZkE0JKCJDBvAmrn6s"
-        )
-        .then(
-          (result) => {
-            router.push("/login");
-          },
-          (error) => {
-            console.log(error);
-            errorHandler("An error occurred sending the email", res);
-          }
-        );
+      console.log("Success");
       setErrorMessage(null);
     }
     /*emailjs
