@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import User from "../../../models/user";
 import bcrypt from "bcrypt";
 import { dbConnect } from "../../../lib/db-connect";
+import Token from "../../../models/token";
 
 export default NextAuth({
   providers: [
@@ -17,6 +18,9 @@ export default NextAuth({
         if (user && isMatched) {
           // Any object returned will be saved in `user` property of the JWT
           delete userDoc.password;
+          let token = await Token.findOne({ userId: user._id });
+          console.log(token);
+          if (token) await token.deleteOne();
           return userDoc;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.

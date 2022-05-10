@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
 import ForgotPasswordForm from "../components/forms/ForgotPasswordForm";
-import emailjs from "emailjs-com";
 
 function ForgotPasswordPage() {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -29,21 +28,6 @@ function ForgotPasswordPage() {
       console.log("Success");
       setErrorMessage(null);
     }
-    /*emailjs
-      .sendForm(
-        "service_s3s29wn",
-        "XTForgotPassword",
-        { email },
-        "ZkE0JKCJDBvAmrn6s"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );*/
   }
 
   if (user && user.authenticated) {

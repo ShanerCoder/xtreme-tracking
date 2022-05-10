@@ -4,12 +4,15 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../utils/common";
-import emailjs from "emailjs-com";
 import User from "../../models/user";
 import nodemailer from "nodemailer";
 import { resolveHref } from "next/dist/shared/lib/router/router";
+import Token from "../../models/token";
+import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 async function handler(req, res) {
+  crypto.randomUUID;
   if (req.method === "POST") {
     try {
       const email = req.body;
@@ -27,16 +30,27 @@ async function handler(req, res) {
               "354162476910-s1paue44vnee5jh7ajakmjud5dscrglq.apps.googleusercontent.com",
             clientSecret: "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",
             refreshToken:
-              "1//04CYzjXY0vo2dCgYIARAAGAQSNwF-L9Irq47T0IfDl0zjfOdrRO-n0CAP556dJy6qvRlqP-UHkYwFcRAMVn2IoD0tBx-0aTH1a8I",
+              "1//04f_0zsZ61moDCgYIARAAGAQSNwF-L9IrrgueOqLuyix0SazUmdcg6FyKds4bZ3vTw0L-Nr1XB57u05ggUJVFGdnieyATRABL0xU",
             accessToken:
-              "ya29.A0ARrdaM9JEdo3sFA72yTmKicoTKYUbdIGZTKlq1sSGSbr6fEv0PYAGh_XytGUWgTf-waUvFDUBpZiI4iqb1yyEq2M7kEdUPVb_eqeVDQm1dP13368Zz27KkN-k3iZI4Mv2r6koIeJaTNIMY3ctZvNblIdaO2J",
+              "ya29.A0ARrdaM8ROWcKZ5eLTlgvNQyADwc2eALGmj3X4gGRioUiocM-9RFEjn-Aq2u2fuQBz82X7td8QDm5HevGwps-FZoytuANh73A9osoRQrpdKdyWejtvNmisoazFSal2CCF7eKQC-2k0wUQy6_ekjU3xxu8SmNP",
           },
           tls: {
             rejectUnauthorized: false,
           },
         });
 
-        var URL = "http://test.com";
+        console.log(userAccount._id.toString());
+        let token = await Token.findOne({ _id: userAccount._id.toString() });
+        if (token) await token.deleteOne();
+        let resetToken = crypto.randomBytes(32).toString("hex");
+        const hash = await bcrypt.hash(resetToken, Number(8));
+
+        await new Token({
+          userId: userAccount._id,
+          token: hash,
+          createdAt: Date.now(),
+        }).save();
+        var URL = `http://${req.headers.host}/resetPassword/${resetToken}&id=${userAccount._id}`;
         var mail = {
           from: "Xtreme Tracking Team <from@gmail.com>",
           to: userAccount.email,
