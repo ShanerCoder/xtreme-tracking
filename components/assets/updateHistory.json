@@ -68,16 +68,15 @@
           { "change": "Security Improvement: API requests require sessions now" },
           { "change": "Bug Fix: Can no longer send empty messages" }
         ]
+      },
+      {
+        "version": "0.3.3",
+        "date": "11/05/22",
+        "changes": [
+          { "change": "Forgot Password feature added" },
+          { "change": "Small UI Changes" }
+        ]
       }
-    ]
-  },
-  {
-    "version": "0.4",
-    "date": "12/05/22",
-    "changes": [
-      { "change": "Forgot Password feature added" },
-      { "change": "Profile Settings Added" },
-      { "change": "Small UI Changes" }
     ]
   }
 ]
