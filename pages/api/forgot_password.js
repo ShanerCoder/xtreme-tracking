@@ -49,7 +49,7 @@ async function handler(req, res) {
           token: hash,
           createdAt: Date.now(),
         }).save();
-        var URL = `http://${req.headers.host}/resetPassword/${resetToken}`;
+        var URL = `http://${req.headers.host}/resetPassword/${resetToken}?id=${userAccount._id}`;
         var mail = {
           from: "Xtreme Tracking Team <from@gmail.com>",
           to: userAccount.email,
