@@ -30,16 +30,15 @@ async function handler(req, res) {
               "354162476910-s1paue44vnee5jh7ajakmjud5dscrglq.apps.googleusercontent.com",
             clientSecret: "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",
             refreshToken:
-              "1//04f_0zsZ61moDCgYIARAAGAQSNwF-L9IrrgueOqLuyix0SazUmdcg6FyKds4bZ3vTw0L-Nr1XB57u05ggUJVFGdnieyATRABL0xU",
+              "1//04ETufg_V3Q8uCgYIARAAGAQSNwF-L9IrnXp1hWowxE4-XfwDTY0vaVWTVAzcw2QsoKmcXP4oPugaYL_zQpJUWprvl79EdeJJTt4",
             accessToken:
-              "ya29.A0ARrdaM8ROWcKZ5eLTlgvNQyADwc2eALGmj3X4gGRioUiocM-9RFEjn-Aq2u2fuQBz82X7td8QDm5HevGwps-FZoytuANh73A9osoRQrpdKdyWejtvNmisoazFSal2CCF7eKQC-2k0wUQy6_ekjU3xxu8SmNP",
+              "ya29.a0ARrdaM9s1xYN4u6BMHjkpYA-mPqv9kwY2HaV6iWcNbxHWCasY4fx-eyA30lZc-pZBlilcxR_J8Whx36xznSXyjeOI-0HFRuHOKqbrCt4SSy-BrnLmXxmtmBP3_L2c8cNWAJU4giElaLfe1dByTDnN104ses8",
           },
           tls: {
             rejectUnauthorized: false,
           },
         });
 
-        console.log(userAccount._id.toString());
         let token = await Token.findOne({ _id: userAccount._id.toString() });
         if (token) await token.deleteOne();
         let resetToken = crypto.randomBytes(32).toString("hex");
@@ -50,7 +49,7 @@ async function handler(req, res) {
           token: hash,
           createdAt: Date.now(),
         }).save();
-        var URL = `http://${req.headers.host}/resetPassword/${resetToken}&id=${userAccount._id}`;
+        var URL = `http://${req.headers.host}/resetPassword/${resetToken}`;
         var mail = {
           from: "Xtreme Tracking Team <from@gmail.com>",
           to: userAccount.email,
