@@ -62,7 +62,11 @@ async function handler(req, res) {
         };
         const emailSent = await transporter.sendMail(mail);
         if (emailSent) {
-          responseHandler("Email has been sent successfully", res, 201);
+          const test = {
+            urlSent: URL,
+            mail: mail,
+          };
+          responseHandler(test, res, 201);
         } else {
           errorHandler("This email failed to send", res);
         }
