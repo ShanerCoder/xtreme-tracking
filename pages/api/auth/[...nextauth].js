@@ -18,7 +18,7 @@ export default NextAuth({
         if (user && isMatched) {
           // Any object returned will be saved in `user` property of the JWT
           delete userDoc.password;
-          await Token.find({ userId: user._id }).remove();
+          await Token.find({ userId: user._id }).deleteMany();
           return userDoc;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.

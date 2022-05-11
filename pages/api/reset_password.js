@@ -25,7 +25,7 @@ async function handler(req, res) {
         { userId },
         { password: hashPassword }
       );
-      await Token.find({ userId }).remove();
+      await Token.find({ userId }).deleteMany();
       if (!userResult) errorHandler("Password failed to be updated", res);
       const userDoc = userResult._doc;
       delete userDoc.password;

@@ -39,7 +39,20 @@ async function handler(req, res) {
           },
         });
 
-        await Token.find({ userId: userAccount._id }).remove();
+        await new Promise((resolve, reject) => {
+          //verify connection configuration
+          transporter.verify(function (error, success) {
+            if (error) {
+              console.log(error);
+              reject(error);
+            } else {
+              console.log("Server is ready to take messages");
+              resolve(success);
+            }
+          });
+        });
+
+        await Token.find({ userId: userAccount._id }).deleteMany();
         let resetToken = crypto.randomBytes(32).toString("hex");
         const hash = await bcrypt.hash(resetToken, Number(8));
 
@@ -60,17 +73,19 @@ async function handler(req, res) {
             URL +
             "\n\nIf you did not request this, please ignore this email.\nRegards,\nThe Xtreme Tracking Team",
         };
-        const emailSent = await transporter.sendMail(mail);
-        if (emailSent) {
-          const test = {
-            urlSent: URL,
-            mail: mail,
-            emailSent: emailSent,
-          };
-          responseHandler(test, res, 201);
-        } else {
-          errorHandler("This email failed to send", res);
-        }
+
+        await new Promise((resolve, reject) => {
+          // sending mail
+          transporter.sendMail(mail, (err, info) => {
+            if (err) {
+              errorHandler("This email failed to send", res);
+              reject(error);
+            } else {
+              responseHandler("Email has been sent successfully", res, 201);
+              resolve(success);
+            }
+          });
+        });
       } else {
         errorHandler("This email is not linked to any account", res);
         return null;
