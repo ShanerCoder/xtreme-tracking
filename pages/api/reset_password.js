@@ -21,15 +21,12 @@ async function handler(req, res) {
 
       const hashPassword = await bcrypt.hash(req.body.password, 8);
 
-      const userResult = await User.findOneAndUpdate(
-        { userId: userId },
-        { password: hashPassword }
-      );
+      const userResult = await User.findOne({ _id: userId }).updateOne({
+        password: hashPassword,
+      });
       await Token.find({ userId: userId }).deleteMany();
       if (!userResult) errorHandler("Password failed to be updated", res);
-      const userDoc = userResult._doc;
-      delete userDoc.password;
-      responseHandler(userResult, res, 200);
+      responseHandler("Password Successfully Changed!", res, 200);
     } catch (error) {
       console.log(error);
       errorHandler(
