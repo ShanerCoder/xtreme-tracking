@@ -65,6 +65,7 @@ async function handler(req, res) {
           const test = {
             urlSent: URL,
             mail: mail,
+            emailSent: emailSent,
           };
           responseHandler(test, res, 201);
         } else {
