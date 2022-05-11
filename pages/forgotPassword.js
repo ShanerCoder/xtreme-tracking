@@ -6,6 +6,7 @@ import ForgotPasswordForm from "../components/forms/ForgotPasswordForm";
 
 function ForgotPasswordPage() {
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const router = useRouter();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
@@ -20,13 +21,15 @@ function ForgotPasswordPage() {
     });
 
     const data = await response.json();
-    console.log(data);
     if (data.hasError) {
       setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
       router.push("/forgotPassword");
     } else {
-      console.log("Success");
       setErrorMessage(null);
+      setSuccessMessage(
+        "Email sent! Please check your emails to reset your password. This may appear in the junk folder!"
+      );
     }
   }
 
@@ -37,6 +40,11 @@ function ForgotPasswordPage() {
   return (
     <section>
       <h1>Forgot Password</h1>
+      {successMessage && (
+        <p style={{ textTransform: "capitalize", color: "green" }}>
+          {successMessage}
+        </p>
+      )}
       {errorMessage && (
         <p style={{ textTransform: "capitalize", color: "red" }}>
           {errorMessage}

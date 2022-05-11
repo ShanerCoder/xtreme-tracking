@@ -39,8 +39,7 @@ async function handler(req, res) {
           },
         });
 
-        let token = await Token.findOne({ _id: userAccount._id.toString() });
-        if (token) await token.deleteOne();
+        await Token.find({ userId: userAccount._id }).remove();
         let resetToken = crypto.randomBytes(32).toString("hex");
         const hash = await bcrypt.hash(resetToken, Number(8));
 

@@ -28,3 +28,13 @@ button {
   .center {
     text-align: center;
   }
+
+  a {
+    color: #B2002D;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #e33f3f;
+  }

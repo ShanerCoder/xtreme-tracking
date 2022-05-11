@@ -70,5 +70,14 @@
         ]
       }
     ]
+  },
+  {
+    "version": "0.4",
+    "date": "12/05/22",
+    "changes": [
+      { "change": "Forgot Password feature added" },
+      { "change": "Profile Settings Added" },
+      { "change": "Small UI Changes" }
+    ]
   }
 ]

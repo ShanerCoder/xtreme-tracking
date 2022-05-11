@@ -49,8 +49,10 @@ function AccountCreationSection(props) {
         </div>
       </form>
       <Link href="/forgotPassword">
-        <div className="center">
-          <Link href="/forgotPassword">Forgot Password?</Link>
+        <div className="center url">
+          <Link className="link" href="/forgotPassword">
+            Forgot Password?
+          </Link>
         </div>
       </Link>
     </Card>
