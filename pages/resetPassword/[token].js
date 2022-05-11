@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import { useState } from "react";
 import { useRouter } from "next/router";
 function ResetPasswordView(props) {
+  if (props.error) console.log(props.error);
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
 
@@ -89,6 +90,7 @@ export async function getServerSideProps(context) {
     return {
       props: {
         validToken: false,
+        error: error,
       },
     };
   }
