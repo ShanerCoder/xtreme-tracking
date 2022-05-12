@@ -1,12 +1,12 @@
-import { dbConnect } from "../../lib/db-connect";
+import { dbConnect } from "../../../lib/db-connect";
 import {
   errorHandler,
   responseHandler,
   validateAllFields,
-} from "../../utils/common";
+} from "../../../utils/common";
 import bcrypt from "bcrypt";
-import User from "../../models/user";
-import Token from "../../models/token";
+import User from "../../../models/user";
+import Token from "../../../models/token";
 
 async function handler(req, res) {
   if (req.method === "PUT") {
