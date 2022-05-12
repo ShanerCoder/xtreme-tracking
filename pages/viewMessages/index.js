@@ -1,4 +1,4 @@
-import ViewMessagesForm from "../../components/forms/MessagesForm/ViewMessagesForm";
+import ViewMessagesForm from "../../components/forms/MessagesForms/ViewMessagesForm";
 import LighterDiv from "../../components/ui/LighterDiv";
 import { dbConnect } from "../../lib/db-connect";
 import PrivateMessage from "../../models/privateMessage";
