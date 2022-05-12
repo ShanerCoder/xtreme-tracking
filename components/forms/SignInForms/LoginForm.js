@@ -1,4 +1,4 @@
-import AccountLoginSection from "../form-components/LoginPage/AccountLoginSection";
+import AccountLoginSection from "../../form-components/LoginPage/AccountLoginSection";
 
 function LoginForm(props) {
   return <AccountLoginSection onSubmit={props.authenticateUser} />;

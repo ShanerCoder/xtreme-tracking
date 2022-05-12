@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import Card from "../ui/Card";
-import classes from "./LoginForm.module.css";
+import Card from "../../../ui/Card";
+import classes from "./ForgotPasswordForm.module.css";
 
 function ForgotPasswordForm(props) {
   const emailInputRef = useRef();

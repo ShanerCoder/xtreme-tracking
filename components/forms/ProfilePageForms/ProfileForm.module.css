@@ -7,7 +7,7 @@
 }
 
 .profileDescription {
-  padding-top: 40px;
+  padding-top: 0px;
   
   white-space: pre-line;
   word-wrap: break-word;
@@ -20,4 +20,18 @@
 .profileButtonsSection button {
   width: 98%;
   border-radius: 10px;
+}
+
+.profileSettingsDiv {
+  text-align: right;
+}
+
+.profileSettingsButton {
+  width: 50px;
+  height: 50px;
+  transition: transform .7s ease-in-out;
+}
+
+.profileSettingsButton:hover {
+  transform: rotate(360deg) scale(1.5);
 }

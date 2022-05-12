@@ -1,18 +1,14 @@
 import { dbConnect } from "../../lib/db-connect";
 import Profile from "../../models/userProfile";
 import User from "../../models/user";
-import ProfileForm from "../../components/forms/ProfileForm";
+import ProfileForm from "../../components/forms/ProfilePageForms/ProfileForm";
 
 function ProfileView(props) {
   return (
     <>
       <ProfileForm
-        id={props.user.id}
-        username={props.user.username}
-        forename={props.user.forename}
-        surname={props.user.surname}
-        profilePictureURL={props.userprofile.profilePictureURL}
-        profileDescription={props.userprofile.profileDescription}
+        user={props.user}
+        userprofile={props.userprofile}
       />
     </>
   );

@@ -1,11 +1,10 @@
-import ResetPasswordForm from "../../components/forms/ResetPasswordForm";
+import ResetPasswordForm from "../../components/forms/SignInForms/ForgotPasswordForms/ResetPasswordForm";
 import { dbConnect } from "../../lib/db-connect";
 import Token from "../../models/token";
 import bcrypt from "bcrypt";
 import { useState } from "react";
 import { useRouter } from "next/router";
 function ResetPasswordView(props) {
-  if (props.error) console.log(props.error);
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
 
@@ -16,7 +15,7 @@ function ResetPasswordView(props) {
       queryToken: props.queryToken,
     };
 
-    const response = await fetch("/api/reset_password", {
+    const response = await fetch("/api/passwords/reset_password", {
       method: "PUT",
       body: JSON.stringify(resetPassword),
       headers: {
@@ -32,12 +31,11 @@ function ResetPasswordView(props) {
       setErrorMessage(null);
       router.push("/login");
     }
-
-    console.log(data);
   }
 
   return (
     <>
+      <h1 className="center">Reset your Password</h1>
       {errorMessage && (
         <p style={{ textTransform: "capitalize", color: "red" }}>
           {errorMessage}
@@ -62,15 +60,12 @@ export async function getServerSideProps(context) {
   try {
     const queryToken = context.query.token;
     const userId = context.query.id;
-    console.log("Query Token: " + queryToken);
-    console.log("User Id: " + userId);
 
     await dbConnect();
     const token = await Token.findOne({ userId });
 
     const isValid = await bcrypt.compare(queryToken, token.token);
 
-    console.log("Token Is Valid: " + isValid);
     if (isValid) {
       return {
         props: {
@@ -90,7 +85,6 @@ export async function getServerSideProps(context) {
     return {
       props: {
         validToken: false,
-        error: error,
       },
     };
   }

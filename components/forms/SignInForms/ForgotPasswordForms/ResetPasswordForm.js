@@ -1,4 +1,4 @@
-import Card from "../ui/Card";
+import Card from "../../../ui/Card";
 import classes from "./ResetPasswordForm.module.css";
 import { useRef } from "react";
 

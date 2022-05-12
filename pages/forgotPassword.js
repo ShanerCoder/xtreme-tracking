@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
-import ForgotPasswordForm from "../components/forms/ForgotPasswordForm";
+import ForgotPasswordForm from "../components/forms/SignInForms/ForgotPasswordForms/ForgotPasswordForm";
 
 function ForgotPasswordPage() {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -12,7 +12,7 @@ function ForgotPasswordPage() {
   const user = getValue(state, ["user"], null);
 
   async function forgotPasswordSubmitHandler(email) {
-    const response = await fetch("/api/forgot_password", {
+    const response = await fetch("/api/passwords/forgot_password", {
       method: "POST",
       body: JSON.stringify(email),
       headers: {

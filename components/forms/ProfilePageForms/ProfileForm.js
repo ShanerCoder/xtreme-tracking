@@ -1,20 +1,21 @@
-import DarkerDiv from "../ui/DarkerDiv";
-import LighterDiv from "../ui/LighterDiv";
-import Card from "../ui/Card";
+import DarkerDiv from "../../ui/DarkerDiv";
+import LighterDiv from "../../ui/LighterDiv";
+import Card from "../../ui/Card";
 import classes from "./ProfileForm.module.css";
 import { Col, Row } from "react-bootstrap";
-import { useStore } from "../../context";
-import { getValue } from "../../utils/common";
+import { useStore } from "../../../context";
+import { getValue } from "../../../utils/common";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function ProfileForm(props) {
   const router = useRouter();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
-  let ownProfilePage = user.id == props.id;
+  let ownProfilePage = user.id == props.user.id;
 
   function handlePrivateMessage() {
-    router.push("/userProfile/privateMessage/" + props.username);
+    router.push("/userProfile/privateMessage/" + props.user.username);
   }
 
   return (
@@ -28,13 +29,13 @@ function ProfileForm(props) {
                 className={classes.profilePicture}
               />
               <h3 className="center">
-                {props.forename} {props.surname}
+                {props.user.forename} {props.user.surname}
               </h3>
             </Col>
-            <Col xs={8}>
-              <h2 className="center">{props.username}</h2>
+            <Col xs={12} sm={8}>
+              <h2 className="center">{props.user.username}</h2>
               <p className={classes.profileDescription}>
-                {props.profileDescription}
+                {props.userprofile.profileDescription}
               </p>
               <Row className={classes.profileButtonsSection}>
                 {!ownProfilePage && (
@@ -49,7 +50,20 @@ function ProfileForm(props) {
                 </Col>
               </Row>
             </Col>
-            {ownProfilePage ? <Col xs={1}>Settings COMING SOONISH</Col> : <></>}
+            {ownProfilePage ? (
+              <Col xs={12} sm={1}>
+                <div className={classes.profileSettingsDiv}>
+                  <Link href="/userProfile/settings/">
+                    <img
+                      className={classes.profileSettingsButton}
+                      src="/icons/gear.png"
+                    />
+                  </Link>
+                </div>
+              </Col>
+            ) : (
+              <></>
+            )}
           </Row>
         </Card>
       </LighterDiv>
