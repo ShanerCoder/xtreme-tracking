@@ -102,7 +102,6 @@ function MainNavigation(props) {
                     <p className={classes.dropdownLink}>View Messages</p>
                   </Link>
                   <Button
-                    variant="outline-danger"
                     className={classes.signOutButton}
                     onClick={() => {
                       signOut({ redirect: false }).then((result) => {

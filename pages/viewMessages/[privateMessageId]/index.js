@@ -4,7 +4,7 @@ import Cryptr from "cryptr";
 import PrivateMessage from "../../../models/privateMessage";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../components/ui/LighterDiv";
-import ViewSelectedMessageForm from "../../../components/forms/MessagesForm/ViewSelectedMessageForm";
+import ViewSelectedMessageForm from "../../../components/forms/MessagesForms/ViewSelectedMessageForm";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../../../context";

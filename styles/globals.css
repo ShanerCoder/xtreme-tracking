@@ -11,20 +11,34 @@ h1, h2, h3, h4 {
 button {
     font: inherit;
     cursor: pointer;
-    background-color: #B2002D;
-    color: white;
+    background-color: white;
+    color: #B2002D;
     padding: 0.5rem 1.5rem;
     border: 1px solid #B2002D;
     font-weight: bold;
     border-radius: 8px;
+    transition: all 0.7s ease-in-out;
   }
   
   button:hover,
   button:active {
+    transform: scale(1.1);
+    color: white;
     background-color: #a50e48;
     border-color: #a50e48;
   }
 
   .center {
     text-align: center;
+  }
+
+  a {
+    color: #B2002D;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.7s ease-in-out;
+  }
+
+  a:hover {
+    color: #e33f3f;
   }

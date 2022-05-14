@@ -1,4 +1,4 @@
-import RegisterForm from "../components/forms/RegisterForm";
+import RegisterForm from "../components/forms/SignInForms/RegisterForm";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useStore } from "../context";

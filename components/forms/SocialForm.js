@@ -1,6 +1,5 @@
 import DarkerDiv from "../ui/DarkerDiv";
 import LighterDiv from "../ui/LighterDiv";
-import Card from "../ui/Card";
 import classes from "./SocialForm.module.css";
 import UserPost from "../form-components/SocialPage/UserPost";
 import NewPost from "../form-components/SocialPage/NewPost";

@@ -1,6 +1,6 @@
 import { dbConnect } from "../../../lib/db-connect";
 import User from "../../../models/user";
-import MessageForm from "../../../components/forms/MessagesForm/CreateMessageForm";
+import MessageForm from "../../../components/forms/MessagesForms/CreateMessageForm";
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useState } from "react";

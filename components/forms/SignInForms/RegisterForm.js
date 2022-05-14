@@ -1,4 +1,4 @@
-import AccountCreationSection from "../form-components/RegisterPage/AccountCreationSection";
+import AccountCreationSection from "../../form-components/RegisterPage/AccountCreationSection";
 
 function RegisterForm(props) {
   return <AccountCreationSection onSubmit={props.onAddUser} />;

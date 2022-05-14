@@ -1,4 +1,4 @@
-import LoginForm from "../components/forms/LoginForm";
+import LoginForm from "../components/forms/SignInForms/LoginForm";
 import { getSession, signIn } from "next-auth/client";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ function LoginPage() {
     if (!result.error) {
       const session = await getSession();
       dispatch({ type: authConstants.LOGIN_SUCCESS, payload: session });
-      router.push('/');
+      router.push("/");
       setErrorMessage(null);
     } else {
       dispatch({ type: authConstants.LOGIN_FAILURE, payload: result.error });

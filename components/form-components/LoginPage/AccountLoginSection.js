@@ -1,6 +1,7 @@
 import Card from "../../ui/Card";
 import classes from "./AccountLoginSection.module.css";
 import { useRef } from "react";
+import Link from "next/link";
 
 function AccountCreationSection(props) {
   const usernameInputRef = useRef();
@@ -47,6 +48,13 @@ function AccountCreationSection(props) {
           <button>Sign In</button>
         </div>
       </form>
+      <Link href="/forgotPassword">
+        <div className="center url">
+          <Link className="link" href="/forgotPassword">
+            Forgot Password?
+          </Link>
+        </div>
+      </Link>
     </Card>
   );
 }

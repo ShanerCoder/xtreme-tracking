@@ -4,10 +4,9 @@ const UserProfileSchema = new mongoose.Schema({
   _id: {
     type: String,
   },
-  profilePictureURL: {
+  profilePictureId: {
     type: String,
     required: false,
-    trim: true,
   },
   profileDescription: {
     type: String,
