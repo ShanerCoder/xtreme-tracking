@@ -5,10 +5,33 @@ import {
   validateAllFields,
 } from "../../../utils/common";
 import UserProfile from "../../../models/userProfile";
+import User from "../../../models/user";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
-  if (req.method === "PUT") {
+  if (req.method === "GET") {
+    try {
+      validateAllFields(req.query.username);
+      await dbConnect();
+      const user = await User.findOne({ username: req.query.username });
+
+      const userProfileResult = await UserProfile.findOne({
+        _id: user._id,
+      });
+
+      if (userProfileResult) {
+        responseHandler(userProfileResult.profilePictureId, res, 200);
+      } else {
+        errorHandler("Failed to find Image Id", res);
+      }
+    } catch (error) {
+      console.log(error);
+      errorHandler(
+        "An error has occurred when finding the Profile Picture Id",
+        res
+      );
+    }
+  } else if (req.method === "PUT") {
     try {
       const session = await getSession({ req });
       if (!session) {

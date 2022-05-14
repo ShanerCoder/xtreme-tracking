@@ -21,3 +21,9 @@
   padding: 1.5rem;
   text-align: center;
 }
+
+@media (min-width: 1000px) {
+  .postPadding {
+    padding-top: 25px;
+  }
+}

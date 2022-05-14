@@ -1,0 +1,16 @@
+.userIcon {
+  height:100px;
+  width: 100px;
+  border-radius: 50%;
+  outline: solid grey;
+}
+.userIcon:hover{
+  cursor: pointer;
+}
+/* responsive, form small screens, use 13px font size */
+@media (max-width: 1400px) {
+  .userIcon {
+    height:50px;
+    width: 50px;
+  }
+}

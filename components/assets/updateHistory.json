@@ -86,6 +86,7 @@
       { "change": "Profile Settings Page Added" },
       { "change": "You can now update your Profile Description" },
       { "change": "You can now update your Profile Picture" },
+      { "change": "You can now see Profile Pictures on the Social Page" },
       { "change": "Button UI Changes - Please provide feedback!" }
     ]
   }
