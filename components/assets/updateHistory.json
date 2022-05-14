@@ -76,16 +76,17 @@
           { "change": "Forgot Password feature added" },
           { "change": "Small UI Changes" }
         ]
-      },
-      {
-        "version": "0.3.4",
-        "date": "12/05/22",
-        "changes": [
-          { "change": "Profile Settings Page Added" },
-          { "change": "Update Profile Description Functionality Added" },
-          { "change": "Button UI Changes" }
-        ]
       }
+    ]
+  },
+  {
+    "version": "0.4 - Profile Update",
+    "date": "14/05/22",
+    "changes": [
+      { "change": "Profile Settings Page Added" },
+      { "change": "You can now update your Profile Description" },
+      { "change": "You can now update your Profile Picture" },
+      { "change": "Button UI Changes - Please provide feedback!" }
     ]
   }
 ]
