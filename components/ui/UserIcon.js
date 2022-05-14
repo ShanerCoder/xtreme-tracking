@@ -18,11 +18,7 @@ function UserIcon(props) {
         return response.json();
       })
       .then((data) => {
-        if (data.hasError) {
-          setProfilePictureId(process.env.DEFAULT_PROFILE_PICTURE_ID);
-        } else {
-          setProfilePictureId(data.body);
-        }
+        setProfilePictureId(data.body);
       });
   }, []);
 

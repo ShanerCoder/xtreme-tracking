@@ -20,16 +20,20 @@ async function handler(req, res) {
       });
 
       if (userProfileResult) {
-        responseHandler(userProfileResult.profilePictureId, res, 200);
+        var profilePictureId = userProfileResult.profilePictureId;
+        if (
+          profilePictureId == null ||
+          profilePictureId == undefined ||
+          profilePictureId == ""
+        )
+          profilePictureId = process.env.DEFAULT_PROFILE_PICTURE_ID;
+        responseHandler(profilePictureId, res, 200);
       } else {
-        errorHandler("Failed to find Image Id", res);
+        errorHandler(process.env.DEFAULT_PROFILE_PICTURE_ID, res);
       }
     } catch (error) {
       console.log(error);
-      errorHandler(
-        "An error has occurred when finding the Profile Picture Id",
-        res
-      );
+      errorHandler(process.env.DEFAULT_PROFILE_PICTURE_ID, res);
     }
   } else if (req.method === "PUT") {
     try {
