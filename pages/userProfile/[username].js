@@ -6,10 +6,7 @@ import ProfileForm from "../../components/forms/ProfilePageForms/ProfileForm";
 function ProfileView(props) {
   return (
     <>
-      <ProfileForm
-        user={props.user}
-        userprofile={props.userprofile}
-      />
+      <ProfileForm user={props.user} userprofile={props.userprofile} />
     </>
   );
 }
@@ -23,6 +20,11 @@ export async function getServerSideProps(context) {
     const selectedUser = await User.findOne(usernameFilter);
     const userId = selectedUser.id;
     const selectedProfile = await Profile.findOne({ _id: userId });
+    if (
+      !selectedProfile.profilePictureId &&
+      (selectedProfile.profilePictureId =
+        process.env.DEFAULT_PROFILE_PICTURE_ID)
+    );
     return {
       props: {
         user: {
@@ -32,7 +34,7 @@ export async function getServerSideProps(context) {
           surname: selectedUser.surname,
         },
         userprofile: {
-          profilePictureURL: selectedProfile.profilePictureURL,
+          profilePictureId: selectedProfile.profilePictureId,
           profileDescription: selectedProfile.profileDescription,
         },
       },

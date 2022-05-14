@@ -25,13 +25,13 @@ async function handler(req, res) {
       const userProfileResult = await UserProfile.findOne({
         _id: session.user.id,
       }).updateOne({
-        profileDescription: req.body.profileDescription,
+        profilePictureId: req.body.profilePictureId,
       });
 
       if (userProfileResult) {
         responseHandler(userProfileResult, res, 201);
       } else {
-        errorHandler("Description Failed to Update", res);
+        errorHandler("Image Id Failed to Update", res);
       }
     } catch (error) {
       console.log(error);

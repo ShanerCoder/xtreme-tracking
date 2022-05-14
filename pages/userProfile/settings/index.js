@@ -36,6 +36,48 @@ function ProfileView(props) {
     router.push("/userProfile/settings");
   }
 
+  async function saveImage(newImage) {
+    const formData = new FormData();
+    formData.append("file", newImage[0]);
+    formData.append("upload_preset", "xtreme_tracking_preset");
+    const uploadPhotoResponse = await fetch(
+      "https://api.cloudinary.com/v1_1/multishane999/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const uploadPhotoData = await uploadPhotoResponse.json();
+    if (uploadPhotoData.hasError) {
+      setErrorMessage(uploadPhotoData.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      const newPhoto = {
+        profilePictureId: uploadPhotoData.public_id,
+        username: props.user.username,
+      };
+
+      const setPhotoResponse = await fetch("/api/profile/profile_image", {
+        method: "PUT",
+        body: JSON.stringify(newPhoto),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const setPhotoData = await setPhotoResponse.json();
+      if (setPhotoData.hasError) {
+        setErrorMessage(setPhotoData.errorMessage);
+        setSuccessMessage(null);
+      } else {
+        setSuccessMessage("Profile Picture Successfully Updated!");
+        setErrorMessage(null);
+      }
+    }
+    router.push("/userProfile/settings");
+  }
+
   return (
     <LighterDiv>
       {successMessage && (
@@ -53,6 +95,7 @@ function ProfileView(props) {
         userprofile={props.userprofile}
         setErrorMessage={setErrorMessage}
         handleSaveDescription={saveDescription}
+        handleSaveImage={saveImage}
       />
     </LighterDiv>
   );
@@ -70,6 +113,11 @@ export async function getServerSideProps({ req }) {
     });
     const userId = selectedUser.id;
     const selectedProfile = await Profile.findOne({ _id: userId });
+    if (
+      !selectedProfile.profilePictureId &&
+      (selectedProfile.profilePictureId =
+        process.env.DEFAULT_PROFILE_PICTURE_ID)
+    );
     return {
       props: {
         user: {
@@ -79,7 +127,7 @@ export async function getServerSideProps({ req }) {
           surname: selectedUser.surname,
         },
         userprofile: {
-          profilePictureURL: selectedProfile.profilePictureURL,
+          profilePictureId: selectedProfile.profilePictureId,
           profileDescription: selectedProfile.profileDescription,
         },
       },

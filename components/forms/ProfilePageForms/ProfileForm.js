@@ -7,6 +7,7 @@ import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Image } from "cloudinary-react";
 
 function ProfileForm(props) {
   const router = useRouter();
@@ -24,13 +25,18 @@ function ProfileForm(props) {
         <Card>
           <Row>
             <Col>
-              <img
-                src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                className={classes.profilePicture}
-              />
-              <h3 className="center">
-                {props.user.forename} {props.user.surname}
-              </h3>
+              <Row>
+                <Image
+                  className={classes.profilePicture}
+                  cloudName="multishane999"
+                  publicId={props.userprofile.profilePictureId}
+                />
+              </Row>
+              <Row>
+                <h3 className="center">
+                  {props.user.forename} {props.user.surname}
+                </h3>
+              </Row>
             </Col>
             <Col xs={12} sm={8}>
               <h2 className="center">{props.user.username}</h2>

@@ -1,11 +1,12 @@
 import Card from "../../ui/Card";
 import classes from "./SettingsForm.module.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { useRouter } from "next/router";
+import { Image } from "cloudinary-react";
 
 function ProfileForm(props) {
-  const router = useRouter();
+  const [imageSrc, setImageSrc] = useState(null);
+  const [uploadData, setUploadData] = useState(null);
   const descriptionInputRef = useRef();
 
   function handleSaveDescription() {
@@ -16,7 +17,13 @@ function ProfileForm(props) {
     }
     props.setErrorMessage(null);
     props.handleSaveDescription(newDescription);
-    //router.push("/userProfile/" + props.user.username);
+  }
+
+  function handleSaveImage() {
+    if (uploadData) {
+      props.handleSaveImage(uploadData);
+      setUploadData(null);
+    } else props.setErrorMessage("No image has been selected!");
   }
 
   return (
@@ -24,37 +31,41 @@ function ProfileForm(props) {
       <Card>
         <Row>
           <Col>
-            <img
-              src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-              className={classes.profilePicture}
-            />
-            {
+            <Row>
+              {!imageSrc ? (
+                <Image
+                  className={classes.profilePicture}
+                  cloudName="multishane999"
+                  publicId={props.userprofile.profilePictureId}
+                />
+              ) : (
+                <img src={imageSrc} className={classes.profilePicture} />
+              )}
+            </Row>
+            <Row>
               <>
                 <Row>
-                  <Col xs={4}>
-                    <button className={classes.browseFilesButton}>
-                      Browse...
-                    </button>
-                  </Col>
-                  <Col xs={8}>
-                    <input
-                      type="text"
-                      readOnly={true}
-                      defaultValue="No File Selected"
-                      className={classes.uploadedFileText}
-                    />
-                  </Col>
+                  <input
+                    type="file"
+                    onChange={(event) => {
+                      setImageSrc(URL.createObjectURL(event.target.files[0]));
+                      setUploadData(event.target.files);
+                    }}
+                    className={classes.uploadImageInput}
+                  />
                 </Row>
                 <Row>
                   <Col>
-                    <button className={classes.changeProfilePictureButton}>
-                      COMING WHEN IDK
+                    <button
+                      onClick={handleSaveImage}
+                      className={classes.changeProfilePictureButton}
+                    >
+                      Upload a Photo
                     </button>
                   </Col>
                 </Row>
               </>
-              // Upload Photo Functionality Here
-            }
+            </Row>
           </Col>
           <Col xs={12} sm={8}>
             <div className={classes.actions}>

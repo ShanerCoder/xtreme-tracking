@@ -30,11 +30,11 @@ async function handler(req, res) {
         delete userDoc.password;
 
         const profileId = userDoc._id;
-        const profilePicture = null;
-        const profileDescription = "This is a test description";
+        const profilePictureId = null;
+        const profileDescription = null;
         const userProfile = new UserProfile({
           _id: profileId,
-          profilePictureURL: profilePicture,
+          profilePictureId: profilePictureId,
           profileDescription: profileDescription,
         });
         const profileResult = await userProfile.save();
