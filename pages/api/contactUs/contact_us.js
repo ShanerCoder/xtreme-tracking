@@ -4,7 +4,6 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import User from "../../../models/user";
 import nodemailer from "nodemailer";
 import { getSession } from "next-auth/client";
 
@@ -57,7 +56,7 @@ async function handler(req, res) {
         from: "Xtreme Tracking Team <from@gmail.com>",
         to: "xtremetrackingemailer@gmail.com",
         subject: "Enquiry from " + session.user.username,
-        text: email,
+        text: email + "\n\nReach out at: " + session.user.email,
       };
 
       await new Promise((resolve, reject) => {
