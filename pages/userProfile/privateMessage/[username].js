@@ -1,6 +1,6 @@
 import { dbConnect } from "../../../lib/db-connect";
 import User from "../../../models/user";
-import MessageForm from "../../../components/forms/MessagesForms/CreateMessageForm";
+import SingleMessageForm from "../../../components/form-components/Common/SingleMessageForm";
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useState } from "react";
@@ -49,10 +49,7 @@ function ProfileView(props) {
         </p>
       )}
       {user && user.authenticated ? (
-        <MessageForm
-          username={props.user.username}
-          forename={props.user.forename}
-          surname={props.user.surname}
+        <SingleMessageForm
           messageTitle={"Sending a Message to: " + props.user.username}
           messageSubject={"Write your Message Here:"}
           submitHandler={submitHandler}

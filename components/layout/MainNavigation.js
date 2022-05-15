@@ -58,6 +58,9 @@ function MainNavigation(props) {
               <Link href="/updates">
                 <p className={classes.link}>Updates</p>
               </Link>
+              <Link href="/contactUs">
+                <p className={classes.link}>Contact Us</p>
+              </Link>
             </Nav>
             <form className="d-flex" onSubmit={handleSearch}>
               <input

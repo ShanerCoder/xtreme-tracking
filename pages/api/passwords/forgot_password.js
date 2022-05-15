@@ -6,7 +6,6 @@ import {
 } from "../../../utils/common";
 import User from "../../../models/user";
 import nodemailer from "nodemailer";
-import { resolveHref } from "next/dist/shared/lib/router/router";
 import Token from "../../../models/token";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
