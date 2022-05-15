@@ -38,14 +38,9 @@ function RegisterPage() {
           },
         }
       );
-      const userProfileData = await userProfileResponse.json();
-
-      if (userProfileData.hasError) {
-        setErrorMessage(userProfileData.errorMessage);
-      } else {
-        setErrorMessage(null);
-        router.push("/login");
-      }
+      await userProfileResponse.json();
+      setErrorMessage(null);
+      router.push("/login");
     }
   }
 
