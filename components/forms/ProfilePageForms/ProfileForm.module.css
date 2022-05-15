@@ -9,8 +9,7 @@
 }
 
 .profileDescription {
-  padding-top: 0px;
-  text-align: center;
+  padding-top: 20px;
   white-space: pre-line;
   word-wrap: break-word;
 }
