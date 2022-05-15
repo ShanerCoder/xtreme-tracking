@@ -88,6 +88,17 @@
       { "change": "You can now update your Profile Picture" },
       { "change": "You can now see Profile Pictures on the Social Page" },
       { "change": "Button UI Changes - Please provide feedback!" }
+    ],
+    "hotfixes": [
+      {
+        "version": "0.4.1",
+        "date": "15/05/22",
+        "changes": [
+          { "change": "Contact Us Page Added" },
+          { "change": "Account Settings section added in Profile Settings" }
+        ]
+      }
     ]
   }
 ]
+  
