@@ -15,7 +15,7 @@ function ResetPasswordView(props) {
       queryToken: props.queryToken,
     };
 
-    const response = await fetch("/api/passwords/reset_password", {
+    const response = await fetch("/api/account/passwords/reset_password", {
       method: "PUT",
       body: JSON.stringify(resetPassword),
       headers: {

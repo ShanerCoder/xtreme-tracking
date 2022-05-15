@@ -1,7 +1,7 @@
 import { dbConnect } from "../../../lib/db-connect";
 import Profile from "../../../models/userProfile";
 import User from "../../../models/user";
-import SettingsForm from "../../../components/forms/ProfilePageForms/SettingsForm";
+import SettingsForm from "../../../components/forms/ProfilePageForms/ProfileSettingsForm";
 import AccountSettingsForm from "../../../components/forms/ProfilePageForms/AccountSettingsForm";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
@@ -81,13 +81,15 @@ function ProfileView(props) {
   }
 
   async function savePassword(newPassword) {
-    const description = {
-      profileDescription: newDescription,
+    const enteredPasswordDetails = {
+      newPassword: newPassword.newValue,
+      currentPassword: newPassword.currentValue,
       username: props.user.username,
     };
-    const response = await fetch("/api/profile/profile_description", {
+
+    const response = await fetch("/api/account/passwords/change_password", {
       method: "PUT",
-      body: JSON.stringify(description),
+      body: JSON.stringify(enteredPasswordDetails),
       headers: {
         "Content-Type": "application/json",
       },
@@ -98,20 +100,22 @@ function ProfileView(props) {
       setErrorMessage(data.errorMessage);
       setSuccessMessage(null);
     } else {
-      setSuccessMessage("Description Successfully Updated!");
+      setSuccessMessage("Password Successfully Updated!");
       setErrorMessage(null);
     }
     router.push("/userProfile/settings");
   }
 
   async function saveEmail(newEmail) {
-    const description = {
-      profileDescription: newDescription,
+    const enteredEmailDetails = {
+      newEmail: newEmail.newValue,
+      currentEmail: newEmail.currentValue,
       username: props.user.username,
     };
-    const response = await fetch("/api/profile/profile_description", {
+
+    const response = await fetch("/api/account/emails/change_email", {
       method: "PUT",
-      body: JSON.stringify(description),
+      body: JSON.stringify(enteredEmailDetails),
       headers: {
         "Content-Type": "application/json",
       },
@@ -122,7 +126,7 @@ function ProfileView(props) {
       setErrorMessage(data.errorMessage);
       setSuccessMessage(null);
     } else {
-      setSuccessMessage("Description Successfully Updated!");
+      setSuccessMessage("Email Successfully Updated!");
       setErrorMessage(null);
     }
     router.push("/userProfile/settings");
@@ -153,6 +157,7 @@ function ProfileView(props) {
         <AccountSettingsForm
           savePassword={savePassword}
           saveEmail={saveEmail}
+          setErrorMessage={setErrorMessage}
         />
       </DarkerDiv>
     </>

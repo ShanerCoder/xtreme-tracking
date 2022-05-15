@@ -1,11 +1,13 @@
 import Card from "../../ui/Card";
 import classes from "./ChangeForm.module.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 
-function ChangeEmailForm(props) {
+function ChangeForm(props) {
   const currentValueRef = useRef();
   const newValueRef = useRef();
   const confirmNewValueRef = useRef();
+  const [errorMessage, setErrorMessage] = useState(null);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -14,10 +16,16 @@ function ChangeEmailForm(props) {
     const enteredNewValue = newValueRef.current.value;
     const enteredConfirmNewValue = confirmNewValueRef.current.value;
     if (enteredNewValue != enteredConfirmNewValue) {
-      props.setErrorMessage("Both fields do not match!");
+      setErrorMessage("Both fields do not match!");
+    } else if (enteredNewValue == enteredCurrentValue) {
+      setErrorMessage("The current and new values are the same!");
     } else {
-      props.setErrorMessage(null);
-      props.onSubmit(enteredNewValue);
+      setErrorMessage(null);
+      const newValueSubmission = {
+        newValue: enteredNewValue,
+        currentValue: enteredCurrentValue,
+      };
+      props.onSubmit(newValueSubmission);
     }
   }
 
@@ -34,7 +42,7 @@ function ChangeEmailForm(props) {
             required
             id={props.newValueType}
             placeholder={"Current " + props.newValueType}
-            ref={newValueRef}
+            ref={currentValueRef}
           />
 
           <label htmlFor={props.newValueType}>New {props.newValueType}</label>
@@ -57,12 +65,23 @@ function ChangeEmailForm(props) {
             ref={confirmNewValueRef}
           />
         </div>
-        <div className={classes.actions}>
-          <button>Change {props.newValueType}</button>
-        </div>
+        <Row className={classes.actions}>
+          <Col sm={6}>
+            {errorMessage && (
+              <p style={{ textTransform: "capitalize", color: "red" }}>
+                {errorMessage}
+              </p>
+            )}
+          </Col>
+          <Col sm={6}>
+            <button style={{ float: "right" }}>
+              Change {props.newValueType}
+            </button>
+          </Col>
+        </Row>
       </form>
     </Card>
   );
 }
 
-export default ChangeEmailForm;
+export default ChangeForm;

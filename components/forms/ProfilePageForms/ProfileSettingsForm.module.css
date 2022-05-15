@@ -12,13 +12,24 @@
   padding-bottom: 2%;
 }
 
+.headingPadding {
+  padding-top: 2rem;
+  text-align: center;
+}
+
 .uploadImageInput {
   margin-left: 10%;
 }
 
 .changeProfilePictureButton {
   width: 88%;
-  margin-left: 5%;
+  margin-left: 10%;
+}
+
+@media (max-width: 1000px) {
+  .changeProfilePictureButton {
+    margin-left: 12%;
+  }
 }
 
 

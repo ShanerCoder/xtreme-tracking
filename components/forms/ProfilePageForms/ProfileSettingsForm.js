@@ -1,5 +1,5 @@
 import Card from "../../ui/Card";
-import classes from "./SettingsForm.module.css";
+import classes from "./ProfileSettingsForm.module.css";
 import { useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Image } from "cloudinary-react";
@@ -29,6 +29,7 @@ function ProfileForm(props) {
   return (
     <>
       <Card>
+        <h2 className={classes.headingPadding}>Profile Settings</h2>
         <Row className={classes.rowPadding}>
           <Col>
             <Row>
@@ -54,22 +55,22 @@ function ProfileForm(props) {
                     className={classes.uploadImageInput}
                   />
                 </Row>
-                <Row>
-                  <Col>
-                    <button
-                      onClick={handleSaveImage}
-                      className={classes.changeProfilePictureButton}
-                    >
-                      Upload a Photo
-                    </button>
-                  </Col>
+                <Row className="center">
+                  <button
+                    onClick={handleSaveImage}
+                    className={classes.changeProfilePictureButton}
+                  >
+                    Change Profile Picture
+                  </button>
                 </Row>
               </>
             </Row>
           </Col>
           <Col xs={12} sm={8}>
             <div className={classes.actions}>
-              <h2 className="center">Profile Settings</h2>
+              <h4 className={classes.headingPadding}>
+                Change Profile Description
+              </h4>
               <textarea
                 rows={8}
                 defaultValue={props.userprofile.profileDescription}

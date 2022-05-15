@@ -6,14 +6,17 @@ function ForgotPasswordForm(props) {
     <>
       <h1 className="center">Account Settings</h1>
       <Row>
-        <Col xs={6}>
+        <Col sm={6}>
           <ChangeForm
             newValueType="Password"
-            handleSubmit={props.savePassword}
+            onSubmit={props.savePassword}
           />
         </Col>
-        <Col xs={6}>
-          <ChangeForm newValueType="Email" handleSubmit={props.saveEmail} />
+        <Col sm={6}>
+          <ChangeForm
+            newValueType="Email"
+            onSubmit={props.saveEmail}
+          />
         </Col>
       </Row>
     </>
