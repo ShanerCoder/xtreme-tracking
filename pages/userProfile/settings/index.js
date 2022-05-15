@@ -2,9 +2,11 @@ import { dbConnect } from "../../../lib/db-connect";
 import Profile from "../../../models/userProfile";
 import User from "../../../models/user";
 import SettingsForm from "../../../components/forms/ProfilePageForms/SettingsForm";
+import AccountSettingsForm from "../../../components/forms/ProfilePageForms/AccountSettingsForm";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../components/ui/LighterDiv";
+import DarkerDiv from "../../../components/ui/DarkerDiv";
 import { useRouter } from "next/router";
 
 function ProfileView(props) {
@@ -78,26 +80,82 @@ function ProfileView(props) {
     router.push("/userProfile/settings");
   }
 
+  async function savePassword(newPassword) {
+    const description = {
+      profileDescription: newDescription,
+      username: props.user.username,
+    };
+    const response = await fetch("/api/profile/profile_description", {
+      method: "PUT",
+      body: JSON.stringify(description),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Description Successfully Updated!");
+      setErrorMessage(null);
+    }
+    router.push("/userProfile/settings");
+  }
+
+  async function saveEmail(newEmail) {
+    const description = {
+      profileDescription: newDescription,
+      username: props.user.username,
+    };
+    const response = await fetch("/api/profile/profile_description", {
+      method: "PUT",
+      body: JSON.stringify(description),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Description Successfully Updated!");
+      setErrorMessage(null);
+    }
+    router.push("/userProfile/settings");
+  }
+
   return (
-    <LighterDiv>
-      {successMessage && (
-        <p style={{ textTransform: "capitalize", color: "green" }}>
-          {successMessage}
-        </p>
-      )}
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
-      <SettingsForm
-        user={props.user}
-        userprofile={props.userprofile}
-        setErrorMessage={setErrorMessage}
-        handleSaveDescription={saveDescription}
-        handleSaveImage={saveImage}
-      />
-    </LighterDiv>
+    <>
+      <LighterDiv>
+        {successMessage && (
+          <p style={{ textTransform: "capitalize", color: "green" }}>
+            {successMessage}
+          </p>
+        )}
+        {errorMessage && (
+          <p style={{ textTransform: "capitalize", color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
+        <SettingsForm
+          user={props.user}
+          userprofile={props.userprofile}
+          setErrorMessage={setErrorMessage}
+          handleSaveDescription={saveDescription}
+          handleSaveImage={saveImage}
+        />
+      </LighterDiv>
+      <DarkerDiv>
+        <AccountSettingsForm
+          savePassword={savePassword}
+          saveEmail={saveEmail}
+        />
+      </DarkerDiv>
+    </>
   );
 }
 

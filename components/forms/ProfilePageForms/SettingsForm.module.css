@@ -8,6 +8,10 @@
   min-width: 80px;
 }
 
+.rowPadding {
+  padding-bottom: 2%;
+}
+
 .uploadImageInput {
   margin-left: 10%;
 }

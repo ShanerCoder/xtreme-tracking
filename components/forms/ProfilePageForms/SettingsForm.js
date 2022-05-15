@@ -29,7 +29,7 @@ function ProfileForm(props) {
   return (
     <>
       <Card>
-        <Row>
+        <Row className={classes.rowPadding}>
           <Col>
             <Row>
               {!imageSrc ? (
