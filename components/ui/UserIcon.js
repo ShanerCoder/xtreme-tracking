@@ -18,7 +18,8 @@ function UserIcon(props) {
         return response.json();
       })
       .then((data) => {
-        setProfilePictureId(data.body);
+        if (data.hasError) setProfilePictureId(data.errorMessage);
+        else setProfilePictureId(data.body);
       });
   }, []);
 

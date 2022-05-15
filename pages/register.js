@@ -11,6 +11,7 @@ function RegisterPage() {
   const user = getValue(state, ["user"], null);
 
   async function addUserHandler(newUserData) {
+
     const userAccountResponse = await fetch(
       "/api/account/account_creation/user_account",
       {
@@ -27,12 +28,15 @@ function RegisterPage() {
       setErrorMessage(userAccountData.errorMessage);
       router.push("/register");
     } else {
-      const username = userAccountData.body.username;
+      const newUserProfile = {
+        username: newUserData.username,
+        personalTrainerProfile: newUserData.personalTrainerProfile,
+      };
       const userProfileResponse = await fetch(
         "/api/account/account_creation/user_profile",
         {
           method: "POST",
-          body: JSON.stringify(username),
+          body: JSON.stringify(newUserProfile),
           headers: {
             "Content-Type": "application/json",
           },

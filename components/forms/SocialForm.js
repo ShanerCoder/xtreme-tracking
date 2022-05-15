@@ -26,7 +26,6 @@ function SocialForm(props) {
               key={post.id}
               id={post.id}
               username={post.username}
-              //posterId={post.posterId}
               postText={post.postText}
               dateAdded={post.dateAdded}
             />

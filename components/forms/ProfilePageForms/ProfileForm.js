@@ -44,13 +44,13 @@ function ProfileForm(props) {
               </p>
               <Row className={classes.profileButtonsSection}>
                 {!ownProfilePage && (
-                  <Col>
+                  <Col xs={12} sm={6} className={classes.columnPadding}>
                     <button onClick={handlePrivateMessage}>
                       Send A Private Message
                     </button>
                   </Col>
                 )}
-                <Col>
+                <Col xs={12} sm={6}>
                   <button>COMING NOT AS SOON</button>
                 </Col>
               </Row>

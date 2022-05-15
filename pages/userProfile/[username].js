@@ -11,12 +11,15 @@ function ProfileView(props) {
   const [errorMessage, setErrorMessage] = useState(null);
 
   async function generateProfile() {
-    const username = props.user.username;
+    const newUserProfile = {
+      username: props.user.username,
+      personalTrainerProfile: false,
+    };
     const userProfileResponse = await fetch(
       "/api/account/account_creation/user_profile",
       {
         method: "POST",
-        body: JSON.stringify(username),
+        body: JSON.stringify(newUserProfile),
         headers: {
           "Content-Type": "application/json",
         },
@@ -26,9 +29,12 @@ function ProfileView(props) {
 
     if (userProfileData.hasError) {
       setErrorMessage(userProfileData.errorMessage);
+      if (userProfileData.errorMessage == "This ID already has a profile!") {
+        router.push("/userProfile/" + props.user.username);
+      }
     } else {
       setErrorMessage(null);
-      router.push("/userProfile/" + username);
+      router.push("/userProfile/" + props.user.username);
     }
   }
 

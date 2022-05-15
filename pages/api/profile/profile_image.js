@@ -19,6 +19,11 @@ async function handler(req, res) {
         _id: user._id,
       });
 
+      if (userProfileResult == null) {
+        errorHandler(process.env.DEFAULT_PROFILE_PICTURE_ID, res);
+        return null;
+      }
+
       if (userProfileResult) {
         var profilePictureId = userProfileResult.profilePictureId;
         if (

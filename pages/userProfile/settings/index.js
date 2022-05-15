@@ -1,7 +1,7 @@
 import { dbConnect } from "../../../lib/db-connect";
 import Profile from "../../../models/userProfile";
 import User from "../../../models/user";
-import SettingsForm from "../../../components/forms/ProfilePageForms/ProfileSettingsForm";
+import ProfileSettingsForm from "../../../components/forms/ProfilePageForms/ProfileSettingsForm";
 import AccountSettingsForm from "../../../components/forms/ProfilePageForms/AccountSettingsForm";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
@@ -145,7 +145,7 @@ function ProfileView(props) {
             {errorMessage}
           </p>
         )}
-        <SettingsForm
+        <ProfileSettingsForm
           user={props.user}
           userprofile={props.userprofile}
           setErrorMessage={setErrorMessage}

@@ -12,6 +12,10 @@ const UserProfileSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  personalTrainerProfile: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 mongoose.models = {};

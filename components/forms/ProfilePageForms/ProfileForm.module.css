@@ -10,18 +10,20 @@
 
 .profileDescription {
   padding-top: 0px;
-  
+  text-align: center;
   white-space: pre-line;
   word-wrap: break-word;
 }
 
 .profileButtonsSection {
   padding-top: 40px;
+  text-align: center;
 }
 
 .profileButtonsSection button {
-  width: 95%;
+  width: 90%;
   border-radius: 10px;
+  text-align: center;
 }
 
 .profileSettingsDiv {
@@ -37,4 +39,10 @@
 .profileSettingsButton:hover {
   transform: rotate(360deg) scale(1.5);
   cursor: pointer;
+}
+
+@media (max-width: 576px) {
+  .columnPadding {
+    padding-bottom: 25px;
+  }
 }
