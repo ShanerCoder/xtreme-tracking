@@ -9,7 +9,7 @@ function UserIcon(props) {
 
   React.useEffect(() => {
     const response = fetch(
-      "/api/profile/profile_image?username=" + props.username,
+      "/api/account/account_profile/profile_image?username=" + props.username,
       {
         method: "GET",
       }

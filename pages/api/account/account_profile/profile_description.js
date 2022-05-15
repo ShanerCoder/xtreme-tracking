@@ -1,10 +1,10 @@
-import { dbConnect } from "../../../lib/db-connect";
+import { dbConnect } from "../../../../lib/db-connect";
 import {
   errorHandler,
   responseHandler,
   validateAllFields,
-} from "../../../utils/common";
-import UserProfile from "../../../models/userProfile";
+} from "../../../../utils/common";
+import UserProfile from "../../../../models/userProfile";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {

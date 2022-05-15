@@ -60,6 +60,7 @@ function ProfileView(props) {
 }
 
 export async function getServerSideProps(context) {
+  // Connecting to DB to find User & User Profile
   let selectedUser;
   try {
     const username = context.query.username;
@@ -75,6 +76,7 @@ export async function getServerSideProps(context) {
         process.env.DEFAULT_PROFILE_PICTURE_ID)
     );
     return {
+      // Returns User and Profile details
       props: {
         user: {
           id: selectedUser.id,
@@ -85,11 +87,13 @@ export async function getServerSideProps(context) {
         userprofile: {
           profilePictureId: selectedProfile.profilePictureId,
           profileDescription: selectedProfile.profileDescription,
+          personalTrainerProfile: selectedProfile.personalTrainerProfile,
         },
       },
     };
   } catch (error) {
     if (selectedUser) {
+      // Returns user details if profile doesn't exist
       return {
         props: {
           user: {
@@ -101,6 +105,7 @@ export async function getServerSideProps(context) {
         },
       };
     }
+    // Returns 'Page Doesn't Exist' if user does not exist
     return {
       notFound: true,
     };
