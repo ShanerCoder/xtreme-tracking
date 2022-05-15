@@ -1,12 +1,12 @@
-import { dbConnect } from "../../lib/db-connect";
+import { dbConnect } from "../../../../lib/db-connect";
 import {
   errorHandler,
   responseHandler,
   validateAllFields,
-} from "../../utils/common";
+} from "../../../../utils/common";
 import bcrypt from "bcrypt";
-import User from "../../models/user";
-import UserProfile from "../../models/userProfile";
+import User from "../../../../models/user";
+import UserProfile from "../../../../models/userProfile";
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -28,19 +28,7 @@ async function handler(req, res) {
       if (userResult) {
         const userDoc = userResult._doc;
         delete userDoc.password;
-
-        const profileId = userDoc._id;
-        const profilePictureId = null;
-        const profileDescription = null;
-        const userProfile = new UserProfile({
-          _id: profileId,
-          profilePictureId: profilePictureId,
-          profileDescription: profileDescription,
-        });
-        const profileResult = await userProfile.save();
-        if (profileResult) {
-          responseHandler(userResult, res, 201);
-        } else errorHandler("User Created, Profile Failed to be created", res);
+        responseHandler(userDoc, res, 201);
       } else {
         errorHandler("User failed to be created", res);
       }
