@@ -12,7 +12,7 @@ function ForgotPasswordPage() {
   const user = getValue(state, ["user"], null);
 
   async function forgotPasswordSubmitHandler(email) {
-    const response = await fetch("/api/passwords/forgot_password", {
+    const response = await fetch("/api/account/passwords/forgot_password", {
       method: "POST",
       body: JSON.stringify(email),
       headers: {

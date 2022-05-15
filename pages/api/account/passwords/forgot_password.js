@@ -1,12 +1,12 @@
-import { dbConnect } from "../../../lib/db-connect";
+import { dbConnect } from "../../../../lib/db-connect";
 import {
   errorHandler,
   responseHandler,
   validateAllFields,
-} from "../../../utils/common";
-import User from "../../../models/user";
+} from "../../../../utils/common";
+import User from "../../../../models/user";
 import nodemailer from "nodemailer";
-import Token from "../../../models/token";
+import Token from "../../../../models/token";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 

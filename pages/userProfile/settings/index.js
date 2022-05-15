@@ -1,10 +1,12 @@
 import { dbConnect } from "../../../lib/db-connect";
 import Profile from "../../../models/userProfile";
 import User from "../../../models/user";
-import SettingsForm from "../../../components/forms/ProfilePageForms/SettingsForm";
+import SettingsForm from "../../../components/forms/ProfilePageForms/ProfileSettingsForm";
+import AccountSettingsForm from "../../../components/forms/ProfilePageForms/AccountSettingsForm";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../components/ui/LighterDiv";
+import DarkerDiv from "../../../components/ui/DarkerDiv";
 import { useRouter } from "next/router";
 
 function ProfileView(props) {
@@ -78,26 +80,87 @@ function ProfileView(props) {
     router.push("/userProfile/settings");
   }
 
+  async function savePassword(newPassword) {
+    const enteredPasswordDetails = {
+      newPassword: newPassword.newValue,
+      currentPassword: newPassword.currentValue,
+      username: props.user.username,
+    };
+
+    const response = await fetch("/api/account/passwords/change_password", {
+      method: "PUT",
+      body: JSON.stringify(enteredPasswordDetails),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Password Successfully Updated!");
+      setErrorMessage(null);
+    }
+    router.push("/userProfile/settings");
+  }
+
+  async function saveEmail(newEmail) {
+    const enteredEmailDetails = {
+      newEmail: newEmail.newValue,
+      currentEmail: newEmail.currentValue,
+      username: props.user.username,
+    };
+
+    const response = await fetch("/api/account/emails/change_email", {
+      method: "PUT",
+      body: JSON.stringify(enteredEmailDetails),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Email Successfully Updated!");
+      setErrorMessage(null);
+    }
+    router.push("/userProfile/settings");
+  }
+
   return (
-    <LighterDiv>
-      {successMessage && (
-        <p style={{ textTransform: "capitalize", color: "green" }}>
-          {successMessage}
-        </p>
-      )}
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
-      <SettingsForm
-        user={props.user}
-        userprofile={props.userprofile}
-        setErrorMessage={setErrorMessage}
-        handleSaveDescription={saveDescription}
-        handleSaveImage={saveImage}
-      />
-    </LighterDiv>
+    <>
+      <LighterDiv>
+        {successMessage && (
+          <p style={{ textTransform: "capitalize", color: "green" }}>
+            {successMessage}
+          </p>
+        )}
+        {errorMessage && (
+          <p style={{ textTransform: "capitalize", color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
+        <SettingsForm
+          user={props.user}
+          userprofile={props.userprofile}
+          setErrorMessage={setErrorMessage}
+          handleSaveDescription={saveDescription}
+          handleSaveImage={saveImage}
+        />
+      </LighterDiv>
+      <DarkerDiv>
+        <AccountSettingsForm
+          savePassword={savePassword}
+          saveEmail={saveEmail}
+          setErrorMessage={setErrorMessage}
+        />
+      </DarkerDiv>
+    </>
   );
 }
 

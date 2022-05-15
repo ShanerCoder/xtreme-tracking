@@ -2,15 +2,35 @@ import Card from "../../../ui/Card";
 import classes from "./ResetPasswordForm.module.css";
 import { useRef } from "react";
 
-function ForgotPasswordForm(props) {
-  const passwordInputRef = useRef();
+function ForgotPasswordForm() {
+  const currentPasswordInputRef = useRef();
+  const newPasswordInputRef = useRef();
   const confirmPasswordInputRef = useRef();
 
-  function handleSubmit(event) {
+  const currentEmailInputRef = useRef();
+  const newEmailInputRef = useRef();
+  const confirmEmailInputRef = useRef();
+
+  function handlePasswordSubmit(event) {
     event.preventDefault();
 
-    const newPassword = passwordInputRef.current.value;
+    const currentPassword = currentPasswordInputRef.current.value;
+    const newPassword = newPasswordInputRef.current.value;
     const confirmNewPassword = confirmPasswordInputRef.current.value;
+    if (newPassword != confirmNewPassword) {
+      props.setErrorMessage("Both fields do not match!");
+    } else {
+      props.setErrorMessage(null);
+      props.onSubmit(newPassword);
+    }
+  }
+
+  function handleEmailSubmit(event) {
+    event.preventDefault();
+
+    const currentEmail = currentEmailInputRef.current.value;
+    const newEmail = newEmailInputRef.current.value;
+    const confirmNewEmail = confirmEmailInputRef.current.value;
     if (newPassword != confirmNewPassword) {
       props.setErrorMessage("Both fields do not match!");
     } else {
@@ -22,7 +42,7 @@ function ForgotPasswordForm(props) {
   return (
     <>
       <Card>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleNewPasswordSubmit}>
           <div className={classes.control}>
             <label htmlFor="title">New Password</label>
             <input

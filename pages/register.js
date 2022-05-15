@@ -11,19 +11,34 @@ function RegisterPage() {
   const user = getValue(state, ["user"], null);
 
   async function addUserHandler(newUserData) {
-    const response = await fetch("/api/user_accounts", {
-      method: "POST",
-      body: JSON.stringify(newUserData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const userAccountResponse = await fetch(
+      "/api/account/account_creation/user_account",
+      {
+        method: "POST",
+        body: JSON.stringify(newUserData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    const data = await response.json();
-    if (data.hasError) {
-      setErrorMessage(data.errorMessage);
+    const userAccountData = await userAccountResponse.json();
+    if (userAccountData.hasError) {
+      setErrorMessage(userAccountData.errorMessage);
       router.push("/register");
     } else {
+      const username = userAccountData.body.username;
+      const userProfileResponse = await fetch(
+        "/api/account/account_creation/user_profile",
+        {
+          method: "POST",
+          body: JSON.stringify(username),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      await userProfileResponse.json();
       setErrorMessage(null);
       router.push("/login");
     }
