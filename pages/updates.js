@@ -11,10 +11,10 @@ function UpdateHistoryPage() {
   return (
     <>
       <Head>
-        <title>Social Page</title>
+        <title>Updates Page</title>
         <meta
-          name="Xtreme Tracking Update Historye Page"
-          content="Browse Xtreme Tracking's update history here!"
+          name="Xtreme Tracking Update History Page"
+          content="Browse Xtreme Tracking's Update History here!"
         />
       </Head>
       <section>
