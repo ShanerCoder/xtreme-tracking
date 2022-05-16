@@ -1,3 +1,4 @@
+import Head from "next/head";
 import ResetPasswordForm from "../../components/forms/SignInForms/ForgotPasswordForms/ResetPasswordForm";
 import { dbConnect } from "../../lib/db-connect";
 import Token from "../../models/token";
@@ -35,6 +36,13 @@ function ResetPasswordView(props) {
 
   return (
     <>
+      <Head>
+        <title>Reset Password</title>
+        <meta
+          name="Xtreme Tracking Reset Password Page"
+          content="Reset your account's password here!"
+        />
+      </Head>
       <h1 className="center">Reset your Password</h1>
       {errorMessage && (
         <p style={{ textTransform: "capitalize", color: "red" }}>

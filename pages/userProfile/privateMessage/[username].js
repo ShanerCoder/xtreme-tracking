@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
 import User from "../../../models/user";
 import SingleMessageForm from "../../../components/form-components/Common/SingleMessageForm";
@@ -36,6 +37,13 @@ function ProfileView(props) {
 
   return (
     <>
+      <Head>
+        <title>Send A Message Page</title>
+        <meta
+          name="Xtreme Tracking Send A Message Page"
+          content="Send a Private Message to a user here!"
+        />
+      </Head>
       {errorMessage && (
         <p
           className="center"

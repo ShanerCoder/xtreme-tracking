@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../context";
@@ -39,20 +40,29 @@ function ForgotPasswordPage() {
   }
 
   return (
-    <section>
-      <h1>Forgot Password</h1>
-      {successMessage && (
-        <p style={{ textTransform: "capitalize", color: "green" }}>
-          {successMessage}
-        </p>
-      )}
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
-      <ForgotPasswordForm onSubmit={forgotPasswordSubmitHandler} />
-    </section>
+    <>
+      <Head>
+        <title>Forgot Password</title>
+        <meta
+          name="Xtreme Tracking Forgot Password Page"
+          content="Send a Password Reset Link to your Email here!"
+        />
+      </Head>
+      <section>
+        <h1>Forgot Password</h1>
+        {successMessage && (
+          <p style={{ textTransform: "capitalize", color: "green" }}>
+            {successMessage}
+          </p>
+        )}
+        {errorMessage && (
+          <p style={{ textTransform: "capitalize", color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
+        <ForgotPasswordForm onSubmit={forgotPasswordSubmitHandler} />
+      </section>
+    </>
   );
 }
 

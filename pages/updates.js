@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Card from "../components/ui/Card";
 import LighterDiv from "../components/ui/LighterDiv";
 import BannerImage from "../components/ui/BannerImage";
@@ -8,15 +9,24 @@ function UpdateHistoryPage() {
   const history = updateHistory;
 
   return (
-    <section>
-      <LighterDiv>
-        <Card>
-          <h2 className="center">Update History</h2>
-          <BannerImage imageSource="/socialpage/BannerImage.png" />
-        </Card>
-      </LighterDiv>
-      <UpdateHistoryForm updates={history} />
-    </section>
+    <>
+      <Head>
+        <title>Social Page</title>
+        <meta
+          name="Xtreme Tracking Update Historye Page"
+          content="Browse Xtreme Tracking's update history here!"
+        />
+      </Head>
+      <section>
+        <LighterDiv>
+          <Card>
+            <h2 className="center">Update History</h2>
+            <BannerImage imageSource="/socialpage/BannerImage.png" />
+          </Card>
+        </LighterDiv>
+        <UpdateHistoryForm updates={history} />
+      </section>
+    </>
   );
 }
 

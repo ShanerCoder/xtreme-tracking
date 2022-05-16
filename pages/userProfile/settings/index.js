@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
 import Profile from "../../../models/userProfile";
 import User from "../../../models/user";
@@ -165,6 +166,13 @@ function ProfileView(props) {
 
   return (
     <>
+      <Head>
+        <title>Settings Page</title>
+        <meta
+          name="Xtreme Tracking Settings Page"
+          content="View your Profile Settings here!"
+        />
+      </Head>
       <LighterDiv>
         {successMessage && (
           <p style={{ textTransform: "capitalize", color: "green" }}>

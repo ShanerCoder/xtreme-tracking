@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { dbConnect } from "../../lib/db-connect";
 import Profile from "../../models/userProfile";
 import User from "../../models/user";
@@ -40,6 +41,13 @@ function ProfileView(props) {
 
   return (
     <>
+      <Head>
+        <title>{props.user.username}'s Profile</title>
+        <meta
+          name="Xtreme Tracking Profile Page"
+          content={"View " + props.user.username + "'s Profile here!"}
+        />
+      </Head>
       {!props.userprofile ? (
         <>
           {errorMessage && (

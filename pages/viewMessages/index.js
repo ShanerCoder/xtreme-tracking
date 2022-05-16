@@ -1,3 +1,4 @@
+import Head from "next/head";
 import ViewMessagesForm from "../../components/forms/MessagesForms/ViewMessagesForm";
 import LighterDiv from "../../components/ui/LighterDiv";
 import { dbConnect } from "../../lib/db-connect";
@@ -9,6 +10,13 @@ function ViewMessages(props) {
 
   return (
     <>
+      <Head>
+        <title>Messages Page</title>
+        <meta
+          name="Xtreme Tracking Message Page"
+          content="Browse any messages you have received here!"
+        />
+      </Head>
       <LighterDiv>
         <h2 className="center">Messages Page</h2>
         {numberOfMessages > 0 ? (

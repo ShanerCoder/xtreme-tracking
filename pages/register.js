@@ -1,3 +1,4 @@
+import Head from "next/head";
 import RegisterForm from "../components/forms/SignInForms/RegisterForm";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -11,7 +12,6 @@ function RegisterPage() {
   const user = getValue(state, ["user"], null);
 
   async function addUserHandler(newUserData) {
-
     const userAccountResponse = await fetch(
       "/api/account/account_creation/user_account",
       {
@@ -53,15 +53,24 @@ function RegisterPage() {
   }
 
   return (
-    <section>
-      <h1>Register Page</h1>
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
-      <RegisterForm onAddUser={addUserHandler} />
-    </section>
+    <>
+      <Head>
+        <title>Register Page</title>
+        <meta
+          name="Xtreme Tracking Registration Page"
+          content="Browse meetings available"
+        />
+      </Head>
+      <section>
+        <h1>Register Page</h1>
+        {errorMessage && (
+          <p style={{ textTransform: "capitalize", color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
+        <RegisterForm onAddUser={addUserHandler} />
+      </section>
+    </>
   );
 }
 export default RegisterPage;

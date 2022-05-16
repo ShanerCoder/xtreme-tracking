@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
 import classes from "../../PageStyling.module.css";
 import Cryptr from "cryptr";
@@ -47,6 +48,13 @@ function selectedMessage(props) {
 
   return (
     <>
+      <Head>
+        <title>Private Message</title>
+        <meta
+          name="Xtreme Tracking Selected Message Page"
+          content="View a selected message here!"
+        />
+      </Head>
       {errorMessage && (
         <p
           className="center"

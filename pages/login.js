@@ -1,3 +1,4 @@
+import Head from "next/head";
 import LoginForm from "../components/forms/SignInForms/LoginForm";
 import { getSession, signIn } from "next-auth/client";
 import { useState } from "react";
@@ -34,15 +35,24 @@ function LoginPage() {
   }
 
   return (
-    <section>
-      <h1>Login Page</h1>
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
-      <LoginForm authenticateUser={authenticateUserHandler} />
-    </section>
+    <>
+      <Head>
+        <title>Login Page</title>
+        <meta
+          name="Xtreme Tracking Home Page"
+          content="Log into your Xtreme Tracking account here!"
+        />
+      </Head>
+      <section>
+        <h1>Login Page</h1>
+        {errorMessage && (
+          <p style={{ textTransform: "capitalize", color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
+        <LoginForm authenticateUser={authenticateUserHandler} />
+      </section>
+    </>
   );
 }
 

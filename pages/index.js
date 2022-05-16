@@ -5,7 +5,7 @@ function HomePage(props) {
     <>
       <Head>
         <title>Xtreme Tracking</title>
-        <meta name="home page" content="Browse meetings available" />
+        <meta name="Xtreme Tracking Home Page" content="Xtreme Tracking" />
       </Head>
       <h1>Home Page</h1>
       <p>Content</p>
