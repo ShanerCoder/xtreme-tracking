@@ -18,6 +18,14 @@ function ProfileForm(props) {
     router.push("/userProfile/privateMessage/" + props.user.username);
   }
 
+  function handleConsultationRequest() {
+    router.push("/userProfile/requestConsultation/" + props.user.username);
+  }
+
+  function handleViewConsultationRequests() {
+    router.push("/userProfile/viewConsultationRequests/");
+  }
+
   return (
     <>
       <LighterDiv>
@@ -51,14 +59,16 @@ function ProfileForm(props) {
                       </button>
                     </Col>
                     <Col xs={12} sm={6}>
-                      <button>Request A Consultation</button>
+                      <button onClick={handleConsultationRequest}>
+                        Request A Consultation
+                      </button>
                     </Col>
                   </>
                 )}
                 {ownProfilePage && props.userprofile.personalTrainerProfile && (
                   <>
                     <Col xs={12} sm={6} className={classes.columnPadding}>
-                      <button onClick={handlePrivateMessage}>
+                      <button onClick={handleViewConsultationRequests}>
                         View Incoming Consultation Requests
                       </button>
                     </Col>

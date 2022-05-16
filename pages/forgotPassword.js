@@ -31,7 +31,6 @@ function ForgotPasswordPage() {
       setSuccessMessage(
         "Email sent! Please check your emails to reset your password. This may appear in the junk folder!"
       );
-      console.log(data);
     }
   }
 

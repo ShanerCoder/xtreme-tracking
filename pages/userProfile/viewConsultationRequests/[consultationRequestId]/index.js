@@ -1,0 +1,109 @@
+import Head from "next/head";
+import { dbConnect } from "../../../../lib/db-connect";
+import classes from "../../../PageStyling.module.css";
+import Cryptr from "cryptr";
+import ConsultationRequest from "../../../../models/consultationRequest";
+import { getSession } from "next-auth/client";
+import LighterDiv from "../../../../components/ui/LighterDiv";
+import ViewSelectedDetailForm from "../../../../components/form-components/Common/ViewSelectedDetailForm";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { useStore } from "../../../../context";
+import { getValue } from "../../../../utils/common";
+
+function selectedMessage(props) {
+  const [errorMessage, setErrorMessage] = useState(null);
+  const router = useRouter();
+  const [state] = useStore();
+  const user = getValue(state, ["user"], null);
+
+  function handleAcceptRequest() {
+    router.push(
+      "/userProfile/viewConsultationRequests/"
+    );
+  }
+
+  function handleDenyRequest() {
+    router.push(
+      "/userProfile/viewConsultationRequests/"
+    );
+  }
+
+  return (
+    <>
+      <Head>
+        <title>Selected Consultation Request</title>
+        <meta
+          name="Xtreme Tracking Selected Consultation Request Page"
+          content="View a selected consultation request here!"
+        />
+      </Head>
+      {errorMessage && (
+        <p
+          className="center"
+          style={{
+            textTransform: "capitalize",
+            color: "red",
+            "font-size": "45px",
+          }}
+        >
+          {errorMessage}
+        </p>
+      )}
+      <LighterDiv>
+        <h2 className={(classes.padding_top, "center")}>
+          Viewing {props.consultationRequest.usernameFrom}'s Request
+        </h2>
+        <ViewSelectedDetailForm
+          detailText={props.consultationRequest.consultationRequest}
+          usernameFrom={props.consultationRequest.usernameFrom}
+          dateCreated={props.consultationRequest.dateCreated}
+          optionOneText="Accept Request"
+          optionTwoText="Deny Request"
+          handleOptionOne={handleAcceptRequest}
+          handleOptionTwo={handleDenyRequest}
+        />
+      </LighterDiv>
+    </>
+  );
+}
+
+export async function getServerSideProps(context) {
+  try {
+    const consultationRequestId = context.query.consultationRequestId;
+    const req = context.req;
+    const session = await getSession({ req });
+    if (!session) {
+      throw new Error("Session not found");
+    }
+    const user = session.user.username;
+
+    await dbConnect();
+    const cryptr = new Cryptr(process.env.SECRET_KEY);
+
+    const filter = { _id: consultationRequestId };
+    const request = await ConsultationRequest.findOne(filter);
+    if (user == request.usernameToReceive)
+      return {
+        props: {
+          consultationRequest: {
+            id: request._id.toString(),
+            username: request.usernameToReceive,
+            usernameFrom: request.usernameWhoSent,
+            consultationRequest: cryptr.decrypt(request.consultationRequest),
+            dateCreated: request.createdAt.toString(),
+          },
+        },
+      };
+    else
+      return {
+        notFound: true,
+      };
+  } catch (error) {
+    console.log(error);
+    return {
+      notFound: true,
+    };
+  }
+}
+export default selectedMessage;

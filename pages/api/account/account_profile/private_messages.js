@@ -1,10 +1,10 @@
-import { dbConnect } from "../../lib/db-connect";
+import { dbConnect } from "../../../../lib/db-connect";
 import {
   errorHandler,
   responseHandler,
   validateAllFields,
-} from "../../utils/common";
-import PrivateMessage from "../../models/privateMessage";
+} from "../../../../utils/common";
+import PrivateMessage from "../../../../models/privateMessage";
 import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
 

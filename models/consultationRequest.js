@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PrivateMessageSchema = new mongoose.Schema(
+const ConsultationRequestSchema = new mongoose.Schema(
   {
     usernameToReceive: {
       type: String,
@@ -12,7 +12,7 @@ const PrivateMessageSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    privateMessage: {
+    consultationRequest: {
       type: String,
       required: true,
     },
@@ -24,4 +24,7 @@ const PrivateMessageSchema = new mongoose.Schema(
 
 mongoose.models = {};
 
-export default mongoose.model("private_messages", PrivateMessageSchema);
+export default mongoose.model(
+  "consultation_requests",
+  ConsultationRequestSchema
+);

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import ViewMessagesForm from "../../components/forms/MessagesForms/ViewMessagesForm";
+import ViewIncomingDetailsForm from "../../components/form-components/Common/ViewIncomingDetailsForm";
 import LighterDiv from "../../components/ui/LighterDiv";
 import { dbConnect } from "../../lib/db-connect";
 import PrivateMessage from "../../models/privateMessage";
@@ -21,7 +21,7 @@ function ViewMessages(props) {
         <h2 className="center">Messages Page</h2>
         {numberOfMessages > 0 ? (
           <>
-            <ViewMessagesForm privateMessages={props.privateMessages} />
+            <ViewIncomingDetailsForm incomingDetails={props.privateMessages} viewMessageURL={"/viewMessages/"} />
             <h3 className="center" style={{ paddingTop: "100px" }}>
               There are no more messages at this time.
             </h3>

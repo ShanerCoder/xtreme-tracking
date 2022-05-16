@@ -62,6 +62,7 @@ function ContactUsPage() {
             "Write a Message and we will respond to your message if necessary within 7 working days"
           }
           submitHandler={submitHandler}
+          buttonMessage="Send your Message"
         />
       ) : (
         <h1 className="center">Create an account to send an enquiry</h1>

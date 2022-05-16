@@ -28,7 +28,6 @@ function SocialPage(props) {
     router.push("/social");
   }
 
-  console.log(props.userposts[0].profilePictureId);
   return (
     <>
       <Head>
