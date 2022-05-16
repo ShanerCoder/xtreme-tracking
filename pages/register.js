@@ -55,7 +55,7 @@ function RegisterPage() {
   return (
     <>
       <Head>
-        <title>Register Page</title>
+        <title>Register</title>
         <meta
           name="Xtreme Tracking Registration Page"
           content="Browse meetings available"

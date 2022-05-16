@@ -11,7 +11,7 @@ function UpdateHistoryPage() {
   return (
     <>
       <Head>
-        <title>Updates Page</title>
+        <title>Updates</title>
         <meta
           name="Xtreme Tracking Update History Page"
           content="Browse Xtreme Tracking's Update History here!"

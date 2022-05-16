@@ -11,7 +11,7 @@ function ViewMessages(props) {
   return (
     <>
       <Head>
-        <title>Messages Page</title>
+        <title>Messages</title>
         <meta
           name="Xtreme Tracking Message Page"
           content="Browse any messages you have received here!"

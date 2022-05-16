@@ -37,7 +37,7 @@ function LoginPage() {
   return (
     <>
       <Head>
-        <title>Login Page</title>
+        <title>Login</title>
         <meta
           name="Xtreme Tracking Home Page"
           content="Log into your Xtreme Tracking account here!"
