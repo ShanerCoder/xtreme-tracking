@@ -167,7 +167,7 @@ function ProfileView(props) {
   return (
     <>
       <Head>
-        <title>Settings Page</title>
+        <title>Profile Settings</title>
         <meta
           name="Xtreme Tracking Settings Page"
           content="View your Profile Settings here!"
