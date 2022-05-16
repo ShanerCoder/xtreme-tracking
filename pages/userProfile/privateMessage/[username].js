@@ -38,7 +38,7 @@ function ProfileView(props) {
   return (
     <>
       <Head>
-        <title>Send A Message Page</title>
+        <title>Send A Message</title>
         <meta
           name="Xtreme Tracking Send A Message Page"
           content="Send a Private Message to a user here!"
