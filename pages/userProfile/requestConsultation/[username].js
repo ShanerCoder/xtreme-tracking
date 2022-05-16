@@ -69,7 +69,7 @@ function RequestConsultation(props) {
             }
             messageSubject={"Write your Request Here:"}
             submitHandler={submitHandler}
-            buttonMessage="Send your Enquiry"
+            buttonMessage="Send your Request"
           />
         )}
       {user &&

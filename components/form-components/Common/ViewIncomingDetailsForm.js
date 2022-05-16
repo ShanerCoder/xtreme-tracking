@@ -1,7 +1,7 @@
 import classes from "./ViewIncomingDetailsForm.module.css";
 import SingleDetailForm from "./CommonFormComponents/SingleDetailForm";
 
-function ViewMessagesForm(props) {
+function ViewIncomingDetailsForm(props) {
   return (
     <>
       <ul className={classes.list}>
@@ -12,6 +12,7 @@ function ViewMessagesForm(props) {
             usernameFrom={detail.usernameFrom}
             dateCreated={detail.dateCreated}
             viewMessageURL={props.viewMessageURL + detail.id}
+            detailName={props.detailName}
           />
         ))}
       </ul>
@@ -19,4 +20,4 @@ function ViewMessagesForm(props) {
   );
 }
 
-export default ViewMessagesForm;
+export default ViewIncomingDetailsForm;

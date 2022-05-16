@@ -19,7 +19,6 @@ function selectedMessage(props) {
   const [deleteButtonText, setDeleteButtonText] = useState(
     "Permanently Delete This Message"
   );
-  let confirmDelete = false;
 
   async function handleDelete() {
     const deleteMessage = {

@@ -47,7 +47,7 @@
   padding-bottom: 1%;
 }
 
-.messageButtonsSection {
+.messageButtonsSection, .additionalContextSection {
   padding-top: 4%;
   padding-bottom: 1%;
 }
@@ -56,4 +56,10 @@
   width: 98%;
   margin-left: 1%;
   border-radius: 10px;
+}
+
+@media (max-width: 576px) {
+  .columnPadding {
+    padding-bottom: 25px;
+  }
 }

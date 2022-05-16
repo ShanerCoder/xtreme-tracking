@@ -1,6 +1,7 @@
 import classes from "./SingleDetailForm.module.css";
 import { Col, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
+import UserIcon from "../../../ui/UserIcon";
 
 function ViewMessagesForm(props) {
   const router = useRouter();
@@ -12,16 +13,16 @@ function ViewMessagesForm(props) {
       </p>
       <div className={classes.messageBubble}>
         <Row className={classes.messageButtonsSection}>
-          <Col>
+          <Col className={classes.columnPadding} xs={12} sm={5}> 
             <button
               onClick={() => {
                 router.push(props.viewMessageURL);
               }}
             >
-              View Message
+              View {props.detailName}
             </button>
           </Col>
-          <Col>
+          <Col xs={8} sm={5}>
             <button
               onClick={() => {
                 router.push("/userProfile/" + props.usernameFrom);
@@ -29,6 +30,9 @@ function ViewMessagesForm(props) {
             >
               View Sender Profile
             </button>
+          </Col>
+          <Col xs={4} sm={{span: 1, offset: 1}}>
+            <UserIcon username={props.usernameFrom} />
           </Col>
         </Row>
       </div>

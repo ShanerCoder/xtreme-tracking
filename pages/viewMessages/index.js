@@ -21,8 +21,12 @@ function ViewMessages(props) {
         <h2 className="center">Messages Page</h2>
         {numberOfMessages > 0 ? (
           <>
-            <ViewIncomingDetailsForm incomingDetails={props.privateMessages} viewMessageURL={"/viewMessages/"} />
-            <h3 className="center" style={{ paddingTop: "100px" }}>
+            <ViewIncomingDetailsForm
+              incomingDetails={props.privateMessages}
+              viewMessageURL={"/viewMessages/"}
+              detailName={"Message"}
+            />
+            <h3 className="center" style={{ paddingTop: "50px" }}>
               There are no more messages at this time.
             </h3>
           </>

@@ -17,16 +17,33 @@ function selectedMessage(props) {
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
-  function handleAcceptRequest() {
-    router.push(
-      "/userProfile/viewConsultationRequests/"
+  async function handleAcceptRequest(additionalContext) {
+    const acceptedConsultationRequest = {
+      id: props.ConsultationRequest.id,
+      additionalContext: additionalContext,
+      usernameWhoSent: user.username,
+      usernameToReceive: props.ConsultationRequest.usernameFrom,
+    };
+    // send a message to user telling them their request has been accepted, and any additional context
+    const response = await fetch(
+      "/api/account/account_profile/accept_consultation_request",
+      {
+        method: "POST",
+        body: acceptedConsultationRequest,
+        headers: { "Content-Type": "application/json" },
+      }
     );
+    const data = await response.json();
+    /*router.push(
+      "/userProfile/viewConsultationRequests/"
+    );*/
   }
 
-  function handleDenyRequest() {
-    router.push(
+  function handleDenyRequest(additionalContext) {
+    console.log(additionalContext + "deny");
+    /*router.push(
       "/userProfile/viewConsultationRequests/"
-    );
+    );*/
   }
 
   return (
@@ -62,6 +79,7 @@ function selectedMessage(props) {
           optionTwoText="Deny Request"
           handleOptionOne={handleAcceptRequest}
           handleOptionTwo={handleDenyRequest}
+          additionalContext={true}
         />
       </LighterDiv>
     </>

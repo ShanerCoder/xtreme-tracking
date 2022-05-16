@@ -18,19 +18,20 @@ function ViewMessages(props) {
         />
       </Head>
       <LighterDiv>
-        <h2 className="center">Messages Page</h2>
+        <h2 className="center">Consultation Requests</h2>
         {numberOfRequests > 0 ? (
           <>
             <ViewIncomingDetailsForm
               incomingDetails={props.consultationRequests}
               viewMessageURL={"/userProfile/viewConsultationRequests/"}
+              detailName={"Consultation Request"}
             />
-            <h3 className="center" style={{ paddingTop: "100px" }}>
-              There are no more messages at this time.
+            <h3 className="center" style={{ paddingTop: "50px" }}>
+              There are no more consultation requests at this time.
             </h3>
           </>
         ) : (
-          <h3 className="center" style={{ paddingTop: "100px" }}>
+          <h3 className="center" style={{ paddingTop: "50px" }}>
             You currently have no consultation requests at this time. Please
             check again later.
           </h3>
