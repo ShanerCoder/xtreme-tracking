@@ -55,9 +55,6 @@ function MainNavigation(props) {
               <Link href="/">
                 <p className={classes.link}>Tracking</p>
               </Link>
-              <Link href="/updates">
-                <p className={classes.link}>Updates</p>
-              </Link>
               <Link href="/contactUs">
                 <p className={classes.link}>Contact Us</p>
               </Link>

@@ -3,6 +3,8 @@ import { dbConnect } from "../../../lib/db-connect";
 import User from "../../../models/user";
 import Profile from "../../../models/userProfile";
 import SingleMessageForm from "../../../components/form-components/Common/SingleMessageForm";
+import ConsultationRequest from "../../../models/consultationRequest";
+import { getSession } from "next-auth/client";
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useState } from "react";
@@ -60,9 +62,9 @@ function RequestConsultation(props) {
           {errorMessage}
         </p>
       )}
-      {user &&
-        user.authenticated &&
-        props.userprofile.personalTrainerProfile && (
+      {props.userprofile &&
+        props.userprofile.personalTrainerProfile &&
+        !props.error && (
           <SingleMessageForm
             messageTitle={
               "Sending a Consultation Request to: " + props.user.username
@@ -72,17 +74,12 @@ function RequestConsultation(props) {
             buttonMessage="Send your Request"
           />
         )}
-      {user &&
-        user.authenticated &&
-        !props.userprofile.personalTrainerProfile && (
-          <h1 className="center">
-            {props.user.username} does not currently have a Personal Trainer
-            Profile!
-          </h1>
-        )}
-      {!user && (
-        <h1 className="center">
-          Make a free account to send a message to: {props.user.username}
+      {props.error && (
+        <h1
+          className="center"
+          style={{ wordWrap: "break-word", whiteSpace: "pre-line" }}
+        >
+          {props.error.errorMessage}
         </h1>
       )}
     </>
@@ -91,15 +88,59 @@ function RequestConsultation(props) {
 
 export async function getServerSideProps(context) {
   try {
-    const username = context.query.username;
+    const personalTrainerUsername = context.query.username;
     await dbConnect();
 
-    //NOTICE - ADD IN A CHECK FOR IF THE USER HAS ALREADY MADE A REQUEST
+    const req = context.req;
+    const session = await getSession({ req });
+    if (!session) {
+      return {
+        props: {
+          error: {
+            errorMessage:
+              "Make a free account to request a consultation from: " +
+              personalTrainerUsername,
+          },
+        },
+      };
+    }
+    const clientUsername = session.user.username;
+    if (clientUsername == personalTrainerUsername)
+      throw new Error("Attempting to send request to their own Profile");
 
-    const usernameFilter = { username: username };
+    const usernameFilter = { username: personalTrainerUsername };
     const selectedUser = await User.findOne(usernameFilter);
     const userId = selectedUser.id;
     const selectedProfile = await Profile.findOne({ _id: userId });
+
+    if (!selectedProfile.personalTrainerProfile)
+      return {
+        props: {
+          error: {
+            errorMessage:
+              personalTrainerUsername +
+              " does not currently have a Personal Trainer Profile!",
+          },
+        },
+      };
+
+    const userHasMadePriorRequest = await ConsultationRequest.find({
+      usernameToReceive: selectedUser.username,
+      usernameWhoSent: clientUsername,
+    });
+
+    if (userHasMadePriorRequest.length)
+      return {
+        props: {
+          error: {
+            errorMessage:
+              "You have already sent a consultation request to: " +
+              personalTrainerUsername +
+              "\n\nKeep an eye on your messages for a response!",
+          },
+        },
+      };
+
     return {
       props: {
         user: {

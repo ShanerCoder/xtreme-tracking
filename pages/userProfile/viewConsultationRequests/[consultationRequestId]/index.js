@@ -18,32 +18,46 @@ function selectedMessage(props) {
   const user = getValue(state, ["user"], null);
 
   async function handleAcceptRequest(additionalContext) {
+    console.log(additionalContext == "");
     const acceptedConsultationRequest = {
-      id: props.ConsultationRequest.id,
-      additionalContext: additionalContext,
+      id: props.consultationRequest.id,
+      additionalContext: (additionalContext == "" ? "N/A" : additionalContext),
       usernameWhoSent: user.username,
-      usernameToReceive: props.ConsultationRequest.usernameFrom,
+      usernameToReceive: props.consultationRequest.usernameFrom,
     };
     // send a message to user telling them their request has been accepted, and any additional context
     const response = await fetch(
       "/api/account/account_profile/accept_consultation_request",
       {
         method: "POST",
-        body: acceptedConsultationRequest,
+        body: JSON.stringify(acceptedConsultationRequest),
         headers: { "Content-Type": "application/json" },
       }
     );
     const data = await response.json();
-    /*router.push(
-      "/userProfile/viewConsultationRequests/"
-    );*/
+    if (data.hasError) setErrorMessage(data.errorMessage);
+    else router.push("/userProfile/viewConsultationRequests/");
   }
 
-  function handleDenyRequest(additionalContext) {
-    console.log(additionalContext + "deny");
-    /*router.push(
-      "/userProfile/viewConsultationRequests/"
-    );*/
+  async function handleDenyRequest(additionalContext) {
+    const deniedConsultationRequest = {
+      id: props.consultationRequest.id,
+      additionalContext: (additionalContext == "" ? "N/A" : additionalContext),
+      usernameWhoSent: user.username,
+      usernameToReceive: props.consultationRequest.usernameFrom,
+    };
+    // send a message to user telling them their request has been accepted, and any additional context
+    const response = await fetch(
+      "/api/account/account_profile/deny_consultation_request",
+      {
+        method: "POST",
+        body: JSON.stringify(deniedConsultationRequest),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    const data = await response.json();
+    if (data.hasError) setErrorMessage(data.errorMessage);
+    else router.push("/userProfile/viewConsultationRequests/");
   }
 
   return (
