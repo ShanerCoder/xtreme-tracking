@@ -5,6 +5,7 @@ import {
   validateAllFields,
 } from "../../../../utils/common";
 import PrivateMessage from "../../../../models/privateMessage";
+import ConsultationList from "../../../../models/consultationList";
 import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
 
@@ -20,32 +21,42 @@ async function handler(req, res) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
+
       const cryptr = new Cryptr(process.env.SECRET_KEY);
       const { usernameToReceive, usernameWhoSent } = req.body;
       validateAllFields(req.body);
       await dbConnect();
-      const consultationRequestAcceptedMessage =
-        usernameWhoSent +
-        " has accepted your Consultation Request! \n\nAdditional Context:\n" +
-        req.body.additionalContext;
-      const encryptedPrivateMessage = await cryptr.encrypt(
-        consultationRequestAcceptedMessage
-      );
 
-      const privateMessage = new PrivateMessage({
-        usernameToReceive,
-        usernameWhoSent,
-        privateMessage: encryptedPrivateMessage,
+      const consultationListEntry = new ConsultationList({
+        personalTrainerUsername: usernameWhoSent,
+        clientUsername: usernameToReceive,
       });
+      const consultationListResult = await consultationListEntry.save();
 
-      const privateMessageResult = await privateMessage.save();
-      if (privateMessageResult) {
-        //NOTICE Add in code to allow the personal trainer to see this consultation in their view
-        const privateMessageDoc = privateMessageResult._doc;
-        delete privateMessageDoc.privateMessage;
-        responseHandler(privateMessageResult, res, 201);
-      } else {
-        errorHandler("Message Failed to be created", res);
+      if (consultationListResult) {
+        const consultationRequestAcceptedMessage =
+          usernameWhoSent +
+          " has accepted your Consultation Request! \n\nAdditional Context:\n" +
+          req.body.additionalContext;
+
+        const encryptedPrivateMessage = await cryptr.encrypt(
+          consultationRequestAcceptedMessage
+        );
+
+        const privateMessage = new PrivateMessage({
+          usernameToReceive,
+          usernameWhoSent,
+          privateMessage: encryptedPrivateMessage,
+        });
+
+        const privateMessageResult = await privateMessage.save();
+        if (privateMessageResult) {
+          const privateMessageDoc = privateMessageResult._doc;
+          delete privateMessageDoc.privateMessage;
+          responseHandler(privateMessageResult, res, 201);
+        } else {
+          errorHandler("Message Failed to be created", res);
+        }
       }
     } catch (error) {
       console.log(error);

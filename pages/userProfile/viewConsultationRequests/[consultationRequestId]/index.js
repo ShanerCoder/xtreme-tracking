@@ -21,12 +21,12 @@ function selectedMessage(props) {
     console.log(additionalContext == "");
     const acceptedConsultationRequest = {
       id: props.consultationRequest.id,
-      additionalContext: (additionalContext == "" ? "N/A" : additionalContext),
+      additionalContext: additionalContext == "" ? "N/A" : additionalContext,
       usernameWhoSent: user.username,
       usernameToReceive: props.consultationRequest.usernameFrom,
     };
     // send a message to user telling them their request has been accepted, and any additional context
-    const response = await fetch(
+    const acceptresponse = await fetch(
       "/api/account/account_profile/accept_consultation_request",
       {
         method: "POST",
@@ -34,20 +34,36 @@ function selectedMessage(props) {
         headers: { "Content-Type": "application/json" },
       }
     );
-    const data = await response.json();
-    if (data.hasError) setErrorMessage(data.errorMessage);
-    else router.push("/userProfile/viewConsultationRequests/");
+    const acceptdata = await acceptresponse.json();
+    if (acceptdata.hasError) setErrorMessage(acceptdata.errorMessage);
+    else {
+      const deleteRequest = {
+        consultationRequestId: props.consultationRequest.id,
+        username: user.username,
+      };
+      const deleteresponse = await fetch(
+        "/api/account/account_profile/consultation_requests",
+        {
+          method: "DELETE",
+          body: JSON.stringify(deleteRequest),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      const deletedata = await deleteresponse.json();
+      if (deletedata.hasError) setErrorMessage(deletedata.errorMessage);
+      else router.push("/userProfile/viewConsultationRequests/");
+    }
   }
 
   async function handleDenyRequest(additionalContext) {
     const deniedConsultationRequest = {
       id: props.consultationRequest.id,
-      additionalContext: (additionalContext == "" ? "N/A" : additionalContext),
+      additionalContext: additionalContext == "" ? "N/A" : additionalContext,
       usernameWhoSent: user.username,
       usernameToReceive: props.consultationRequest.usernameFrom,
     };
     // send a message to user telling them their request has been accepted, and any additional context
-    const response = await fetch(
+    const denyresponse = await fetch(
       "/api/account/account_profile/deny_consultation_request",
       {
         method: "POST",
@@ -55,9 +71,25 @@ function selectedMessage(props) {
         headers: { "Content-Type": "application/json" },
       }
     );
-    const data = await response.json();
-    if (data.hasError) setErrorMessage(data.errorMessage);
-    else router.push("/userProfile/viewConsultationRequests/");
+    const denydata = await denyresponse.json();
+    if (denydata.hasError) setErrorMessage(denydata.errorMessage);
+    else {
+      const deleteRequest = {
+        consultationRequestId: props.consultationRequest.id,
+        username: user.username,
+      };
+      const deleteresponse = await fetch(
+        "/api/account/account_profile/consultation_requests",
+        {
+          method: "DELETE",
+          body: JSON.stringify(deleteRequest),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      const deletedata = await deleteresponse.json();
+      if (deletedata.hasError) setErrorMessage(deletedata.errorMessage);
+      else router.push("/userProfile/viewConsultationRequests/");
+    }
   }
 
   return (

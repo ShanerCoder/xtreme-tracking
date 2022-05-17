@@ -55,6 +55,7 @@ async function handler(req, res) {
       await dbConnect();
       const deleteMessageResult = await PrivateMessage.deleteOne({
         _id: req.body.messageId,
+        usernameToReceive: session.user.username,
       });
       if (deleteMessageResult) responseHandler(deleteMessageResult, res, 200);
     } catch (error) {

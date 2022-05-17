@@ -4,11 +4,13 @@ import User from "../../../models/user";
 import Profile from "../../../models/userProfile";
 import SingleMessageForm from "../../../components/form-components/Common/SingleMessageForm";
 import ConsultationRequest from "../../../models/consultationRequest";
+import ConsultationList from "../../../models/consultationList";
 import { getSession } from "next-auth/client";
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import consultationList from "../../../models/consultationList";
 
 function RequestConsultation(props) {
   const [state] = useStore();
@@ -124,8 +126,23 @@ export async function getServerSideProps(context) {
         },
       };
 
+    const userAlreadyAClient = await ConsultationList.find({
+      personalTrainerUsername: personalTrainerUsername,
+      clientUsername: clientUsername,
+    });
+
+    if (userAlreadyAClient.length)
+      return {
+        props: {
+          error: {
+            errorMessage:
+              "You are already a client of " + personalTrainerUsername + "!",
+          },
+        },
+      };
+
     const userHasMadePriorRequest = await ConsultationRequest.find({
-      usernameToReceive: selectedUser.username,
+      usernameToReceive: personalTrainerUsername,
       usernameWhoSent: clientUsername,
     });
 

@@ -58,7 +58,8 @@ async function handler(req, res) {
       }
       await dbConnect();
       const deleteConsultationRequest = await ConsultationRequest.deleteOne({
-        _id: req.body.messageId,
+        _id: req.body.consultationRequestId,
+        usernameToReceive: session.user.username,
       });
       if (deleteConsultationRequest)
         responseHandler(deleteConsultationRequest, res, 200);
