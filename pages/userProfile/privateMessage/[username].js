@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
 import User from "../../../models/user";
 import SingleMessageForm from "../../../components/form-components/Common/SingleMessageForm";
@@ -6,7 +7,7 @@ import { getValue } from "../../../utils/common";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-function ProfileView(props) {
+function PrivateMessage(props) {
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -18,13 +19,16 @@ function ProfileView(props) {
       usernameWhoSent: user.username,
       privateMessage: messageData,
     };
-    const response = await fetch("/api/private_messages", {
-      method: "POST",
-      body: JSON.stringify(privateMessage),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "/api/account/account_profile/private_messages",
+      {
+        method: "POST",
+        body: JSON.stringify(privateMessage),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
     if (data.hasError) {
       setErrorMessage(data.errorMessage);
@@ -36,6 +40,13 @@ function ProfileView(props) {
 
   return (
     <>
+      <Head>
+        <title>Send A Message</title>
+        <meta
+          name="Xtreme Tracking Send A Message Page"
+          content="Send a Private Message to a user here!"
+        />
+      </Head>
       {errorMessage && (
         <p
           className="center"
@@ -53,6 +64,7 @@ function ProfileView(props) {
           messageTitle={"Sending a Message to: " + props.user.username}
           messageSubject={"Write your Message Here:"}
           submitHandler={submitHandler}
+          buttonMessage="Send your Message"
         />
       ) : (
         <h1 className="center">
@@ -87,4 +99,4 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default ProfileView;
+export default PrivateMessage;

@@ -12,15 +12,13 @@ async function handler(req, res) {
     try {
       validateAllFields(req.body);
       await dbConnect();
-      const selectedUser = await User.findOne({ username: req.body });
+      const selectedUser = await User.findOne({ username: req.body.username });
       if (selectedUser) {
-        const profileId = selectedUser._id;
-        const profilePictureId = null;
-        const profileDescription = null;
         const userProfile = new UserProfile({
-          _id: profileId,
-          profilePictureId: profilePictureId,
-          profileDescription: profileDescription,
+          _id: selectedUser._id,
+          profilePictureId: null,
+          profileDescription: null,
+          personalTrainerProfile: req.body.personalTrainerProfile,
         });
         const profileResult = await userProfile.save();
         if (profileResult) {

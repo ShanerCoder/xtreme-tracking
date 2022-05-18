@@ -1,7 +1,8 @@
+import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
 import Profile from "../../../models/userProfile";
 import User from "../../../models/user";
-import SettingsForm from "../../../components/forms/ProfilePageForms/ProfileSettingsForm";
+import ProfileSettingsForm from "../../../components/forms/ProfilePageForms/ProfileSettingsForm";
 import AccountSettingsForm from "../../../components/forms/ProfilePageForms/AccountSettingsForm";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
@@ -19,13 +20,16 @@ function ProfileView(props) {
       profileDescription: newDescription,
       username: props.user.username,
     };
-    const response = await fetch("/api/profile/profile_description", {
-      method: "PUT",
-      body: JSON.stringify(description),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "/api/account/account_profile/profile_description",
+      {
+        method: "PUT",
+        body: JSON.stringify(description),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await response.json();
     if (data.hasError) {
@@ -60,13 +64,16 @@ function ProfileView(props) {
         username: props.user.username,
       };
 
-      const setPhotoResponse = await fetch("/api/profile/profile_image", {
-        method: "PUT",
-        body: JSON.stringify(newPhoto),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const setPhotoResponse = await fetch(
+        "/api/account/account_profile/profile_image",
+        {
+          method: "PUT",
+          body: JSON.stringify(newPhoto),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const setPhotoData = await setPhotoResponse.json();
       if (setPhotoData.hasError) {
@@ -132,8 +139,40 @@ function ProfileView(props) {
     router.push("/userProfile/settings");
   }
 
+  async function handleUpdatePersonalTrainerProfile(personalTrainerProfile) {
+    const personalTrainerProfileChange = {
+      personalTrainerProfile: personalTrainerProfile,
+      username: props.user.username,
+    };
+
+    const response = await fetch("/api/account/account_profile/profile_type", {
+      method: "PUT",
+      body: JSON.stringify(personalTrainerProfileChange),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Profile Successfully Updated!");
+      setErrorMessage(null);
+    }
+    router.push("/userProfile/settings");
+  }
+
   return (
     <>
+      <Head>
+        <title>Profile Settings</title>
+        <meta
+          name="Xtreme Tracking Settings Page"
+          content="View your Profile Settings here!"
+        />
+      </Head>
       <LighterDiv>
         {successMessage && (
           <p style={{ textTransform: "capitalize", color: "green" }}>
@@ -145,12 +184,15 @@ function ProfileView(props) {
             {errorMessage}
           </p>
         )}
-        <SettingsForm
+        <ProfileSettingsForm
           user={props.user}
           userprofile={props.userprofile}
           setErrorMessage={setErrorMessage}
           handleSaveDescription={saveDescription}
           handleSaveImage={saveImage}
+          handleUpdatePersonalTrainerProfile={
+            handleUpdatePersonalTrainerProfile
+          }
         />
       </LighterDiv>
       <DarkerDiv>
@@ -192,6 +234,7 @@ export async function getServerSideProps({ req }) {
         userprofile: {
           profilePictureId: selectedProfile.profilePictureId,
           profileDescription: selectedProfile.profileDescription,
+          personalTrainerProfile: selectedProfile.personalTrainerProfile,
         },
       },
     };

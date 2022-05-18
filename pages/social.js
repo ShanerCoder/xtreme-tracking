@@ -1,3 +1,4 @@
+import Head from "next/head";
 import SocialForm from "../components/forms/SocialForm";
 import Card from "../components/ui/Card";
 import LighterDiv from "../components/ui/LighterDiv";
@@ -7,9 +8,6 @@ import { dbConnect } from "../lib/db-connect";
 import Post from "../models/post";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
-import { getSession } from "next-auth/client";
-import Profile from "../models/userProfile";
-import User from "../models/user";
 
 function SocialPage(props) {
   const router = useRouter();
@@ -30,9 +28,15 @@ function SocialPage(props) {
     router.push("/social");
   }
 
-  console.log(props.userposts[0].profilePictureId);
   return (
     <>
+      <Head>
+        <title>Social Page</title>
+        <meta
+          name="Xtreme Tracking Social Page"
+          content="Browse the public forum here!"
+        />
+      </Head>
       <LighterDiv>
         <Card>
           <h2 className="center">Social Page</h2>

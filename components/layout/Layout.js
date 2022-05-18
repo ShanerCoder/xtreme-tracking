@@ -5,6 +5,7 @@ import { getValue } from "../../utils/common";
 import { getSession } from "next-auth/client";
 import { useEffect } from "react";
 import { authConstants } from "../../context/constants";
+import { Head } from "next/head";
 
 function Layout(props) {
   const [state, dispatch] = useStore();
@@ -22,10 +23,10 @@ function Layout(props) {
   }, []);
 
   return (
-    <div>
+    <>
       <MainNavigation />
       <main className={classes.main}>{props.children}</main>
-    </div>
+    </>
   );
 }
 

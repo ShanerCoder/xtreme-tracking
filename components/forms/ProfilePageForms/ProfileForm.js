@@ -18,9 +18,18 @@ function ProfileForm(props) {
     router.push("/userProfile/privateMessage/" + props.user.username);
   }
 
+  function handleConsultationRequest() {
+    router.push("/userProfile/requestConsultation/" + props.user.username);
+  }
+
+  function handleViewConsultationRequests() {
+    router.push("/userProfile/viewConsultationRequests/");
+  }
+
   return (
     <>
       <LighterDiv>
+        <h2 className="center">{props.user.username}'s Profile</h2>
         <Card>
           <Row>
             <Col>
@@ -38,21 +47,45 @@ function ProfileForm(props) {
               </Row>
             </Col>
             <Col xs={12} sm={8}>
-              <h2 className="center">{props.user.username}</h2>
               <p className={classes.profileDescription}>
                 {props.userprofile.profileDescription}
               </p>
               <Row className={classes.profileButtonsSection}>
-                {!ownProfilePage && (
-                  <Col>
-                    <button onClick={handlePrivateMessage}>
-                      Send A Private Message
-                    </button>
-                  </Col>
+                {!ownProfilePage && props.userprofile.personalTrainerProfile && (
+                  <>
+                    <Col xs={12} sm={6} className={classes.columnPadding}>
+                      <button onClick={handlePrivateMessage}>
+                        Send A Private Message
+                      </button>
+                    </Col>
+                    <Col xs={12} sm={6}>
+                      <button onClick={handleConsultationRequest}>
+                        Request A Consultation
+                      </button>
+                    </Col>
+                  </>
                 )}
-                <Col>
-                  <button>COMING NOT AS SOON</button>
-                </Col>
+                {ownProfilePage && props.userprofile.personalTrainerProfile && (
+                  <>
+                    <Col xs={12} sm={6} className={classes.columnPadding}>
+                      <button onClick={handleViewConsultationRequests}>
+                        View Incoming Consultation Requests
+                      </button>
+                    </Col>
+                    <Col xs={12} sm={6}>
+                      <button>View Consultation Schedule</button>
+                    </Col>
+                  </>
+                )}
+                {!ownProfilePage && !props.userprofile.personalTrainerProfile && (
+                  <>
+                    <Col xs={12} sm={12} className={classes.columnPadding}>
+                      <button onClick={handlePrivateMessage}>
+                        Send A Private Message
+                      </button>
+                    </Col>
+                  </>
+                )}
               </Row>
             </Col>
             {ownProfilePage ? (

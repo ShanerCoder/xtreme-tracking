@@ -1,5 +1,5 @@
+import Head from "next/head";
 import { useState } from "react";
-import LighterDiv from "../components/ui/LighterDiv";
 import { useRouter } from "next/router";
 import SingleMessageForm from "../components/form-components/Common/SingleMessageForm";
 import { useStore } from "../context";
@@ -38,6 +38,13 @@ function ContactUsPage() {
 
   return (
     <>
+      <Head>
+        <title>Contact Us</title>
+        <meta
+          name="Xtreme Tracking Contact Us Page"
+          content="Contact the Xtreme Tracking team here!"
+        />
+      </Head>
       {successMessage && (
         <p style={{ textTransform: "capitalize", color: "green" }}>
           {successMessage}
@@ -55,6 +62,7 @@ function ContactUsPage() {
             "Write a Message and we will respond to your message if necessary within 7 working days"
           }
           submitHandler={submitHandler}
+          buttonMessage="Send your Message"
         />
       ) : (
         <h1 className="center">Create an account to send an enquiry</h1>

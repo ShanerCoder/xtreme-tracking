@@ -1,4 +1,5 @@
-import ViewMessagesForm from "../../components/forms/MessagesForms/ViewMessagesForm";
+import Head from "next/head";
+import ViewIncomingDetailsForm from "../../components/form-components/Common/ViewIncomingDetailsForm";
 import LighterDiv from "../../components/ui/LighterDiv";
 import { dbConnect } from "../../lib/db-connect";
 import PrivateMessage from "../../models/privateMessage";
@@ -9,12 +10,23 @@ function ViewMessages(props) {
 
   return (
     <>
+      <Head>
+        <title>Messages</title>
+        <meta
+          name="Xtreme Tracking Message Page"
+          content="Browse any messages you have received here!"
+        />
+      </Head>
       <LighterDiv>
         <h2 className="center">Messages Page</h2>
         {numberOfMessages > 0 ? (
           <>
-            <ViewMessagesForm privateMessages={props.privateMessages} />
-            <h3 className="center" style={{ paddingTop: "100px" }}>
+            <ViewIncomingDetailsForm
+              incomingDetails={props.privateMessages}
+              viewMessageURL={"/viewMessages/"}
+              detailName={"Message"}
+            />
+            <h3 className="center" style={{ paddingTop: "50px" }}>
               There are no more messages at this time.
             </h3>
           </>

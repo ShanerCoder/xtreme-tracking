@@ -3,7 +3,7 @@ import classes from "./ChangeForm.module.css";
 import { useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 
-function ChangeForm(props) {
+function AdditionalSetting(props) {
   const currentValueRef = useRef();
   const newValueRef = useRef();
   const confirmNewValueRef = useRef();
@@ -84,4 +84,4 @@ function ChangeForm(props) {
   );
 }
 
-export default ChangeForm;
+export default AdditionalSetting;

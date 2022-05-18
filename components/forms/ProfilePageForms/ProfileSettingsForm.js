@@ -3,6 +3,7 @@ import classes from "./ProfileSettingsForm.module.css";
 import { useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Image } from "cloudinary-react";
+import AdditionalSetting from "../../form-components/ProfilePage/AdditionalSetting";
 
 function ProfileForm(props) {
   const [imageSrc, setImageSrc] = useState(null);
@@ -28,10 +29,10 @@ function ProfileForm(props) {
 
   return (
     <>
+      <h2 className="center">Profile Settings</h2>
       <Card>
-        <h2 className={classes.headingPadding}>Profile Settings</h2>
         <Row className={classes.rowPadding}>
-          <Col>
+          <Col xs={12} sm={3}>
             <Row>
               {!imageSrc ? (
                 <Image
@@ -44,29 +45,27 @@ function ProfileForm(props) {
               )}
             </Row>
             <Row>
-              <>
-                <Row>
-                  <input
-                    type="file"
-                    onChange={(event) => {
-                      setImageSrc(URL.createObjectURL(event.target.files[0]));
-                      setUploadData(event.target.files);
-                    }}
-                    className={classes.uploadImageInput}
-                  />
-                </Row>
-                <Row className="center">
-                  <button
-                    onClick={handleSaveImage}
-                    className={classes.changeProfilePictureButton}
-                  >
-                    Change Profile Picture
-                  </button>
-                </Row>
-              </>
+              <Row>
+                <input
+                  type="file"
+                  onChange={(event) => {
+                    setImageSrc(URL.createObjectURL(event.target.files[0]));
+                    setUploadData(event.target.files);
+                  }}
+                  className={classes.uploadImageInput}
+                />
+              </Row>
+              <Row className="center">
+                <button
+                  onClick={handleSaveImage}
+                  className={classes.changeProfilePictureButton}
+                >
+                  Change Profile Picture
+                </button>
+              </Row>
             </Row>
           </Col>
-          <Col xs={12} sm={8}>
+          <Col xs={12} sm={9}>
             <div className={classes.actions}>
               <h4 className={classes.headingPadding}>
                 Change Profile Description
@@ -80,7 +79,12 @@ function ProfileForm(props) {
               <button onClick={handleSaveDescription}>Save Description</button>
             </div>
             <Row className={classes.additionalProfileSettings}>
-              <h2>SOONISH</h2>
+              <AdditionalSetting
+                label="Personal Trainer Profile:"
+                defaultChecked={props.userprofile.personalTrainerProfile}
+                handleSubmit={props.handleUpdatePersonalTrainerProfile}
+                buttonLabel="Update Profile"
+              />
             </Row>
           </Col>
           <Col xs={12} sm={1}></Col>

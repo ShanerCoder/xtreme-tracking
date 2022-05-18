@@ -28,7 +28,7 @@ function MessageForm(props) {
             />
           </div>
           <div className={classes.actions}>
-            <button>Send your Message</button>
+            <button>{props.buttonMessage}</button>
           </div>
         </form>
       </Card>

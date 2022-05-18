@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema(
+const PrivateMessageSchema = new mongoose.Schema(
   {
     usernameToReceive: {
       type: String,
@@ -24,4 +24,4 @@ const PostSchema = new mongoose.Schema(
 
 mongoose.models = {};
 
-export default mongoose.model("private_messages", PostSchema);
+export default mongoose.model("private_messages", PrivateMessageSchema);

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { dbConnect } from "../../lib/db-connect";
 import Profile from "../../models/userProfile";
 import User from "../../models/user";
@@ -11,12 +12,15 @@ function ProfileView(props) {
   const [errorMessage, setErrorMessage] = useState(null);
 
   async function generateProfile() {
-    const username = props.user.username;
+    const newUserProfile = {
+      username: props.user.username,
+      personalTrainerProfile: false,
+    };
     const userProfileResponse = await fetch(
       "/api/account/account_creation/user_profile",
       {
         method: "POST",
-        body: JSON.stringify(username),
+        body: JSON.stringify(newUserProfile),
         headers: {
           "Content-Type": "application/json",
         },
@@ -26,14 +30,24 @@ function ProfileView(props) {
 
     if (userProfileData.hasError) {
       setErrorMessage(userProfileData.errorMessage);
+      if (userProfileData.errorMessage == "This ID already has a profile!") {
+        router.push("/userProfile/" + props.user.username);
+      }
     } else {
       setErrorMessage(null);
-      router.push("/userProfile/" + username);
+      router.push("/userProfile/" + props.user.username);
     }
   }
 
   return (
     <>
+      <Head>
+        <title>{props.user.username}'s Profile</title>
+        <meta
+          name="Xtreme Tracking Profile Page"
+          content={"View " + props.user.username + "'s Profile here!"}
+        />
+      </Head>
       {!props.userprofile ? (
         <>
           {errorMessage && (
@@ -54,6 +68,7 @@ function ProfileView(props) {
 }
 
 export async function getServerSideProps(context) {
+  // Connecting to DB to find User & User Profile
   let selectedUser;
   try {
     const username = context.query.username;
@@ -69,6 +84,7 @@ export async function getServerSideProps(context) {
         process.env.DEFAULT_PROFILE_PICTURE_ID)
     );
     return {
+      // Returns User and Profile details
       props: {
         user: {
           id: selectedUser.id,
@@ -79,11 +95,13 @@ export async function getServerSideProps(context) {
         userprofile: {
           profilePictureId: selectedProfile.profilePictureId,
           profileDescription: selectedProfile.profileDescription,
+          personalTrainerProfile: selectedProfile.personalTrainerProfile,
         },
       },
     };
   } catch (error) {
     if (selectedUser) {
+      // Returns user details if profile doesn't exist
       return {
         props: {
           user: {
@@ -95,6 +113,7 @@ export async function getServerSideProps(context) {
         },
       };
     }
+    // Returns 'Page Doesn't Exist' if user does not exist
     return {
       notFound: true,
     };

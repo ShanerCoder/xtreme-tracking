@@ -1,3 +1,4 @@
+import Head from "next/head";
 import RegisterForm from "../components/forms/SignInForms/RegisterForm";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -27,12 +28,15 @@ function RegisterPage() {
       setErrorMessage(userAccountData.errorMessage);
       router.push("/register");
     } else {
-      const username = userAccountData.body.username;
+      const newUserProfile = {
+        username: newUserData.username,
+        personalTrainerProfile: newUserData.personalTrainerProfile,
+      };
       const userProfileResponse = await fetch(
         "/api/account/account_creation/user_profile",
         {
           method: "POST",
-          body: JSON.stringify(username),
+          body: JSON.stringify(newUserProfile),
           headers: {
             "Content-Type": "application/json",
           },
@@ -49,15 +53,24 @@ function RegisterPage() {
   }
 
   return (
-    <section>
-      <h1>Register Page</h1>
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
-      <RegisterForm onAddUser={addUserHandler} />
-    </section>
+    <>
+      <Head>
+        <title>Register</title>
+        <meta
+          name="Xtreme Tracking Registration Page"
+          content="Browse meetings available"
+        />
+      </Head>
+      <section>
+        <h1>Register Page</h1>
+        {errorMessage && (
+          <p style={{ textTransform: "capitalize", color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
+        <RegisterForm onAddUser={addUserHandler} />
+      </section>
+    </>
   );
 }
 export default RegisterPage;

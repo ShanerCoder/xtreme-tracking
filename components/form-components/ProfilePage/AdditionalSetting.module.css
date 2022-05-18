@@ -1,0 +1,25 @@
+.rowPadding {
+  padding-bottom: 2%;
+}
+
+.additionalProfileSettings {
+  margin-top: 2rem;
+  text-align: right;
+  padding-right: 2%;
+}
+
+.additionalProfileSettingsInput {
+  scale: 2.5;
+  text-align: left;
+}
+
+.additionalSettingButton {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 1000px) {
+  .additionalSettingButton {
+    margin-left: 7%;
+  }
+}
