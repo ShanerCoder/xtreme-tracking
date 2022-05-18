@@ -1,50 +1,4 @@
-
-h1, h2, h3, h4 {
-  color: #065CFF;
-}
-
-* {
-  font-size: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-button {
-    font: inherit;
-    cursor: pointer;
-    background-color: white;
-    color: #B2002D;
-    padding: 0.5rem 1.5rem;
-    border: 1px solid #B2002D;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: all 0.7s ease-in-out;
-  }
-  
-  button:hover,
-  button:active {
-    transform: scale(1.1);
-    color: white;
-    background-color: #a50e48;
-    border-color: #a50e48;
-  }
-
-  .center {
-    text-align: center;
-  }
-
-  a {
-    color: #B2002D;
-    font-weight: bold;
-    text-decoration: none;
-    transition: color 0.7s ease-in-out;
-  }
-
-  a:hover {
-    color: #e33f3f;
-  }
-
-
-  /* FONT IMPORTS */
+/* FONT IMPORTS */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
@@ -77,6 +31,86 @@ button {
   --border-color: #eee;
   --bg-color: #f9f9f9;
   --neutral-color: #fff;
+}
+
+
+/* GENERAL */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size: 1em;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--text-color);
+    background: var(--bg-color);
+    position: relative;
+}
+
+header {
+  display: block;
+  width: 100%;
+  padding: 1.75em 0;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--neutral-color);
+}
+
+header #logo {
+  font-size: 175%;
+  text-align: center;
+  color: var(--main-color);
+  line-height: 1;
+}
+
+header #logo .icon {
+  padding-right: .25em;
+}
+
+main {
+  display: block;
+  margin: 0 auto;
+  margin-top: 5em;
+  max-width: 50em;
+}
+
+
+/* GRID */
+
+.row {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.row-middle {
+  align-items: center;
+}
+
+.col {
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+}
+
+.col-start {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.col-center {
+  justify-content: center;
+  text-align: center;
+}
+
+.col-end {
+  justify-content: flex-end;
+  text-align: right;
 }
 
 
@@ -191,51 +225,8 @@ button {
   transition: .5s ease-in;
 }
 
-@media (max-width: 576px) {
-  .calendar .body .cell:hover .bg, .calendar .body .selected .bg {
-    opacity: 0;
-  }
-}
-
 .calendar .body .col {
   flex-grow: 0;
   flex-basis: calc(100%/7);
   width: calc(100%/7);
-}
-
-
-/* GRID */
-
-.calendar .row {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.calendar .row-middle {
-  align-items: center;
-}
-
-.calendar .col {
-  flex-grow: 1;
-  flex-basis: 0;
-  max-width: 100%;
-}
-
-.calendar .col-start {
-  justify-content: flex-start;
-  text-align: left;
-}
-
-.calendar .col-center {
-  justify-content: center;
-  text-align: center;
-}
-
-.calendar .col-end {
-  justify-content: flex-end;
-  text-align: right;
 }

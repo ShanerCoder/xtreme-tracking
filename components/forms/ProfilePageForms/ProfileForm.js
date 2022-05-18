@@ -26,6 +26,10 @@ function ProfileForm(props) {
     router.push("/userProfile/viewConsultationRequests/");
   }
 
+  function handleViewConsultationSchedule() {
+    router.push("/userProfile/viewConsultationSchedule/");
+  }
+
   return (
     <>
       <LighterDiv>
@@ -73,7 +77,9 @@ function ProfileForm(props) {
                       </button>
                     </Col>
                     <Col xs={12} sm={6}>
-                      <button>View Consultation Schedule</button>
+                      <button onClick={handleViewConsultationSchedule}>
+                        View Consultation Schedule
+                      </button>
                     </Col>
                   </>
                 )}
