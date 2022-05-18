@@ -95,6 +95,10 @@ class Calendar extends React.Component {
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
+            <img
+              src="/icons/gear.png"
+              style={{ paddingTop: "25px", width: "30px" }}
+            ></img>
           </div>
         );
         day = addDays(day, 1);
