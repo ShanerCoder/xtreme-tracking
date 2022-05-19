@@ -96,7 +96,7 @@ function Calendar(props) {
             }`}
             key={day}
             onClick={() => {
-              console.log(formattedDate);
+              props.setTitleSelectedDate(day);
               //onDateClick(parse(cloneDay));
               //router.push("/userProfile/viewConsultationSchedule/" + cloneDay);
             }}

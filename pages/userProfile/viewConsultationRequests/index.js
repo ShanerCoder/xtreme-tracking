@@ -5,7 +5,7 @@ import { dbConnect } from "../../../lib/db-connect";
 import ConsultationRequest from "../../../models/consultationRequest";
 import { getSession } from "next-auth/client";
 
-function ViewMessages(props) {
+function ViewConsultationRequests(props) {
   const numberOfRequests = props.consultationRequests.length;
 
   return (
@@ -73,4 +73,4 @@ export async function getServerSideProps({ req }) {
   }
 }
 
-export default ViewMessages;
+export default ViewConsultationRequests;

@@ -23,6 +23,7 @@ function UserIcon(props) {
       });
   }, []);
 
+  console.log(props.username);
   return (
     <Link href={`userProfile/${props.username}`}>
       <Image

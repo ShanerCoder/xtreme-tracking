@@ -30,6 +30,14 @@ async function handler(req, res) {
         return null;
       }
 
+      const emailAlreadyInUse = await User.findOne({
+        email: req.body.newEmail,
+      });
+      if (emailAlreadyInUse) {
+        errorHandler("Current Email already in use", res);
+        return null;
+      }
+
       const emailUpdated = await userResult.updateOne({
         email: req.body.newEmail,
       });
