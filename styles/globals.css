@@ -76,11 +76,11 @@ button {
 /* VARIABLES */
 
 :root {
-  --main-color: #1a8fff;
+  --main-color: #ffdd1a;
   --text-color: #777;
   --text-color-light: #ccc;
   --border-color: #eee;
-  --bg-color: #f9f9f9;
+  --bg-color: #b3a9a9;
   --neutral-color: #fff;
 }
 
@@ -192,7 +192,7 @@ button {
 }
 
 .calendar .body .cell:hover .bg, .calendar .body .selected .bg  {
-  opacity: 0.05;
+  opacity: 0.2;
   transition: .5s ease-in;
 }
 

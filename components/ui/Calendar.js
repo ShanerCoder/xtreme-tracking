@@ -11,40 +11,41 @@ import {
   parse,
   addMonths,
   subMonths,
+  getDate,
 } from "date-fns";
-import { Row } from "react-bootstrap";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { render } from "react-dom";
 
-class Calendar extends React.Component {
-  state = {
-    currentMonth: new Date(),
-    selectedDate: new Date(),
-  };
+function Calendar(props) {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  renderHeader() {
+  function renderHeader() {
     const dateFormat = "MMMM yyyy";
 
     return (
       <div className="header row flex-middle">
         <div className="col col-start">
-          <div className="icon" onClick={this.prevMonth}>
+          <div className="icon" onClick={prevMonth}>
             chevron_left
           </div>
         </div>
         <div className="col col-center">
-          <span>{format(this.state.currentMonth, dateFormat)}</span>
+          <span>{format(currentMonth, dateFormat)}</span>
         </div>
-        <div className="col col-end" onClick={this.nextMonth}>
+        <div className="col col-end" onClick={nextMonth}>
           <div className="icon">chevron_right</div>
         </div>
       </div>
     );
   }
 
-  renderDays() {
-    const dateFormat = "dddd";
+  function renderDays() {
+    const dateFormat = "EEEE";
     const days = [];
 
-    let startDate = startOfWeek(this.state.currentMonth);
+    let startDate = startOfWeek(currentMonth);
 
     for (let i = 0; i < 7; i++) {
       days.push(
@@ -57,14 +58,21 @@ class Calendar extends React.Component {
     return <div className="days row">{days}</div>;
   }
 
-  renderCells() {
-    const { currentMonth, selectedDate } = this.state;
+  function renderCells() {
+    let datesOfConsultations = [];
+
+    if (props.date) {
+      const currentMonthNumber = currentMonth.getMonth();
+      props.date.forEach((date) => {
+        if (date.getMonth() == currentMonthNumber)
+          datesOfConsultations.push(date.getDate());
+      });
+    }
+
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart);
     const endDate = endOfWeek(monthEnd);
-
-    console.log(selectedDate);
 
     const dateFormat = "d";
     const rows = [];
@@ -77,7 +85,6 @@ class Calendar extends React.Component {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, dateFormat);
         const cloneDay = day;
-        // console.log(cloneDay);
         days.push(
           <div
             className={`col cell ${
@@ -89,16 +96,19 @@ class Calendar extends React.Component {
             }`}
             key={day}
             onClick={() => {
-              console.log(i);
-              //this.onDateClick(parse(cloneDay));
+              console.log(formattedDate);
+              //onDateClick(parse(cloneDay));
+              //router.push("/userProfile/viewConsultationSchedule/" + cloneDay);
             }}
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
-            <img
-              src="/icons/gear.png"
-              style={{ paddingTop: "25px", width: "30px" }}
-            ></img>
+            {datesOfConsultations.indexOf(day.getDate()) != -1 && (
+              <img
+                src="/icons/dumbbell.png"
+                style={{ paddingTop: "25px", width: "45px" }}
+              ></img>
+            )}
           </div>
         );
         day = addDays(day, 1);
@@ -114,33 +124,25 @@ class Calendar extends React.Component {
     return <div className="body">{rows}</div>;
   }
 
-  onDateClick = (day) => {
-    this.setState({
-      selectedDate: day,
-    });
+  const onDateClick = (day) => {
+    setSelectedDate(day);
   };
 
-  nextMonth = () => {
-    this.setState({
-      currentMonth: addMonths(this.state.currentMonth, 1),
-    });
+  const nextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1));
   };
 
-  prevMonth = () => {
-    this.setState({
-      currentMonth: subMonths(this.state.currentMonth, 1),
-    });
+  const prevMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
   };
 
-  render() {
-    return (
-      <div className="calendar">
-        {this.renderHeader()}
-        {this.renderDays()}
-        {this.renderCells()}
-      </div>
-    );
-  }
+  return (
+    <div className="calendar">
+      {renderHeader()}
+      {renderDays()}
+      {renderCells()}
+    </div>
+  );
 }
 
 export default Calendar;
