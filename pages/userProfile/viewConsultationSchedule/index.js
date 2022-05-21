@@ -16,8 +16,11 @@ function ViewConsultationSchedule() {
 
   return (
     <>
+      <h1 className="center">
+        Viewing Consultations for Date: {selectedDate.toString()}
+      </h1>
+
       <Calendar date={arr} setTitleSelectedDate={getSelectedDateInfo} />
-      <h1 className="center">Viewing Consultations for Date: {selectedDate.toString()}</h1>
     </>
   );
 }

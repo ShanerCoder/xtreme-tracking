@@ -1,4 +1,4 @@
-.messageBubble {
+.detailBubble {
   background-color: white;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -6,17 +6,17 @@
   padding: 5px;
 }
 
-.messageSection {
+.detailSection {
   padding-top: 1%;
   padding-bottom: 1%;
 }
 
-.messageButtonsSection {
+.detailButtonsSection {
   padding-top: 1%;
   padding-bottom: 1%;
 }
 
-.messageButtonsSection button {
+.detailButtonsSection button {
   width: 90%;
   height: 100%;
   margin-left: 5%;

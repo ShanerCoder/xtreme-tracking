@@ -23,8 +23,10 @@ function ViewConsultationRequests(props) {
           <>
             <ViewIncomingDetailsForm
               incomingDetails={props.consultationRequests}
-              viewMessageURL={"/userProfile/viewConsultationRequests/"}
+              viewDetailURL={"/userProfile/viewConsultationRequests/"}
               detailName={"Consultation Request"}
+              clientDetailText={"Client Requester Username: "}
+              dateTimeDetailText={"Request Sent at: "}
             />
             <h3 className="center" style={{ paddingTop: "50px" }}>
               There are no more consultation requests at this time.

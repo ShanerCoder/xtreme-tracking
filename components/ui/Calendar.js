@@ -15,7 +15,6 @@ import {
 } from "date-fns";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { render } from "react-dom";
 
 function Calendar(props) {
   const [currentMonth, setCurrentMonth] = useState(new Date());

@@ -2,21 +2,29 @@ import classes from "./SingleDetailForm.module.css";
 import { Col, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
 import UserIcon from "../../../ui/UserIcon";
+import Link from "next/link";
 
-function ViewMessagesForm(props) {
+function ViewDetailForm(props) {
   const router = useRouter();
 
   return (
-    <li key={props.id} className={classes.messageSection}>
+    <li key={props.id} className={classes.detailSection}>
+      <h3>
+        {props.clientDetailText}
+        <Link href={"/userProfile/" + props.usernameFrom}>
+          {props.usernameFrom}
+        </Link>
+      </h3>
       <p>
-        {props.usernameFrom} - {props.dateCreated}
+        {props.dateTimeDetailText}
+        {props.dateCreated}
       </p>
-      <div className={classes.messageBubble}>
-        <Row className={classes.messageButtonsSection}>
-          <Col className={classes.columnPadding} xs={12} sm={5}> 
+      <div className={classes.detailBubble}>
+        <Row className={classes.detailButtonsSection}>
+          <Col className={classes.columnPadding} xs={12} sm={5}>
             <button
               onClick={() => {
-                router.push(props.viewMessageURL);
+                router.push(props.viewDetailURL);
               }}
             >
               View {props.detailName}
@@ -28,10 +36,10 @@ function ViewMessagesForm(props) {
                 router.push("/userProfile/" + props.usernameFrom);
               }}
             >
-              View Sender Profile
+              View Profile
             </button>
           </Col>
-          <Col xs={4} sm={{span: 1, offset: 1}}>
+          <Col xs={4} sm={{ span: 1, offset: 1 }}>
             <UserIcon username={props.usernameFrom} />
           </Col>
         </Row>
@@ -40,4 +48,4 @@ function ViewMessagesForm(props) {
   );
 }
 
-export default ViewMessagesForm;
+export default ViewDetailForm;

@@ -4,25 +4,9 @@ import LighterDiv from "../../../components/ui/LighterDiv";
 import { dbConnect } from "../../../lib/db-connect";
 import ClientList from "../../../models/clientList";
 import { getSession } from "next-auth/client";
-import { useState } from "react";
 
 function ViewClientList(props) {
   const numberOfClients = props.clientList.length;
-  let confirmDelete = false;
-  const [removeClientText, setRemoveClientText] = useState(
-    "Permanently Delete This Message"
-  );
-
-  function handleRemoveClientButton() {
-    if (!confirmDelete) {
-      confirmDelete = true;
-      setRemoveClientText("Click twice to confirm deletion of this message.");
-    } else {
-      handleDelete();
-    }
-  }
-
-  function handleRemoveClient() {}
 
   return (
     <>
@@ -39,10 +23,10 @@ function ViewClientList(props) {
           <>
             <ViewIncomingDetailsForm
               incomingDetails={props.clientList}
-              viewMessageURL={"/messages/"}
-              detailName={"Upcoming Consultations"}
-              thirdFieldText="Remove Client"
-              thirdFieldOnClick={handleRemoveClientButton}
+              viewDetailURL={"/userProfile/viewClientList/"}
+              detailName={"Client Details"}
+              clientDetailText={"Client Username: "}
+              dateTimeDetailText={"Client Since: "}
             />
             <h3 className="center" style={{ paddingTop: "50px" }}>
               You have no more clients at this time.
