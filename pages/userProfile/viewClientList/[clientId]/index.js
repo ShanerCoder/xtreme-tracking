@@ -51,7 +51,33 @@ function selectedClient(props) {
     }
   }
 
-  async function handleDelete() {
+  async function handleRemoveConsultation(id) {
+    const removeConsultation = {
+      personalTrainerUsername: props.clientDetails.personalTrainerUsername,
+      consultationId: id,
+    };
+
+    const response = await fetch(
+      "/api/account/consultations/list_of_consultations",
+      {
+        method: "DELETE",
+        body: JSON.stringify(removeConsultation),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
+    } else {
+      setErrorMessage(null);
+      setSuccessMessage("Consultation has successfully been removed");
+      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
+    }
+  }
+
+  async function handleRemoveClient() {
     const deleteMessage = {
       username: user.username,
       messageId: props.clientDetails.id,
@@ -77,7 +103,7 @@ function selectedClient(props) {
     }
   }
 
-  function handleDeleteButton() {
+  function handleRemoveClientButton() {
     if (!confirmDelete) {
       confirmDelete = true;
       setDeleteButtonText("Click twice to confirm deletion of this message.");
@@ -126,6 +152,7 @@ function selectedClient(props) {
           clientDetails={props.clientDetails}
           consultationsArray={consultationsArray}
           addConsultation={handleAddConsultation}
+          removeConsultation={handleRemoveConsultation}
         />
       </LighterDiv>
     </>

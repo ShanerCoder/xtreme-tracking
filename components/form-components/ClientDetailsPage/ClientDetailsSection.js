@@ -33,9 +33,16 @@ function ClientDetailsSection(props) {
           <h2 className={classes.headerDetails}>
             Upcoming Consultations within 14 Days:
           </h2>
-          <UpcomingConsultations
-            consultationsArray={props.consultationsArray}
-          />
+          {props.consultationsArray.length ? (
+            <UpcomingConsultations
+              consultationsArray={props.consultationsArray}
+              removeConsultation={props.removeConsultation}
+            />
+          ) : (
+            <h2 className="center" style={{ paddingBottom: "5%" }}>
+              No Consultations created for this client
+            </h2>
+          )}
         </Card>
       </Col>
       <Col className={classes.columnPadding} xs={12} lg={3}>
