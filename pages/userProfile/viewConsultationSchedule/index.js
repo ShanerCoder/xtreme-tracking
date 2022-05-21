@@ -4,6 +4,9 @@ import UserProfile from "../../../models/userProfile";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../../lib/db-connect";
+import LighterDiv from "../../../components/ui/LighterDiv";
+import DarkerDiv from "../../../components/ui/DarkerDiv";
+import ConsultationsAtDateSection from "../../../components/forms/ConsultationSchedule/ConsultationsAtDateSection";
 
 function ViewConsultationSchedule(props) {
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
@@ -20,14 +23,26 @@ function ViewConsultationSchedule(props) {
 
   return (
     <>
-      <h1 className="center">
-        Viewing Consultations for Date: {selectedDate.toString()}
-      </h1>
+      <LighterDiv>
+        <h1 className="center">
+          Viewing Consultations for Date: {selectedDate.toString()}
+        </h1>
 
-      <Calendar
-        consultationDates={listOfConsultationDates}
-        setTitleSelectedDate={setSelectedDateInfo}
-  />
+        <Calendar
+          consultationDates={listOfConsultationDates}
+          setTitleSelectedDate={setSelectedDateInfo}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+      </LighterDiv>
+
+      <DarkerDiv>
+        {props.consultationsList.length ? (
+          <ConsultationsAtDateSection consultations={props.consultationsList} selectedDate={selectedDate} />
+        ) : (
+          <h3>No Consultations on this Date</h3>
+        )}
+      </DarkerDiv>
     </>
   );
 }
@@ -57,6 +72,7 @@ export async function getServerSideProps({ req }) {
       props: {
         consultationsList: consultationsList.map((consultation) => ({
           id: consultation._id.toString(),
+          clientUsername: consultation.clientUsername,
           datetimeOfConsultation:
             consultation.datetimeOfConsultation.toString(),
         })),
@@ -67,7 +83,6 @@ export async function getServerSideProps({ req }) {
       },
     };
   } catch (error) {
-    console.log(error);
     return {
       notFound: true,
     };

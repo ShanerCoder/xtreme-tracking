@@ -86,6 +86,7 @@ function Calendar(props) {
         formattedDate = format(day, dateFormat);
         days.push(
           <CalendarCell
+            key={day}
             day={day}
             datesOfConsultations={datesOfConsultations}
             monthStart={monthStart}
@@ -106,10 +107,6 @@ function Calendar(props) {
     }
     return <div className="body">{rows}</div>;
   }
-
-  const onDateClick = (day) => {
-    setSelectedDate(day);
-  };
 
   const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
