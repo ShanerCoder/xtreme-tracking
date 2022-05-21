@@ -1,29 +1,41 @@
 import { Col, Row } from "react-bootstrap";
 import Card from "../../ui/Card";
 import classes from "./ClientDetailsSection.module.css";
+import { useRef } from "react";
 import UpcomingConsultations from "./UpcomingConsultationsSection";
 
 function ClientDetailsSection(props) {
-  const arr = [
-    new Date("2022-03-11 13:30:00"),
-    new Date("2022-05-28 12:32:00"),
-    new Date("2022-05-24"),
-    new Date(),
-  ];
+  const dateInputRef = useRef();
+
+  function handleAddConsultation(event) {
+    event.preventDefault();
+
+    props.addConsultation(dateInputRef.current.value);
+  }
 
   return (
     <Row>
       <Col className={classes.columnPadding} xs={12} lg={3}>
         <Card>
           <h2 className={classes.headerDetails}>Add Consultation:</h2>
+          <form onSubmit={handleAddConsultation}>
+            <div className={classes.control}>
+              <input type="datetime-local" required ref={dateInputRef} />
+            </div>
+            <button className={classes.buttonFormatting}>
+              Add Consultation
+            </button>
+          </form>
         </Card>
       </Col>
       <Col className={classes.columnPadding} xs={12} lg={6}>
         <Card>
           <h2 className={classes.headerDetails}>
-            Upcoming Consultations within 7 Days:
+            Upcoming Consultations within 14 Days:
           </h2>
-          <UpcomingConsultations datetimes={arr} />
+          <UpcomingConsultations
+            consultationsArray={props.consultationsArray}
+          />
         </Card>
       </Col>
       <Col className={classes.columnPadding} xs={12} lg={3}>

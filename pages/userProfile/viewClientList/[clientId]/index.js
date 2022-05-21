@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { dbConnect } from "../../../../lib/db-connect";
 import classes from "../../../PageStyling.module.css";
-import Cryptr from "cryptr";
 import ClientList from "../../../../models/clientList";
+import ConsultationLists from "../../../../models/consultationLists";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../../components/ui/LighterDiv";
 import { useState } from "react";
@@ -13,6 +13,7 @@ import ClientDetailsSection from "../../../../components/form-components/ClientD
 
 function selectedClient(props) {
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const router = useRouter();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
@@ -20,6 +21,35 @@ function selectedClient(props) {
     "Permanently Delete This Message"
   );
   let confirmDelete = false;
+  const consultationsArray = props.clientConsultations;
+
+  async function handleAddConsultation(datetimeOfConsultation) {
+    const date = new Date(datetimeOfConsultation);
+    const newConsultation = {
+      personalTrainerUsername: props.clientDetails.personalTrainerUsername,
+      clientUsername: props.clientDetails.clientUsername,
+      datetimeOfConsultation: date,
+    };
+
+    const response = await fetch(
+      "/api/account/consultations/list_of_consultations",
+      {
+        method: "POST",
+        body: JSON.stringify(newConsultation),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
+    } else {
+      setErrorMessage(null);
+      setSuccessMessage("Consultation has successfully been added");
+      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
+    }
+  }
 
   async function handleDelete() {
     const deleteMessage = {
@@ -71,6 +101,11 @@ function selectedClient(props) {
           content="View a selected Client's details here!"
         />
       </Head>
+      {successMessage && (
+        <p style={{ textTransform: "capitalize", color: "green" }}>
+          {successMessage}
+        </p>
+      )}
       {errorMessage && (
         <p
           className="center"
@@ -87,7 +122,11 @@ function selectedClient(props) {
         <h2 className={(classes.padding_top, "center")}>
           Viewing {props.clientDetails.clientUsername}'s Details
         </h2>
-        <ClientDetailsSection clientDetails={props.clientDetails} />
+        <ClientDetailsSection
+          clientDetails={props.clientDetails}
+          consultationsArray={consultationsArray}
+          addConsultation={handleAddConsultation}
+        />
       </LighterDiv>
     </>
   );
@@ -104,12 +143,32 @@ export async function getServerSideProps(context) {
     const user = session.user.username;
 
     await dbConnect();
-    const cryptr = new Cryptr(process.env.SECRET_KEY);
 
-    const filter = { _id: clientId };
-    const clientDetails = await ClientList.findOne(filter);
-
-    if (user == clientDetails.personalTrainerUsername)
+    const clientFilter = { _id: clientId };
+    const clientDetails = await ClientList.findOne(clientFilter);
+    const consultationsFilter = {
+      personalTrainerUsername: clientDetails.personalTrainerUsername,
+      clientUsername: clientDetails.clientUsername,
+    };
+    const clientConsultations = await ConsultationLists.find(
+      consultationsFilter
+    ).sort({ datetimeOfConsultation: 1 });
+    if (user == clientDetails.personalTrainerUsername && clientConsultations)
+      return {
+        props: {
+          clientDetails: {
+            id: clientDetails._id.toString(),
+            personalTrainerUsername: clientDetails.personalTrainerUsername,
+            clientUsername: clientDetails.clientUsername,
+          },
+          clientConsultations: clientConsultations.map((consultation) => ({
+            id: consultation._id.toString(),
+            datetimeOfConsultation:
+              consultation.datetimeOfConsultation.toString(),
+          })),
+        },
+      };
+    else if (user == clientDetails.personalTrainerUsername) {
       return {
         props: {
           clientDetails: {
@@ -119,7 +178,7 @@ export async function getServerSideProps(context) {
           },
         },
       };
-    else
+    } else
       return {
         notFound: true,
       };
