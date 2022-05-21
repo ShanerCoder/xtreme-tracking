@@ -23,9 +23,9 @@ function UserIcon(props) {
       });
   }, []);
 
-  console.log(props.username);
+
   return (
-    <Link href={`userProfile/${props.username}`}>
+    <Link href={`/userProfile/${props.username}`}>
       <Image
         className={classes.userIcon}
         cloudName="multishane999"

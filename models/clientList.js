@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ConsultationListSchema = new mongoose.Schema(
+const ClientListSchema = new mongoose.Schema(
   {
     personalTrainerUsername: {
       type: String,
@@ -20,7 +20,4 @@ const ConsultationListSchema = new mongoose.Schema(
 
 mongoose.models = {};
 
-export default mongoose.model(
-  "consultation_list",
-  ConsultationListSchema
-);
+export default mongoose.model("client_lists", ClientListSchema);

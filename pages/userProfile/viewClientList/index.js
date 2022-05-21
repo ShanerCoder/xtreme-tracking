@@ -2,11 +2,27 @@ import Head from "next/head";
 import ViewIncomingDetailsForm from "../../../components/form-components/Common/ViewIncomingDetailsForm";
 import LighterDiv from "../../../components/ui/LighterDiv";
 import { dbConnect } from "../../../lib/db-connect";
-import ConsultationList from "../../../models/consultationList";
+import ClientList from "../../../models/clientList";
 import { getSession } from "next-auth/client";
+import { useState } from "react";
 
 function ViewClientList(props) {
   const numberOfClients = props.clientList.length;
+  let confirmDelete = false;
+  const [removeClientText, setRemoveClientText] = useState(
+    "Permanently Delete This Message"
+  );
+
+  function handleRemoveClientButton() {
+    if (!confirmDelete) {
+      confirmDelete = true;
+      setRemoveClientText("Click twice to confirm deletion of this message.");
+    } else {
+      handleDelete();
+    }
+  }
+
+  function handleRemoveClient() {}
 
   return (
     <>
@@ -24,7 +40,9 @@ function ViewClientList(props) {
             <ViewIncomingDetailsForm
               incomingDetails={props.clientList}
               viewMessageURL={"/messages/"}
-              detailName={"Client"}
+              detailName={"Upcoming Consultations"}
+              thirdFieldText="Remove Client"
+              thirdFieldOnClick={handleRemoveClientButton}
             />
             <h3 className="center" style={{ paddingTop: "50px" }}>
               You have no more clients at this time.
@@ -50,15 +68,13 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
-    const consultationList = ConsultationList.find();
+    const clientList = ClientList.find();
     const filter = { personalTrainerUsername: session.user.username };
-    const consultationListOfClients = await consultationList
-      .find(filter)
-      .sort({ _id: -1 });
+    const ListOfClients = await clientList.find(filter).sort({ _id: -1 });
 
     return {
       props: {
-        clientList: consultationListOfClients.map((client) => ({
+        clientList: ListOfClients.map((client) => ({
           id: client._id.toString(),
           usernameFrom: client.clientUsername,
           dateCreated: client.createdAt.toString(),
