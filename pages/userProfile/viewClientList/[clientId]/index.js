@@ -99,8 +99,6 @@ function selectedClient(props) {
       setErrorMessage(removeClientdata.errorMessage);
       router.push("/userProfile/viewClientList/" + props.clientDetails.id);
     } else {
-      console.log(clientUsername);
-      console.log(personalTrainerUsername + "tester");
       const removeClientMessage = {
         usernameToReceive: clientUsername,
         usernameWhoSent: personalTrainerUsername,

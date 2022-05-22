@@ -29,17 +29,24 @@ function Calendar(props) {
     return (
       <Row>
         <Col xs={2}>
-        <div className="icon"  style={{cursor: "pointer"}} onClick={prevMonth}>
-            chevron_left
+          <div className={"col col-start " + classes.monthNavigatiorDivs}>
+            <div className={"icon " + classes.monthNavigatiors} onClick={prevMonth}>
+              chevron_left
+            </div>
           </div>
         </Col>
         <Col xs={8}>
-        <h4 className={classes.monthHeader}>{format(currentMonth, dateFormat)}</h4>
+          <h4 className={classes.monthHeader}>
+            {format(currentMonth, dateFormat)}
+          </h4>
         </Col>
         <Col xs={2}>
-        <div className="col col-end" style={{cursor: "pointer"}} onClick={nextMonth}>
-          <div className="icon">chevron_right</div>
-        </div>
+          <div
+            className={"col col-end " + classes.monthNavigatiorDivs}
+            onClick={nextMonth}
+          >
+            <div className={"icon " + classes.monthNavigatiors}>chevron_right</div>
+          </div>
         </Col>
       </Row>
     );
@@ -54,7 +61,9 @@ function Calendar(props) {
     for (let i = 0; i < 7; i++) {
       days.push(
         <span
-          className={"col col-center " + classes.daysText + " " + classes.daysColumn}
+          className={
+            "col col-center " + classes.daysText + " " + classes.daysColumn
+          }
           key={i}
         >
           {format(addDays(startDate, i), dateFormat)}

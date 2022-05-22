@@ -10,3 +10,15 @@
 .monthHeader {
   text-align: center;
 }
+
+.monthNavigatiors {
+scale: 3;
+padding: 10px;
+}
+
+.monthNavigatiorDivs :hover{
+  cursor: pointer;
+  transform: scale(1.75);
+  color: #F5D834;
+  transition: all 0.25s ease-out;
+}
