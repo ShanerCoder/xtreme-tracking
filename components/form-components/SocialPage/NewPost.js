@@ -11,7 +11,6 @@ function NewPost(props) {
 
     if (enteredPostText != "") {
       const postData = {
-        //posterId: user.id,
         username: props.currentUser,
         postText: enteredPostText,
       };

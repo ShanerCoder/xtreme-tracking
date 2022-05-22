@@ -21,7 +21,7 @@ function selectedClient(props) {
     "Permanently Delete This Message"
   );
   let confirmDelete = false;
-  const consultationsArray = props.clientConsultations;
+  const consultationsArray = props.clientConsultations; //NOTICE try pass in props clientconsultations instead of this
 
   async function handleAddConsultation(datetimeOfConsultation) {
     const date = new Date(datetimeOfConsultation);

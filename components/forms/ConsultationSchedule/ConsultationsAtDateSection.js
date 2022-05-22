@@ -5,7 +5,6 @@ function ConsultationsAtDateSection(props) {
   let noConsultations = (
     <h3 className="center">No Consultations for this Day</h3>
   );
-  console.log(props.selectedDate);
   return (
     <>
       <ul className={classes.list}>
@@ -17,6 +16,7 @@ function ConsultationsAtDateSection(props) {
                 {(noConsultations = null)}
                 <ConsultationDetails
                   key={consultation.id}
+                  removeConsultation={props.removeConsultation}
                   id={consultation.id}
                   clientUsername={consultation.clientUsername}
                   datetimeOfConsultation={consultation.datetimeOfConsultation}

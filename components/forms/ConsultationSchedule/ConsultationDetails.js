@@ -28,10 +28,10 @@ function ConsultationsAtDateSection(props) {
           <Col className={classes.columnPadding} xs={12} sm={5}>
             <button
               onClick={() => {
-                router.push(props.viewDetailURL);
+                props.removeConsultation(props.id);
               }}
             >
-              View {props.detailName}
+              Remove Consultation
             </button>
           </Col>
           <Col xs={8} sm={5}>

@@ -18,7 +18,6 @@ function selectedMessage(props) {
   const user = getValue(state, ["user"], null);
 
   async function handleAcceptRequest(additionalContext) {
-    console.log(additionalContext == "");
     const acceptedConsultationRequest = {
       id: props.consultationRequest.id,
       additionalContext: additionalContext == "" ? "N/A" : additionalContext,

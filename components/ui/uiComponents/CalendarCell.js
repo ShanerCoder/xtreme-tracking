@@ -19,9 +19,6 @@ function CalendarCell(props) {
       onClick={() => {
         props.setSelectedDate(day);
         props.setTitleSelectedDate(day);
-        console.log(day);
-        //onDateClick(parse(cloneDay));
-        //router.push("/userProfile/viewConsultationSchedule/" + cloneDay);
       }}
     >
       <span className="number">{formattedDate}</span>
