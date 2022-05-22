@@ -24,7 +24,7 @@ function RequestConsultation(props) {
       consultationRequest: messageData,
     };
     const response = await fetch(
-      "/api/account/account_profile/consultation_requests",
+      "/api/account/consultations/consultation_requests",
       {
         method: "POST",
         body: JSON.stringify(consultationRequest),
@@ -57,7 +57,7 @@ function RequestConsultation(props) {
           style={{
             textTransform: "capitalize",
             color: "red",
-            "font-size": "45px",
+            fontSize: "45px",
           }}
         >
           {errorMessage}

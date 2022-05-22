@@ -152,6 +152,12 @@ button {
   border-image-slice: 1;
 }
 
+@media (max-width: 576px) {
+  .calendar .body .selected {
+    border-left: 5px solid transparent;
+  }
+}
+
 .calendar .body .row {
   border-bottom: 1px solid var(--border-color);
 }

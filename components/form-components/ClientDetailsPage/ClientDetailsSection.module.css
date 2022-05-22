@@ -25,3 +25,13 @@
   width: 90%;
   margin-left: 5%;
 }
+
+.control textarea {
+  display: block;
+  font: inherit;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  width: 100%;
+  margin-bottom: 5%;
+}

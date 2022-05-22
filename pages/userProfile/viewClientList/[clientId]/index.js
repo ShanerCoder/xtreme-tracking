@@ -17,16 +17,12 @@ function selectedClient(props) {
   const router = useRouter();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
-  const [deleteButtonText, setDeleteButtonText] = useState(
-    "Permanently Delete This Message"
-  );
-  let confirmDelete = false;
   const consultationsArray = props.clientConsultations; //NOTICE try pass in props clientconsultations instead of this
 
   async function handleAddConsultation(datetimeOfConsultation) {
     const date = new Date(datetimeOfConsultation);
     const newConsultation = {
-      personalTrainerUsername: props.clientDetails.personalTrainerUsername,
+      personalTrainerUsername: user.username,
       clientUsername: props.clientDetails.clientUsername,
       datetimeOfConsultation: date,
     };
@@ -77,45 +73,54 @@ function selectedClient(props) {
     }
   }
 
-  async function handleRemoveClient() {
-    const deleteMessage = {
-      username: user.username,
-      messageId: props.clientDetails.id,
+  async function handleRemoveClient(additionalContext) {
+    const clientUsername = props.clientDetails.clientUsername;
+    const personalTrainerUsername = props.clientDetails.personalTrainerUsername;
+    const removeClientBody = {
+      clientUsername: clientUsername,
+      personalTrainerUsername: personalTrainerUsername,
     };
-    const response = await fetch(
-      "/api/account/account_profile/private_messages",
+
+    const removeClientResponse = await fetch(
+      "/api/account/consultations/remove_client",
       {
         method: "DELETE",
-        body: JSON.stringify(deleteMessage),
+        body: JSON.stringify(removeClientBody),
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
 
-    const data = await response.json();
-    if (data.hasError) {
-      setErrorMessage(data.errorMessage);
-      router.push("/viewMessages/" + props.privateMessage.id);
-    } else {
-      setErrorMessage(null);
-      router.push("/viewMessages");
-    }
-  }
+    const removeClientdata = await removeClientResponse.json();
 
-  function handleRemoveClientButton() {
-    if (!confirmDelete) {
-      confirmDelete = true;
-      setDeleteButtonText("Click twice to confirm deletion of this message.");
+    if (removeClientdata.hasError) {
+   
+      setErrorMessage(removeClientdata.errorMessage);
+      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
     } else {
-      handleDelete();
-    }
-  }
+      console.log(clientUsername);
+      console.log(personalTrainerUsername + "tester");
+      const removeClientMessage = {
+        usernameToReceive: clientUsername,
+        usernameWhoSent: personalTrainerUsername,
+        privateMessage:
+          user.username +
+          " has removed you from their client list.\n\nAdditional Context:\n" +
+          additionalContext,
+      };
 
-  function handleWriteResponse() {
-    router.push(
-      "/userProfile/privateMessage/" + props.privateMessage.usernameFrom
-    );
+      const removeClientMessageResponse = await fetch(
+        "/api/account/account_profile/private_messages",
+        {
+          method: "POST",
+          body: JSON.stringify(removeClientMessage),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      await removeClientMessageResponse.json();
+      router.push("/userProfile/viewClientList");
+    }
   }
 
   return (
@@ -138,7 +143,7 @@ function selectedClient(props) {
           style={{
             textTransform: "capitalize",
             color: "red",
-            "font-size": "45px",
+            fontSize: "45px",
           }}
         >
           {errorMessage}
@@ -153,6 +158,7 @@ function selectedClient(props) {
           consultationsArray={consultationsArray}
           addConsultation={handleAddConsultation}
           removeConsultation={handleRemoveConsultation}
+          removeClient={handleRemoveClient}
         />
       </LighterDiv>
     </>

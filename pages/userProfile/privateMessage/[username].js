@@ -53,7 +53,7 @@ function PrivateMessage(props) {
           style={{
             textTransform: "capitalize",
             color: "red",
-            "font-size": "45px",
+            fontSize: "45px",
           }}
         >
           {errorMessage}

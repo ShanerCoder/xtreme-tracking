@@ -16,6 +16,8 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import CalendarCell from "./uiComponents/CalendarCell";
+import classes from "./Calendar.module.css";
+import { Col, Row } from "react-bootstrap";
 
 function Calendar(props) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -25,33 +27,38 @@ function Calendar(props) {
     const dateFormat = "MMMM yyyy";
 
     return (
-      <div className="header row flex-middle">
-        <div className="col col-start">
-          <div className="icon" onClick={prevMonth}>
+      <Row>
+        <Col xs={2}>
+        <div className="icon"  style={{cursor: "pointer"}} onClick={prevMonth}>
             chevron_left
           </div>
-        </div>
-        <div className="col col-center">
-          <span>{format(currentMonth, dateFormat)}</span>
-        </div>
-        <div className="col col-end" onClick={nextMonth}>
+        </Col>
+        <Col xs={8}>
+        <h4 className={classes.monthHeader}>{format(currentMonth, dateFormat)}</h4>
+        </Col>
+        <Col xs={2}>
+        <div className="col col-end" style={{cursor: "pointer"}} onClick={nextMonth}>
           <div className="icon">chevron_right</div>
         </div>
-      </div>
+        </Col>
+      </Row>
     );
   }
 
   function renderDays() {
-    const dateFormat = "EEEE";
+    const dateFormat = "EE";
     const days = [];
 
     let startDate = startOfWeek(currentMonth);
 
     for (let i = 0; i < 7; i++) {
       days.push(
-        <div className="col col-center" key={i}>
+        <span
+          className={"col col-center " + classes.daysText + " " + classes.daysColumn}
+          key={i}
+        >
           {format(addDays(startDate, i), dateFormat)}
-        </div>
+        </span>
       );
     }
 
