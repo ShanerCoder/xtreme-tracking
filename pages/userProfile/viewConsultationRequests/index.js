@@ -5,7 +5,7 @@ import { dbConnect } from "../../../lib/db-connect";
 import ConsultationRequest from "../../../models/consultationRequest";
 import { getSession } from "next-auth/client";
 
-function ViewMessages(props) {
+function ViewConsultationRequests(props) {
   const numberOfRequests = props.consultationRequests.length;
 
   return (
@@ -23,8 +23,10 @@ function ViewMessages(props) {
           <>
             <ViewIncomingDetailsForm
               incomingDetails={props.consultationRequests}
-              viewMessageURL={"/userProfile/viewConsultationRequests/"}
+              viewDetailURL={"/userProfile/viewConsultationRequests/"}
               detailName={"Consultation Request"}
+              clientDetailText={"Client Requester Username: "}
+              dateTimeDetailText={"Request Sent at: "}
             />
             <h3 className="center" style={{ paddingTop: "50px" }}>
               There are no more consultation requests at this time.
@@ -73,4 +75,4 @@ export async function getServerSideProps({ req }) {
   }
 }
 
-export default ViewMessages;
+export default ViewConsultationRequests;

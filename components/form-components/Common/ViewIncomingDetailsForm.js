@@ -11,8 +11,10 @@ function ViewIncomingDetailsForm(props) {
             id={detail.id}
             usernameFrom={detail.usernameFrom}
             dateCreated={detail.dateCreated}
-            viewMessageURL={props.viewMessageURL + detail.id}
+            viewDetailURL={props.viewDetailURL + detail.id}
             detailName={props.detailName}
+            clientDetailText={props.clientDetailText}
+            dateTimeDetailText={props.dateTimeDetailText}
           />
         ))}
       </ul>

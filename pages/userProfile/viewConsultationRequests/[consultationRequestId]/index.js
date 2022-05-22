@@ -18,7 +18,6 @@ function selectedMessage(props) {
   const user = getValue(state, ["user"], null);
 
   async function handleAcceptRequest(additionalContext) {
-    console.log(additionalContext == "");
     const acceptedConsultationRequest = {
       id: props.consultationRequest.id,
       additionalContext: additionalContext == "" ? "N/A" : additionalContext,
@@ -27,7 +26,7 @@ function selectedMessage(props) {
     };
     // send a message to user telling them their request has been accepted, and any additional context
     const acceptresponse = await fetch(
-      "/api/account/account_profile/accept_consultation_request",
+      "/api/account/consultations/accept_consultation_request",
       {
         method: "POST",
         body: JSON.stringify(acceptedConsultationRequest),
@@ -42,7 +41,7 @@ function selectedMessage(props) {
         username: user.username,
       };
       const deleteresponse = await fetch(
-        "/api/account/account_profile/consultation_requests",
+        "/api/account/consultations/consultation_requests",
         {
           method: "DELETE",
           body: JSON.stringify(deleteRequest),
@@ -64,7 +63,7 @@ function selectedMessage(props) {
     };
     // send a message to user telling them their request has been accepted, and any additional context
     const denyresponse = await fetch(
-      "/api/account/account_profile/deny_consultation_request",
+      "/api/account/consultations/deny_consultation_request",
       {
         method: "POST",
         body: JSON.stringify(deniedConsultationRequest),
@@ -79,7 +78,7 @@ function selectedMessage(props) {
         username: user.username,
       };
       const deleteresponse = await fetch(
-        "/api/account/account_profile/consultation_requests",
+        "/api/account/consultations/consultation_requests",
         {
           method: "DELETE",
           body: JSON.stringify(deleteRequest),
@@ -107,7 +106,7 @@ function selectedMessage(props) {
           style={{
             textTransform: "capitalize",
             color: "red",
-            "font-size": "45px",
+            fontSize: "45px",
           }}
         >
           {errorMessage}

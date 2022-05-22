@@ -23,8 +23,10 @@ function ViewMessages(props) {
           <>
             <ViewIncomingDetailsForm
               incomingDetails={props.privateMessages}
-              viewMessageURL={"/viewMessages/"}
+              viewDetailURL={"/viewMessages/"}
               detailName={"Message"}
+              clientDetailText={"Message sent from Username: "}
+              dateTimeDetailText={"Message Sent: "}
             />
             <h3 className="center" style={{ paddingTop: "50px" }}>
               There are no more messages at this time.

@@ -40,6 +40,10 @@
   cursor: pointer;
 }
 
+.clientListPadding {
+  padding-bottom: 40px;
+}
+
 @media (max-width: 576px) {
   .columnPadding {
     padding-bottom: 25px;

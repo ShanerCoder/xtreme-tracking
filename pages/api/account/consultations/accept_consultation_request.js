@@ -5,7 +5,7 @@ import {
   validateAllFields,
 } from "../../../../utils/common";
 import PrivateMessage from "../../../../models/privateMessage";
-import ConsultationList from "../../../../models/consultationList";
+import ClientList from "../../../../models/clientList";
 import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
 
@@ -27,13 +27,13 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
-      const consultationListEntry = new ConsultationList({
+      const clientListEntry = new ClientList({
         personalTrainerUsername: usernameWhoSent,
         clientUsername: usernameToReceive,
       });
-      const consultationListResult = await consultationListEntry.save();
+      const clientListResult = await clientListEntry.save();
 
-      if (consultationListResult) {
+      if (clientListResult) {
         const consultationRequestAcceptedMessage =
           usernameWhoSent +
           " has accepted your Consultation Request! \n\nAdditional Context:\n" +

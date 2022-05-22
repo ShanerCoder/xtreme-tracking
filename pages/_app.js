@@ -11,6 +11,14 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <link rel="shortcut icon" href="/images/favicon.ico" />
         <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700"
+        />
+        <link
           rel="apple-touch-icon"
           sizes="180x180"
           href="/images/apple-touch-icon.png"

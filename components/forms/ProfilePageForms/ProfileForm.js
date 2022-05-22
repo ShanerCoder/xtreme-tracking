@@ -26,6 +26,14 @@ function ProfileForm(props) {
     router.push("/userProfile/viewConsultationRequests/");
   }
 
+  function handleViewConsultationSchedule() {
+    router.push("/userProfile/viewConsultationSchedule/");
+  }
+
+  function handleViewClients() {
+    router.push("/userProfile/viewClientList/");
+  }
+
   return (
     <>
       <LighterDiv>
@@ -67,14 +75,21 @@ function ProfileForm(props) {
                 )}
                 {ownProfilePage && props.userprofile.personalTrainerProfile && (
                   <>
-                    <Col xs={12} sm={6} className={classes.columnPadding}>
-                      <button onClick={handleViewConsultationRequests}>
-                        View Incoming Consultation Requests
-                      </button>
-                    </Col>
-                    <Col xs={12} sm={6}>
-                      <button>View Consultation Schedule</button>
-                    </Col>
+                      <Col xs={12} sm={6} className={classes.columnPadding}>
+                        <button onClick={handleViewConsultationRequests}>
+                          View Incoming Consultation Requests
+                        </button>
+                      </Col>
+                      <Col xs={12} sm={6} className={classes.clientListPadding}>
+                        <button onClick={handleViewConsultationSchedule}>
+                          View Consultation Schedule
+                        </button>
+                      </Col>
+                      <Col xs={12}>
+                        <button onClick={handleViewClients}>
+                          View List of Clients
+                        </button>
+                      </Col>
                   </>
                 )}
                 {!ownProfilePage && !props.userprofile.personalTrainerProfile && (
