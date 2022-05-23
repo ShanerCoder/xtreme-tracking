@@ -1,0 +1,30 @@
+.detailBubble {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  padding: 5px;
+}
+
+.detailSection {
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.detailButtonsSection {
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.detailButtonsSection button {
+  width: 90%;
+  height: 100%;
+  margin-left: 5%;
+  border-radius: 10px;
+}
+
+@media (max-width: 576px) {
+  .columnPadding {
+    padding-bottom: 25px;
+  }
+}

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Calendar from "../../components/ui/Calendar";
 import ExerciseList from "../../models/exerciseList";
+import CommonExerciseList from "../../models/commonExerciseList";
 import ExerciseHistory from "../../models/exerciseHistory";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
@@ -10,6 +11,10 @@ import DarkerDiv from "../../components/ui/DarkerDiv";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
 import { useRouter } from "next/router";
+import NewExerciseSection from "../../components/forms/TrackingForm/NewExerciseSection";
+import { Card, Col, Row } from "react-bootstrap";
+import ExercisesAtDateSection from "../../components/forms/TrackingForm/ExercisesAtDateSection";
+
 
 function ViewTrackingProgress(props) {
   const router = useRouter();
@@ -29,7 +34,7 @@ function ViewTrackingProgress(props) {
     setSelectedDate(date.toDateString());
   }
 
-  async function handleAddConsultation(postData) {
+  async function handleAddExercise(postData) {
     const bodyData = {
       ...postData,
       personalTrainerUsername: user.username,
@@ -55,7 +60,7 @@ function ViewTrackingProgress(props) {
     router.push("/userProfile/viewConsultationSchedule");
   }
 
-  async function handleRemoveConsultation(consultationId) {
+  async function handleRemoveExercise(exerciseId) {
     const bodyData = {
       consultationId: consultationId,
       personalTrainerUsername: user.username,
@@ -113,15 +118,33 @@ function ViewTrackingProgress(props) {
             />
           </LighterDiv>
 
-          <DarkerDiv></DarkerDiv>
-
-          <LighterDiv>
-            {props.exerciseHistory.length ? (
-              <h1>Test</h1>
-            ) : (
-              <h3 className="center">No Consultations on this Date</h3>
-            )}
-          </LighterDiv>
+          <DarkerDiv>
+            <Row>
+              <Col style={{ paddingBottom: "25px" }} xs={12} lg={4}>
+                <NewExerciseSection
+                  exerciseList={props.exerciseList}
+                  commonExerciseList={props.commonExerciseList}
+                  selectedDate={selectedDate}
+                  addExercise={handleAddExercise}
+                />
+              </Col>
+              <Col xs={12} lg={8}>
+                {props.exerciseHistory.length ? (
+                  <ExercisesAtDateSection
+                    removeExercise={handleRemoveExercise}
+                    exercises={props.exerciseHistory}
+                    selectedDate={selectedDate}
+                  />
+                ) : (
+                  <Card>
+                    <h3 className="center" style={{ padding: "15px" }}>
+                      No Exercises Have been added
+                    </h3>
+                  </Card>
+                )}
+              </Col>
+            </Row>
+          </DarkerDiv>
         </>
       )}
     </>
@@ -143,6 +166,9 @@ export async function getServerSideProps({ req }) {
     }).sort({ dateOfExercise: 1 });
     const exerciseList = await ExerciseList.find({
       username: session.user.username,
+    }).sort({ exerciseName: 1 });
+    const commonExerciseList = await CommonExerciseList.find({}).sort({
+      exerciseName: 1,
     });
 
     return {
@@ -150,16 +176,20 @@ export async function getServerSideProps({ req }) {
         exerciseHistory: exerciseHistory.map((exercise) => ({
           id: exercise._id.toString(),
           username: exercise.username,
-          exerciseName: exercise.username,
-          weightUsed: exercise.username,
-          numberOfReps: exercise.username,
-          numberOfSets: exercise.username,
+          exerciseName: exercise.exerciseName,
+          weightUsed: exercise.weightUsed,
+          numberOfReps: exercise.numberOfReps,
+          numberOfSets: exercise.numberOfSets,
           dateOfExercise: exercise.dateOfExercise.toString(),
         })),
         exerciseHistoryDates: exerciseHistory.map((exercise) => ({
           dateOfExercise: exercise.dateOfExercise.toString(),
         })),
         exerciseList: exerciseList.map((exercise) => ({
+          exerciseName: exercise.exerciseName,
+          muscleGroup: exercise.muscleGroup,
+        })),
+        commonExerciseList: commonExerciseList.map((exercise) => ({
           exerciseName: exercise.exerciseName,
           muscleGroup: exercise.muscleGroup,
         })),

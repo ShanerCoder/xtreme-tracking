@@ -4,6 +4,7 @@ const PostSchema = new mongoose.Schema({
   exerciseName: {
     type: String,
     required: true,
+    unique: true,
     trim: true,
   },
   muscleGroup: {

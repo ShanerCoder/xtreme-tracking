@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import UserIcon from "../../ui/UserIcon";
 import Link from "next/link";
 
-function ConsultationsAtDateSection(props) {
+function ConsultationDetails(props) {
   const router = useRouter();
   const dateOfConsultation = new Date(
     props.datetimeOfConsultation
@@ -52,4 +52,4 @@ function ConsultationsAtDateSection(props) {
   );
 }
 
-export default ConsultationsAtDateSection;
+export default ConsultationDetails;
