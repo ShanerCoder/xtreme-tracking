@@ -26,7 +26,9 @@ function ConsultationsAtDateSection(props) {
           </div>
         ))}
       </ul>
-      {noConsultations}
+      {noConsultations || (
+        <h3 className="center">No More Consultations for this Day</h3>
+      )}
     </>
   );
 }

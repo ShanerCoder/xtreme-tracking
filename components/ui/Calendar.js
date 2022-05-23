@@ -77,9 +77,9 @@ function Calendar(props) {
   function renderCells() {
     let datesOfConsultations = [];
 
-    if (props.consultationDates) {
+    if (props.listOfDates) {
       const currentMonthNumber = currentMonth.getMonth();
-      props.consultationDates.forEach((date) => {
+      props.listOfDates.forEach((date) => {
         if (date.getMonth() == currentMonthNumber)
           datesOfConsultations.push(date.getDate());
       });

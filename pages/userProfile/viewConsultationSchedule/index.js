@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Calendar from "../../../components/ui/Calendar";
 import ClientList from "../../../models/clientList";
 import ConsultationLists from "../../../models/consultationLists";
@@ -83,6 +84,13 @@ function ViewConsultationSchedule(props) {
 
   return (
     <>
+      <Head>
+        <title>Consultation Schedule</title>
+        <meta
+          name="Xtreme Tracking Consultation Schedule Page"
+          content="Track your consultations here!"
+        />
+      </Head>
       {successMessage && (
         <p style={{ textTransform: "capitalize", color: "green" }}>
           {successMessage}
@@ -99,10 +107,9 @@ function ViewConsultationSchedule(props) {
         </h1>
 
         <Calendar
-          consultationDates={listOfConsultationDates}
+          listOfDates={listOfConsultationDates}
           setTitleSelectedDate={setSelectedDateInfo}
           selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
         />
       </LighterDiv>
 
@@ -122,7 +129,7 @@ function ViewConsultationSchedule(props) {
             selectedDate={selectedDate}
           />
         ) : (
-          <h3>No Consultations on this Date</h3>
+          <h3 className="center">No Consultations on this Date</h3>
         )}
       </LighterDiv>
     </>
