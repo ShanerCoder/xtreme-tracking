@@ -1,5 +1,6 @@
 import classes from "./ExercisesAtDateSection.module.css";
 import ExerciseDetails from "./ExerciseDetails";
+import React from "react";
 
 function ExercisesAtDateSection(props) {
   let noExercises = (
@@ -9,7 +10,7 @@ function ExercisesAtDateSection(props) {
     <>
       <ul className={classes.list}>
         {props.exercises.map((exercise) => (
-          <div key={exercise.id}>
+          <React.Fragment key={exercise.id}>
             {new Date(exercise.dateOfExercise).toDateString() ==
               props.selectedDate && (
               <>
@@ -25,11 +26,13 @@ function ExercisesAtDateSection(props) {
                 />
               </>
             )}
-          </div>
+          </React.Fragment>
         ))}
       </ul>
       {noExercises || (
-        <h3 className="center">No More Exercises for this Day</h3>
+        <h3 className="center" style={{ paddingTop: "25px" }}>
+          No more Exercises recorded for this Day
+        </h3>
       )}
     </>
   );

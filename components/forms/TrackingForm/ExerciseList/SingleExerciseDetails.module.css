@@ -20,14 +20,14 @@
 
 .detailButtonsSection label {
   width: 100%;
-  font-size: 40px;
-  font-weight: bold;
+  font-size: 20px;
   text-align: center;
+  transition: all 0.25s ease-in-out;
 }
 
 
 @media (max-width: 576px) {
-  .columnPadding {
-    padding-bottom: 25px;
+  .detailButtonsSection label {
+    font-size: 10px;
   }
 }

@@ -4,8 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import ExerciseList from "../../../models/exerciseList";
-import CommonExerciseList from "../../../models/commonExerciseList";
+import ExerciseHistory from "../../../models/exerciseHistory";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
@@ -16,33 +15,29 @@ async function handler(req, res) {
   }
   if (req.method === "POST") {
     try {
-      if (session.user.username != req.body.usernameWhoSent) {
+      if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
 
-      const { username, exerciseName, muscleGroup } = req.body;
+      const {
+        username,
+        exerciseName,
+        weightUsed,
+        numberOfReps,
+        numberOfSets,
+        dateOfExercise,
+      } = req.body;
       validateAllFields(req.body);
       await dbConnect();
 
-      const exerciseAlreadyExistsByUser = ExerciseList.find({
-        username: username,
-        exerciseName: exerciseName,
-      });
-
-      const exerciseAlreadyExistsByDefault = CommonExerciseList.find({
-        exerciseName: exerciseName,
-      });
-
-      if (exerciseAlreadyExistsByDefault || exerciseAlreadyExistsByUser) {
-        errorHandler("Exercise already exists!", res);
-        return null;
-      }
-
-      const exercise = new ExerciseList({
+      const exercise = new ExerciseHistory({
         username,
         exerciseName,
-        muscleGroup,
+        weightUsed,
+        numberOfReps,
+        numberOfSets,
+        dateOfExercise,
       });
 
       const exerciseResult = await exercise.save();
@@ -62,8 +57,8 @@ async function handler(req, res) {
         return null;
       }
       await dbConnect();
-      const deleteExerciseResult = await ExerciseList.deleteOne({
-        _id: req.body.messageId,
+      const deleteExerciseResult = await ExerciseHistory.deleteOne({
+        _id: req.body.exerciseId,
         username: session.user.username,
       });
       if (deleteExerciseResult) responseHandler(deleteMessageResult, res, 200);

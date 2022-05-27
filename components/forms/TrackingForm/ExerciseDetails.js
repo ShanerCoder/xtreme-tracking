@@ -8,10 +8,19 @@ function ExerciseDetails(props) {
     <li key={props.id} className={classes.detailSection}>
       <div className={classes.detailBubble}>
         <Row className={classes.detailButtonsSection}>
-          <Col xs={12} sm={7}>
-            {props.exerciseName}
+          <Col xs={12} sm={3}>
+            <label>{props.exerciseName}</label>
           </Col>
-          <Col className={classes.columnPadding} xs={12} sm={5}>
+          <Col xs={12} sm={2}>
+            <label>{props.weightUsed}kg</label>
+          </Col>
+          <Col xs={12} sm={2}>
+            <label>{props.numberOfReps} reps</label>
+          </Col>
+          <Col xs={12} sm={2}>
+            <label>{props.numberOfSets} sets</label>
+          </Col>
+          <Col className={classes.columnPadding} xs={12} sm={3}>
             <button
               onClick={() => {
                 props.removeExercise(props.id);
