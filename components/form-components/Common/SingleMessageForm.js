@@ -16,7 +16,7 @@ function MessageForm(props) {
       <h1 className="center">{props.messageTitle}</h1>
       <p>{props.messageSubject}</p>
       <Card>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className="form" onSubmit={handleSubmit}>
           <div className={classes.control}>
             <textarea
               rows="5"

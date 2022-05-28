@@ -31,7 +31,7 @@ function AdditionalSetting(props) {
 
   return (
     <Card>
-      <form className={classes.form} onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <h2 className="center">Change your {props.newValueType}</h2>
         <div className={classes.control}>
           <label htmlFor={props.newValueType}>

@@ -42,7 +42,7 @@ function ForgotPasswordForm() {
   return (
     <>
       <Card>
-        <form className={classes.form} onSubmit={handleNewPasswordSubmit}>
+        <form className="form" onSubmit={handleNewPasswordSubmit}>
           <div className={classes.control}>
             <label htmlFor="title">New Password</label>
             <input
