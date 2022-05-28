@@ -35,7 +35,7 @@ function AccountCreationSection(props) {
 
   return (
     <Card>
-      <form className={classes.form} onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <div className={classes.control}>
           <label htmlFor="title">Username</label>
           <input

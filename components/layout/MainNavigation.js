@@ -52,7 +52,7 @@ function MainNavigation(props) {
               <Link href="/social">
                 <p className={classes.link}>Social</p>
               </Link>
-              <Link href="/">
+              <Link href="/tracking">
                 <p className={classes.link}>Tracking</p>
               </Link>
               <Link href="/contactUs">

@@ -6,14 +6,9 @@ import {
   startOfMonth,
   endOfMonth,
   addDays,
-  isSameMonth,
-  isSameDay,
-  parse,
   addMonths,
   subMonths,
-  getDate,
 } from "date-fns";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import CalendarCell from "./uiComponents/CalendarCell";
 import classes from "./Calendar.module.css";
@@ -77,9 +72,9 @@ function Calendar(props) {
   function renderCells() {
     let datesOfConsultations = [];
 
-    if (props.consultationDates) {
+    if (props.listOfDates) {
       const currentMonthNumber = currentMonth.getMonth();
-      props.consultationDates.forEach((date) => {
+      props.listOfDates.forEach((date) => {
         if (date.getMonth() == currentMonthNumber)
           datesOfConsultations.push(date.getDate());
       });
