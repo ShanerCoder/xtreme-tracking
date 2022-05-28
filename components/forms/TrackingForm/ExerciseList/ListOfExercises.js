@@ -20,12 +20,15 @@ function ListOfExercises(props) {
       </li>
       {props.exercises.map((exercise) => (
         <React.Fragment key={exercise.id}>
-          <SingleExerciseDetails
-            key={exercise.exerciseName}
-            removeExercise={props.removeExercise}
-            exerciseName={exercise.exerciseName}
-            muscleGroup={exercise.muscleGroup}
-          />
+          {(props.muscleGroupFilter == exercise.muscleGroup ||
+            props.muscleGroupFilter == "All") && (
+            <SingleExerciseDetails
+              key={exercise.exerciseName}
+              removeExercise={props.removeExercise}
+              exerciseName={exercise.exerciseName}
+              muscleGroup={exercise.muscleGroup}
+            />
+          )}
         </React.Fragment>
       ))}
     </ul>

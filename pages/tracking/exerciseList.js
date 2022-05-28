@@ -1,22 +1,23 @@
 import Head from "next/head";
 import ExerciseList from "../../models/exerciseList";
 import CommonExerciseList from "../../models/commonExerciseList";
-import { useState } from "react";
+
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../lib/db-connect";
 import LighterDiv from "../../components/ui/LighterDiv";
 import DarkerDiv from "../../components/ui/DarkerDiv";
 import { useStore } from "../../context";
+import { useState } from "react";
 import { getValue } from "../../utils/common";
 import { useRouter } from "next/router";
 import { Card, Col, Row } from "react-bootstrap";
 import ListOfExercises from "../../components/forms/TrackingForm/ExerciseList/ListOfExercises";
 import NewCustomExerciseSection from "../../components/forms/TrackingForm/ExerciseList/NewCustomExerciseSection";
+import FullListOfExercises from "../../components/forms/TrackingForm/ExerciseList/FullListOfExercises";
 
 function ViewTrackingProgress(props) {
   const router = useRouter();
   const [state] = useStore();
-  const [muscleGroupFilter, setMuscleGroupFilter] = useState("All");
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const user = getValue(state, ["user"], null);
@@ -28,17 +29,11 @@ function ViewTrackingProgress(props) {
       listOfMuscleGroups.push(exercise.muscleGroup)
   );
 
-  function handleFilterChange(event) {
-    setMuscleGroupFilter(event.target.value);
-  }
-
   async function handleAddNewExercise(postData) {
     const bodyData = {
       username: user.username,
       ...postData,
     };
-
-    console.log(bodyData);
 
     const response = await fetch("/api/exerciseTracking/list_of_exercises", {
       method: "POST",
@@ -57,9 +52,9 @@ function ViewTrackingProgress(props) {
     router.push("/tracking/exerciseList");
   }
 
-  async function handleRemoveExercise(exerciseId) {
+  async function handleRemoveExercise(exerciseName) {
     const bodyData = {
-      exerciseId: exerciseId,
+      exerciseName: exerciseName,
       username: user.username,
     };
 
@@ -76,7 +71,7 @@ function ViewTrackingProgress(props) {
       setSuccessMessage("Exercise Successfully Removed!");
       setErrorMessage(null);
     }
-    router.push("/tracking");
+    router.push("/tracking/exerciseList");
   }
 
   return (
@@ -106,29 +101,18 @@ function ViewTrackingProgress(props) {
             <h1 className="center">Exercise List</h1>
           </LighterDiv>
           <DarkerDiv>
-            <NewCustomExerciseSection muscleGroups={listOfMuscleGroups} addExercise={handleAddNewExercise}/>
+            <NewCustomExerciseSection
+              muscleGroups={listOfMuscleGroups}
+              addExercise={handleAddNewExercise}
+            />
           </DarkerDiv>
           <LighterDiv>
-            <Row>
-              <Col xs={6}>
-                <Card>
-                  <h3 className="center">Common Exercises</h3>
-                </Card>
-              </Col>
-              <Col xs={6}>
-                <Card>
-                  <h3 className="center">Custom Exercises</h3>
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={6}>
-                <ListOfExercises exercises={props.commonExerciseList} />
-              </Col>
-              <Col xs={6}>
-                <ListOfExercises exercises={props.exerciseList} />
-              </Col>
-            </Row>
+            <FullListOfExercises
+              exerciseList={props.exerciseList}
+              commonExerciseList={props.commonExerciseList}
+              listOfMuscleGroups={listOfMuscleGroups}
+              removeExercise={handleRemoveExercise}
+            />
           </LighterDiv>
         </>
       )}

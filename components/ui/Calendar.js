@@ -6,14 +6,9 @@ import {
   startOfMonth,
   endOfMonth,
   addDays,
-  isSameMonth,
-  isSameDay,
-  parse,
   addMonths,
   subMonths,
-  getDate,
 } from "date-fns";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import CalendarCell from "./uiComponents/CalendarCell";
 import classes from "./Calendar.module.css";

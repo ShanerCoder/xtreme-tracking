@@ -30,18 +30,18 @@ function NewCustomExerciseSection(props) {
         </h2>
         <form onSubmit={handleSubmit}>
           <Row>
-            <Col className={classes.control} xs={6}>
+            <Col className={classes.control} xs={12} lg={6}>
               <label htmlFor={"exerciseNameInput"}>Name of Exercise</label>
               <input
                 type="text"
                 required
                 id="exerciseNameInput"
-                placeholder="Exercise Name"
+                placeholder="Name"
                 maxLength="40"
                 ref={exerciseNameRef}
               />
             </Col>
-            <Col className={classes.control} xs={6}>
+            <Col className={classes.control} xs={12} lg={6}>
               <label htmlFor={"muscleGroup"}>Muscle Group</label>
               <select
                 type={"datalist"}

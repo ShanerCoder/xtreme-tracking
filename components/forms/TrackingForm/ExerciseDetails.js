@@ -1,9 +1,7 @@
 import classes from "./ExerciseDetails.module.css";
 import { Col, Row } from "react-bootstrap";
-import { useRouter } from "next/router";
 
 function ExerciseDetails(props) {
-  const router = useRouter();
   return (
     <li key={props.id} className={classes.detailSection}>
       <div className={classes.detailBubble}>

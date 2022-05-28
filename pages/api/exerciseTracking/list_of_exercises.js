@@ -34,7 +34,10 @@ async function handler(req, res) {
         exerciseName: exerciseName,
       });
 
-      if (exerciseAlreadyExistsByDefault.length || exerciseAlreadyExistsByUser.length) {
+      if (
+        exerciseAlreadyExistsByDefault.length ||
+        exerciseAlreadyExistsByUser.length
+      ) {
         errorHandler("Exercise already exists!", res);
         return null;
       }
@@ -63,11 +66,12 @@ async function handler(req, res) {
       }
       await dbConnect();
       const deleteExerciseResult = await ExerciseList.deleteOne({
-        _id: req.body.exerciseId,
+        exerciseName: req.body.exerciseName,
         username: session.user.username,
       });
-      if (deleteExerciseResult) responseHandler(deleteMessageResult, res, 200);
+      if (deleteExerciseResult) responseHandler(deleteExerciseResult, res, 200);
     } catch (error) {
+      console.log(error);
       errorHandler("Failed to delete this Exercise", res);
     }
   } else errorHandler("Invalid Request Type", res);
