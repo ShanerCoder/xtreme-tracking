@@ -4,7 +4,7 @@ import SingleDetailForm from "./CommonFormComponents/SingleDetailForm";
 function ViewIncomingDetailsForm(props) {
   return (
     <>
-      <ul className={classes.list}>
+      <ul className="list">
         {props.incomingDetails.map((detail) => (
           <SingleDetailForm
             key={detail.id}

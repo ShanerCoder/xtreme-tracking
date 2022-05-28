@@ -1,4 +1,3 @@
-import classes from "./NewPost.module.css";
 import { useRef } from "react";
 import Card from "../../ui/Card";
 
@@ -24,7 +23,7 @@ function NewPost(props) {
     <>
       <p>Create a New Post:</p>
       <Card>
-        <div className={classes.control}>
+        <div className="control">
           <textarea
             id="description"
             required
@@ -34,7 +33,7 @@ function NewPost(props) {
           />
         </div>
       </Card>
-      <div className={classes.actions}>
+      <div className="actions">
         <button onClick={handleSubmit}>Submit</button>
       </div>
     </>

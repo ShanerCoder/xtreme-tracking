@@ -1,5 +1,4 @@
 import Card from "../../ui/Card";
-import classes from "./AccountCreationSection.module.css";
 import { useRef } from "react";
 import Form from "react-bootstrap/Form";
 
@@ -36,7 +35,7 @@ function AccountCreationSection(props) {
   return (
     <Card>
       <form className="form" onSubmit={handleSubmit}>
-        <div className={classes.control}>
+        <div className="control">
           <label htmlFor="title">Username</label>
           <input
             type="text"
@@ -47,7 +46,7 @@ function AccountCreationSection(props) {
             ref={usernameInputRef}
           />
         </div>
-        <div className={classes.control}>
+        <div className="control">
           <label htmlFor="address">Password</label>
           <input
             type="password"
@@ -58,7 +57,7 @@ function AccountCreationSection(props) {
             ref={passwordInputRef}
           />
         </div>
-        <div className={classes.control}>
+        <div className="control">
           <label htmlFor="title">Email</label>
           <input
             type="email"
@@ -69,7 +68,7 @@ function AccountCreationSection(props) {
             ref={emailInputRef}
           />
         </div>
-        <div className={classes.control}>
+        <div className="control">
           <label htmlFor="title">Forename</label>
           <input
             type="text"
@@ -115,7 +114,7 @@ function AccountCreationSection(props) {
             <p>This can be changed later</p>
           </div>
         </div>
-        <div className={classes.actions}>
+        <div className="center">
           <button>JOIN US</button>
         </div>
       </form>

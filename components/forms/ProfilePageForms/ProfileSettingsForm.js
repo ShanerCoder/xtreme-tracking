@@ -66,7 +66,7 @@ function ProfileForm(props) {
             </Row>
           </Col>
           <Col xs={12} sm={9}>
-            <div className={classes.actions}>
+            <div className="control lowerWidth">
               <h4 className={classes.headingPadding}>
                 Change Profile Description
               </h4>
@@ -76,7 +76,14 @@ function ProfileForm(props) {
                 maxLength={800}
                 ref={descriptionInputRef}
               />
-              <button onClick={handleSaveDescription}>Save Description</button>
+              <div className="actions">
+                <button
+                  className={"lowerWidth " + classes.saveDescriptionButton}
+                  onClick={handleSaveDescription}
+                >
+                  Save Description
+                </button>
+              </div>
             </div>
             <Row className={classes.additionalProfileSettings}>
               <AdditionalSetting

@@ -1,6 +1,5 @@
 import DarkerDiv from "../ui/DarkerDiv";
 import LighterDiv from "../ui/LighterDiv";
-import classes from "./SocialForm.module.css";
 import UserPost from "../form-components/SocialPage/UserPost";
 import NewPost from "../form-components/SocialPage/NewPost";
 
@@ -20,7 +19,7 @@ function SocialForm(props) {
 
       <LighterDiv>
         <h2 className="center">User Posts</h2>
-        <ul className={classes.list}>
+        <ul className="list">
           {props.userposts.map((post) => (
             <UserPost
               key={post.id}

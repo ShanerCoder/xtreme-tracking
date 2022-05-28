@@ -7,19 +7,6 @@
   padding-bottom: 2%;
 }
 
-.control input, .control select {
-  display: block;
-  font: inherit;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  padding: 1rem;
-  width: 90%;
-  margin-left: 5%;
-  text-align: center;
-  margin-bottom: 2%;
-}
-
-
 .headerPadding {
   padding: 10px;
   text-align: center;

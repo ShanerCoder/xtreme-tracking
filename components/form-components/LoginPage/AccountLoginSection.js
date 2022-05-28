@@ -1,5 +1,4 @@
 import Card from "../../ui/Card";
-import classes from "./AccountLoginSection.module.css";
 import { useRef } from "react";
 import Link from "next/link";
 
@@ -24,7 +23,7 @@ function AccountCreationSection(props) {
   return (
     <Card>
       <form className="form" onSubmit={handleSubmit}>
-        <div className={classes.control}>
+        <div className="control">
           <label htmlFor="title">Username</label>
           <input
             type="text"
@@ -34,7 +33,7 @@ function AccountCreationSection(props) {
             ref={usernameInputRef}
           />
         </div>
-        <div className={classes.control}>
+        <div className="control">
           <label htmlFor="address">Password</label>
           <input
             type="password"
@@ -44,7 +43,7 @@ function AccountCreationSection(props) {
             ref={passwordInputRef}
           />
         </div>
-        <div className={classes.actions}>
+        <div className="actions">
           <button>Sign In</button>
         </div>
       </form>

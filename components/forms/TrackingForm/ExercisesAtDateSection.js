@@ -8,7 +8,7 @@ function ExercisesAtDateSection(props) {
   );
   return (
     <>
-      <ul className={classes.list}>
+      <ul className="list">
         {props.exercises.map((exercise) => (
           <React.Fragment key={exercise.id}>
             {new Date(exercise.dateOfExercise).toDateString() ==

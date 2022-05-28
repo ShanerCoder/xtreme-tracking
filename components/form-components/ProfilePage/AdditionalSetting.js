@@ -1,6 +1,4 @@
-import Card from "../../ui/Card";
 import classes from "./AdditionalSetting.module.css";
-import { useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 
 function AdditionalSetting(props) {

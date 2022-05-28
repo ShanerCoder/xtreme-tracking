@@ -35,7 +35,7 @@ function ClientDetailsSection(props) {
         <Card>
           <h2 className={classes.headerDetails}>Add Consultation:</h2>
           <form onSubmit={handleAddConsultation}>
-            <div className={classes.control}>
+            <div className="control lowerWidth">
               <input type="datetime-local" required ref={dateInputRef} />
             </div>
             <button className={classes.buttonFormatting}>
@@ -66,9 +66,11 @@ function ClientDetailsSection(props) {
           <h2 className={classes.headerDetails}>
             Remove Client from your List
           </h2>
-          <form onSubmit={handleRemoveClientButton}>
-            <p>Provide Additional Info into your decision:</p>
-            <div className={classes.control}>
+          <form onSubmit={handleRemoveClientButton} className="lowerWidth">
+            <p className="center">
+              Provide Additional Info into your decision:
+            </p>
+            <div className="control">
               <textarea
                 rows="5"
                 required

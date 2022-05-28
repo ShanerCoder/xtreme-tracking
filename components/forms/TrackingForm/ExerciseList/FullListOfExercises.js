@@ -17,7 +17,7 @@ function FullListOfExercises(props) {
       <Row className={classes.muscleGroupFilterPadding}>
         <Card>
           <h3 className={classes.headerPadding}>Set Muscle Group Filter</h3>
-          <div className={classes.control}>
+          <div className="control">
             <select
               type={"datalist"}
               required

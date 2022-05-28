@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import Card from "../../../ui/Card";
-import classes from "./ForgotPasswordForm.module.css";
 
 function ForgotPasswordForm(props) {
   const emailInputRef = useRef();
@@ -15,7 +14,7 @@ function ForgotPasswordForm(props) {
   return (
     <Card>
       <form className="form" onSubmit={handleSubmit}>
-        <div className={classes.control}>
+        <div className="control">
           <label htmlFor="title">Email</label>
           <input
             type="email"
@@ -25,7 +24,7 @@ function ForgotPasswordForm(props) {
             ref={emailInputRef}
           />
         </div>
-        <div className={classes.actions}>
+        <div className="actions">
           <button>Submit Forgot Password</button>
         </div>
       </form>

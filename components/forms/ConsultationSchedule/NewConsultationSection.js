@@ -35,7 +35,7 @@ function NewConsultationSection(props) {
         <form onSubmit={handleSubmit}>
           <Row>
             <Col
-              className={classes.control}
+              className={"control " + classes.timeFormatting}
               xs={12}
               lg={{ span: 5, offset: 1 }}
             >
@@ -47,7 +47,7 @@ function NewConsultationSection(props) {
                 ref={timeOfConsultationRef}
               />
             </Col>
-            <Col className={classes.control} xs={12} lg={5}>
+            <Col className="control" xs={12} lg={5}>
               <label htmlFor={"clientInput"}>Client of New Consultation</label>
               <select
                 type={"datalist"}
@@ -66,8 +66,8 @@ function NewConsultationSection(props) {
               </select>
             </Col>
           </Row>
-          <div className={classes.actions}>
-            <button>Create new Consultation</button>
+          <div className="actions">
+            <button className={classes.newConsultationButton}>Create new Consultation</button>
           </div>
         </form>
       </Card>

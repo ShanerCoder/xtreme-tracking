@@ -28,7 +28,7 @@ function ViewMessagesForm(props) {
       {props.additionalContext && (
         <Row className={classes.additionalContextSection}>
           <p>Provide Additional Info into your decision:</p>
-          <div className={classes.control}>
+          <div className="control">
             <textarea
               rows="5"
               required
