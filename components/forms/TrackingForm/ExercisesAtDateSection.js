@@ -16,8 +16,7 @@ function ExercisesAtDateSection(props) {
               <>
                 {(noExercises = null)}
                 <ExerciseDetails
-                  key={exercise.id}
-                  removeExercise={props.removeExercise}
+                  removeExerciseRecord={props.removeExerciseRecord}
                   id={exercise.id}
                   exerciseName={exercise.exerciseName}
                   weightUsed={exercise.weightUsed}

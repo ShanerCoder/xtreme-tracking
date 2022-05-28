@@ -1,14 +1,23 @@
 import classes from "./ExerciseDetails.module.css";
 import { Col, Row } from "react-bootstrap";
+import Link from "next/link";
 
 function ExerciseDetails(props) {
   return (
-    <li key={props.id} className={classes.detailSection}>
+    <li className={classes.detailSection}>
       <div className={classes.detailBubble}>
         <Row className={classes.detailButtonsSection}>
-          <Col xs={12} sm={3}>
-            <label>{props.exerciseName}</label>
-          </Col>
+        <Col xs={12} sm={3}>
+          {props.exerciseName ? (
+            
+              <Link href={"/tracking/exerciseHistory/" + props.exerciseName}>
+                {props.exerciseName}
+              </Link>
+          ) : (
+            <label>{props.dateOfExercise}</label>
+          )} </Col>
+          
+
           <Col xs={12} sm={2}>
             <label>{props.weightUsed}kg</label>
           </Col>
@@ -21,10 +30,10 @@ function ExerciseDetails(props) {
           <Col className={classes.columnPadding} xs={12} sm={3}>
             <button
               onClick={() => {
-                props.removeExercise(props.id);
+                props.removeExerciseRecord(props.id);
               }}
             >
-              Remove Exercise
+              Remove Exercise Record
             </button>
           </Col>
         </Row>

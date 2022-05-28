@@ -10,8 +10,6 @@ import { useStore } from "../../context";
 import { useState } from "react";
 import { getValue } from "../../utils/common";
 import { useRouter } from "next/router";
-import { Card, Col, Row } from "react-bootstrap";
-import ListOfExercises from "../../components/forms/TrackingForm/ExerciseList/ListOfExercises";
 import NewCustomExerciseSection from "../../components/forms/TrackingForm/ExerciseList/NewCustomExerciseSection";
 import FullListOfExercises from "../../components/forms/TrackingForm/ExerciseList/FullListOfExercises";
 

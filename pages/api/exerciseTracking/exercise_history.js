@@ -58,11 +58,12 @@ async function handler(req, res) {
       }
       await dbConnect();
       const deleteExerciseResult = await ExerciseHistory.deleteOne({
-        _id: req.body.exerciseId,
+        _id: req.body.exerciseRecordId,
         username: session.user.username,
       });
-      if (deleteExerciseResult) responseHandler(deleteMessageResult, res, 200);
+      if (deleteExerciseResult) responseHandler(deleteExerciseResult, res, 200);
     } catch (error) {
+      console.log(error);
       errorHandler("Failed to delete this Exercise", res);
     }
   } else errorHandler("Invalid Request Type", res);

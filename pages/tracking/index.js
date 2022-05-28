@@ -60,9 +60,9 @@ function ViewTrackingProgress(props) {
     router.push("/tracking");
   }
 
-  async function handleRemoveExercise(exerciseId) {
+  async function handleRemoveExerciseRecord(exerciseRecordId) {
     const bodyData = {
-      exerciseId: exerciseId,
+      exerciseRecordId: exerciseRecordId,
       username: user.username,
     };
 
@@ -129,7 +129,7 @@ function ViewTrackingProgress(props) {
               <Col xs={12} lg={8}>
                 {props.exerciseHistory.length ? (
                   <ExercisesAtDateSection
-                    removeExercise={handleRemoveExercise}
+                    removeExerciseRecord={handleRemoveExerciseRecord}
                     exercises={props.exerciseHistory}
                     selectedDate={selectedDate}
                   />
