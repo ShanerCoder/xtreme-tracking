@@ -1,0 +1,69 @@
+.whiteText p, .blackText p {
+  text-align: left;
+  margin-bottom: 0px;
+}
+
+.whiteText {
+  color: white;
+}
+
+.blackText {
+  color: black;
+}
+
+.headerText {
+  font-size: 48px;
+}
+
+.imageOne {
+  width: 100%;
+  max-height: 600px;
+}
+
+.imageTwo {
+  width: 100%;
+  max-height: 600px;
+}
+
+.imageThree {
+  width: 100%;
+  max-height: 600px;
+}
+
+.buttonFormatting {
+  width: 400px;
+}
+
+.imageOneText {
+  position: absolute;
+  top: 150px;
+  left: 5%;
+  font-size: 28px;
+}
+
+.imageTwoText {
+  position: relative;
+  top: 150px;
+  margin-left: 5%;
+  font-size: 28px;
+}
+
+.imageThreeText {
+  position: relative;
+  top: 100px;
+  margin-left: 5%;
+  font-size: 28px;
+}
+
+.rowFormatting {
+  --bs-gutter-x: 0rem;
+}
+
+@media (max-width: 768px) {
+  .headerText {
+    font-size: 24px;
+  }
+  .buttonFormatting {
+    width: 200px;
+  }
+}
