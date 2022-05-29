@@ -1,0 +1,43 @@
+.icon {
+  width: 40px;
+  height: 60%;
+  margin-top: 80%;
+}
+
+.text {
+  font-size: large;
+  padding-top: 20px;
+  padding-left: 10%;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.link {
+  width: 110%;
+  cursor: pointer;
+  margin-left: 7%;
+}
+
+.link :hover {
+  background-color: #F2F7FF;
+}
+
+
+@media (max-width: 1000px) {
+  .icon {
+    width: 30px;
+    height: 40px;
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .link {
+    width: 50%;
+    cursor: pointer;
+  }
+
+  .text {
+    font-size: 20px;
+  }
+  
+}

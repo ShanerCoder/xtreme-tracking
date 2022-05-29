@@ -1,20 +1,14 @@
 import Link from "next/link";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
 import classes from "./MainNavigation.module.css";
-import {
-  Navbar,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-  Nav,
-} from "react-bootstrap";
+import { Navbar, NavDropdown, Button, Nav } from "react-bootstrap";
 import { signOut } from "next-auth/client";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
 import { authConstants } from "../../context/constants";
 import { useRef } from "react";
+import NavbarButton from "./layoutComponents/navbarButton";
 
 function MainNavigation(props) {
   const [state, dispatch] = useStore();
@@ -32,89 +26,110 @@ function MainNavigation(props) {
 
   return (
     <div>
-      <Navbar bg="light" variant={"light"} expand="lg">
-        <Container>
-          <Navbar.Brand>
-            <Link href="/">
-              <p className={classes.link}>Xtreme Tracking</p>
-            </Link>
-          </Navbar.Brand>
+      <Navbar bg="white" variant={"light"} expand="lg">
+        <Container style={{ maxWidth: "1900px", width: "95%" }}>
+          <Link href="/">
+            <img
+              className={classes.logo}
+              src="/navbar/Xtreme Tracking Transparent.png"
+            />
+          </Link>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
+            <form
+              className="d-flex"
+              style={{ marginRight: "20px" }}
+              onSubmit={handleSearch}
+            >
+              <input
+                type="search"
+                placeholder="Search User"
+                className="me-2 "
+                aria-label="Search"
+                ref={searchInputRef}
+              />
+              {<button>Search</button>}
+            </form>
             <Nav
               className="mr-auto my-2 my-lg-0"
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Link href="/">
-                <p className={classes.link}>Home</p>
-              </Link>
-              <Link href="/social">
-                <p className={classes.link}>Social</p>
-              </Link>
-              <Link href="/tracking">
-                <p className={classes.link}>Tracking</p>
-              </Link>
-              <Link href="/contactUs">
-                <p className={classes.link}>Contact Us</p>
-              </Link>
+              <Row style={{ width: "150%" }}>
+                <Col xs={12} lg={3}>
+                  <NavbarButton link="/" imgsrc="/icons/home.png" text="Home" />
+                </Col>
+                <Col xs={12} lg={3}>
+                  <NavbarButton
+                    link="/social"
+                    imgsrc="/icons/home.png"
+                    text="Social"
+                  />
+                </Col>
+                <Col xs={12} lg={3}>
+                  <NavbarButton
+                    link="/tracking"
+                    imgsrc="/icons/home.png"
+                    text="Tracking"
+                  />
+                </Col>
+                <Col xs={12} lg={3}>
+                  <NavbarButton
+                    link="/"
+                    imgsrc="/icons/home.png"
+                    text="Contact Us"
+                  />
+                </Col>
+              </Row>
             </Nav>
-            <form className="d-flex" onSubmit={handleSearch}>
-              <input
-                type="search"
-                placeholder="Search User"
-                className="me-2"
-                aria-label="Search"
-                ref={searchInputRef}
-              />
-              {<button variant="outline-success">Search</button>}
-            </form>
-            {!authenticated ? (
-              <NavDropdown
-                title={
-                  <span>
-                    <i className="fad fa-newspaper"></i> Sign In
-                  </span>
-                }
-                id="collasible-nav-dropdown"
-              >
-                <Link href="/login">
-                  <p className={classes.dropdownLink}>Existing Account</p>
-                </Link>
-                <Link href="/register">
-                  <p className={classes.dropdownLink}>New Account</p>
-                </Link>
-              </NavDropdown>
-            ) : (
-              <>
+            <div style={{ marginLeft: "50px" }}>
+              {!authenticated ? (
                 <NavDropdown
                   title={
                     <span>
-                      <i className="fad fa-newspaper"></i> Account Options
+                      <i className="fad fa-newspaper"></i> Sign In
                     </span>
                   }
                   id="collasible-nav-dropdown"
                 >
-                  <Link href={"/userProfile/" + user.username}>
-                    <p className={classes.dropdownLink}>View Profile</p>
+                  <Link href="/login">
+                    <p className={classes.dropdownLink}>Existing Account</p>
                   </Link>
-                  <Link href="/viewMessages">
-                    <p className={classes.dropdownLink}>View Messages</p>
+                  <Link href="/register">
+                    <p className={classes.dropdownLink}>New Account</p>
                   </Link>
-                  <Button
-                    className={classes.signOutButton}
-                    onClick={() => {
-                      signOut({ redirect: false }).then((result) => {
-                        dispatch({ type: authConstants.LOGIN_FAILURE });
-                        router.replace("/");
-                      });
-                    }}
-                  >
-                    Sign Out
-                  </Button>
                 </NavDropdown>
-              </>
-            )}
+              ) : (
+                <>
+                  <NavDropdown
+                    title={
+                      <span>
+                        <i className="fad fa-newspaper"></i> Account Options
+                      </span>
+                    }
+                    id="collasible-nav-dropdown"
+                  >
+                    <Link href={"/userProfile/" + user.username}>
+                      <p className={classes.dropdownLink}>View Profile</p>
+                    </Link>
+                    <Link href="/viewMessages">
+                      <p className={classes.dropdownLink}>View Messages</p>
+                    </Link>
+                    <Button
+                      className={classes.signOutButton}
+                      onClick={() => {
+                        signOut({ redirect: false }).then((result) => {
+                          dispatch({ type: authConstants.LOGIN_FAILURE });
+                          router.replace("/");
+                        });
+                      }}
+                    >
+                      Sign Out
+                    </Button>
+                  </NavDropdown>
+                </>
+              )}
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>

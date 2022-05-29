@@ -9,9 +9,10 @@
 }
 
 .logo {
-  font-size: 2rem;
-  color: white;
-  font-weight: bold;
+  width: 10%;
+  margin-right: 5%;
+  cursor: pointer;
+  min-width: 100px;
 }
 
 .header ul {
@@ -72,3 +73,5 @@
   width:80%;
   margin-left: 10%;
 }
+
+

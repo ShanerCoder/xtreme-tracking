@@ -38,12 +38,14 @@ function SocialPage(props) {
         />
       </Head>
       <LighterDiv>
-        <h1 className="center">Social Page</h1>
+        <Card>
+          <h1 className="center">Social Page</h1>
 
-        <BannerImage
-          className="center"
-          imageSource="/socialpage/BannerImage.png"
-        />
+          <BannerImage
+            className="center"
+            imageSource="/socialpage/imageOne.png"
+          />
+        </Card>
       </LighterDiv>
       {
         <SocialForm
