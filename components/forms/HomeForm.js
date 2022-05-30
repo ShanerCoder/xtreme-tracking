@@ -64,17 +64,17 @@ function HomeForm() {
 
   return (
     <>
-      <div class="d-none d-lg-block">
+      <div className="d-none d-lg-block">
         <img src="/homepage/imageOne.png" className={classes.imageOne}></img>
         <div className={`${classes.imageOneText} ${classes.whiteText}`}>
           {firstBlockOfText()}
         </div>
       </div>
-      <div class="d-block d-lg-none">
+      <div className="d-block d-lg-none">
         <LighterDiv>{firstBlockOfText()}</LighterDiv>
       </div>
 
-      <div class="d-none d-lg-block">
+      <div className="d-none d-lg-block">
         <Row className={classes.rowFormatting}>
           <Col lg={6}>
             <img
@@ -89,11 +89,11 @@ function HomeForm() {
           </Col>
         </Row>
       </div>
-      <div class="d-block d-lg-none">
+      <div className="d-block d-lg-none">
         <DarkerDiv>{secondBlockOfText()}</DarkerDiv>
       </div>
 
-      <div class="d-none d-lg-block">
+      <div className="d-none d-lg-block">
         <Row className={classes.rowFormatting}>
           <Col lg={6}>
             <div className={`${classes.imageThreeText} ${classes.blacktext}`}>
@@ -108,7 +108,7 @@ function HomeForm() {
           </Col>
         </Row>
       </div>
-      <div class="d-block d-lg-none">
+      <div className="d-block d-lg-none">
         <LighterDiv>{thirdBlockOfText()}</LighterDiv>
       </div>
     </>

@@ -23,14 +23,22 @@ function UserIcon(props) {
       });
   }, []);
 
-
   return (
     <Link href={`/userProfile/${props.username}`}>
-      <Image
+      {props.navigation ? (
+              <Image
+              style={{maxWidth: "50px", maxHeight: "50px"}}
+              className={classes.userIcon}
+              cloudName="multishane999"
+              publicId={profilePictureId}
+            />
+      ) : (
+        <Image
         className={classes.userIcon}
         cloudName="multishane999"
         publicId={profilePictureId}
       />
+      )}
     </Link>
   );
 }

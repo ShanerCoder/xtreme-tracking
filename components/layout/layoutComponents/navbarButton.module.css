@@ -19,7 +19,13 @@
 }
 
 .link :hover {
+  transition: all 0.4s ease-in-out;
   background-color: #F2F7FF;
+}
+
+.link :active {
+  transition: all 0.1s ease-in-out;
+  background-color:#E2EAF2;
 }
 
 

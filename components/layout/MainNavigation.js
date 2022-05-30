@@ -2,13 +2,14 @@ import Link from "next/link";
 import { Col, Container, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
 import classes from "./MainNavigation.module.css";
-import { Navbar, NavDropdown, Button, Nav } from "react-bootstrap";
+import { Navbar, NavDropdown, Nav } from "react-bootstrap";
 import { signOut } from "next-auth/client";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
 import { authConstants } from "../../context/constants";
 import { useRef } from "react";
 import NavbarButton from "./layoutComponents/navbarButton";
+import UserIcon from "../ui/UserIcon";
 
 function MainNavigation(props) {
   const [state, dispatch] = useStore();
@@ -62,27 +63,27 @@ function MainNavigation(props) {
                 <Col xs={12} lg={3}>
                   <NavbarButton
                     link="/social"
-                    imgsrc="/icons/home.png"
+                    imgsrc="/icons/speechBubble.png"
                     text="Social"
                   />
                 </Col>
                 <Col xs={12} lg={3}>
                   <NavbarButton
                     link="/tracking"
-                    imgsrc="/icons/home.png"
+                    imgsrc="/icons/dumbbell.png"
                     text="Tracking"
                   />
                 </Col>
                 <Col xs={12} lg={3}>
                   <NavbarButton
-                    link="/"
-                    imgsrc="/icons/home.png"
+                    link="/contactUs"
+                    imgsrc="/icons/human.png"
                     text="Contact Us"
                   />
                 </Col>
               </Row>
             </Nav>
-            <div style={{ marginLeft: "50px" }}>
+            <div className={classes.settingsFormatting}>
               {!authenticated ? (
                 <NavDropdown
                   title={
@@ -90,6 +91,7 @@ function MainNavigation(props) {
                       <i className="fad fa-newspaper"></i> Sign In
                     </span>
                   }
+                  className={classes.accountOptionsFormatting}
                   id="collasible-nav-dropdown"
                 >
                   <Link href="/login">
@@ -101,32 +103,40 @@ function MainNavigation(props) {
                 </NavDropdown>
               ) : (
                 <>
-                  <NavDropdown
-                    title={
-                      <span>
-                        <i className="fad fa-newspaper"></i> Account Options
-                      </span>
-                    }
-                    id="collasible-nav-dropdown"
-                  >
-                    <Link href={"/userProfile/" + user.username}>
-                      <p className={classes.dropdownLink}>View Profile</p>
-                    </Link>
-                    <Link href="/viewMessages">
-                      <p className={classes.dropdownLink}>View Messages</p>
-                    </Link>
-                    <Button
-                      className={classes.signOutButton}
-                      onClick={() => {
-                        signOut({ redirect: false }).then((result) => {
-                          dispatch({ type: authConstants.LOGIN_FAILURE });
-                          router.replace("/");
-                        });
-                      }}
-                    >
-                      Sign Out
-                    </Button>
-                  </NavDropdown>
+                  <Row>
+                    <Col xs={3} lg={6} className={classes.userIconFormatting}>
+                      <UserIcon username={user.username} navigation={true} />
+                    </Col>
+                    <Col xs={9} lg={6}>
+                      <NavDropdown
+                        title={
+                          <span>
+                            <i className="fad fa-newspaper"></i> {user.username}
+                          </span>
+                        }
+                        className={classes.accountOptionsFormatting}
+                        id="collasible-nav-dropdown"
+                      >
+                        <Link href={"/userProfile/" + user.username}>
+                          <p className={classes.dropdownLink}>View Profile</p>
+                        </Link>
+                        <Link href="/viewMessages">
+                          <p className={classes.dropdownLink}>View Messages</p>
+                        </Link>
+                        <button
+                          className={classes.signOutButton}
+                          onClick={() => {
+                            signOut({ redirect: false }).then((result) => {
+                              dispatch({ type: authConstants.LOGIN_FAILURE });
+                              router.replace("/");
+                            });
+                          }}
+                        >
+                          Sign Out
+                        </button>
+                      </NavDropdown>
+                    </Col>
+                  </Row>
                 </>
               )}
             </div>
