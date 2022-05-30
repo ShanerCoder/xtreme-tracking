@@ -11,7 +11,7 @@ import { useRef } from "react";
 import NavbarButton from "./layoutComponents/navbarButton";
 import UserIcon from "../ui/UserIcon";
 
-function MainNavigation(props) {
+function MainNavigation() {
   const [state, dispatch] = useStore();
   const user = getValue(state, ["user"], null);
   const authenticated = getValue(state, ["user", "authenticated"], false);
@@ -40,12 +40,12 @@ function MainNavigation(props) {
             <form
               className="d-flex"
               style={{ marginRight: "20px" }}
-              onSubmit={handleSearch}
+              onSubmit={handleSearch}  
             >
               <input
                 type="search"
                 placeholder="Search User"
-                className="me-2 "
+                className={"me-2 " + classes.searchUserText}
                 aria-label="Search"
                 ref={searchInputRef}
               />
@@ -104,10 +104,14 @@ function MainNavigation(props) {
               ) : (
                 <>
                   <Row>
-                    <Col xs={3} lg={6} className={classes.userIconFormatting}>
+                    <Col
+                      xs={3}
+                      lg={3}
+                      className={classes.userIconFormatting}
+                    >
                       <UserIcon username={user.username} navigation={true} />
                     </Col>
-                    <Col xs={9} lg={6}>
+                    <Col xs={9} lg={9}>
                       <NavDropdown
                         title={
                           <span>

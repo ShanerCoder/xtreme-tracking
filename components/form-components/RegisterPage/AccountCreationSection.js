@@ -42,7 +42,7 @@ function AccountCreationSection(props) {
             required
             id="title"
             placeholder="Username"
-            maxLength="25"
+            maxLength="20"
             ref={usernameInputRef}
           />
         </div>
