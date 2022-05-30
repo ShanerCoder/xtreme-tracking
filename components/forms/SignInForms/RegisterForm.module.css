@@ -1,0 +1,30 @@
+.rowFormatting {
+  --bs-gutter-x: 0rem;
+}
+
+.joinTheClubColumn {
+  background-color: black;
+}
+
+.registerColumn {
+  background-color: white;
+  padding-top: 8%;
+}
+
+.imageOne {
+  padding-left: 15%;
+  padding-top: 10%;
+  max-width: 75%;
+}
+
+.whiteText {
+  color: white;
+  font-size: 24px;
+  text-align: center;
+}
+
+.headerText {
+  font-size: 48px;
+  margin-top: 7%;
+  margin-bottom: 1%;
+}

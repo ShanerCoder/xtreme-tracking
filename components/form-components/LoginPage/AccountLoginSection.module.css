@@ -1,0 +1,49 @@
+.divFormatting {
+  margin-left: 25%;
+  width: 50%;
+}
+
+.buttonFormatting {
+  width: 100%;
+}
+
+.inputFormatting {
+  display: block;
+  font: inherit;
+  font-size: inherit;
+  font-size: larger;
+  border: 0px solid #ccc;
+  border-bottom: 2px solid grey;
+  padding: 0.25rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.inputFormatting:focus {
+  outline: none;
+}
+
+.formFormatting {
+  padding-top: 7%;
+}
+
+.additionalInfoFormatting, .noAccountFormatting {
+  width: 60%;
+  margin-left: 20%;
+  padding-top: 5%;
+}
+
+.additionalInfoFormatting p {
+  margin-bottom: 0rem;
+  font-size: 12px;
+  text-align: center;
+}
+
+.noAccountFormatting p, .noAccountFormatting a {
+  text-align: center;
+  font-size: 21px;
+}
+
+.noAccountFormatting a {
+  padding-left: 25%;
+}

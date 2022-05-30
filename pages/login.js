@@ -44,7 +44,6 @@ function LoginPage() {
         />
       </Head>
       <section>
-        <h1>Login Page</h1>
         {errorMessage && (
           <p style={{ textTransform: "capitalize", color: "red" }}>
             {errorMessage}

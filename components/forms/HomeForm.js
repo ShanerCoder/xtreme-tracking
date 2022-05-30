@@ -65,7 +65,7 @@ function HomeForm() {
   return (
     <>
       <div className="d-none d-lg-block">
-        <img src="/homepage/imageOne.png" className={classes.imageOne}></img>
+        <img src="/homepage/imageOne.jpg" className={classes.imageOne}></img>
         <div className={`${classes.imageOneText} ${classes.whiteText}`}>
           {firstBlockOfText()}
         </div>

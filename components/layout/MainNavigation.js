@@ -7,11 +7,13 @@ import { signOut } from "next-auth/client";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
 import { authConstants } from "../../context/constants";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import NavbarButton from "./layoutComponents/navbarButton";
 import UserIcon from "../ui/UserIcon";
+import Collapse from "react-bootstrap";
 
 function MainNavigation() {
+  var [toggle, setToggle] = useState(false);
   const [state, dispatch] = useStore();
   const user = getValue(state, ["user"], null);
   const authenticated = getValue(state, ["user", "authenticated"], false);
@@ -37,23 +39,32 @@ function MainNavigation() {
           </Link>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
-            <form
-              className="d-flex"
-              style={{ marginRight: "20px" }}
-              onSubmit={handleSearch}  
-            >
-              <input
-                type="search"
-                placeholder="Search User"
-                className={"me-2 " + classes.searchUserText}
-                aria-label="Search"
-                ref={searchInputRef}
-              />
-              {<button>Search</button>}
-            </form>
+            <img
+              className={classes.icon}
+              src="/icons/magnifyingGlass.png"
+              onClick={() => {
+                setToggle(!toggle);
+                console.log(toggle);
+              }}
+            />
+            {toggle && (
+              <form
+                className={"d-flex " + classes.searchForm}
+                onSubmit={handleSearch}
+              >
+                <input
+                  type="search"
+                  placeholder="Search User"
+                  className={"me-2 " + classes.searchUserText}
+                  aria-label="Search"
+                  ref={searchInputRef}
+                />
+                {<button>Search</button>}
+              </form>
+            )}
+
             <Nav
-              className="mr-auto my-2 my-lg-0"
-              style={{ maxHeight: "100px" }}
+              className={"mr-auto my-2 my-lg-0 " + classes.navigationIcons}
               navbarScroll
             >
               <Row style={{ width: "150%" }}>
@@ -104,11 +115,7 @@ function MainNavigation() {
               ) : (
                 <>
                   <Row>
-                    <Col
-                      xs={3}
-                      lg={3}
-                      className={classes.userIconFormatting}
-                    >
+                    <Col xs={3} lg={3} className={classes.userIconFormatting}>
                       <UserIcon username={user.username} navigation={true} />
                     </Col>
                     <Col xs={9} lg={9}>

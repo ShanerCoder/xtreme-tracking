@@ -1,6 +1,8 @@
-import Card from "../../ui/Card";
 import { useRef } from "react";
 import Form from "react-bootstrap/Form";
+import classes from "./AccountCreationSection.module.css";
+import Link from "next/link";
+import { Col, Row } from "react-bootstrap";
 
 function AccountCreationSection(props) {
   const usernameInputRef = useRef();
@@ -33,10 +35,13 @@ function AccountCreationSection(props) {
   }
 
   return (
-    <Card>
+    <div className={classes.divFormatting}>
+      <div className={classes.alreadyAnAccountFormatting}>
+        <p>Already have an account?</p>
+        <Link href="/login">Log In</Link>
+      </div>
       <form className="form" onSubmit={handleSubmit}>
-        <div className="control">
-          <label htmlFor="title">Username</label>
+        <div>
           <input
             type="text"
             required
@@ -44,10 +49,10 @@ function AccountCreationSection(props) {
             placeholder="Username"
             maxLength="20"
             ref={usernameInputRef}
+            className={classes.inputFormatting}
           />
         </div>
-        <div className="control">
-          <label htmlFor="address">Password</label>
+        <div>
           <input
             type="password"
             required
@@ -55,10 +60,10 @@ function AccountCreationSection(props) {
             placeholder="Password"
             maxLength="40"
             ref={passwordInputRef}
+            className={classes.inputFormatting}
           />
         </div>
-        <div className="control">
-          <label htmlFor="title">Email</label>
+        <div>
           <input
             type="email"
             required
@@ -66,10 +71,10 @@ function AccountCreationSection(props) {
             placeholder="Email"
             maxLength="100"
             ref={emailInputRef}
+            className={classes.inputFormatting}
           />
         </div>
-        <div className="control">
-          <label htmlFor="title">Forename</label>
+        <div>
           <input
             type="text"
             required
@@ -77,8 +82,8 @@ function AccountCreationSection(props) {
             placeholder="Forename"
             maxLength="25"
             ref={forenameInputRef}
+            className={classes.inputFormatting}
           />
-          <label htmlFor="title">Surname</label>
           <input
             type="text"
             required
@@ -86,39 +91,60 @@ function AccountCreationSection(props) {
             placeholder="Surname"
             maxLength="25"
             ref={surnameInputRef}
+            className={classes.inputFormatting}
           />
         </div>
         <div className="center">
           <p>Client or Personal Trainer?</p>
 
           <div className="mb-3">
-            <Form.Check
-              inline
-              label="Client"
-              name="group1"
-              type="radio"
-              id={`inline-radio-1`}
-              required
-            />
-            <Form.Check
-              inline
-              label="Personal Trainer"
-              name="group1"
-              type="radio"
-              id={`inline-radio-2`}
-              ref={PTUserRef}
-              required
-            />
+            <Row>
+              <Col xs={6}>
+                <Form.Check
+                  inline
+                  label="Client"
+                  name="group1"
+                  type="radio"
+                  id={`inline-radio-1`}
+                  required
+                  className={classes.radioButtonFormatting}
+                />
+              </Col>
+              <Col xs={6}>
+                <Form.Check
+                  inline
+                  label="Personal Trainer"
+                  name="group1"
+                  type="radio"
+                  id={`inline-radio-2`}
+                  ref={PTUserRef}
+                  required
+                  className={classes.radioButtonFormatting}
+                />
+              </Col>
+            </Row>
           </div>
           <div>
             <p>This can be changed later</p>
           </div>
         </div>
-        <div className="center">
-          <button>JOIN US</button>
+        <div>
+          <button className={classes.buttonFormatting}>JOIN US</button>
+        </div>
+        <div className={classes.additionalInfoFormatting}>
+          <p>By continuing, you agree to accept our</p>
+          <p>
+            <a href="https://www.freeprivacypolicy.com/live/f33142ea-0bc6-45ef-b52d-19461f987c30">
+              Privacy Policy
+            </a>
+            {" & "}
+            <a href="https://www.termsofservicegenerator.net/live.php?token=heRwu89mQUAI7OIijS4gXw1PGUQHloWP">
+              Terms of Service
+            </a>
+          </p>
         </div>
       </form>
-    </Card>
+    </div>
   );
 }
 

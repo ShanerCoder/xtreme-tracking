@@ -62,7 +62,6 @@ function RegisterPage() {
         />
       </Head>
       <section>
-        <h1>Register Page</h1>
         {errorMessage && (
           <p style={{ textTransform: "capitalize", color: "red" }}>
             {errorMessage}
