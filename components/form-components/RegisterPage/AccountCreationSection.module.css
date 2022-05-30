@@ -39,15 +39,18 @@
   text-align: center;
 }
 
-.alreadyAnAccountFormatting p, .alreadyAnAccountFormatting a {
+.alreadyAnAccountFormatting {
   text-align: center;
   font-size: 21px;
 }
 
-.alreadyAnAccountFormatting a {
-  padding-left: 37.5%;
-}
-
 .radioButtonFormatting {
   font-size: 20px;
+}
+
+@media (max-width: 1000px) {
+  .divFormatting {
+    margin-left: 0%;
+    width: 100%;
+  }
 }

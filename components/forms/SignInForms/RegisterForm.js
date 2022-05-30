@@ -6,7 +6,7 @@ function RegisterForm(props) {
   return (
     <>
       <Row className={classes.rowFormatting}>
-        <Col xs={6} lg={6} className={classes.joinTheClubColumn}>
+        <Col xs={12} lg={6} className={classes.joinTheClubColumn}>
           <Row>
             <p className={`${classes.whiteText} ${classes.headerText}`}>
               Join The Club
@@ -22,7 +22,7 @@ function RegisterForm(props) {
             />
           </Row>
         </Col>
-        <Col xs={6} lg={6} className={classes.registerColumn}>
+        <Col xs={12} lg={6} className={classes.registerColumn}>
           <AccountCreationSection onSubmit={props.onAddUser} />
         </Col>
       </Row>

@@ -91,16 +91,8 @@ function ViewConsultationSchedule(props) {
           content="Track your consultations here!"
         />
       </Head>
-      {successMessage && (
-        <p style={{ textTransform: "capitalize", color: "green" }}>
-          {successMessage}
-        </p>
-      )}
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
+      {successMessage && <p className="successMessage">{successMessage}</p>}
+      {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       <LighterDiv>
         <h1 className="center">
           Viewing Consultations for Date: {selectedDate.toString()}

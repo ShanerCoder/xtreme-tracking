@@ -66,11 +66,7 @@ function AdditionalSetting(props) {
         </div>
         <Row className="actions">
           <Col sm={6}>
-            {errorMessage && (
-              <p style={{ textTransform: "capitalize", color: "red" }}>
-                {errorMessage}
-              </p>
-            )}
+            {errorMessage && <p className="errorMessage">{errorMessage}</p>}
           </Col>
           <Col sm={6}>
             <button style={{ float: "right" }}>

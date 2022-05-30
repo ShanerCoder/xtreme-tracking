@@ -131,7 +131,7 @@ function selectedClient(props) {
         />
       </Head>
       {successMessage && (
-        <p style={{ textTransform: "capitalize", color: "green" }}>
+        <p className="successMessage">
           {successMessage}
         </p>
       )}

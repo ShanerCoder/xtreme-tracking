@@ -21,7 +21,11 @@ function exerciseHistory(props) {
     router.push("/tracking/exerciseHistory/" + props.exerciseName);
   }
 
-  return (
+  return props.errorMessage ? (
+    <h2 className="center" style={{ paddingTop: "20px" }}>
+      {props.errorMessage}
+    </h2>
+  ) : (
     <ExerciseHistorySection
       exerciseName={props.exerciseName}
       exerciseHistory={props.exerciseHistory}
@@ -59,6 +63,14 @@ export async function getServerSideProps(context) {
             numberOfSets: exercise.numberOfSets,
             dateOfExercise: exercise.dateOfExercise.toDateString(),
           })),
+        },
+      };
+    } else if (exerciseHistory) {
+      return {
+        props: {
+          errorMessage:
+            exerciseName +
+            ` has not been tracked yet! Track this on the tracking page!`,
         },
       };
     } else {

@@ -62,11 +62,7 @@ function RegisterPage() {
         />
       </Head>
       <section>
-        {errorMessage && (
-          <p style={{ textTransform: "capitalize", color: "red" }}>
-            {errorMessage}
-          </p>
-        )}
+        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
         <RegisterForm onAddUser={addUserHandler} />
       </section>
     </>

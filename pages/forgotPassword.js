@@ -49,16 +49,8 @@ function ForgotPasswordPage() {
       </Head>
       <section>
         <h1>Forgot Password</h1>
-        {successMessage && (
-          <p style={{ textTransform: "capitalize", color: "green" }}>
-            {successMessage}
-          </p>
-        )}
-        {errorMessage && (
-          <p style={{ textTransform: "capitalize", color: "red" }}>
-            {errorMessage}
-          </p>
-        )}
+        {successMessage && <p className="successMessage">{successMessage}</p>}
+        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
         <ForgotPasswordForm onSubmit={forgotPasswordSubmitHandler} />
       </section>
     </>

@@ -39,11 +39,14 @@
   text-align: center;
 }
 
-.noAccountFormatting p, .noAccountFormatting a {
+.noAccountFormatting {
   text-align: center;
   font-size: 21px;
 }
 
-.noAccountFormatting a {
-  padding-left: 25%;
+@media (max-width: 1000px) {
+  .divFormatting {
+    margin-left: 0%;
+    width: 100%;
+  }
 }

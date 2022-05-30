@@ -2,7 +2,7 @@ import classes from "./NewExerciseSection.module.css";
 import { useRef, useState } from "react";
 import Card from "../../ui/Card";
 import { Col, Row } from "react-bootstrap";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 function NewExerciseSection(props) {
   const exerciseDropdownRef = useRef();
@@ -146,13 +146,8 @@ function NewExerciseSection(props) {
           <div className={"control " + classes.notListedLabel}>
             <label>Exercise not listed?</label>
           </div>
-          <div className="lowerWidth">
-            <button
-              className={"lowerWidth " + classes.buttonPadding}
-              onClick={props.createNewExercise}
-            >
-              Create New Exercise
-            </button>
+          <div className={"lowerWidth " + classes.linkStyling}>
+            <Link href="/tracking/exerciseList">Create New Exercise</Link>
           </div>
         </form>
       </Card>
