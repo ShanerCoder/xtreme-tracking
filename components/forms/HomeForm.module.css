@@ -1,33 +1,69 @@
-.form {
-  padding: 1rem;
+.whiteText p, .blackText p {
+  text-align: left;
+  margin-bottom: 0px;
 }
 
-.control {
-  margin-bottom: 0.5rem;
+.whiteText {
+  color: white;
 }
 
-.control label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+.blackText {
+  color: black;
 }
 
-.control textarea {
-  display: block;
-  font: inherit;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  padding: 1rem;
+.headerText {
+  font-size: 48px;
+}
+
+.imageOne {
   width: 100%;
+  max-height: 800px;
 }
 
-.actions {
-  margin-top: 1rem;
-  text-align: right;
+.imageTwo {
+  width: 100%;
+  max-height: 600px;
 }
 
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.imageThree {
+  width: 100%;
+  max-height: 600px;
+}
+
+.buttonFormatting {
+  width: 400px;
+}
+
+.imageOneText {
+  position: absolute;
+  top: 150px;
+  left: 5%;
+  font-size: 28px;
+}
+
+.imageTwoText {
+  position: relative;
+  top: 150px;
+  margin-left: 5%;
+  font-size: 28px;
+}
+
+.imageThreeText {
+  position: relative;
+  top: 100px;
+  margin-left: 5%;
+  font-size: 28px;
+}
+
+.rowFormatting {
+  --bs-gutter-x: 0rem;
+}
+
+@media (max-width: 768px) {
+  .headerText {
+    font-size: 24px;
+  }
+  .buttonFormatting {
+    width: 200px;
+  }
 }

@@ -81,16 +81,8 @@ function ViewTrackingProgress(props) {
           content="View the list of all your exercises here!"
         />
       </Head>
-      {successMessage && (
-        <p style={{ textTransform: "capitalize", color: "green" }}>
-          {successMessage}
-        </p>
-      )}
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
+      {successMessage && <p className="successMessage">{successMessage}</p>}
+      {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       {props.errorMessage ? (
         <h1 className="center">{props.errorMessage}</h1>
       ) : (

@@ -11,7 +11,7 @@ function ExerciseHistorySection(props) {
       <h1 className={classes.headerFormatting}>
         List of Records for Exercise: {props.exerciseName}
       </h1>
-      <ul className={classes.list}>
+      <ul className="list">
         {props.exerciseHistory.map((exercise) => (
           <React.Fragment key={exercise.id}>
             <Row>

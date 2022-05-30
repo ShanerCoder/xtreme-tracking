@@ -8,10 +8,19 @@
   padding: 0 10%;
 }
 
+.icon {
+  width: 40px;
+  height: 40px;
+  margin-right:20px;
+  cursor: pointer;
+}
+
 .logo {
-  font-size: 2rem;
-  color: white;
-  font-weight: bold;
+  width: 7%;
+  margin-left: 8%;
+  margin-right: 5%;
+  cursor: pointer;
+  min-width: 100px;
 }
 
 .header ul {
@@ -68,7 +77,40 @@
   text-align: center;
 }
 
+.searchUserText {
+  display: block;
+  font: inherit;
+  font-size: larger;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.navigationIcons {
+  padding-left: 0px;
+  max-height: "100px"
+}
+
 .signOutButton {
   width:80%;
   margin-left: 10%;
 }
+
+.accountOptionsFormatting {
+  margin-top: 10px;
+}
+
+.userIconFormatting {
+  margin-top: 5px;
+}
+
+@media (min-width: 1000px) {
+  .settingsFormatting {
+    margin-left: 150px;
+  }
+
+  .navigationIcons {
+    padding-left: 80px;
+  }
+}
+

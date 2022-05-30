@@ -1,5 +1,4 @@
 import Card from "../../ui/Card";
-import classes from "./ChangeForm.module.css";
 import { useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 
@@ -33,7 +32,7 @@ function AdditionalSetting(props) {
     <Card>
       <form className="form" onSubmit={handleSubmit}>
         <h2 className="center">Change your {props.newValueType}</h2>
-        <div className={classes.control}>
+        <div className="control">
           <label htmlFor={props.newValueType}>
             Current {props.newValueType}
           </label>
@@ -65,13 +64,9 @@ function AdditionalSetting(props) {
             ref={confirmNewValueRef}
           />
         </div>
-        <Row className={classes.actions}>
+        <Row className="actions">
           <Col sm={6}>
-            {errorMessage && (
-              <p style={{ textTransform: "capitalize", color: "red" }}>
-                {errorMessage}
-              </p>
-            )}
+            {errorMessage && <p className="errorMessage">{errorMessage}</p>}
           </Col>
           <Col sm={6}>
             <button style={{ float: "right" }}>

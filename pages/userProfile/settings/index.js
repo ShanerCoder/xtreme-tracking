@@ -174,16 +174,8 @@ function ProfileView(props) {
         />
       </Head>
       <LighterDiv>
-        {successMessage && (
-          <p style={{ textTransform: "capitalize", color: "green" }}>
-            {successMessage}
-          </p>
-        )}
-        {errorMessage && (
-          <p style={{ textTransform: "capitalize", color: "red" }}>
-            {errorMessage}
-          </p>
-        )}
+        {successMessage && <p className="successMessage">{successMessage}</p>}
+        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
         <ProfileSettingsForm
           user={props.user}
           userprofile={props.userprofile}

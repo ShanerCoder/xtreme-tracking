@@ -50,11 +50,7 @@ function ProfileView(props) {
       </Head>
       {!props.userprofile ? (
         <>
-          {errorMessage && (
-            <p style={{ textTransform: "capitalize", color: "red" }}>
-              {errorMessage}
-            </p>
-          )}
+          {errorMessage && <p className="errorMessage">{errorMessage}</p>}
           <GenerateProfileForm
             username={props.user.username}
             handleGeneration={generateProfile}

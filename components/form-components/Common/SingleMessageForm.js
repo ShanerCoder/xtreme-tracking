@@ -1,6 +1,5 @@
 import LighterDiv from "../../ui/LighterDiv";
 import Card from "../../ui/Card";
-import classes from "./SingleMessageForm.module.css";
 import { useRef } from "react";
 function MessageForm(props) {
   const messageRef = useRef();
@@ -17,7 +16,7 @@ function MessageForm(props) {
       <p>{props.messageSubject}</p>
       <Card>
         <form className="form" onSubmit={handleSubmit}>
-          <div className={classes.control}>
+          <div className="control">
             <textarea
               rows="5"
               required
@@ -27,7 +26,7 @@ function MessageForm(props) {
               ref={messageRef}
             />
           </div>
-          <div className={classes.actions}>
+          <div className="actions">
             <button>{props.buttonMessage}</button>
           </div>
         </form>

@@ -45,16 +45,8 @@ function ContactUsPage() {
           content="Contact the Xtreme Tracking team here!"
         />
       </Head>
-      {successMessage && (
-        <p style={{ textTransform: "capitalize", color: "green" }}>
-          {successMessage}
-        </p>
-      )}
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
+      {successMessage && <p className="successMessage">{successMessage}</p>}
+      {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       {user && user.authenticated ? (
         <SingleMessageForm
           messageTitle={"Contact Us"}

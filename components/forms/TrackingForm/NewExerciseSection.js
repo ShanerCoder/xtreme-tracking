@@ -2,7 +2,7 @@ import classes from "./NewExerciseSection.module.css";
 import { useRef, useState } from "react";
 import Card from "../../ui/Card";
 import { Col, Row } from "react-bootstrap";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 function NewExerciseSection(props) {
   const exerciseDropdownRef = useRef();
@@ -48,8 +48,8 @@ function NewExerciseSection(props) {
           {props.selectedDate}
         </h3>
         <form onSubmit={handleSubmit}>
-          <Row>
-            <Col className={classes.control} xs={12}>
+          <Row className="lowerWidth">
+            <Col className="control" xs={12}>
               <label htmlFor={"exerciseInput"}>Name of Exercise</label>
               <select
                 type={"datalist"}
@@ -84,8 +84,8 @@ function NewExerciseSection(props) {
               </select>
             </Col>
           </Row>
-          <Row>
-            <Col className={classes.control} xs={12}>
+          <Row className="lowerWidth">
+            <Col className="control" xs={12}>
               <label htmlFor={"exerciseFilter"}>Filter Exercises</label>
               <select
                 type={"datalist"}
@@ -102,8 +102,8 @@ function NewExerciseSection(props) {
               </select>
             </Col>
           </Row>
-          <Row>
-            <Col className={classes.control} xs={12}>
+          <Row className="lowerWidth">
+            <Col className="control" xs={12}>
               <label htmlFor={"weightUsed"}>Weight Used (kg)</label>
               <input
                 type={"number"}
@@ -114,8 +114,8 @@ function NewExerciseSection(props) {
               />
             </Col>
           </Row>
-          <Row>
-            <Col className={classes.control} xs={6}>
+          <Row className="lowerWidth">
+            <Col className="control" xs={6}>
               <label htmlFor={"noOfReps"}>Number of Reps</label>
               <input
                 type={"number"}
@@ -125,7 +125,7 @@ function NewExerciseSection(props) {
                 required
               />
             </Col>
-            <Col className={classes.control} xs={6}>
+            <Col className="control" xs={6}>
               <label htmlFor={"noOfSets"}>Number of Sets</label>
               <input
                 type={"number"}
@@ -136,18 +136,18 @@ function NewExerciseSection(props) {
               />
             </Col>
           </Row>
-          <div className={classes.actions}>
-            <button>Add Exercise</button>
+          <div className="lowerWidth">
+            <button className={"lowerWidth " + classes.buttonPadding}>
+              Add Exercise
+            </button>
           </div>
         </form>
         <form>
-          <div className={classes.control}>
+          <div className={"control " + classes.notListedLabel}>
             <label>Exercise not listed?</label>
           </div>
-          <div className={classes.actions}>
-            <button onClick={props.createNewExercise}>
-              Create New Exercise
-            </button>
+          <div className={"lowerWidth " + classes.linkStyling}>
+            <Link href="/tracking/exerciseList">Create New Exercise</Link>
           </div>
         </form>
       </Card>

@@ -1,4 +1,5 @@
 import Head from "next/head";
+import HomeForm from "../components/forms/HomeForm";
 
 function HomePage(props) {
   return (
@@ -7,8 +8,7 @@ function HomePage(props) {
         <title>Xtreme Tracking</title>
         <meta name="Xtreme Tracking Home Page" content="Xtreme Tracking" />
       </Head>
-      <h1>Home Page</h1>
-      <p>Content</p>
+      <HomeForm />
     </>
   );
 }

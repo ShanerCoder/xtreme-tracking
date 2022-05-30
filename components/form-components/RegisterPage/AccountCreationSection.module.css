@@ -1,28 +1,56 @@
-.form {
-  padding: 1rem;
+.divFormatting {
+  margin-left: 25%;
+  width: 50%;
 }
 
-.control {
-  margin-bottom: 0.5rem;
-}
-
-.control label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.control input,
-.control textarea {
-  display: block;
-  font: inherit;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  padding: 0.25rem;
+.buttonFormatting {
   width: 100%;
 }
 
-.actions {
-  margin-top: 1rem;
+.inputFormatting {
+  display: block;
+  font: inherit;
+  font-size: inherit;
+  font-size: larger;
+  border: 0px solid #ccc;
+  border-bottom: 2px solid grey;
+  padding: 0.25rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.inputFormatting:focus {
+  outline: none;
+}
+
+.formFormatting {
+  padding-top: 7%;
+}
+
+.additionalInfoFormatting, .alreadyAnAccountFormatting {
+  width: 60%;
+  margin-left: 20%;
+  padding-top: 5%;
+}
+
+.additionalInfoFormatting p {
+  margin-bottom: 0rem;
+  font-size: 12px;
   text-align: center;
+}
+
+.alreadyAnAccountFormatting {
+  text-align: center;
+  font-size: 21px;
+}
+
+.radioButtonFormatting {
+  font-size: 20px;
+}
+
+@media (max-width: 1000px) {
+  .divFormatting {
+    margin-left: 0%;
+    width: 100%;
+  }
 }

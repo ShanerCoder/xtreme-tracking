@@ -1,4 +1,3 @@
-import classes from "./NewCustomExerciseSection.module.css";
 import Card from "../../../ui/Card";
 import { Col, Row } from "react-bootstrap";
 import { useRef } from "react";
@@ -29,8 +28,8 @@ function NewCustomExerciseSection(props) {
           Create a new Custom Exercise:
         </h2>
         <form onSubmit={handleSubmit}>
-          <Row>
-            <Col className={classes.control} xs={12} lg={6}>
+          <Row className="lowerWidth">
+            <Col className="control" xs={12} lg={6}>
               <label htmlFor={"exerciseNameInput"}>Name of Exercise</label>
               <input
                 type="text"
@@ -41,7 +40,7 @@ function NewCustomExerciseSection(props) {
                 ref={exerciseNameRef}
               />
             </Col>
-            <Col className={classes.control} xs={12} lg={6}>
+            <Col className="control" xs={12} lg={6}>
               <label htmlFor={"muscleGroup"}>Muscle Group</label>
               <select
                 type={"datalist"}
@@ -57,8 +56,10 @@ function NewCustomExerciseSection(props) {
               </select>
             </Col>
           </Row>
-          <div className={classes.actions}>
-            <button>Add Exercise</button>
+          <div className="lowerWidth">
+            <button className="lowerWidth" style={{ marginBottom: "1%" }}>
+              Add Exercise
+            </button>
           </div>
         </form>
       </Card>

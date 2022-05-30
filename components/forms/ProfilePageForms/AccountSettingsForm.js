@@ -1,7 +1,7 @@
 import { Col, Row } from "react-bootstrap";
 import ChangeForm from "../../form-components/ProfilePage/ChangeForm";
 
-function ForgotPasswordForm(props) {
+function AccountSettingsForm(props) {
   return (
     <>
       <h1 className="center">Account Settings</h1>
@@ -23,4 +23,4 @@ function ForgotPasswordForm(props) {
   );
 }
 
-export default ForgotPasswordForm;
+export default AccountSettingsForm;

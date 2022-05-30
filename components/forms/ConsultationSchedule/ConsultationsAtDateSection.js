@@ -7,7 +7,7 @@ function ConsultationsAtDateSection(props) {
   );
   return (
     <>
-      <ul className={classes.list}>
+      <ul className="list">
         {props.consultations.map((consultation) => (
           <div key={consultation.id}>
             {new Date(consultation.datetimeOfConsultation).toDateString() ==

@@ -44,12 +44,7 @@ function LoginPage() {
         />
       </Head>
       <section>
-        <h1>Login Page</h1>
-        {errorMessage && (
-          <p style={{ textTransform: "capitalize", color: "red" }}>
-            {errorMessage}
-          </p>
-        )}
+        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
         <LoginForm authenticateUser={authenticateUserHandler} />
       </section>
     </>

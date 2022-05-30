@@ -5,7 +5,7 @@ import SingleExerciseDetails from "./SingleExerciseDetails";
 
 function ListOfExercises(props) {
   return (
-    <ul className={classes.list}>
+    <ul className="list">
       <li key={"header"} className={classes.detailSection}>
         <div className={classes.detailBubble}>
           <Row className={classes.detailButtonsSection}>

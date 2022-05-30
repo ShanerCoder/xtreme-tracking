@@ -44,11 +44,7 @@ function ResetPasswordView(props) {
         />
       </Head>
       <h1 className="center">Reset your Password</h1>
-      {errorMessage && (
-        <p style={{ textTransform: "capitalize", color: "red" }}>
-          {errorMessage}
-        </p>
-      )}
+      {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       {props.validToken ? (
         <ResetPasswordForm
           onSubmit={resetPasswordSubmitHandler}
