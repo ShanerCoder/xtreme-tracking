@@ -46,9 +46,7 @@ function HomeForm() {
     return (
       <>
         <p className={classes.headerText}>It's a journey.</p>
-        <p className={classes.headerText}>
-          You don't have to travel it by yourself.
-        </p>
+        <p className={classes.headerText}>You don't have to travel it alone.</p>
         <p>Reach out to others on the same path</p>
         <button
           className={classes.buttonFormatting}

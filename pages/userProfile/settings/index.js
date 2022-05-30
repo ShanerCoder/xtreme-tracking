@@ -173,27 +173,47 @@ function ProfileView(props) {
           content="View your Profile Settings here!"
         />
       </Head>
-      <LighterDiv>
-        {successMessage && <p className="successMessage">{successMessage}</p>}
-        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
-        <ProfileSettingsForm
-          user={props.user}
-          userprofile={props.userprofile}
-          setErrorMessage={setErrorMessage}
-          handleSaveDescription={saveDescription}
-          handleSaveImage={saveImage}
-          handleUpdatePersonalTrainerProfile={
-            handleUpdatePersonalTrainerProfile
-          }
-        />
-      </LighterDiv>
-      <DarkerDiv>
-        <AccountSettingsForm
-          savePassword={savePassword}
-          saveEmail={saveEmail}
-          setErrorMessage={setErrorMessage}
-        />
-      </DarkerDiv>
+      {props.errorMessage ? (
+        <>
+          <h2 className="center" style={{ paddingTop: "20px" }}>
+            {props.errorMessage}
+          </h2>
+          <button
+            style={{ width: "80%", marginLeft: "10%" }}
+            onClick={() => {
+              router.push("/register");
+            }}
+          >
+            Register Here
+          </button>
+        </>
+      ) : (
+        <>
+          <LighterDiv>
+            {successMessage && (
+              <p className="successMessage">{successMessage}</p>
+            )}
+            {errorMessage && <p className="errorMessage">{errorMessage}</p>}
+            <ProfileSettingsForm
+              user={props.user}
+              userprofile={props.userprofile}
+              setErrorMessage={setErrorMessage}
+              handleSaveDescription={saveDescription}
+              handleSaveImage={saveImage}
+              handleUpdatePersonalTrainerProfile={
+                handleUpdatePersonalTrainerProfile
+              }
+            />
+          </LighterDiv>
+          <DarkerDiv>
+            <AccountSettingsForm
+              savePassword={savePassword}
+              saveEmail={saveEmail}
+              setErrorMessage={setErrorMessage}
+            />
+          </DarkerDiv>
+        </>
+      )}
     </>
   );
 }
@@ -233,7 +253,9 @@ export async function getServerSideProps({ req }) {
   } catch (error) {
     console.log(error);
     return {
-      notFound: true,
+      props: {
+        errorMessage: "Make an account to set up your profile here!",
+      },
     };
   }
 }
