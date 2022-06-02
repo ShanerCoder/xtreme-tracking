@@ -27,6 +27,8 @@ function SocialForm(props) {
               username={post.username}
               postText={post.postText}
               dateAdded={post.dateAdded}
+              postLikedByUser={post.postLikedByUser}
+              handleLike={props.user.authenticated ? (props.handleLike) : (null)}
             />
           ))}
         </ul>
