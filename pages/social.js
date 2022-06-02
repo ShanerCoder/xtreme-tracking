@@ -12,7 +12,6 @@ import { getValue } from "../utils/common";
 import { getSession } from "next-auth/client";
 
 function SocialPage(props) {
-  console.log(props);
   const router = useRouter();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
@@ -30,7 +29,7 @@ function SocialPage(props) {
       body: JSON.stringify(bodyData),
       headers: { "Content-Type": "application/json" },
     });
-    const data = await response.json();
+    await response.json();
   }
 
   async function addPostHandler(NewPostData) {
@@ -42,7 +41,7 @@ function SocialPage(props) {
       },
     });
 
-    const data = await response.json();
+    await response.json();
 
     router.push("/social");
   }
@@ -84,6 +83,16 @@ export async function getServerSideProps(context) {
   const post = Post.find();
   const filter = {};
   const userpostList = await post.find(filter).sort({ _id: -1 });
+  const arrayOfAllLikedPosts = [];
+  const arrayOfLikedPostIdsByUser = [];
+  const allPosts = await PostsLikedBy.find({}).select({ postId: 1, _id: 0 });
+
+
+  function handleLikedPostsIds(post) {
+    arrayOfAllLikedPosts.push(post.postId.toString());
+  }
+
+  allPosts.forEach(handleLikedPostsIds);
 
   const req = context.req;
   const session = await getSession({ req });
@@ -95,21 +104,28 @@ export async function getServerSideProps(context) {
           username: post.username,
           postText: post.postText,
           dateAdded: post.createdAt.toString(),
+          numberOfLikes: countLikes(post._id.toString()),
         })),
       },
     };
-
-  const arrayOfLikedPostIds = [];
-
-  function handlePostIds(post) {
-    arrayOfLikedPostIds.push(post.postId.toString());
-  }
 
   const postsLiked = await PostsLikedBy.find({
     usernameLikingPost: session.user.username,
   }).select({ postId: 1, _id: 0 });
 
-  postsLiked.forEach(handlePostIds);
+  function handleUserLikedPostIds(post) {
+    arrayOfLikedPostIdsByUser.push(post.postId.toString());
+  }
+
+  function countLikes(postId) {
+    let number = 0;
+    for (const num of arrayOfAllLikedPosts) {
+      if (num == postId) number++;
+    }
+    return number;
+  }
+
+  postsLiked.forEach(handleUserLikedPostIds);
 
   return {
     props: {
@@ -118,9 +134,10 @@ export async function getServerSideProps(context) {
         username: post.username,
         postText: post.postText,
         dateAdded: post.createdAt.toString(),
-        postLikedByUser: arrayOfLikedPostIds.includes(
-          post._id.toString(),
+        postLikedByUser: arrayOfLikedPostIdsByUser.includes(
+          post._id.toString()
         ),
+        numberOfLikes: countLikes(post._id.toString()),
       })),
     },
   };

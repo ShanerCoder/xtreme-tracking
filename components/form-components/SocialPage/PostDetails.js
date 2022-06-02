@@ -25,6 +25,24 @@ function PostDetails(props) {
     props.handleLike(postData);
   }
 
+  function obtainLikedByString() {
+    let likedByString = "Liked By: ";
+    const numberOfLikes = props.numberOfLikes - 1;
+    if (imageSource == filledHeartImageSource) {
+      likedByString += "You ";
+    }
+    if (imageSource == filledHeartImageSource && numberOfLikes > 0)
+      likedByString += " and ";
+    if (numberOfLikes > 0) {
+      likedByString += numberOfLikes + " other user";
+      if (numberOfLikes > 1) likedByString += "s";
+    }
+    if (!(imageSource == filledHeartImageSource || numberOfLikes > 0)) {
+      likedByString += "No users";
+    }
+    return <p>{likedByString}</p>;
+  }
+
   return (
     <div>
       <h2 className={classes.postByInfo}>
@@ -45,9 +63,10 @@ function PostDetails(props) {
                 <div className={classes.postBubble}>{props.postText}</div>
               </Col>
             </Row>
-            {props.handleLike && (
-              <Row>
-                <Col lg={{ span: 1, offset: 11 }}>
+            <Row>
+              <Col lg={4}>{obtainLikedByString()}</Col>
+              <Col lg={{ span: 1, offset: 7 }}>
+                {props.handleLike && (
                   <div className={classes.iconDiv}>
                     <img
                       className={classes.icon}
@@ -58,9 +77,9 @@ function PostDetails(props) {
                       }}
                     />
                   </div>
-                </Col>
-              </Row>
-            )}
+                )}
+              </Col>
+            </Row>
           </Col>
         </Row>
       </div>

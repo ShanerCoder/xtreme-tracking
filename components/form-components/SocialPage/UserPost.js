@@ -17,6 +17,7 @@ function UserPost(props) {
         dateAdded={props.dateAdded}
         handleLike={props.handleLike}
         postLikedByUser={props.postLikedByUser}
+        numberOfLikes={props.numberOfLikes}
       />
       {<div className="actions">
         <button onClick={viewThreadHandler}>View Thread</button>
