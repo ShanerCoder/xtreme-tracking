@@ -5,7 +5,7 @@ const PostLikedBySchema = new mongoose.Schema({
   postId: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "user",
+    ref: "post",
   },
   usernameLikingPost: {
     type: String,

@@ -6,7 +6,8 @@ import BannerImage from "../components/ui/BannerImage";
 import { useRouter } from "next/router";
 import { dbConnect } from "../lib/db-connect";
 import Post from "../models/post";
-import PostsLikedBy from "../models/postsLikedBy";
+import PostLikedBy from "../models/postLikedBy";
+import PostComment from "../models/postComment";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
 import { getSession } from "next-auth/client";
@@ -85,14 +86,21 @@ export async function getServerSideProps(context) {
   const userpostList = await post.find(filter).sort({ _id: -1 });
   const arrayOfAllLikedPosts = [];
   const arrayOfLikedPostIdsByUser = [];
-  const allPosts = await PostsLikedBy.find({}).select({ postId: 1, _id: 0 });
-
+  const arrayOfAllComments = [];
+  
+  const allPosts = await PostLikedBy.find({}).select({ postId: 1, _id: 0 });
+  const allComments = await PostComment.find({}).select({ postId: 1, _id: 0 });
 
   function handleLikedPostsIds(post) {
     arrayOfAllLikedPosts.push(post.postId.toString());
   }
 
+  function handleCommentPostsIds(post) {
+    arrayOfAllComments.push(post.postId.toString());
+  }
+
   allPosts.forEach(handleLikedPostsIds);
+  allComments.forEach(handleCommentPostsIds);
 
   const req = context.req;
   const session = await getSession({ req });
@@ -105,11 +113,12 @@ export async function getServerSideProps(context) {
           postText: post.postText,
           dateAdded: post.createdAt.toString(),
           numberOfLikes: countLikes(post._id.toString()),
+          numberOfComments: countComments(post._id.toString()),
         })),
       },
     };
 
-  const postsLiked = await PostsLikedBy.find({
+  const postsLiked = await PostLikedBy.find({
     usernameLikingPost: session.user.username,
   }).select({ postId: 1, _id: 0 });
 
@@ -120,6 +129,14 @@ export async function getServerSideProps(context) {
   function countLikes(postId) {
     let number = 0;
     for (const num of arrayOfAllLikedPosts) {
+      if (num == postId) number++;
+    }
+    return number;
+  }
+
+  function countComments(postId) {
+    let number = 0;
+    for (const num of arrayOfAllComments) {
       if (num == postId) number++;
     }
     return number;
@@ -138,6 +155,7 @@ export async function getServerSideProps(context) {
           post._id.toString()
         ),
         numberOfLikes: countLikes(post._id.toString()),
+        numberOfComments: countComments(post._id.toString()),
       })),
     },
   };

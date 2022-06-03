@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import PostsLiked from "../../../models/postsLikedBy";
+import PostLiked from "../../../models/postLikedBy";
 import { getSession } from "next-auth/client";
 import mongoose from "mongoose";
 
@@ -23,7 +23,7 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
-      const likedPost = new PostsLiked(req.body);
+      const likedPost = new PostLiked(req.body);
 
       const result = await likedPost.save();
       if (result) responseHandler(result, res, 201);
@@ -38,7 +38,7 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
-      const result = await PostsLiked.deleteMany({
+      const result = await PostLiked.deleteMany({
         postId: mongoose.Types.ObjectId(req.body.postId),
         usernameLikingPost: session.user.username,
       });

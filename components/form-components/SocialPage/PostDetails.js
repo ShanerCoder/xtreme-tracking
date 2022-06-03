@@ -27,7 +27,7 @@ function PostDetails(props) {
 
   function obtainLikedByString() {
     let likedByString = "Liked By: ";
-    const numberOfLikes = props.numberOfLikes - 1;
+    const numberOfLikes = (props.postLikedByUser ? props.numberOfLikes - 1 : props.numberOfLikes);
     if (imageSource == filledHeartImageSource) {
       likedByString += "You ";
     }
@@ -46,7 +46,7 @@ function PostDetails(props) {
   return (
     <div>
       <h2 className={classes.postByInfo}>
-        Post By:{" "}
+        {props.title}
         <Link href={"/userProfile/" + props.username}>{props.username}</Link>
       </h2>
       <p className={classes.dateTime}>{props.dateAdded}</p>
@@ -63,8 +63,16 @@ function PostDetails(props) {
                 <div className={classes.postBubble}>{props.postText}</div>
               </Col>
             </Row>
-            <Row>
-              <Col lg={4}>{obtainLikedByString()}</Col>
+            {!props.comment && (<Row>
+              <Col lg={4}>
+                <Row>
+              <Col lg={12}>{obtainLikedByString()}</Col>
+              </Row>
+              <Row>
+              <Col lg={12}>{"Number of Comments: " + props.numberOfComments}</Col>
+              </Row>
+              </Col>
+              
               <Col lg={{ span: 1, offset: 7 }}>
                 {props.handleLike && (
                   <div className={classes.iconDiv}>
@@ -79,7 +87,7 @@ function PostDetails(props) {
                   </div>
                 )}
               </Col>
-            </Row>
+            </Row>)}
           </Col>
         </Row>
       </div>

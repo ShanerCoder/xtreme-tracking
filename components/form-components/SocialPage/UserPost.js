@@ -18,8 +18,11 @@ function UserPost(props) {
         handleLike={props.handleLike}
         postLikedByUser={props.postLikedByUser}
         numberOfLikes={props.numberOfLikes}
+        numberOfComments={props.numberOfComments}
+        title={props.title}
+        comment={props.comment}
       />
-      {<div className="actions">
+      { !props.comment && <div className="actions">
         <button onClick={viewThreadHandler}>View Thread</button>
   </div>}
     </div>

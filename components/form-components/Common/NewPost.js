@@ -21,7 +21,7 @@ function NewPost(props) {
 
   return (
     <>
-      <p>Create a New Post:</p>
+      <p>{props.title}</p>
       <Card>
         <div className="control">
           <textarea
