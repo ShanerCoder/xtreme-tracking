@@ -64,16 +64,16 @@ function PostDetails(props) {
               </Col>
             </Row>
             {!props.comment && (<Row>
-              <Col lg={4}>
+              <Col xs={10} lg={4}>
                 <Row>
-              <Col lg={12}>{obtainLikedByString()}</Col>
+              <Col xs={12}>{obtainLikedByString()}</Col>
               </Row>
               <Row>
               <Col lg={12}>{"Number of Comments: " + props.numberOfComments}</Col>
               </Row>
               </Col>
               
-              <Col lg={{ span: 1, offset: 7 }}>
+              <Col xs={1} lg={{ span: 1, offset: 7 }}>
                 {props.handleLike && (
                   <div className={classes.iconDiv}>
                     <img
