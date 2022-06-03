@@ -13,6 +13,7 @@ import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
 import UserPost from "../../components/form-components/SocialPage/UserPost";
 import { useRouter } from "next/router";
+import DarkerDiv from "../../components/ui/DarkerDiv";
 
 function PostThreadView(props) {
   const router = useRouter();
@@ -53,14 +54,21 @@ function PostThreadView(props) {
           postLikedByUser={props.userposts.postLikedByUser}
           numberOfLikes={props.userposts.numberOfLikes}
           numberOfComments={props.userposts.numberOfComments}
+          title="Post By: "
         />
-        <div style={{ paddingTop: "20px" }}>
+      </LighterDiv>
+      <DarkerDiv>
+        {user.authenticated ? (
           <NewPost
             title="Add a new Comment:"
             currentUser={user.username}
             onAddPost={handleAddComment}
           />
-        </div>
+        ) : (
+          <h3 className="center">Create a Free Account to add a comment!</h3>
+        )}
+      </DarkerDiv>
+      <LighterDiv>
         {props.usercomments.length ? (
           <ul className="list">
             {props.usercomments.map((comment) => (
@@ -94,7 +102,7 @@ export async function getServerSideProps(context) {
 
     const comments = await PostComment.find({
       postId: mongoose.Types.ObjectId(postId),
-    });
+    }).sort({_id: -1});
 
     const numberOfLikes = await PostLikedBy.find({
       postId: mongoose.Types.ObjectId(postId),
