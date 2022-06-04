@@ -16,6 +16,8 @@ function ViewIncomingDetailsForm(props) {
             secondDetailURL={props.secondDetailURL + detail.id}
             clientDetailText={props.clientDetailText}
             dateTimeDetailText={props.dateTimeDetailText}
+            exerciseName={detail.exerciseName}
+            dateToAchieveBy={detail.dateToAchieveBy}
           />
         ))}
       </ul>

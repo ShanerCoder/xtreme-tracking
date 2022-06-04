@@ -1,7 +1,6 @@
 import Head from "next/head";
 import PostDetails from "../../components/form-components/SocialPage/PostDetails";
 import { dbConnect } from "../../lib/db-connect";
-import classes from "../PageStyling.module.css";
 import Post from "../../models/post";
 import PostLikedBy from "../../models/postLikedBy";
 import PostComment from "../../models/postComment";
@@ -84,7 +83,7 @@ function PostThreadView(props) {
             ))}
           </ul>
         ) : (
-          <h2 className={classes.padding_top}>No Comments Added</h2>
+          <h2>No Comments Added</h2>
         )}
       </LighterDiv>
     </>

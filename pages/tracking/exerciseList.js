@@ -1,7 +1,6 @@
 import Head from "next/head";
 import ExerciseList from "../../models/exerciseList";
 import CommonExerciseList from "../../models/commonExerciseList";
-
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../lib/db-connect";
 import LighterDiv from "../../components/ui/LighterDiv";
@@ -13,7 +12,7 @@ import { useRouter } from "next/router";
 import NewCustomExerciseSection from "../../components/forms/TrackingForm/ExerciseList/NewCustomExerciseSection";
 import FullListOfExercises from "../../components/forms/TrackingForm/ExerciseList/FullListOfExercises";
 
-function ViewTrackingProgress(props) {
+function ExerciseListPage(props) {
   const router = useRouter();
   const [state] = useStore();
   const [successMessage, setSuccessMessage] = useState(null);
@@ -147,4 +146,4 @@ export async function getServerSideProps({ req }) {
   }
 }
 
-export default ViewTrackingProgress;
+export default ExerciseListPage;

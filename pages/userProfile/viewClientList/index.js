@@ -26,7 +26,7 @@ function ViewClientList(props) {
               viewDetailURL={"/userProfile/viewClientList/"}
               detailName={"Client Details"}
               secondDetail={"Send Challenge"}
-              secondDetailURL={"/userProfile/viewClientList/sendChallenge/"}
+              secondDetailURL={"/userProfile/challenges/"}
               clientDetailText={"Client Username: "}
               dateTimeDetailText={"Client Since: "}
             />

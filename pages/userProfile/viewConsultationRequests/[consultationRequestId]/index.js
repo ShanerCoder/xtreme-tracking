@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { dbConnect } from "../../../../lib/db-connect";
-import classes from "../../../PageStyling.module.css";
 import Cryptr from "cryptr";
 import ConsultationRequest from "../../../../models/consultationRequest";
 import { getSession } from "next-auth/client";
@@ -113,7 +112,7 @@ function selectedMessage(props) {
         </p>
       )}
       <LighterDiv>
-        <h2 className={(classes.padding_top, "center")}>
+        <h2 className="center">
           Viewing {props.consultationRequest.usernameFrom}'s Request
         </h2>
         <ViewSelectedDetailForm

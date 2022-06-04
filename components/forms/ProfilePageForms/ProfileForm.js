@@ -37,19 +37,21 @@ function ProfileForm(props) {
   function handleViewClients() {
     router.push("/userProfile/viewClientList/");
   }
-  
+
   function handleViewMessages() {
     router.push("/viewMessages/");
   }
 
   function handleViewChallenges() {
-    router.push("/userProfile/viewChallenges/");
+    router.push("/userProfile/challenges/viewChallenges/");
   }
 
   return (
     <>
       <LighterDiv>
-        <h2 className="center">{props.user.username}'s Profile</h2>
+        <h2 className="center">
+          {props.user.username.toLowerCase()}'s Profile
+        </h2>
         <Card>
           <Row>
             <Col>
@@ -94,14 +96,15 @@ function ProfileForm(props) {
                 {
                   //Viewing your own profile, as a client user
                 }
-                {ownProfilePage && !props.userprofile.personalTrainerProfile && (
-                  <TwoButtonProfile
-                    handleButtonOne={handleViewMessages}
-                    buttonOneText={"View Messages"}
-                    handleButtonTwo={handleViewChallenges}
-                    buttonTwoText={"View Challenges Assigned"}
-                  />
-                )}
+                {ownProfilePage &&
+                  !props.userprofile.personalTrainerProfile && (
+                    <TwoButtonProfile
+                      handleButtonOne={handleViewMessages}
+                      buttonOneText={"View Messages"}
+                      handleButtonTwo={handleViewChallenges}
+                      buttonTwoText={"View Challenges Assigned"}
+                    />
+                  )}
                 {
                   //Viewing a client user profile
                 }

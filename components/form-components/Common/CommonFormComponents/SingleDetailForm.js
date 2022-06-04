@@ -17,6 +17,12 @@ function ViewDetailForm(props) {
           {props.usernameFrom}
         </Link>
       </h3>
+      {props.exerciseName && <h4>Exercise: {props.exerciseName}</h4>}
+      {props.dateToAchieveBy && (
+        <h4>
+          Date to Achieve By: {new Date(props.dateToAchieveBy).toDateString()}
+        </h4>
+      )}
       <p>
         {props.dateTimeDetailText}
         {props.dateCreated}

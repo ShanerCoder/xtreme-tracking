@@ -108,6 +108,7 @@ function NewExerciseSection(props) {
               <input
                 type={"number"}
                 step="0.01"
+                max={1000}
                 ref={weightUsedRef}
                 id={"weightUsed"}
                 required
@@ -120,6 +121,7 @@ function NewExerciseSection(props) {
               <input
                 type={"number"}
                 step="1"
+                max={1000}
                 ref={numberOfRepsRef}
                 id={"noOfReps"}
                 required
@@ -130,6 +132,7 @@ function NewExerciseSection(props) {
               <input
                 type={"number"}
                 step="1"
+                max={1000}
                 ref={numberOfSetsRef}
                 id={"noOfSets"}
                 required

@@ -80,11 +80,10 @@ function ProfileView(props) {
         setErrorMessage(setPhotoData.errorMessage);
         setSuccessMessage(null);
       } else {
-        setSuccessMessage("Profile Picture Successfully Updated!");
+        window.location.reload(false);
         setErrorMessage(null);
       }
     }
-    router.push("/userProfile/settings");
   }
 
   async function savePassword(newPassword) {

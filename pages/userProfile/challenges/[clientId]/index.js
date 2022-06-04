@@ -1,164 +1,91 @@
 import Head from "next/head";
 import { dbConnect } from "../../../../lib/db-connect";
-import classes from "../../../PageStyling.module.css";
+import mongoose from "mongoose";
+import ExerciseList from "../../../../models/exerciseList";
+import CommonExerciseList from "../../../../models/commonExerciseList";
 import ClientList from "../../../../models/clientList";
 import ConsultationLists from "../../../../models/consultationLists";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../../components/ui/LighterDiv";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../../../../context";
 import { getValue } from "../../../../utils/common";
 import ClientDetailsSection from "../../../../components/form-components/ClientDetailsPage/ClientDetailsSection";
+import FullListOfExercises from "../../../../components/forms/TrackingForm/ExerciseList/FullListOfExercises";
+import DarkerDiv from "../../../../components/ui/DarkerDiv";
+import { Col, Row } from "react-bootstrap";
+import SelectExerciseForm from "../../../../components/forms/ChallengesForm/selectExerciseForm";
+import Card from "../../../../components/ui/Card";
 
-function selectedClient(props) {
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+function SendAChallenge(props) {
   const router = useRouter();
   const [state] = useStore();
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const user = getValue(state, ["user"], null);
-  const consultationsArray = props.clientConsultations; //NOTICE try pass in props clientconsultations instead of this
 
-  async function handleAddConsultation(datetimeOfConsultation) {
-    const date = new Date(datetimeOfConsultation);
-    const newConsultation = {
+  async function handleSubmit(postData) {
+    const bodyData = {
       personalTrainerUsername: user.username,
-      clientUsername: props.clientDetails.clientUsername,
-      datetimeOfConsultation: date,
+      clientUsername: props.client.clientUsername,
+      ...postData,
     };
 
-    const response = await fetch(
-      "/api/account/consultations/list_of_consultations",
-      {
-        method: "POST",
-        body: JSON.stringify(newConsultation),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const response = await fetch("/api/exerciseTracking/challenges", {
+      method: "POST",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
     const data = await response.json();
     if (data.hasError) {
       setErrorMessage(data.errorMessage);
       setSuccessMessage(null);
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
     } else {
+      setSuccessMessage("Challenge Sent!");
       setErrorMessage(null);
-      setSuccessMessage("Consultation has successfully been added");
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
     }
+    router.push("/userProfile/challenges/" + props.client.clientId);
   }
 
-  async function handleRemoveConsultation(id) {
-    const removeConsultation = {
-      personalTrainerUsername: props.clientDetails.personalTrainerUsername,
-      consultationId: id,
-    };
-
-    const response = await fetch(
-      "/api/account/consultations/list_of_consultations",
-      {
-        method: "DELETE",
-        body: JSON.stringify(removeConsultation),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    const data = await response.json();
-    if (data.hasError) {
-      setErrorMessage(data.errorMessage);
-      setSuccessMessage(null);
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
-    } else {
-      setErrorMessage(null);
-      setSuccessMessage("Consultation has successfully been removed");
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
-    }
-  }
-
-  async function handleRemoveClient(additionalContext) {
-    const clientUsername = props.clientDetails.clientUsername;
-    const personalTrainerUsername = props.clientDetails.personalTrainerUsername;
-    const removeClientBody = {
-      clientUsername: clientUsername,
-      personalTrainerUsername: personalTrainerUsername,
-    };
-
-    const removeClientResponse = await fetch(
-      "/api/account/consultations/remove_client",
-      {
-        method: "DELETE",
-        body: JSON.stringify(removeClientBody),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const removeClientdata = await removeClientResponse.json();
-
-    if (removeClientdata.hasError) {
-   
-      setErrorMessage(removeClientdata.errorMessage);
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
-    } else {
-      const removeClientMessage = {
-        usernameToReceive: clientUsername,
-        usernameWhoSent: personalTrainerUsername,
-        privateMessage:
-          user.username +
-          " has removed you from their client list.\n\nAdditional Context:\n" +
-          additionalContext,
-      };
-
-      const removeClientMessageResponse = await fetch(
-        "/api/account/account_profile/private_messages",
-        {
-          method: "POST",
-          body: JSON.stringify(removeClientMessage),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      await removeClientMessageResponse.json();
-      router.push("/userProfile/viewClientList");
-    }
+  function handleSetErrorMessage(errorMessage) {
+    setErrorMessage(errorMessage);
+    setSuccessMessage(null);
+    router.push("/userProfile/challenges/" + props.client.clientId);
   }
 
   return (
     <>
       <Head>
-        <title>Client Details</title>
+        <title>Send A Challenge</title>
         <meta
-          name="Xtreme Tracking Client Details Page"
-          content="View a selected Client's details here!"
+          name="Xtreme Tracking Send A Challenge Page"
+          content="Send a challenge to your client here!"
         />
       </Head>
-      {successMessage && (
-        <p className="successMessage">
-          {successMessage}
-        </p>
+      {successMessage && <p className="successMessage">{successMessage}</p>}
+      {errorMessage && <p className="errorMessage">{errorMessage}</p>}
+      {props.errorMessage ? (
+        <h1 className="center">{props.errorMessage}</h1>
+      ) : (
+        <>
+          <LighterDiv>
+            <h1 className="center">
+              Send a challenge to {props.client.clientUsername}!
+            </h1>
+
+            <Card>
+              <h2 className="center">Enter Exercise Details</h2>
+              <SelectExerciseForm
+                exerciseList={props.exerciseList}
+                commonExerciseList={props.commonExerciseList}
+                handleSubmit={handleSubmit}
+                setErrorMessage={handleSetErrorMessage}
+              />
+            </Card>
+          </LighterDiv>
+        </>
       )}
-      {errorMessage && (
-        <p
-          className="center"
-          style={{
-            textTransform: "capitalize",
-            color: "red",
-            fontSize: "45px",
-          }}
-        >
-          {errorMessage}
-        </p>
-      )}
-      <LighterDiv>
-        <h2 className={(classes.padding_top, "center")}>
-          Viewing {props.clientDetails.clientUsername}'s Details
-        </h2>
-        <ClientDetailsSection
-          clientDetails={props.clientDetails}
-          consultationsArray={consultationsArray}
-          addConsultation={handleAddConsultation}
-          removeConsultation={handleRemoveConsultation}
-          removeClient={handleRemoveClient}
-        />
-      </LighterDiv>
     </>
   );
 }
@@ -171,52 +98,46 @@ export async function getServerSideProps(context) {
     if (!session) {
       throw new Error("Session not found");
     }
-    const user = session.user.username;
 
     await dbConnect();
 
-    const clientFilter = { _id: clientId };
-    const clientDetails = await ClientList.findOne(clientFilter);
-    const consultationsFilter = {
-      personalTrainerUsername: clientDetails.personalTrainerUsername,
-      clientUsername: clientDetails.clientUsername,
+    let clientUsername = await ClientList.findOne({
+      _id: mongoose.Types.ObjectId(clientId),
+    }).select({
+      clientUsername: 1,
+      _id: 0,
+    });
+
+    clientUsername = clientUsername.clientUsername;
+
+    const exerciseList = await ExerciseList.find({
+      username: clientUsername,
+    }).sort({ muscleGroup: 1 });
+    const commonExerciseList = await CommonExerciseList.find({}).sort({
+      muscleGroup: 1,
+    });
+
+    return {
+      props: {
+        client: {
+          clientId: clientId,
+          clientUsername: clientUsername,
+        },
+        exerciseList: exerciseList.map((exercise) => ({
+          exerciseName: exercise.exerciseName,
+          muscleGroup: exercise.muscleGroup,
+        })),
+        commonExerciseList: commonExerciseList.map((exercise) => ({
+          exerciseName: exercise.exerciseName,
+          muscleGroup: exercise.muscleGroup,
+        })),
+      },
     };
-    const clientConsultations = await ConsultationLists.find(
-      consultationsFilter
-    ).sort({ datetimeOfConsultation: 1 });
-    if (user == clientDetails.personalTrainerUsername && clientConsultations)
-      return {
-        props: {
-          clientDetails: {
-            id: clientDetails._id.toString(),
-            personalTrainerUsername: clientDetails.personalTrainerUsername,
-            clientUsername: clientDetails.clientUsername,
-          },
-          clientConsultations: clientConsultations.map((consultation) => ({
-            id: consultation._id.toString(),
-            datetimeOfConsultation:
-              consultation.datetimeOfConsultation.toString(),
-          })),
-        },
-      };
-    else if (user == clientDetails.personalTrainerUsername) {
-      return {
-        props: {
-          clientDetails: {
-            id: clientDetails._id.toString(),
-            personalTrainerUsername: clientDetails.personalTrainerUsername,
-            clientUsername: clientDetails.clientUsername,
-          },
-        },
-      };
-    } else
-      return {
-        notFound: true,
-      };
   } catch (error) {
+    console.log(error);
     return {
       notFound: true,
     };
   }
 }
-export default selectedClient;
+export default SendAChallenge;

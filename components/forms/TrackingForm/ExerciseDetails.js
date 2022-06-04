@@ -7,16 +7,15 @@ function ExerciseDetails(props) {
     <li className={classes.detailSection}>
       <div className={classes.detailBubble}>
         <Row className={classes.detailButtonsSection}>
-        <Col xs={12} sm={3}>
-          {props.exerciseName ? (
-            
+          <Col xs={12} sm={3}>
+            {props.exerciseName ? (
               <Link href={"/tracking/exerciseHistory/" + props.exerciseName}>
                 {props.exerciseName}
               </Link>
-          ) : (
-            <label>{props.dateOfExercise}</label>
-          )} </Col>
-          
+            ) : (
+              <label>{props.dateOfExercise}</label>
+            )}{" "}
+          </Col>
 
           <Col xs={12} sm={2}>
             <label>{props.weightUsed}kg</label>
@@ -33,7 +32,7 @@ function ExerciseDetails(props) {
                 props.removeExerciseRecord(props.id);
               }}
             >
-              Remove Exercise Record
+              {props.removeButtonText}
             </button>
           </Col>
         </Row>

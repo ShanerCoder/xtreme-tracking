@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
-import classes from "../../PageStyling.module.css";
 import Cryptr from "cryptr";
 import PrivateMessage from "../../../models/privateMessage";
 import { getSession } from "next-auth/client";
@@ -71,20 +70,9 @@ function selectedMessage(props) {
           content="View a selected message here!"
         />
       </Head>
-      {errorMessage && (
-        <p
-          className="center"
-          style={{
-            textTransform: "capitalize",
-            color: "red",
-            fontSize: "45px",
-          }}
-        >
-          {errorMessage}
-        </p>
-      )}
+      {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       <LighterDiv>
-        <h2 className={(classes.padding_top, "center")}>
+        <h2 className="center">
           Viewing {props.privateMessage.usernameFrom}'s Message
         </h2>
         <ViewSelectedDetailForm
@@ -109,7 +97,7 @@ export async function getServerSideProps(context) {
     if (!session) {
       throw new Error("Session not found");
     }
-    const user = session.user.username;
+    const user = session.user;
 
     await dbConnect();
     const cryptr = new Cryptr(process.env.SECRET_KEY);
@@ -117,7 +105,7 @@ export async function getServerSideProps(context) {
     const filter = { _id: privateMessageId };
     const message = await PrivateMessage.findOne(filter);
 
-    if (user == message.usernameToReceive)
+    if (user.username == message.usernameToReceive)
       return {
         props: {
           privateMessage: {
