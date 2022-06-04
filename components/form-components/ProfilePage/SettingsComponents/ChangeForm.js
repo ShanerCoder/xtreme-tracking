@@ -1,4 +1,4 @@
-import Card from "../../ui/Card";
+import Card from "../../../ui/Card";
 import { useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 

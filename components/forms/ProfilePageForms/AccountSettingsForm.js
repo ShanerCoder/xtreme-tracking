@@ -1,5 +1,5 @@
 import { Col, Row } from "react-bootstrap";
-import ChangeForm from "../../form-components/ProfilePage/ChangeForm";
+import ChangeForm from "../../form-components/ProfilePage/SettingsComponents/ChangeForm";
 
 function AccountSettingsForm(props) {
   return (

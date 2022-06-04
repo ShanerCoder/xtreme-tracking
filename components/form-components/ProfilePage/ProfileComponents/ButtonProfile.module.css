@@ -1,0 +1,14 @@
+
+.secondButtonPadding {
+  padding-bottom: 40px;
+}
+
+@media (max-width: 576px) {
+  .columnPadding {
+    padding-bottom: 25px;
+  }
+
+  .secondButtonPadding {
+    padding-bottom: 25px;
+  }
+}

@@ -1,0 +1,9 @@
+.profilePicture {
+  width:90%;
+  margin-left: 5%;
+  height: 80%;
+  max-height: 350px;
+  padding: 20px;
+  border-radius: 10%;
+  min-width: 80px;
+}
