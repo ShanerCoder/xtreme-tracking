@@ -11,6 +11,7 @@ import Calendar from "../../components/ui/Calendar";
 import LighterDiv from "../../components/ui/LighterDiv";
 import DarkerDiv from "../../components/ui/DarkerDiv";
 import ExercisesAtDateSection from "../../components/forms/TrackingForm/ExercisesAtDateSection";
+import Card from "../../components/ui/Card";
 
 function ProfileView(props) {
   const router = useRouter();
