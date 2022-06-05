@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { Col, Row } from "react-bootstrap";
 import classes from "./navbarButton.module.css";
-
 function NavbarButton(props) {
+
+
   return (
-    <Link href={props.link}>
-      <div className={classes.link}>
+
+      <div className={classes.link} onClick={() => {
+        props.handleLoader(props.link)
+      }}>
         <Row>
           <Col xs={3} lg={3}>
             <img className={classes.icon} src={props.imgsrc} />
@@ -15,7 +18,6 @@ function NavbarButton(props) {
           </Col>
         </Row>
       </div>
-    </Link>
   );
 }
 
