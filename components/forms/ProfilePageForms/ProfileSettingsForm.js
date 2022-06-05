@@ -3,7 +3,7 @@ import classes from "./ProfileSettingsForm.module.css";
 import { useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Image } from "cloudinary-react";
-import AdditionalSetting from "../../form-components/ProfilePage/AdditionalSetting";
+import AdditionalSetting from "../../form-components/ProfilePage/SettingsComponents/AdditionalSetting";
 
 function ProfileForm(props) {
   const [imageSrc, setImageSrc] = useState(null);

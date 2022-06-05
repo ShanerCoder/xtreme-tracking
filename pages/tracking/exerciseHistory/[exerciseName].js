@@ -49,8 +49,6 @@ export async function getServerSideProps(context) {
       exerciseName: exerciseName,
     }).sort({ dateOfExercise: -1 });
 
-    console.log(exerciseHistory);
-
     if (exerciseHistory.length) {
       return {
         props: {

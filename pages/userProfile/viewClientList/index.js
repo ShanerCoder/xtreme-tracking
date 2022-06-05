@@ -25,6 +25,8 @@ function ViewClientList(props) {
               incomingDetails={props.clientList}
               viewDetailURL={"/userProfile/viewClientList/"}
               detailName={"Client Details"}
+              secondDetail={"Send Challenge"}
+              secondDetailURL={"/userProfile/challenges/"}
               clientDetailText={"Client Username: "}
               dateTimeDetailText={"Client Since: "}
             />

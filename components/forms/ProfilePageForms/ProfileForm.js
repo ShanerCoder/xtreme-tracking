@@ -6,7 +6,11 @@ import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Image } from "cloudinary-react";
+import ProfileImageAndName from "../../form-components/ProfilePage/ProfileComponents/ProfileImageAndName";
+import FourButtonProfile from "../../form-components/ProfilePage/ProfileComponents/FourButtonProfile";
+import ThreeButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ThreeButtonProfile";
+import TwoButtonProfile from "../../form-components/ProfilePage/ProfileComponents/TwoButtonProfile";
+import OneButtonProfile from "../../form-components/ProfilePage/ProfileComponents/OneButtonProfile";
 
 function ProfileForm(props) {
   const router = useRouter();
@@ -34,76 +38,89 @@ function ProfileForm(props) {
     router.push("/userProfile/viewClientList/");
   }
 
+  function handleViewMessages() {
+    router.push("/viewMessages/");
+  }
+
+  function handleViewChallenges() {
+    router.push("/userProfile/challenges/viewChallenges/");
+  }
+
   return (
     <>
       <LighterDiv>
-        <h2 className="center">{props.user.username}'s Profile</h2>
+        <h2 className="center">
+          {props.user.username.toLowerCase()}'s Profile
+        </h2>
         <Card>
           <Row>
             <Col>
-              <Row>
-                <Image
-                  className={classes.profilePicture}
-                  cloudName="multishane999"
-                  publicId={props.userprofile.profilePictureId}
-                />
-              </Row>
-              <Row>
-                <h3 className="center">
-                  {props.user.forename} {props.user.surname}
-                </h3>
-              </Row>
+              <ProfileImageAndName
+                pictureId={props.userprofile.profilePictureId}
+                forename={props.user.forename}
+                surname={props.user.surname}
+              />
             </Col>
             <Col xs={12} sm={8}>
               <p className={classes.profileDescription}>
                 {props.userprofile.profileDescription}
               </p>
               <Row className={classes.profileButtonsSection}>
-                {!ownProfilePage && props.userprofile.personalTrainerProfile && (
-                  <>
-                    <Col xs={12} sm={6} className={classes.columnPadding}>
-                      <button onClick={handlePrivateMessage}>
-                        Send A Private Message
-                      </button>
-                    </Col>
-                    <Col xs={12} sm={6}>
-                      <button onClick={handleConsultationRequest}>
-                        Request A Consultation
-                      </button>
-                    </Col>
-                  </>
-                )}
+                {
+                  //Viewing a personal trainer profile
+                }
+                {!ownProfilePage &&
+                  props.userprofile.personalTrainerProfile && (
+                    <TwoButtonProfile
+                      handleButtonOne={handlePrivateMessage}
+                      buttonOneText={"Send A Private Message"}
+                      handleButtonTwo={handleConsultationRequest}
+                      buttonTwoText={"Request A Consultation"}
+                    />
+                  )}
+                {
+                  //Viewing your own profile, as a personal trainer
+                }
                 {ownProfilePage && props.userprofile.personalTrainerProfile && (
-                  <>
-                      <Col xs={12} sm={6} className={classes.columnPadding}>
-                        <button onClick={handleViewConsultationRequests}>
-                          View Incoming Consultation Requests
-                        </button>
-                      </Col>
-                      <Col xs={12} sm={6} className={classes.clientListPadding}>
-                        <button onClick={handleViewConsultationSchedule}>
-                          View Consultation Schedule
-                        </button>
-                      </Col>
-                      <Col xs={12}>
-                        <button onClick={handleViewClients}>
-                          View List of Clients
-                        </button>
-                      </Col>
-                  </>
+                  <FourButtonProfile
+                    handleButtonOne={handleViewConsultationRequests}
+                    buttonOneText={"View Incoming Consultation Requests"}
+                    handleButtonTwo={handleViewConsultationSchedule}
+                    buttonTwoText={"View Consultation Schedule"}
+                    handleButtonThree={handleViewClients}
+                    buttonThreeText={"View List of Clients"}
+                    handleButtonFour={handleViewChallenges}
+                    buttonFourText={"View Challenges Assigned"}
+                  />
                 )}
-                {!ownProfilePage && !props.userprofile.personalTrainerProfile && (
-                  <>
-                    <Col xs={12} sm={12} className={classes.columnPadding}>
-                      <button onClick={handlePrivateMessage}>
-                        Send A Private Message
-                      </button>
-                    </Col>
-                  </>
-                )}
+                {
+                  //Viewing your own profile, as a client user
+                }
+                {ownProfilePage &&
+                  !props.userprofile.personalTrainerProfile && (
+                    <TwoButtonProfile
+                      handleButtonOne={handleViewMessages}
+                      buttonOneText={"View Messages"}
+                      handleButtonTwo={handleViewChallenges}
+                      buttonTwoText={"View Challenges Assigned"}
+                    />
+                  )}
+                {
+                  //Viewing a client user profile
+                }
+                {!ownProfilePage &&
+                  !props.userprofile.personalTrainerProfile && (
+                    <OneButtonProfile
+                      handleButtonOne={handlePrivateMessage}
+                      buttonOneText={"Send A Private Message"}
+                    />
+                  )}
               </Row>
             </Col>
-            {ownProfilePage ? (
+            {
+              //Settings option if viewing your own profile page
+            }
+            {ownProfilePage && (
               <Col xs={12} sm={1}>
                 <div className={classes.profileSettingsDiv}>
                   <Link href="/userProfile/settings/">
@@ -114,8 +131,6 @@ function ProfileForm(props) {
                   </Link>
                 </div>
               </Col>
-            ) : (
-              <></>
             )}
           </Row>
         </Card>

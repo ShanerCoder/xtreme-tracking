@@ -1,0 +1,143 @@
+import Head from "next/head";
+import { dbConnect } from "../../../../lib/db-connect";
+import mongoose from "mongoose";
+import ExerciseList from "../../../../models/exerciseList";
+import CommonExerciseList from "../../../../models/commonExerciseList";
+import ClientList from "../../../../models/clientList";
+import ConsultationLists from "../../../../models/consultationLists";
+import { getSession } from "next-auth/client";
+import LighterDiv from "../../../../components/ui/LighterDiv";
+import { useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useStore } from "../../../../context";
+import { getValue } from "../../../../utils/common";
+import ClientDetailsSection from "../../../../components/form-components/ClientDetailsPage/ClientDetailsSection";
+import FullListOfExercises from "../../../../components/forms/TrackingForm/ExerciseList/FullListOfExercises";
+import DarkerDiv from "../../../../components/ui/DarkerDiv";
+import { Col, Row } from "react-bootstrap";
+import SelectExerciseForm from "../../../../components/forms/ChallengesForm/selectExerciseForm";
+import Card from "../../../../components/ui/Card";
+
+function SendAChallenge(props) {
+  const router = useRouter();
+  const [state] = useStore();
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const user = getValue(state, ["user"], null);
+
+  async function handleSubmit(postData) {
+    const bodyData = {
+      personalTrainerUsername: user.username,
+      clientUsername: props.client.clientUsername,
+      ...postData,
+    };
+
+    const response = await fetch("/api/exerciseTracking/challenges", {
+      method: "POST",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Challenge Sent!");
+      setErrorMessage(null);
+    }
+    router.push("/userProfile/challenges/" + props.client.clientId);
+  }
+
+  function handleSetErrorMessage(errorMessage) {
+    setErrorMessage(errorMessage);
+    setSuccessMessage(null);
+    router.push("/userProfile/challenges/" + props.client.clientId);
+  }
+
+  return (
+    <>
+      <Head>
+        <title>Send A Challenge</title>
+        <meta
+          name="Xtreme Tracking Send A Challenge Page"
+          content="Send a challenge to your client here!"
+        />
+      </Head>
+      {successMessage && <p className="successMessage">{successMessage}</p>}
+      {errorMessage && <p className="errorMessage">{errorMessage}</p>}
+      {props.errorMessage ? (
+        <h1 className="center">{props.errorMessage}</h1>
+      ) : (
+        <>
+          <LighterDiv>
+            <h1 className="center">
+              Send a challenge to {props.client.clientUsername}!
+            </h1>
+
+            <Card>
+              <h2 className="center">Enter Exercise Details</h2>
+              <SelectExerciseForm
+                exerciseList={props.exerciseList}
+                commonExerciseList={props.commonExerciseList}
+                handleSubmit={handleSubmit}
+                setErrorMessage={handleSetErrorMessage}
+              />
+            </Card>
+          </LighterDiv>
+        </>
+      )}
+    </>
+  );
+}
+
+export async function getServerSideProps(context) {
+  try {
+    const clientId = context.query.clientId;
+    const req = context.req;
+    const session = await getSession({ req });
+    if (!session) {
+      throw new Error("Session not found");
+    }
+
+    await dbConnect();
+
+    let clientUsername = await ClientList.findOne({
+      _id: mongoose.Types.ObjectId(clientId),
+    }).select({
+      clientUsername: 1,
+      _id: 0,
+    });
+
+    clientUsername = clientUsername.clientUsername;
+
+    const exerciseList = await ExerciseList.find({
+      username: clientUsername,
+    }).sort({ muscleGroup: 1 });
+    const commonExerciseList = await CommonExerciseList.find({}).sort({
+      muscleGroup: 1,
+    });
+
+    return {
+      props: {
+        client: {
+          clientId: clientId,
+          clientUsername: clientUsername,
+        },
+        exerciseList: exerciseList.map((exercise) => ({
+          exerciseName: exercise.exerciseName,
+          muscleGroup: exercise.muscleGroup,
+        })),
+        commonExerciseList: commonExerciseList.map((exercise) => ({
+          exerciseName: exercise.exerciseName,
+          muscleGroup: exercise.muscleGroup,
+        })),
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      notFound: true,
+    };
+  }
+}
+export default SendAChallenge;

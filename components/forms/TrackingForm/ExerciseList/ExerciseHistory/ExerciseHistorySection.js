@@ -23,6 +23,7 @@ function ExerciseHistorySection(props) {
                   numberOfReps={exercise.numberOfReps}
                   numberOfSets={exercise.numberOfSets}
                   dateOfExercise={exercise.dateOfExercise}
+                  removeButtonText={"Remove Exercise Record"}
                 />
               </Col>
               <hr></hr>

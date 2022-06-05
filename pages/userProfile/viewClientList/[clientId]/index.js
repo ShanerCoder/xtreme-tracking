@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { dbConnect } from "../../../../lib/db-connect";
-import classes from "../../../PageStyling.module.css";
 import ClientList from "../../../../models/clientList";
 import ConsultationLists from "../../../../models/consultationLists";
 import { getSession } from "next-auth/client";
@@ -95,7 +94,6 @@ function selectedClient(props) {
     const removeClientdata = await removeClientResponse.json();
 
     if (removeClientdata.hasError) {
-   
       setErrorMessage(removeClientdata.errorMessage);
       router.push("/userProfile/viewClientList/" + props.clientDetails.id);
     } else {
@@ -130,11 +128,7 @@ function selectedClient(props) {
           content="View a selected Client's details here!"
         />
       </Head>
-      {successMessage && (
-        <p className="successMessage">
-          {successMessage}
-        </p>
-      )}
+      {successMessage && <p className="successMessage">{successMessage}</p>}
       {errorMessage && (
         <p
           className="center"
@@ -148,7 +142,7 @@ function selectedClient(props) {
         </p>
       )}
       <LighterDiv>
-        <h2 className={(classes.padding_top, "center")}>
+        <h2 className="center">
           Viewing {props.clientDetails.clientUsername}'s Details
         </h2>
         <ClientDetailsSection

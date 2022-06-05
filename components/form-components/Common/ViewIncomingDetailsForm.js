@@ -1,4 +1,3 @@
-import classes from "./ViewIncomingDetailsForm.module.css";
 import SingleDetailForm from "./CommonFormComponents/SingleDetailForm";
 
 function ViewIncomingDetailsForm(props) {
@@ -13,8 +12,12 @@ function ViewIncomingDetailsForm(props) {
             dateCreated={detail.dateCreated}
             viewDetailURL={props.viewDetailURL + detail.id}
             detailName={props.detailName}
+            secondDetail={props.secondDetail}
+            secondDetailURL={props.secondDetailURL + detail.id}
             clientDetailText={props.clientDetailText}
             dateTimeDetailText={props.dateTimeDetailText}
+            exerciseName={detail.exerciseName}
+            dateToAchieveBy={detail.dateToAchieveBy}
           />
         ))}
       </ul>
