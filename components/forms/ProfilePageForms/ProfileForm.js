@@ -48,7 +48,6 @@ function ProfileForm(props) {
 
   return (
     <>
-      <LighterDiv>
         <h2 className="center">
           {props.user.username.toLowerCase()}'s Profile
         </h2>
@@ -134,7 +133,6 @@ function ProfileForm(props) {
             )}
           </Row>
         </Card>
-      </LighterDiv>
     </>
   );
 }
