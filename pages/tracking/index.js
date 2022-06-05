@@ -14,10 +14,12 @@ import { useRouter } from "next/router";
 import NewExerciseSection from "../../components/forms/TrackingForm/NewExerciseSection";
 import { Card, Col, Row } from "react-bootstrap";
 import ExercisesAtDateSection from "../../components/forms/TrackingForm/ExercisesAtDateSection";
+import { useLoadingStore } from "../../context/loadingScreen";
 
 function ViewTrackingProgress(props) {
   const router = useRouter();
   const [state] = useStore();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const user = getValue(state, ["user"], null);
@@ -33,11 +35,8 @@ function ViewTrackingProgress(props) {
     setSelectedDate(date.toDateString());
   }
 
-  function handleCreateNewExercise() {
-    router.push("/tracking/exerciseList");
-  }
-
   async function handleAddExercise(postData) {
+    showLoadingScreen({ type: true });
     const bodyData = {
       username: user.username,
       ...postData,
@@ -57,10 +56,12 @@ function ViewTrackingProgress(props) {
       setSuccessMessage("Exercise Successfully Added!");
       setErrorMessage(null);
     }
-    router.push("/tracking");
+    await router.push("/tracking");
+    showLoadingScreen({ type: false });
   }
 
   async function handleRemoveExerciseRecord(exerciseRecordId) {
+    showLoadingScreen({ type: true });
     const bodyData = {
       exerciseRecordId: exerciseRecordId,
       username: user.username,
@@ -79,7 +80,8 @@ function ViewTrackingProgress(props) {
       setSuccessMessage("Exercise Successfully Removed!");
       setErrorMessage(null);
     }
-    router.push("/tracking");
+    await router.push("/tracking");
+    showLoadingScreen({ type: false });
   }
 
   return (
@@ -115,7 +117,6 @@ function ViewTrackingProgress(props) {
                   commonExerciseList={props.commonExerciseList}
                   selectedDate={selectedDate}
                   addExercise={handleAddExercise}
-                  createNewExercise={handleCreateNewExercise}
                 />
               </Col>
               <Col xs={12} lg={8}>

@@ -13,8 +13,10 @@ import NewConsultationSection from "../../../components/forms/ConsultationSchedu
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useRouter } from "next/router";
+import { useLoadingStore } from "../../../context/loadingScreen";
 
 function ViewConsultationSchedule(props) {
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
   const [state] = useStore();
   const [successMessage, setSuccessMessage] = useState(null);
@@ -32,6 +34,7 @@ function ViewConsultationSchedule(props) {
   }
 
   async function handleAddConsultation(postData) {
+    showLoadingScreen({ type: true });
     const bodyData = {
       ...postData,
       personalTrainerUsername: user.username,
@@ -54,10 +57,12 @@ function ViewConsultationSchedule(props) {
       setSuccessMessage("Consultation Successfully Created!");
       setErrorMessage(null);
     }
-    router.push("/userProfile/viewConsultationSchedule");
+    await router.push("/userProfile/viewConsultationSchedule");
+    showLoadingScreen({ type: false });
   }
 
   async function handleRemoveConsultation(consultationId) {
+    showLoadingScreen({ type: true });
     const bodyData = {
       consultationId: consultationId,
       personalTrainerUsername: user.username,
@@ -79,7 +84,8 @@ function ViewConsultationSchedule(props) {
       setSuccessMessage("Consultation Successfully Removed!");
       setErrorMessage(null);
     }
-    router.push("/userProfile/viewConsultationSchedule");
+    await router.push("/userProfile/viewConsultationSchedule");
+    showLoadingScreen({ type: false });
   }
 
   return (

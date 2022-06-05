@@ -2,23 +2,36 @@ import classes from "./ConsultationDetails.module.css";
 import { Col, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
 import UserIcon from "../../ui/UserIcon";
-import Link from "next/link";
+import { useLoadingStore } from "../../../context/loadingScreen";
 
 function ConsultationDetails(props) {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const dateOfConsultation = new Date(
     props.datetimeOfConsultation
   ).toDateString();
   const timeOfConsultation = new Date(
     props.datetimeOfConsultation
   ).toTimeString();
+
+  async function handleLoader(URL) {
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
+  }
+
   return (
     <li key={props.id} className={classes.detailSection}>
       <h3>
         {props.clientDetailText}
-        <Link href={"/userProfile/" + props.clientUsername}>
+        <label
+          className="linkLabel"
+          onClick={() => {
+            handleLoader("/userProfile/" + props.clientUsername);
+          }}
+        >
           {props.clientUsername}
-        </Link>
+        </label>
       </h3>
       <p>
         {dateOfConsultation} - {timeOfConsultation}

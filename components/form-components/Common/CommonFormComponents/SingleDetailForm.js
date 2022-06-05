@@ -1,21 +1,31 @@
 import classes from "./SingleDetailForm.module.css";
-import { Col, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
-import UserIcon from "../../../ui/UserIcon";
-import Link from "next/link";
 import TwoButtonDetailSection from "./TwoButtonDetailSection";
 import ThreeButtonDetailSection from "./ThreeButtonDetailSection";
+import { useLoadingStore } from "../../../../context/loadingScreen";
 
 function ViewDetailForm(props) {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
+
+  async function handleLoader(URL) {
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
+  }
 
   return (
     <li key={props.id} className={classes.detailSection}>
       <h3>
         {props.clientDetailText}
-        <Link href={"/userProfile/" + props.usernameFrom}>
+        <label
+          className="linkLabel"
+          onClick={() => {
+            handleLoader("/userProfile/" + props.usernameFrom);
+          }}
+        >
           {props.usernameFrom}
-        </Link>
+        </label>
       </h3>
       {props.exerciseName && <h4>Exercise: {props.exerciseName}</h4>}
       {props.dateToAchieveBy && (

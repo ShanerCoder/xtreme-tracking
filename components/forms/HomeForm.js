@@ -3,9 +3,18 @@ import classes from "./HomeForm.module.css";
 import LighterDiv from "../ui/LighterDiv";
 import DarkerDiv from "../ui/DarkerDiv";
 import { useRouter } from "next/router";
+import { useLoadingStore } from "../../context/loadingScreen";
 
 function HomeForm() {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
+
+  async function handleLoader(URL) {
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
+  }
+
   function firstBlockOfText() {
     return (
       <>
@@ -16,7 +25,7 @@ function HomeForm() {
         <button
           className={classes.buttonFormatting}
           onClick={() => {
-            router.push("/tracking");
+            handleLoader("/tracking");
           }}
         >
           TRACK NOW
@@ -33,7 +42,7 @@ function HomeForm() {
         <button
           className={classes.buttonFormatting}
           onClick={() => {
-            router.push("/userProfile/settings");
+            handleLoader("/userProfile/settings");
           }}
         >
           SET UP YOUR PROFILE
@@ -51,7 +60,7 @@ function HomeForm() {
         <button
           className={classes.buttonFormatting}
           onClick={() => {
-            router.push("/social");
+            handleLoader("/social");
           }}
         >
           SOCIAL PAGE

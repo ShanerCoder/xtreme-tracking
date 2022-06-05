@@ -4,10 +4,14 @@ import { dbConnect } from "../../../lib/db-connect";
 import ExerciseHistorySection from "../../../components/forms/TrackingForm/ExerciseList/ExerciseHistory/ExerciseHistorySection";
 import { useRouter } from "next/router";
 import LighterDiv from "../../../components/ui/LighterDiv";
+import { useLoadingStore } from "../../../context/loadingScreen";
 
 function exerciseHistory(props) {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
+
   async function handleRemoveExerciseRecord(exerciseRecordId) {
+    showLoadingScreen({ type: true });
     const bodyData = {
       exerciseRecordId: exerciseRecordId,
       username: props.ownUsername,
@@ -19,7 +23,8 @@ function exerciseHistory(props) {
       headers: { "Content-Type": "application/json" },
     });
     await response.json();
-    router.push("/tracking/exerciseHistory/" + props.exerciseName);
+    await router.push("/tracking/exerciseHistory/" + props.exerciseName);
+    showLoadingScreen({ type: false });
   }
 
   return props.errorMessage ? (

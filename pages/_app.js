@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
 import Layout from "../components/layout/Layout";
 import { StoreProvider } from "../context";
+import { LoadingScreenStoreProvider } from "../context/loadingScreen";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -39,9 +40,11 @@ function MyApp({ Component, pageProps }) {
 
       <SSRProvider>
         <StoreProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <LoadingScreenStoreProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </LoadingScreenStoreProvider>
         </StoreProvider>
       </SSRProvider>
     </>

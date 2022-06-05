@@ -45,14 +45,15 @@ button {
     text-align: center;
   }
 
-  a {
+  a, .linkLabel {
     color: #B2002D;
     font-weight: bold;
     text-decoration: none;
     transition: color 0.7s ease-in-out;
+    cursor: pointer;
   }
 
-  a:hover {
+  a:hover, .linkLabel:hover {
     color: #e33f3f;
   }
 

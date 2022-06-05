@@ -6,28 +6,30 @@ import { signOut } from "next-auth/client";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
 import { authConstants } from "../../context/constants";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import NavbarButton from "./layoutComponents/navbarButton";
 import UserIcon from "../ui/UserIcon";
+import { useLoadingStore } from "../../context/loadingScreen";
 
-function MainNavigation(props) {
+function MainNavigation() {
   var [toggle, setToggle] = useState(false);
   const [state, dispatch] = useStore();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const user = getValue(state, ["user"], null);
   const authenticated = getValue(state, ["user", "authenticated"], false);
   const searchInputRef = useRef();
   const router = useRouter();
 
   async function handleLoader(URL) {
-    props.showLoader();
-    await router.replace(URL);
-    props.hideLoader();
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
   }
 
   function handleSearch(event) {
     event.preventDefault();
     const userToSearch = searchInputRef.current.value;
-    router.push("/userProfile/" + userToSearch);
+    handleLoader("/userProfile/" + userToSearch);
     searchInputRef.current.value = null;
   }
 
@@ -50,7 +52,6 @@ function MainNavigation(props) {
               src="/icons/magnifyingGlass.png"
               onClick={() => {
                 setToggle(!toggle);
-                console.log(toggle);
               }}
             />
             {toggle && (

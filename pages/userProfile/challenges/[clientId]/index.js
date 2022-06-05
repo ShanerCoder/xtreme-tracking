@@ -4,28 +4,26 @@ import mongoose from "mongoose";
 import ExerciseList from "../../../../models/exerciseList";
 import CommonExerciseList from "../../../../models/commonExerciseList";
 import ClientList from "../../../../models/clientList";
-import ConsultationLists from "../../../../models/consultationLists";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../../components/ui/LighterDiv";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../../../../context";
 import { getValue } from "../../../../utils/common";
-import ClientDetailsSection from "../../../../components/form-components/ClientDetailsPage/ClientDetailsSection";
-import FullListOfExercises from "../../../../components/forms/TrackingForm/ExerciseList/FullListOfExercises";
-import DarkerDiv from "../../../../components/ui/DarkerDiv";
-import { Col, Row } from "react-bootstrap";
 import SelectExerciseForm from "../../../../components/forms/ChallengesForm/selectExerciseForm";
 import Card from "../../../../components/ui/Card";
+import { useLoadingStore } from "../../../../context/loadingScreen";
 
 function SendAChallenge(props) {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [state] = useStore();
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const user = getValue(state, ["user"], null);
 
   async function handleSubmit(postData) {
+    showLoadingScreen({ type: true });
     const bodyData = {
       personalTrainerUsername: user.username,
       clientUsername: props.client.clientUsername,
@@ -45,7 +43,8 @@ function SendAChallenge(props) {
       setSuccessMessage("Challenge Sent!");
       setErrorMessage(null);
     }
-    router.push("/userProfile/challenges/" + props.client.clientId);
+    await router.push("/userProfile/challenges/" + props.client.clientId);
+    showLoadingScreen({ type: false });
   }
 
   function handleSetErrorMessage(errorMessage) {

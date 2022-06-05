@@ -10,14 +10,17 @@ import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useLoadingStore } from "../../../context/loadingScreen";
 
 function RequestConsultation(props) {
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
 
   async function submitHandler(messageData) {
+    showLoadingScreen({ type: true });
     const consultationRequest = {
       usernameToReceive: props.user.username,
       usernameWhoSent: user.username,
@@ -38,8 +41,9 @@ function RequestConsultation(props) {
       setErrorMessage(data.errorMessage);
     } else {
       setErrorMessage(null);
-      router.push("/userProfile/" + props.user.username);
+      await router.push("/userProfile/" + props.user.username);
     }
+    showLoadingScreen({ type: false });
   }
 
   return (

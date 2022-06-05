@@ -2,16 +2,24 @@ import classes from "./SingleDetailForm.module.css";
 import { Col, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
 import UserIcon from "../../../ui/UserIcon";
+import { useLoadingStore } from "../../../../context/loadingScreen";
 
 function TwoButtonDetailSection(props) {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
+
+  async function handleLoader(URL) {
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
+  }
 
   return (
     <Row className={classes.detailButtonsSection}>
       <Col className={classes.columnPadding} xs={12} sm={5}>
         <button
           onClick={() => {
-            router.push(props.viewDetailURL);
+            handleLoader(props.viewDetailURL);
           }}
         >
           View {props.detailName}
@@ -20,7 +28,7 @@ function TwoButtonDetailSection(props) {
       <Col xs={8} sm={5}>
         <button
           onClick={() => {
-            router.push("/userProfile/" + props.usernameFrom);
+            handleLoader("/userProfile/" + props.usernameFrom);
           }}
         >
           View Profile

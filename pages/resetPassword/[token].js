@@ -5,11 +5,15 @@ import Token from "../../models/token";
 import bcrypt from "bcrypt";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useLoadingStore } from "../../context/loadingScreen";
+
 function ResetPasswordView(props) {
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
 
   async function resetPasswordSubmitHandler(newPassword) {
+    showLoadingScreen({ type: true });
     const resetPassword = {
       password: newPassword,
       userId: props.userId,
@@ -27,11 +31,14 @@ function ResetPasswordView(props) {
     const data = await response.json();
     if (data.hasError) {
       setErrorMessage(data.errorMessage);
-      router.push(`/resetPassword/${props.queryToken}?id=${props.userId}`);
+      await router.push(
+        `/resetPassword/${props.queryToken}?id=${props.userId}`
+      );
     } else {
       setErrorMessage(null);
-      router.push("/login");
+      await router.push("/login");
     }
+    showLoadingScreen({ type: false });
   }
 
   return (

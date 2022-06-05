@@ -4,14 +4,17 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
+import { useLoadingStore } from "../context/loadingScreen";
 
 function RegisterPage() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
   async function addUserHandler(newUserData) {
+    showLoadingScreen({ type: true });
     const userAccountResponse = await fetch(
       "/api/account/account_creation/user_account",
       {
@@ -26,7 +29,7 @@ function RegisterPage() {
     const userAccountData = await userAccountResponse.json();
     if (userAccountData.hasError) {
       setErrorMessage(userAccountData.errorMessage);
-      router.push("/register");
+      await router.push("/register");
     } else {
       const newUserProfile = {
         username: newUserData.username,
@@ -44,8 +47,9 @@ function RegisterPage() {
       );
       await userProfileResponse.json();
       setErrorMessage(null);
-      router.push("/login");
+      await router.push("/login");
     }
+    showLoadingScreen({ type: false });
   }
 
   if (user && user.authenticated) {

@@ -1,10 +1,19 @@
 import classes from "./AccountLoginSection.module.css";
 import { useRef } from "react";
-import Link from "next/link";
+import { useLoadingStore } from "../../../context/loadingScreen";
+import { useRouter } from "next/router";
 
 function AccountCreationSection(props) {
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
+  const router = useRouter();
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
+
+  async function handleLoader(URL) {
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -24,7 +33,14 @@ function AccountCreationSection(props) {
     <div className={classes.divFormatting}>
       <div className={classes.noAccountFormatting}>
         <p>Don't have an account?</p>
-        <Link href="/register">Register Here</Link>
+        <label
+          className="linkLabel"
+          onClick={() => {
+            handleLoader("/register");
+          }}
+        >
+          Register Here
+        </label>
       </div>
       <form
         className={"form " + classes.formFormatting}
@@ -67,13 +83,17 @@ function AccountCreationSection(props) {
           </p>
         </div>
       </form>
-      <Link href="/forgotPassword">
-        <div className="center url">
-          <Link className="link" href="/forgotPassword">
-            Forgot Password?
-          </Link>
-        </div>
-      </Link>
+
+      <div className="center url">
+        <label
+          className="linkLabel"
+          onClick={() => {
+            handleLoader("/forgotPassword");
+          }}
+        >
+          Forgot Password?
+        </label>
+      </div>
     </div>
   );
 }

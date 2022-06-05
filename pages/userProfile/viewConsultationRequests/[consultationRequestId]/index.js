@@ -9,14 +9,17 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../../../../context";
 import { getValue } from "../../../../utils/common";
+import { useLoadingStore } from "../../../../context/loadingScreen";
 
 function selectedMessage(props) {
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
   async function handleAcceptRequest(additionalContext) {
+    showLoadingScreen({ type: true });
     const acceptedConsultationRequest = {
       id: props.consultationRequest.id,
       additionalContext: additionalContext == "" ? "N/A" : additionalContext,
@@ -49,11 +52,13 @@ function selectedMessage(props) {
       );
       const deletedata = await deleteresponse.json();
       if (deletedata.hasError) setErrorMessage(deletedata.errorMessage);
-      else router.push("/userProfile/viewConsultationRequests/");
+      else await router.push("/userProfile/viewConsultationRequests/");
+      showLoadingScreen({ type: false });
     }
   }
 
   async function handleDenyRequest(additionalContext) {
+    showLoadingScreen({ type: true });
     const deniedConsultationRequest = {
       id: props.consultationRequest.id,
       additionalContext: additionalContext == "" ? "N/A" : additionalContext,
@@ -86,7 +91,8 @@ function selectedMessage(props) {
       );
       const deletedata = await deleteresponse.json();
       if (deletedata.hasError) setErrorMessage(deletedata.errorMessage);
-      else router.push("/userProfile/viewConsultationRequests/");
+      else await router.push("/userProfile/viewConsultationRequests/");
+      showLoadingScreen({ type: false });
     }
   }
 

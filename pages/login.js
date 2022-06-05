@@ -6,14 +6,17 @@ import { useRouter } from "next/router";
 import { authConstants } from "../context/constants";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
+import { useLoadingStore } from "../context/loadingScreen";
 
 function LoginPage() {
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
   const [state, dispatch] = useStore();
   const user = getValue(state, ["user"], null);
 
   async function authenticateUserHandler(existingUserData) {
+    showLoadingScreen({ type: true });
     dispatch({ type: authConstants.LOGIN_REQUEST });
     const result = await signIn("credentials", {
       ...existingUserData,
@@ -22,12 +25,13 @@ function LoginPage() {
     if (!result.error) {
       const session = await getSession();
       dispatch({ type: authConstants.LOGIN_SUCCESS, payload: session });
-      router.push("/");
+      await router.push("/");
       setErrorMessage(null);
     } else {
       dispatch({ type: authConstants.LOGIN_FAILURE, payload: result.error });
       setErrorMessage(result.error);
     }
+    showLoadingScreen({ type: false });
   }
 
   if (user && user.authenticated) {

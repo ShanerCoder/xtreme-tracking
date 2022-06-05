@@ -5,11 +5,11 @@ import { getValue } from "../../utils/common";
 import { getSession } from "next-auth/client";
 import { useEffect } from "react";
 import { authConstants } from "../../context/constants";
-import useFullPageLoader from "../hooks/useFullPageLoader";
+import { useLoadingStore } from "../../context/loadingScreen";
 
 function Layout(props) {
-  const [loader, showLoader, hideLoader] = useFullPageLoader();
   const [state, dispatch] = useStore();
+  const [loadingScreen] = useLoadingStore();
   useEffect(async () => {
     const authenticated = getValue(state, ["user", "authenticated"], false);
     if (!authenticated) {
@@ -25,9 +25,9 @@ function Layout(props) {
 
   return (
     <>
-      <MainNavigation showLoader={showLoader} hideLoader={hideLoader} />
+      <MainNavigation/>
       <main className={classes.main}>{props.children}</main>
-      {loader}
+      {loadingScreen}
     </>
   );
 }

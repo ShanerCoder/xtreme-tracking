@@ -1,12 +1,16 @@
 import PostDetails from "./PostDetails";
 import { useRouter } from "next/router";
 import classes from "./UserPost.module.css";
+import { useLoadingStore } from "../../../context/loadingScreen";
 
 function UserPost(props) {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
 
-  function viewThreadHandler() {
-    router.push("userPosts/" + props.id);
+  async function viewThreadHandler() {
+    showLoadingScreen({ type: true });
+    await router.push("userPosts/" + props.id);
+    showLoadingScreen({ type: false });
   }
 
   return (

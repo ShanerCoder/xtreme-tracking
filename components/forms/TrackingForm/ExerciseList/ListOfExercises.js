@@ -4,6 +4,7 @@ import React from "react";
 import SingleExerciseDetails from "./SingleExerciseDetails";
 
 function ListOfExercises(props) {
+
   return (
     <ul className="list">
       <li key={"header"} className={classes.detailSection}>

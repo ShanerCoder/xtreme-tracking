@@ -2,9 +2,12 @@ import classes from "./NewExerciseSection.module.css";
 import { useRef, useState } from "react";
 import Card from "../../ui/Card";
 import { Col, Row } from "react-bootstrap";
-import Link from "next/link";
+import { useRouter } from "next/router";
+import { useLoadingStore } from "../../../context/loadingScreen";
 
 function NewExerciseSection(props) {
+  const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const exerciseDropdownRef = useRef();
   const weightUsedRef = useRef();
   const numberOfRepsRef = useRef();
@@ -12,7 +15,6 @@ function NewExerciseSection(props) {
   const exerciseList = props.exerciseList;
   const commonExerciseList = props.commonExerciseList;
   const [muscleGroupFilter, setMuscleGroupFilter] = useState("All");
-
   const listOfMuscleGroups = [];
 
   commonExerciseList.map(
@@ -20,6 +22,12 @@ function NewExerciseSection(props) {
       !listOfMuscleGroups.includes(exercise.muscleGroup) &&
       listOfMuscleGroups.push(exercise.muscleGroup)
   );
+
+  async function handleLoader(URL) {
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -150,7 +158,14 @@ function NewExerciseSection(props) {
             <label>Exercise not listed?</label>
           </div>
           <div className={"lowerWidth " + classes.linkStyling}>
-            <Link href="/tracking/exerciseList">Create New Exercise</Link>
+            <label
+              className="linkLabel"
+              onClick={() => {
+                handleLoader("/tracking/exerciseList");
+              }}
+            >
+              Create New Exercise
+            </label>
           </div>
         </form>
       </Card>
