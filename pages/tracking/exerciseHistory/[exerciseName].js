@@ -31,7 +31,8 @@ function exerciseHistory(props) {
       <h1 className="center">
         Viewing {props.usernameOfExerciseHistory}'s Exercise History
       </h1>
-      {props.ownUsername == props.usernameOfExerciseHistory ? (
+      {props.ownUsername &&
+      props.ownUsername == props.usernameOfExerciseHistory ? (
         <ExerciseHistorySection
           exerciseName={props.exerciseName}
           exerciseHistory={props.exerciseHistory}
@@ -51,17 +52,16 @@ export async function getServerSideProps(context) {
   try {
     const exerciseName = context.query.exerciseName;
     let username = context.query.username;
+    let ownUsername = null;
     console.log(exerciseName);
     console.log(username);
     const req = context.req;
     const session = await getSession({ req });
-    if (!session) {
-      throw new Error("Session not Found");
-    }
     await dbConnect();
 
-    if (!username) username = session.user.username;
-
+    if (!username && session) username = session.user.username;
+    if (session) ownUsername = session.user.username;
+    if (!username) throw new Error("No Username");
     const exerciseHistory = await ExerciseHistory.find({
       username: username,
       exerciseName: exerciseName,
@@ -70,7 +70,7 @@ export async function getServerSideProps(context) {
     if (exerciseHistory.length) {
       return {
         props: {
-          ownUsername: session.user.username,
+          ownUsername: ownUsername,
           usernameOfExerciseHistory: username,
           exerciseName: exerciseName,
           exerciseHistory: exerciseHistory.map((exercise) => ({
