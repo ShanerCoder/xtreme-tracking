@@ -7,7 +7,7 @@ import classes from "./ExerciseHistorySection.module.css";
 
 function ExerciseHistorySection(props) {
   return (
-    <LighterDiv>
+    <>
       <h1 className={classes.headerFormatting}>
         List of Records for Exercise: {props.exerciseName}
       </h1>
@@ -31,7 +31,7 @@ function ExerciseHistorySection(props) {
           </React.Fragment>
         ))}
       </ul>
-    </LighterDiv>
+    </>
   );
 }
 

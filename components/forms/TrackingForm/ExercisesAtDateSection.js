@@ -23,6 +23,7 @@ function ExercisesAtDateSection(props) {
                   numberOfReps={exercise.numberOfReps}
                   numberOfSets={exercise.numberOfSets}
                   removeButtonText={"Remove Exercise Record"}
+                  username={props.username}
                 />
               </>
             )}

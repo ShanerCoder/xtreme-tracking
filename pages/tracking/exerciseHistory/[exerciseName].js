@@ -3,13 +3,14 @@ import { getSession } from "next-auth/client";
 import { dbConnect } from "../../../lib/db-connect";
 import ExerciseHistorySection from "../../../components/forms/TrackingForm/ExerciseList/ExerciseHistory/ExerciseHistorySection";
 import { useRouter } from "next/router";
+import LighterDiv from "../../../components/ui/LighterDiv";
 
 function exerciseHistory(props) {
   const router = useRouter();
   async function handleRemoveExerciseRecord(exerciseRecordId) {
     const bodyData = {
       exerciseRecordId: exerciseRecordId,
-      username: props.username,
+      username: props.ownUsername,
     };
 
     const response = await fetch("/api/exerciseTracking/exercise_history", {
@@ -26,17 +27,32 @@ function exerciseHistory(props) {
       {props.errorMessage}
     </h2>
   ) : (
-    <ExerciseHistorySection
-      exerciseName={props.exerciseName}
-      exerciseHistory={props.exerciseHistory}
-      removeExerciseRecord={handleRemoveExerciseRecord}
-    />
+    <LighterDiv>
+      <h1 className="center">
+        Viewing {props.usernameOfExerciseHistory}'s Exercise History
+      </h1>
+      {props.ownUsername == props.usernameOfExerciseHistory ? (
+        <ExerciseHistorySection
+          exerciseName={props.exerciseName}
+          exerciseHistory={props.exerciseHistory}
+          removeExerciseRecord={handleRemoveExerciseRecord}
+        />
+      ) : (
+        <ExerciseHistorySection
+          exerciseName={props.exerciseName}
+          exerciseHistory={props.exerciseHistory}
+        />
+      )}
+    </LighterDiv>
   );
 }
 
 export async function getServerSideProps(context) {
   try {
     const exerciseName = context.query.exerciseName;
+    let username = context.query.username;
+    console.log(exerciseName);
+    console.log(username);
     const req = context.req;
     const session = await getSession({ req });
     if (!session) {
@@ -44,15 +60,18 @@ export async function getServerSideProps(context) {
     }
     await dbConnect();
 
+    if (!username) username = session.user.username;
+
     const exerciseHistory = await ExerciseHistory.find({
-      username: session.user.username,
+      username: username,
       exerciseName: exerciseName,
     }).sort({ dateOfExercise: -1 });
 
     if (exerciseHistory.length) {
       return {
         props: {
-          username: session.user.username,
+          ownUsername: session.user.username,
+          usernameOfExerciseHistory: username,
           exerciseName: exerciseName,
           exerciseHistory: exerciseHistory.map((exercise) => ({
             id: exercise._id.toString(),

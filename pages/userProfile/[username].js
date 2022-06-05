@@ -6,10 +6,26 @@ import ProfileForm from "../../components/forms/ProfilePageForms/ProfileForm";
 import GenerateProfileForm from "../../components/forms/ProfilePageForms/ProfileGenerationForm";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import ExerciseHistory from "../../models/exerciseHistory";
+import Calendar from "../../components/ui/Calendar";
+import LighterDiv from "../../components/ui/LighterDiv";
+import DarkerDiv from "../../components/ui/DarkerDiv";
+import ExercisesAtDateSection from "../../components/forms/TrackingForm/ExercisesAtDateSection";
 
 function ProfileView(props) {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
+
+  const listOfExerciseHistoryDates = [];
+  if (props.exerciseHistoryDates)
+    props.exerciseHistoryDates.map((exercise) =>
+      listOfExerciseHistoryDates.push(new Date(exercise.dateOfExercise))
+    );
+
+  function setSelectedDateInfo(date) {
+    setSelectedDate(date.toDateString());
+  }
 
   async function generateProfile() {
     const newUserProfile = {
@@ -48,6 +64,10 @@ function ProfileView(props) {
           content={"View " + props.user.username + "'s Profile here!"}
         />
       </Head>
+      {
+        // Checks if user profile exists, if not provides profile generation form
+        // If profile exists, shows user profile
+      }
       {!props.userprofile ? (
         <>
           {errorMessage && <p className="errorMessage">{errorMessage}</p>}
@@ -57,7 +77,35 @@ function ProfileView(props) {
           />
         </>
       ) : (
-        <ProfileForm user={props.user} userprofile={props.userprofile} />
+        <>
+          <LighterDiv>
+            <ProfileForm user={props.user} userprofile={props.userprofile} />
+          </LighterDiv>
+          <DarkerDiv>
+            <h2 className="center">
+              Exercise History for date: {selectedDate}
+            </h2>
+            <Calendar
+              listOfDates={listOfExerciseHistoryDates}
+              setTitleSelectedDate={setSelectedDateInfo}
+            />
+          </DarkerDiv>
+          <LighterDiv>
+            {props.exerciseHistory.length ? (
+              <ExercisesAtDateSection
+                username={props.user.username}
+                exercises={props.exerciseHistory}
+                selectedDate={selectedDate}
+              />
+            ) : (
+              <Card>
+                <h3 className="center" style={{ padding: "15px" }}>
+                  No Exercises Have been added
+                </h3>
+              </Card>
+            )}
+          </LighterDiv>
+        </>
       )}
     </>
   );
@@ -70,15 +118,24 @@ export async function getServerSideProps(context) {
     const username = context.query.username;
     await dbConnect();
 
+    // Finding user account details and profile details
     const usernameFilter = { username: username };
     selectedUser = await User.findOne(usernameFilter);
     const userId = selectedUser.id;
     const selectedProfile = await Profile.findOne({ _id: userId });
+
+    // Finds profile picture Id, or chooses default photo if this does not exist
     if (
       !selectedProfile.profilePictureId &&
       (selectedProfile.profilePictureId =
         process.env.DEFAULT_PROFILE_PICTURE_ID)
     );
+
+    // Finds user exercise history
+    const exerciseHistory = await ExerciseHistory.find({
+      username: username,
+    }).sort({ dateOfExercise: 1 });
+
     return {
       // Returns User and Profile details
       props: {
@@ -93,6 +150,18 @@ export async function getServerSideProps(context) {
           profileDescription: selectedProfile.profileDescription,
           personalTrainerProfile: selectedProfile.personalTrainerProfile,
         },
+        exerciseHistory: exerciseHistory.map((exercise) => ({
+          id: exercise._id.toString(),
+          username: exercise.username,
+          exerciseName: exercise.exerciseName,
+          weightUsed: exercise.weightUsed,
+          numberOfReps: exercise.numberOfReps,
+          numberOfSets: exercise.numberOfSets,
+          dateOfExercise: exercise.dateOfExercise.toString(),
+        })),
+        exerciseHistoryDates: exerciseHistory.map((exercise) => ({
+          dateOfExercise: exercise.dateOfExercise.toString(),
+        })),
       },
     };
   } catch (error) {
