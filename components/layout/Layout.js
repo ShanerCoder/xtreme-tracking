@@ -5,8 +5,10 @@ import { getValue } from "../../utils/common";
 import { getSession } from "next-auth/client";
 import { useEffect } from "react";
 import { authConstants } from "../../context/constants";
+import useFullPageLoader from "../hooks/useFullPageLoader";
 
 function Layout(props) {
+  const [loader, showLoader, hideLoader] = useFullPageLoader();
   const [state, dispatch] = useStore();
   useEffect(async () => {
     const authenticated = getValue(state, ["user", "authenticated"], false);
@@ -23,8 +25,9 @@ function Layout(props) {
 
   return (
     <>
-      <MainNavigation />
+      <MainNavigation showLoader={showLoader} hideLoader={hideLoader} />
       <main className={classes.main}>{props.children}</main>
+      {loader}
     </>
   );
 }

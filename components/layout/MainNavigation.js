@@ -12,13 +12,19 @@ import NavbarButton from "./layoutComponents/navbarButton";
 import UserIcon from "../ui/UserIcon";
 import Collapse from "react-bootstrap";
 
-function MainNavigation() {
+function MainNavigation(props) {
   var [toggle, setToggle] = useState(false);
   const [state, dispatch] = useStore();
   const user = getValue(state, ["user"], null);
   const authenticated = getValue(state, ["user", "authenticated"], false);
   const searchInputRef = useRef();
   const router = useRouter();
+
+  async function handleLoader(URL) {
+    props.showLoader();
+    await router.replace(URL);
+    props.hideLoader();
+  }
 
   function handleSearch(event) {
     event.preventDefault();
@@ -31,12 +37,14 @@ function MainNavigation() {
     <div>
       <Navbar bg="white" variant={"light"} expand="lg">
         <Container style={{ maxWidth: "1900px", width: "95%" }}>
-          <Link href="/">
-            <img
-              className={classes.logo}
-              src="/navbar/Xtreme Tracking Transparent.png"
-            />
-          </Link>
+          <img
+            className={classes.logo}
+            src="/navbar/Xtreme Tracking Transparent.png"
+            onClick={() => {
+              handleLoader("/");
+            }}
+          />
+
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <img
@@ -69,10 +77,16 @@ function MainNavigation() {
             >
               <Row style={{ width: "150%" }}>
                 <Col xs={12} lg={3}>
-                  <NavbarButton link="/" imgsrc="/icons/home.png" text="Home" />
+                  <NavbarButton
+                    handleLoader={handleLoader}
+                    link="/"
+                    imgsrc="/icons/home.png"
+                    text="Home"
+                  />
                 </Col>
                 <Col xs={12} lg={3}>
                   <NavbarButton
+                    handleLoader={handleLoader}
                     link="/social"
                     imgsrc="/icons/speechBubble.png"
                     text="Social"
@@ -80,6 +94,7 @@ function MainNavigation() {
                 </Col>
                 <Col xs={12} lg={3}>
                   <NavbarButton
+                    handleLoader={handleLoader}
                     link="/tracking"
                     imgsrc="/icons/dumbbell.png"
                     text="Tracking"
@@ -87,6 +102,7 @@ function MainNavigation() {
                 </Col>
                 <Col xs={12} lg={3}>
                   <NavbarButton
+                    handleLoader={handleLoader}
                     link="/contactUs"
                     imgsrc="/icons/human.png"
                     text="Contact Us"
@@ -105,12 +121,20 @@ function MainNavigation() {
                   className={classes.accountOptionsFormatting}
                   id="collasible-nav-dropdown"
                 >
-                  <Link href="/login">
+                  <div
+                    onClick={() => {
+                      handleLoader("/login");
+                    }}
+                  >
                     <p className={classes.dropdownLink}>Existing Account</p>
-                  </Link>
-                  <Link href="/register">
+                  </div>
+                  <div
+                    onClick={() => {
+                      handleLoader("/register");
+                    }}
+                  >
                     <p className={classes.dropdownLink}>New Account</p>
-                  </Link>
+                  </div>
                 </NavDropdown>
               ) : (
                 <>
@@ -128,12 +152,20 @@ function MainNavigation() {
                         className={classes.accountOptionsFormatting}
                         id="collasible-nav-dropdown"
                       >
-                        <Link href={"/userProfile/" + user.username}>
+                        <div
+                          onClick={() => {
+                            handleLoader("/userProfile/" + user.username);
+                          }}
+                        >
                           <p className={classes.dropdownLink}>View Profile</p>
-                        </Link>
-                        <Link href="/viewMessages">
+                        </div>
+                        <div
+                          onClick={() => {
+                            handleLoader("/viewMessages");
+                          }}
+                        >
                           <p className={classes.dropdownLink}>View Messages</p>
-                        </Link>
+                        </div>
                         <button
                           className={classes.signOutButton}
                           onClick={() => {
