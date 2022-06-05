@@ -4,15 +4,18 @@ import { useRouter } from "next/router";
 import SingleMessageForm from "../components/form-components/Common/SingleMessageForm";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
+import { useLoadingStore } from "../context/loadingScreen";
 
 function ContactUsPage() {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
   async function submitHandler(email) {
+    showLoadingScreen({ type: true });
     const newEmail = {
       email: email,
       usernameWhoSent: user.username,
@@ -33,7 +36,8 @@ function ContactUsPage() {
       setSuccessMessage("Email Successfully Sent!");
       setErrorMessage(null);
     }
-    router.push("/contactUs");
+    await router.push("/contactUs");
+    showLoadingScreen({ type: false });
   }
 
   return (

@@ -7,13 +7,14 @@ import { useRouter } from "next/router";
 import { useStore } from "../../../../../context";
 import { getValue } from "../../../../../utils/common";
 import Challenge from "../../../../../models/challenge";
-import ViewSelectedChallengeForm from "../../../../../components/forms/ChallengesForm/viewSelectedChallenge";
 import ExerciseDetails from "../../../../../components/forms/TrackingForm/ExerciseDetails";
 import DarkerDiv from "../../../../../components/ui/DarkerDiv";
+import { useLoadingStore } from "../../../../../context/loadingScreen";
 
-function selectedMessage(props) {
+function selectedChallenge(props) {
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
   const [deleteButtonText, setDeleteButtonText] = useState(
@@ -22,6 +23,7 @@ function selectedMessage(props) {
   let confirmDelete = false;
 
   async function handleDelete() {
+    showLoadingScreen({ type: true });
     const deleteChallenge = {
       clientUsername: user.username,
       challengeRecordId: props.challenge.id,
@@ -37,13 +39,14 @@ function selectedMessage(props) {
     const data = await response.json();
     if (data.hasError) {
       setErrorMessage(data.errorMessage);
-      router.push(
+      await router.push(
         "/userProfile/challenges/viewChallenges/" + props.challenge.id
       );
     } else {
       setErrorMessage(null);
-      router.push("/userProfile/challenges/viewChallenges/");
+      await router.push("/userProfile/challenges/viewChallenges/");
     }
+    showLoadingScreen({ type: false });
   }
 
   function handleDeleteButton() {
@@ -132,4 +135,4 @@ export async function getServerSideProps(context) {
     };
   }
 }
-export default selectedMessage;
+export default selectedChallenge;

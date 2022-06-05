@@ -9,8 +9,10 @@ import { useRouter } from "next/router";
 import { useStore } from "../../../../context";
 import { getValue } from "../../../../utils/common";
 import ClientDetailsSection from "../../../../components/form-components/ClientDetailsPage/ClientDetailsSection";
+import { useLoadingStore } from "../../../../context/loadingScreen";
 
 function selectedClient(props) {
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const router = useRouter();
@@ -19,6 +21,7 @@ function selectedClient(props) {
   const consultationsArray = props.clientConsultations; //NOTICE try pass in props clientconsultations instead of this
 
   async function handleAddConsultation(datetimeOfConsultation) {
+    showLoadingScreen({ type: true });
     const date = new Date(datetimeOfConsultation);
     const newConsultation = {
       personalTrainerUsername: user.username,
@@ -38,15 +41,21 @@ function selectedClient(props) {
     if (data.hasError) {
       setErrorMessage(data.errorMessage);
       setSuccessMessage(null);
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
+      await router.push(
+        "/userProfile/viewClientList/" + props.clientDetails.id
+      );
     } else {
       setErrorMessage(null);
       setSuccessMessage("Consultation has successfully been added");
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
+      await router.push(
+        "/userProfile/viewClientList/" + props.clientDetails.id
+      );
     }
+    showLoadingScreen({ type: false });
   }
 
   async function handleRemoveConsultation(id) {
+    showLoadingScreen({ type: true });
     const removeConsultation = {
       personalTrainerUsername: props.clientDetails.personalTrainerUsername,
       consultationId: id,
@@ -64,15 +73,21 @@ function selectedClient(props) {
     if (data.hasError) {
       setErrorMessage(data.errorMessage);
       setSuccessMessage(null);
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
+      await router.push(
+        "/userProfile/viewClientList/" + props.clientDetails.id
+      );
     } else {
       setErrorMessage(null);
       setSuccessMessage("Consultation has successfully been removed");
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
+      await router.push(
+        "/userProfile/viewClientList/" + props.clientDetails.id
+      );
     }
+    showLoadingScreen({ type: false });
   }
 
   async function handleRemoveClient(additionalContext) {
+    showLoadingScreen({ type: true });
     const clientUsername = props.clientDetails.clientUsername;
     const personalTrainerUsername = props.clientDetails.personalTrainerUsername;
     const removeClientBody = {
@@ -95,7 +110,9 @@ function selectedClient(props) {
 
     if (removeClientdata.hasError) {
       setErrorMessage(removeClientdata.errorMessage);
-      router.push("/userProfile/viewClientList/" + props.clientDetails.id);
+      await router.push(
+        "/userProfile/viewClientList/" + props.clientDetails.id
+      );
     } else {
       const removeClientMessage = {
         usernameToReceive: clientUsername,
@@ -115,8 +132,9 @@ function selectedClient(props) {
         }
       );
       await removeClientMessageResponse.json();
-      router.push("/userProfile/viewClientList");
+      await router.push("/userProfile/viewClientList");
     }
+    showLoadingScreen({ type: false });
   }
 
   return (

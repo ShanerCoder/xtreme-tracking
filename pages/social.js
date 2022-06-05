@@ -11,10 +11,12 @@ import PostComment from "../models/postComment";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
 import { getSession } from "next-auth/client";
+import { useLoadingStore } from "../context/loadingScreen";
 
 function SocialPage(props) {
   const router = useRouter();
   const [state] = useStore();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const user = getValue(state, ["user"], null);
 
   async function handleLikePost(postData) {
@@ -34,6 +36,7 @@ function SocialPage(props) {
   }
 
   async function addPostHandler(NewPostData) {
+    showLoadingScreen({ type: true });
     const response = await fetch("/api/social/user_posts", {
       method: "POST",
       body: JSON.stringify(NewPostData),
@@ -41,10 +44,9 @@ function SocialPage(props) {
         "Content-Type": "application/json",
       },
     });
-
     await response.json();
-
-    router.push("/social");
+    await router.push("/social");
+    showLoadingScreen({ type: false });
   }
 
   return (
@@ -87,7 +89,7 @@ export async function getServerSideProps(context) {
   const arrayOfAllLikedPosts = [];
   const arrayOfLikedPostIdsByUser = [];
   const arrayOfAllComments = [];
-  
+
   const allPosts = await PostLikedBy.find({}).select({ postId: 1, _id: 0 });
   const allComments = await PostComment.find({}).select({ postId: 1, _id: 0 });
 

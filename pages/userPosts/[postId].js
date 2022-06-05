@@ -13,13 +13,16 @@ import { getValue } from "../../utils/common";
 import UserPost from "../../components/form-components/SocialPage/UserPost";
 import { useRouter } from "next/router";
 import DarkerDiv from "../../components/ui/DarkerDiv";
+import { useLoadingStore } from "../../context/loadingScreen";
 
 function PostThreadView(props) {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
   async function handleAddComment(postData) {
+    showLoadingScreen({ type: true });
     const bodyData = {
       postId: props.userposts.id,
       username: postData.username,
@@ -31,7 +34,8 @@ function PostThreadView(props) {
       headers: { "Content-Type": "application/json" },
     });
     await response.json();
-    router.push("/userPosts/" + props.userposts.id);
+    await router.push("/userPosts/" + props.userposts.id);
+    showLoadingScreen({ type: false });
   }
 
   return (
@@ -101,7 +105,7 @@ export async function getServerSideProps(context) {
 
     const comments = await PostComment.find({
       postId: mongoose.Types.ObjectId(postId),
-    }).sort({_id: -1});
+    }).sort({ _id: -1 });
 
     const numberOfLikes = await PostLikedBy.find({
       postId: mongoose.Types.ObjectId(postId),

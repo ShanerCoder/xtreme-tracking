@@ -1,16 +1,25 @@
 import { useRef } from "react";
 import Form from "react-bootstrap/Form";
 import classes from "./AccountCreationSection.module.css";
-import Link from "next/link";
+import { useLoadingStore } from "../../../context/loadingScreen";
+import { useRouter } from "next/router";
 import { Col, Row } from "react-bootstrap";
 
 function AccountCreationSection(props) {
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
+  const router = useRouter();
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
   const emailInputRef = useRef();
   const forenameInputRef = useRef();
   const surnameInputRef = useRef();
   const PTUserRef = useRef();
+
+  async function handleLoader(URL) {
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -38,7 +47,14 @@ function AccountCreationSection(props) {
     <div className={classes.divFormatting}>
       <div className={classes.alreadyAnAccountFormatting}>
         <p>Already have an account?</p>
-        <Link href="/login">Log In</Link>
+        <label
+          className="linkLabel"
+          onClick={() => {
+            handleLoader("/login");
+          }}
+        >
+          Log In
+        </label>
       </div>
       <form className="form" onSubmit={handleSubmit}>
         <div>

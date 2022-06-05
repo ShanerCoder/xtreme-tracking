@@ -4,8 +4,11 @@ import { useRouter } from "next/router";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
 import ForgotPasswordForm from "../components/forms/SignInForms/ForgotPasswordForms/ForgotPasswordForm";
+import { useLoadingStore } from "../context/loadingScreen";
+import LighterDiv from "../components/ui/LighterDiv";
 
 function ForgotPasswordPage() {
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const router = useRouter();
@@ -13,6 +16,7 @@ function ForgotPasswordPage() {
   const user = getValue(state, ["user"], null);
 
   async function forgotPasswordSubmitHandler(email) {
+    showLoadingScreen({ type: true });
     const response = await fetch("/api/account/passwords/forgot_password", {
       method: "POST",
       body: JSON.stringify(email),
@@ -25,13 +29,14 @@ function ForgotPasswordPage() {
     if (data.hasError) {
       setErrorMessage(data.errorMessage);
       setSuccessMessage(null);
-      router.push("/forgotPassword");
     } else {
       setErrorMessage(null);
       setSuccessMessage(
         "Email sent! Please check your emails to reset your password. This may appear in the junk folder!"
       );
     }
+    await router.push("/forgotPassword");
+    showLoadingScreen({ type: false });
   }
 
   if (user && user.authenticated) {
@@ -48,10 +53,12 @@ function ForgotPasswordPage() {
         />
       </Head>
       <section>
-        <h1>Forgot Password</h1>
         {successMessage && <p className="successMessage">{successMessage}</p>}
         {errorMessage && <p className="errorMessage">{errorMessage}</p>}
-        <ForgotPasswordForm onSubmit={forgotPasswordSubmitHandler} />
+        <LighterDiv>
+          <h1 className="center">Forgot Password</h1>
+          <ForgotPasswordForm onSubmit={forgotPasswordSubmitHandler} />
+        </LighterDiv>
       </section>
     </>
   );

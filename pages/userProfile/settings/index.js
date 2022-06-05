@@ -9,13 +9,16 @@ import { getSession } from "next-auth/client";
 import LighterDiv from "../../../components/ui/LighterDiv";
 import DarkerDiv from "../../../components/ui/DarkerDiv";
 import { useRouter } from "next/router";
+import { useLoadingStore } from "../../../context/loadingScreen";
 
 function ProfileView(props) {
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   async function saveDescription(newDescription) {
+    showLoadingScreen({ type: true });
     const description = {
       profileDescription: newDescription,
       username: props.user.username,
@@ -39,10 +42,12 @@ function ProfileView(props) {
       setSuccessMessage("Description Successfully Updated!");
       setErrorMessage(null);
     }
-    router.push("/userProfile/settings");
+    await router.push("/userProfile/settings");
+    showLoadingScreen({ type: false });
   }
 
   async function saveImage(newImage) {
+    showLoadingScreen({ type: true });
     const formData = new FormData();
     formData.append("file", newImage[0]);
     formData.append("upload_preset", "xtreme_tracking_preset");
@@ -84,9 +89,11 @@ function ProfileView(props) {
         setErrorMessage(null);
       }
     }
+    showLoadingScreen({ type: false });
   }
 
   async function savePassword(newPassword) {
+    showLoadingScreen({ type: true });
     const enteredPasswordDetails = {
       newPassword: newPassword.newValue,
       currentPassword: newPassword.currentValue,
@@ -109,10 +116,12 @@ function ProfileView(props) {
       setSuccessMessage("Password Successfully Updated!");
       setErrorMessage(null);
     }
-    router.push("/userProfile/settings");
+    await router.push("/userProfile/settings");
+    showLoadingScreen({ type: false });
   }
 
   async function saveEmail(newEmail) {
+    showLoadingScreen({ type: true });
     const enteredEmailDetails = {
       newEmail: newEmail.newValue,
       currentEmail: newEmail.currentValue,
@@ -135,10 +144,12 @@ function ProfileView(props) {
       setSuccessMessage("Email Successfully Updated!");
       setErrorMessage(null);
     }
-    router.push("/userProfile/settings");
+    await router.push("/userProfile/settings");
+    showLoadingScreen({ type: false });
   }
 
   async function handleUpdatePersonalTrainerProfile(personalTrainerProfile) {
+    showLoadingScreen({ type: true });
     const personalTrainerProfileChange = {
       personalTrainerProfile: personalTrainerProfile,
       username: props.user.username,
@@ -160,7 +171,8 @@ function ProfileView(props) {
       setSuccessMessage("Profile Successfully Updated!");
       setErrorMessage(null);
     }
-    router.push("/userProfile/settings");
+    await router.push("/userProfile/settings");
+    showLoadingScreen({ type: false });
   }
 
   return (

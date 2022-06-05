@@ -12,8 +12,10 @@ import LighterDiv from "../../components/ui/LighterDiv";
 import DarkerDiv from "../../components/ui/DarkerDiv";
 import ExercisesAtDateSection from "../../components/forms/TrackingForm/ExercisesAtDateSection";
 import Card from "../../components/ui/Card";
+import { useLoadingStore } from "../../context/loadingScreen";
 
 function ProfileView(props) {
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
@@ -29,6 +31,7 @@ function ProfileView(props) {
   }
 
   async function generateProfile() {
+    showLoadingScreen({ type: true });
     const newUserProfile = {
       username: props.user.username,
       personalTrainerProfile: false,
@@ -47,13 +50,15 @@ function ProfileView(props) {
 
     if (userProfileData.hasError) {
       setErrorMessage(userProfileData.errorMessage);
-      if (userProfileData.errorMessage == "This ID already has a profile!") {
-        router.push("/userProfile/" + props.user.username);
+      if (userProfileData.errorMessage != "This ID already has a profile!") {
+        setErrorMessage(
+          "Failed to generate this profile. Please refresh and try again!"
+        );
       }
-    } else {
-      setErrorMessage(null);
-      router.push("/userProfile/" + props.user.username);
+      await router.push("/userProfile/" + props.user.username);
     }
+
+    showLoadingScreen({ type: false });
   }
 
   return (

@@ -9,9 +9,11 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
+import { useLoadingStore } from "../../../context/loadingScreen";
 
 function selectedMessage(props) {
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
@@ -21,6 +23,7 @@ function selectedMessage(props) {
   let confirmDelete = false;
 
   async function handleDelete() {
+    showLoadingScreen({ type: true });
     const deleteMessage = {
       username: user.username,
       messageId: props.privateMessage.id,
@@ -44,6 +47,7 @@ function selectedMessage(props) {
       setErrorMessage(null);
       router.push("/viewMessages");
     }
+    showLoadingScreen({ type: false });
   }
 
   function handleDeleteButton() {
@@ -55,10 +59,12 @@ function selectedMessage(props) {
     }
   }
 
-  function handleWriteResponse() {
-    router.push(
+  async function handleWriteResponse() {
+    showLoadingScreen({ type: true });
+    await router.push(
       "/userProfile/privateMessage/" + props.privateMessage.usernameFrom
     );
+    showLoadingScreen({ type: false });
   }
 
   return (

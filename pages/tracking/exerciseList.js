@@ -11,9 +11,11 @@ import { getValue } from "../../utils/common";
 import { useRouter } from "next/router";
 import NewCustomExerciseSection from "../../components/forms/TrackingForm/ExerciseList/NewCustomExerciseSection";
 import FullListOfExercises from "../../components/forms/TrackingForm/ExerciseList/FullListOfExercises";
+import { useLoadingStore } from "../../context/loadingScreen";
 
 function ExerciseListPage(props) {
   const router = useRouter();
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [state] = useStore();
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -27,6 +29,7 @@ function ExerciseListPage(props) {
   );
 
   async function handleAddNewExercise(postData) {
+    showLoadingScreen({ type: true });
     const bodyData = {
       username: user.username,
       ...postData,
@@ -46,10 +49,12 @@ function ExerciseListPage(props) {
       setSuccessMessage("Exercise Successfully Created!");
       setErrorMessage(null);
     }
-    router.push("/tracking/exerciseList");
+    await router.push("/tracking/exerciseList");
+    showLoadingScreen({ type: false });
   }
 
   async function handleRemoveExercise(exerciseName) {
+    showLoadingScreen({ type: true });
     const bodyData = {
       exerciseName: exerciseName,
       username: user.username,
@@ -68,7 +73,8 @@ function ExerciseListPage(props) {
       setSuccessMessage("Exercise Successfully Removed!");
       setErrorMessage(null);
     }
-    router.push("/tracking/exerciseList");
+    await router.push("/tracking/exerciseList");
+    showLoadingScreen({ type: false });
   }
 
   return (
