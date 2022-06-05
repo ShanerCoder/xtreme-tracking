@@ -116,7 +116,7 @@ export async function getServerSideProps(context) {
   // Connecting to DB to find User & User Profile
   let selectedUser;
   try {
-    const username = context.query.username;
+    const username = context.query.username.toLowerCase();
     await dbConnect();
 
     // Finding user account details and profile details
