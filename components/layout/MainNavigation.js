@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Col, Container, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
 import classes from "./MainNavigation.module.css";
@@ -10,7 +9,6 @@ import { authConstants } from "../../context/constants";
 import { useRef, useState, useEffect } from "react";
 import NavbarButton from "./layoutComponents/navbarButton";
 import UserIcon from "../ui/UserIcon";
-import Collapse from "react-bootstrap";
 
 function MainNavigation(props) {
   var [toggle, setToggle] = useState(false);
