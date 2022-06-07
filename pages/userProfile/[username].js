@@ -97,7 +97,7 @@ function ProfileView(props) {
             />
           </DarkerDiv>
           <LighterDiv>
-            {props.exerciseHistory.length ? (
+            {props.exerciseHistory && props.exerciseHistory.length ? (
               <ExercisesAtDateSection
                 username={props.user.username}
                 exercises={props.exerciseHistory}

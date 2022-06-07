@@ -72,7 +72,7 @@ function PostThreadView(props) {
         )}
       </DarkerDiv>
       <LighterDiv>
-        {props.usercomments.length ? (
+        {props.usercomments && props.usercomments.length ? (
           <ul className="list">
             {props.usercomments.map((comment) => (
               <UserPost

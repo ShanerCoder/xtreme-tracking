@@ -49,7 +49,7 @@ function ClientDetailsSection(props) {
           <h2 className={classes.headerDetails}>
             Upcoming Consultations within 14 Days:
           </h2>
-          {props.consultationsArray.length ? (
+          {props.consultationsArray && props.consultationsArray.length ? (
             <UpcomingConsultations
               consultationsArray={props.consultationsArray}
               removeConsultation={props.removeConsultation}

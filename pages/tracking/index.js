@@ -18,6 +18,10 @@ import ExercisesAtDateSection from "../../components/forms/TrackingForm/Exercise
 import { useLoadingStore } from "../../context/loadingScreen";
 import SelectExerciseForm from "../../components/form-components/Common/SelectExerciseForm";
 import GoalsAtDateSection from "../../components/forms/TrackingForm/Goals/GoalsAtDateSection";
+import ExerciseHistoryView from "../../components/forms/TrackingForm/Views/ExerciseHistoryView";
+import GoalsView from "../../components/forms/TrackingForm/Views/GoalsView";
+import ChangeView from "../../components/forms/TrackingForm/Views/ChangeView";
+import TrainingPlansView from "../../components/forms/TrackingForm/Views/TrainingPlansView";
 
 function ViewTrackingProgress(props) {
   const router = useRouter();
@@ -34,6 +38,12 @@ function ViewTrackingProgress(props) {
     props.exerciseHistoryDates.map((exercise) =>
       listOfExerciseHistoryDates.push(new Date(exercise.dateOfExercise))
     );
+
+  async function handleLoader(URL) {
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
+  }
 
   function handleSetErrorMessage(errorMessage) {
     setErrorMessage(errorMessage);
@@ -177,89 +187,30 @@ function ViewTrackingProgress(props) {
             {
               // Buttons to set current view
             }
-            <Row>
-              <Col xs={12} sm={6} style={{ paddingBottom: "25px" }}>
-                <button
-                  className="lowerWidth"
-                  onClick={() => {
-                    setCurrentView("Exercise History");
-                  }}
-                >
-                  View Exercise History
-                </button>
-              </Col>
-              <Col xs={12} sm={6} style={{ paddingBottom: "25px" }}>
-                <button
-                  className="lowerWidth"
-                  onClick={() => {
-                    setCurrentView("Goals");
-                  }}
-                >
-                  View Goals
-                </button>
-              </Col>
-            </Row>
-            {
-              // Exercise History
-            }
+            <ChangeView setCurrentView={setCurrentView} />
             {currentView == "Exercise History" && (
-              <Row>
-                <Col style={{ paddingBottom: "25px" }} xs={12} lg={4}>
-                  <NewExerciseSection
-                    exerciseList={props.exerciseList}
-                    commonExerciseList={props.commonExerciseList}
-                    selectedDate={selectedDate}
-                    addExercise={handleAddExercise}
-                  />
-                </Col>
-                <Col xs={12} lg={8}>
-                  {props.exerciseHistory.length ? (
-                    <ExercisesAtDateSection
-                      removeExerciseRecord={handleRemoveExerciseRecord}
-                      exercises={props.exerciseHistory}
-                      selectedDate={selectedDate}
-                    />
-                  ) : (
-                    <h3 className="center" style={{ padding: "15px" }}>
-                      No Exercises Have been added
-                    </h3>
-                  )}
-                </Col>
-              </Row>
+              <ExerciseHistoryView
+                exerciseList={props.exerciseList}
+                exerciseHistory={props.exerciseHistory}
+                commonExerciseList={props.commonExerciseList}
+                selectedDate={selectedDate}
+                handleAddExercise={handleAddExercise}
+                handleRemoveExerciseRecord={handleRemoveExerciseRecord}
+              />
             )}
-            {
-              // Goals
-            }
             {currentView == "Goals" && (
-              <Row>
-                <Col xs={12} lg={4}>
-                  <Card>
-                    <h2 className="center" style={{ padding: "15px" }}>
-                      Add a Goal
-                    </h2>
-                    <SelectExerciseForm
-                      exerciseList={props.exerciseList}
-                      commonExerciseList={props.commonExerciseList}
-                      handleSubmit={handleAddGoal}
-                      setErrorMessage={handleSetErrorMessage}
-                      submitButtonText={"Add Goal"}
-                    />
-                  </Card>
-                </Col>
-                <Col xs={12} lg={8}>
-                  {props.goalsList.length ? (
-                    <GoalsAtDateSection
-                      removeGoalRecord={handleRemoveGoal}
-                      goals={props.goalsList}
-                      selectedDate={selectedDate}
-                    />
-                  ) : (
-                    <h3 className="center" style={{ padding: "15px" }}>
-                      No Goals Have been added
-                    </h3>
-                  )}
-                </Col>
-              </Row>
+              <GoalsView
+                exerciseList={props.exerciseList}
+                commonExerciseList={props.commonExerciseList}
+                goalsList={props.goalsList}
+                handleAddGoal={handleAddGoal}
+                handleRemoveGoal={handleRemoveGoal}
+                handleSetErrorMessage={handleSetErrorMessage}
+                selectedDate={selectedDate}
+              />
+            )}
+            {currentView == "Training Plans" && (
+              <TrainingPlansView trainingPlans={null} handleLoader={handleLoader}/>
             )}
           </DarkerDiv>
         </>
