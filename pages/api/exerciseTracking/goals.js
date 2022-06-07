@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import Challenge from "../../../models/challenge";
+import Goal from "../../../models/goal";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
@@ -15,13 +15,12 @@ async function handler(req, res) {
   }
   if (req.method === "POST") {
     try {
-      if (session.user.username != req.body.personalTrainerUsername) {
+      if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       const {
-        personalTrainerUsername,
-        clientUsername,
+        username,
         exerciseName,
         weightUsed,
         numberOfReps,
@@ -31,9 +30,8 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
-      const challenge = new Challenge({
-        personalTrainerUsername,
-        clientUsername,
+      const goal = new Goal({
+        username,
         exerciseName,
         weightUsed,
         numberOfReps,
@@ -41,32 +39,31 @@ async function handler(req, res) {
         dateToAchieveBy,
       });
 
-      const challengeResult = await challenge.save();
-      if (challengeResult) {
-        responseHandler(challengeResult, res, 201);
+      const goalResult = await goal.save();
+      if (goalResult) {
+        responseHandler(goalResult, res, 201);
       } else {
-        errorHandler("Challenge Failed to be created", res);
+        errorHandler("Goal Failed to be created", res);
       }
     } catch (error) {
       console.log(error);
-      errorHandler("An error has occurred creating this challenge", res);
+      errorHandler("An error has occurred creating this goal", res);
     }
   } else if (req.method === "DELETE") {
     try {
-      if (session.user.username != req.body.clientUsername) {
+      if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
-      const deleteChallengeResult = await Challenge.deleteOne({
-        _id: req.body.challengeRecordId,
-        clientUsername: session.user.username,
+      const deleteGoalResult = await Goal.deleteOne({
+        _id: req.body.goalRecordId,
+        username: session.user.username,
       });
-      console.log(deleteChallengeResult);
-      if (deleteChallengeResult)
-        responseHandler(deleteChallengeResult, res, 200);
+      if (deleteGoalResult)
+        responseHandler(deleteGoalResult, res, 200);
     } catch (error) {
-      errorHandler("Failed to delete this Challenge", res);
+      errorHandler("Failed to delete this Goal", res);
     }
   } else errorHandler("Invalid Request Type", res);
 }

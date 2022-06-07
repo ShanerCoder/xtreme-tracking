@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema({
+const ExerciseListSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -20,4 +20,4 @@ const PostSchema = new mongoose.Schema({
 
 mongoose.models = {};
 
-export default mongoose.model("exercise_list", PostSchema);
+export default mongoose.model("exercise_list", ExerciseListSchema);

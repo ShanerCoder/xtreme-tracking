@@ -3,6 +3,7 @@ import Calendar from "../../components/ui/Calendar";
 import ExerciseList from "../../models/exerciseList";
 import CommonExerciseList from "../../models/commonExerciseList";
 import ExerciseHistory from "../../models/exerciseHistory";
+import Goal from "../../models/goal";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../lib/db-connect";
@@ -15,11 +16,14 @@ import NewExerciseSection from "../../components/forms/TrackingForm/NewExerciseS
 import { Card, Col, Row } from "react-bootstrap";
 import ExercisesAtDateSection from "../../components/forms/TrackingForm/ExercisesAtDateSection";
 import { useLoadingStore } from "../../context/loadingScreen";
+import SelectExerciseForm from "../../components/form-components/Common/SelectExerciseForm";
+import GoalsAtDateSection from "../../components/forms/TrackingForm/Goals/GoalsAtDateSection";
 
 function ViewTrackingProgress(props) {
   const router = useRouter();
   const [state] = useStore();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
+  const [currentView, setCurrentView] = useState("Exercise History");
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const user = getValue(state, ["user"], null);
@@ -30,6 +34,12 @@ function ViewTrackingProgress(props) {
     props.exerciseHistoryDates.map((exercise) =>
       listOfExerciseHistoryDates.push(new Date(exercise.dateOfExercise))
     );
+
+  function handleSetErrorMessage(errorMessage) {
+    setErrorMessage(errorMessage);
+    setSuccessMessage(null);
+    router.push("/tracking/");
+  }
 
   function setSelectedDateInfo(date) {
     setSelectedDate(date.toDateString());
@@ -84,6 +94,55 @@ function ViewTrackingProgress(props) {
     showLoadingScreen({ type: false });
   }
 
+  async function handleAddGoal(postData) {
+    showLoadingScreen({ type: true });
+    const bodyData = {
+      username: user.username,
+      ...postData,
+    };
+
+    const response = await fetch("/api/exerciseTracking/goals", {
+      method: "POST",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Goal Successfully Added!");
+      setErrorMessage(null);
+    }
+    await router.push("/tracking");
+    showLoadingScreen({ type: false });
+  }
+
+  async function handleRemoveGoal(goalRecordId) {
+    showLoadingScreen({ type: true });
+    const bodyData = {
+      goalRecordId: goalRecordId,
+      username: user.username,
+    };
+
+    const response = await fetch("/api/exerciseTracking/goals", {
+      method: "DELETE",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Goal Successfully Removed!");
+      setErrorMessage(null);
+    }
+    await router.push("/tracking");
+    showLoadingScreen({ type: false });
+  }
+
   return (
     <>
       <Head>
@@ -111,30 +170,97 @@ function ViewTrackingProgress(props) {
 
           <DarkerDiv>
             <Row>
-              <Col style={{ paddingBottom: "25px" }} xs={12} lg={4}>
-                <NewExerciseSection
-                  exerciseList={props.exerciseList}
-                  commonExerciseList={props.commonExerciseList}
-                  selectedDate={selectedDate}
-                  addExercise={handleAddExercise}
-                />
+              <h1 className="center" style={{ paddingBottom: "25px" }}>
+                Currently viewing: {currentView}
+              </h1>
+            </Row>
+            {
+              // Buttons to set current view
+            }
+            <Row>
+              <Col xs={12} sm={6} style={{ paddingBottom: "25px" }}>
+                <button
+                  className="lowerWidth"
+                  onClick={() => {
+                    setCurrentView("Exercise History");
+                  }}
+                >
+                  View Exercise History
+                </button>
               </Col>
-              <Col xs={12} lg={8}>
-                {props.exerciseHistory.length ? (
-                  <ExercisesAtDateSection
-                    removeExerciseRecord={handleRemoveExerciseRecord}
-                    exercises={props.exerciseHistory}
+              <Col xs={12} sm={6} style={{ paddingBottom: "25px" }}>
+                <button
+                  className="lowerWidth"
+                  onClick={() => {
+                    setCurrentView("Goals");
+                  }}
+                >
+                  View Goals
+                </button>
+              </Col>
+            </Row>
+            {
+              // Exercise History
+            }
+            {currentView == "Exercise History" && (
+              <Row>
+                <Col style={{ paddingBottom: "25px" }} xs={12} lg={4}>
+                  <NewExerciseSection
+                    exerciseList={props.exerciseList}
+                    commonExerciseList={props.commonExerciseList}
                     selectedDate={selectedDate}
+                    addExercise={handleAddExercise}
                   />
-                ) : (
-                  <Card>
+                </Col>
+                <Col xs={12} lg={8}>
+                  {props.exerciseHistory.length ? (
+                    <ExercisesAtDateSection
+                      removeExerciseRecord={handleRemoveExerciseRecord}
+                      exercises={props.exerciseHistory}
+                      selectedDate={selectedDate}
+                    />
+                  ) : (
                     <h3 className="center" style={{ padding: "15px" }}>
                       No Exercises Have been added
                     </h3>
+                  )}
+                </Col>
+              </Row>
+            )}
+            {
+              // Goals
+            }
+            {currentView == "Goals" && (
+              <Row>
+                <Col xs={12} lg={4}>
+                  <Card>
+                    <h2 className="center" style={{ padding: "15px" }}>
+                      Add a Goal
+                    </h2>
+                    <SelectExerciseForm
+                      exerciseList={props.exerciseList}
+                      commonExerciseList={props.commonExerciseList}
+                      handleSubmit={handleAddGoal}
+                      setErrorMessage={handleSetErrorMessage}
+                      submitButtonText={"Add Goal"}
+                    />
                   </Card>
-                )}
-              </Col>
-            </Row>
+                </Col>
+                <Col xs={12} lg={8}>
+                  {props.goalsList.length ? (
+                    <GoalsAtDateSection
+                      removeGoalRecord={handleRemoveGoal}
+                      goals={props.goalsList}
+                      selectedDate={selectedDate}
+                    />
+                  ) : (
+                    <h3 className="center" style={{ padding: "15px" }}>
+                      No Goals Have been added
+                    </h3>
+                  )}
+                </Col>
+              </Row>
+            )}
           </DarkerDiv>
         </>
       )}
@@ -160,6 +286,9 @@ export async function getServerSideProps({ req }) {
     const commonExerciseList = await CommonExerciseList.find({}).sort({
       exerciseName: 1,
     });
+    const goalsList = await Goal.find({ username: session.user.username }).sort(
+      { dateToAchieveBy: 1 }
+    );
 
     return {
       props: {
@@ -182,6 +311,15 @@ export async function getServerSideProps({ req }) {
         commonExerciseList: commonExerciseList.map((exercise) => ({
           exerciseName: exercise.exerciseName,
           muscleGroup: exercise.muscleGroup,
+        })),
+        goalsList: goalsList.map((goal) => ({
+          id: goal._id.toString(),
+          username: goal.username,
+          exerciseName: goal.exerciseName,
+          weightUsed: goal.weightUsed,
+          numberOfReps: goal.numberOfReps,
+          numberOfSets: goal.numberOfSets,
+          dateToAchieveBy: goal.dateToAchieveBy.toString(),
         })),
       },
     };

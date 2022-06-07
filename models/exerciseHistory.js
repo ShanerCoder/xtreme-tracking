@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema(
+const ExerciseHistorySchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -40,4 +40,4 @@ const PostSchema = new mongoose.Schema(
 
 mongoose.models = {};
 
-export default mongoose.model("exercise_history", PostSchema);
+export default mongoose.model("exercise_history", ExerciseHistorySchema);
