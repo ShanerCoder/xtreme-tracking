@@ -148,7 +148,7 @@ function SelectExerciseForm(props) {
         </Col>
       </Row>
       <div className="lowerWidth">
-        <button className={"lowerWidth"}>Send Challenge</button>
+        <button className={"lowerWidth"}>{props.submitButtonText}</button>
       </div>
     </form>
   );

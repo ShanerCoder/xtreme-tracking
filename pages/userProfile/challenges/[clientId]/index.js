@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../../../../context";
 import { getValue } from "../../../../utils/common";
-import SelectExerciseForm from "../../../../components/forms/ChallengesForm/selectExerciseForm";
+import SelectExerciseForm from "../../../../components/form-components/Common/SelectExerciseForm";
 import Card from "../../../../components/ui/Card";
 import { useLoadingStore } from "../../../../context/loadingScreen";
 
@@ -80,6 +80,7 @@ function SendAChallenge(props) {
                 commonExerciseList={props.commonExerciseList}
                 handleSubmit={handleSubmit}
                 setErrorMessage={handleSetErrorMessage}
+                submitButtonText={"Send Challenge"}
               />
             </Card>
           </LighterDiv>

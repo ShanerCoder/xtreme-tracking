@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema({
+const CommonExerciseSchema = new mongoose.Schema({
   exerciseName: {
     type: String,
     required: true,
@@ -16,4 +16,4 @@ const PostSchema = new mongoose.Schema({
 
 mongoose.models = {};
 
-export default mongoose.model("common_exercise_list", PostSchema);
+export default mongoose.model("common_exercise_list", CommonExerciseSchema);
