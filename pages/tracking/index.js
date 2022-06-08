@@ -4,6 +4,7 @@ import ExerciseList from "../../models/exerciseList";
 import CommonExerciseList from "../../models/commonExerciseList";
 import ExerciseHistory from "../../models/exerciseHistory";
 import Goal from "../../models/goal";
+import TrainingPlan from "../../models/trainingPlan";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../lib/db-connect";
@@ -12,12 +13,8 @@ import DarkerDiv from "../../components/ui/DarkerDiv";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
 import { useRouter } from "next/router";
-import NewExerciseSection from "../../components/forms/TrackingForm/NewExerciseSection";
-import { Card, Col, Row } from "react-bootstrap";
-import ExercisesAtDateSection from "../../components/forms/TrackingForm/ExercisesAtDateSection";
+import { Row } from "react-bootstrap";
 import { useLoadingStore } from "../../context/loadingScreen";
-import SelectExerciseForm from "../../components/form-components/Common/SelectExerciseForm";
-import GoalsAtDateSection from "../../components/forms/TrackingForm/Goals/GoalsAtDateSection";
 import ExerciseHistoryView from "../../components/forms/TrackingForm/Views/ExerciseHistoryView";
 import GoalsView from "../../components/forms/TrackingForm/Views/GoalsView";
 import ChangeView from "../../components/forms/TrackingForm/Views/ChangeView";
@@ -210,7 +207,10 @@ function ViewTrackingProgress(props) {
               />
             )}
             {currentView == "Training Plans" && (
-              <TrainingPlansView trainingPlans={null} handleLoader={handleLoader}/>
+              <TrainingPlansView
+                trainingPlans={props.trainingPlansList}
+                handleLoader={handleLoader}
+              />
             )}
           </DarkerDiv>
         </>
@@ -240,6 +240,9 @@ export async function getServerSideProps({ req }) {
     const goalsList = await Goal.find({ username: session.user.username }).sort(
       { dateToAchieveBy: 1 }
     );
+    const trainingPlansList = await TrainingPlan.find({
+      username: session.user.username,
+    }).sort({ _id: 1 });
 
     return {
       props: {
@@ -271,6 +274,12 @@ export async function getServerSideProps({ req }) {
           numberOfReps: goal.numberOfReps,
           numberOfSets: goal.numberOfSets,
           dateToAchieveBy: goal.dateToAchieveBy.toString(),
+        })),
+        trainingPlansList: trainingPlansList.map((plan) => ({
+          id: plan._id.toString(),
+          username: plan.username,
+          trainingPlanName: plan.trainingPlanName,
+          numberOfExercises: plan.listOfExercises.length,
         })),
       },
     };

@@ -3,6 +3,7 @@ import Card from "../../../ui/Card";
 import SelectExerciseForm from "../../../form-components/Common/SelectExerciseForm";
 import GoalsAtDateSection from "../Goals/GoalsAtDateSection";
 import React from "react";
+import IndividualTrainingPlan from "../../../form-components/TrackingPage/IndividualTrainingPlan";
 
 function TrainingPlansView(props) {
   return (
@@ -10,16 +11,22 @@ function TrainingPlansView(props) {
       {props.trainingPlans && props.trainingPlans.length ? (
         <ul className="list">
           {props.trainingPlans.map((plan) => (
-            <h1>Yep</h1>
+            <IndividualTrainingPlan
+              key={plan.trainingPlanName}
+              username={plan.username}
+              trainingPlanName={plan.trainingPlanName}
+              numberOfExercises={plan.numberOfExercises}
+            />
           ))}
         </ul>
       ) : (
         <h2 className="center">No Training Plans created</h2>
       )}
-      <div className="center">
+      <div>
         <button
+          className="lowerWidth"
           onClick={() => {
-            props.handleLoader("/tracking/newTrainingPlan");
+            props.handleLoader("/tracking/trainingPlan/newTrainingPlan");
           }}
         >
           Create New Training Plan

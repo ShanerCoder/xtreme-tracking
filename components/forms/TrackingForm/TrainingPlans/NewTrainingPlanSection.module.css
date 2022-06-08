@@ -10,3 +10,14 @@
   text-align: center;
   font-size: 200%;
 }
+
+.addedExercisesFormatting {
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+@media (max-width: 1000px) {
+  .columnPadding {
+    padding-bottom: 25px;
+  }
+}

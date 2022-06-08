@@ -16,7 +16,7 @@ function ExerciseDetails(props) {
   }
 
   return (
-    <li className={classes.detailSection}>
+    <li>
       <div className={classes.detailBubble}>
         <Row className={classes.detailButtonsSection}>
           <Col xs={12} sm={3}>

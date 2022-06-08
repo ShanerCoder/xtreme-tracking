@@ -58,8 +58,6 @@ export async function getServerSideProps(context) {
     const exerciseName = context.query.exerciseName;
     let username = context.query.username;
     let ownUsername = null;
-    console.log(exerciseName);
-    console.log(username);
     const req = context.req;
     const session = await getSession({ req });
     await dbConnect();
@@ -99,7 +97,6 @@ export async function getServerSideProps(context) {
       throw new Error("Exercise Not Found");
     }
   } catch (error) {
-    console.log(error);
     return {
       notFound: true,
     };
