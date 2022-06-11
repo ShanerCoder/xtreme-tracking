@@ -25,7 +25,10 @@ function Calendar(props) {
       <Row>
         <Col xs={2}>
           <div className={"col col-start " + classes.monthNavigatiorDivs}>
-            <div className={"icon " + classes.monthNavigatiors} onClick={prevMonth}>
+            <div
+              className={"icon " + classes.monthNavigatiors}
+              onClick={prevMonth}
+            >
               chevron_left
             </div>
           </div>
@@ -40,7 +43,9 @@ function Calendar(props) {
             className={"col col-end " + classes.monthNavigatiorDivs}
             onClick={nextMonth}
           >
-            <div className={"icon " + classes.monthNavigatiors}>chevron_right</div>
+            <div className={"icon " + classes.monthNavigatiors}>
+              chevron_right
+            </div>
           </div>
         </Col>
       </Row>

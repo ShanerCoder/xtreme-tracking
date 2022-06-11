@@ -62,7 +62,6 @@ async function handler(req, res) {
         _id: req.body.challengeRecordId,
         clientUsername: session.user.username,
       });
-      console.log(deleteChallengeResult);
       if (deleteChallengeResult)
         responseHandler(deleteChallengeResult, res, 200);
     } catch (error) {

@@ -120,7 +120,7 @@ function ViewConsultationSchedule(props) {
       </DarkerDiv>
 
       <LighterDiv>
-        {props.consultationsList.length ? (
+        {props.consultationsList && props.consultationsList.length ? (
           <ConsultationsAtDateSection
             removeConsultation={handleRemoveConsultation}
             consultations={props.consultationsList}

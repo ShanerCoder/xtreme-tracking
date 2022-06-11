@@ -94,7 +94,9 @@ function NewExerciseSection(props) {
           </Row>
           <Row className="lowerWidth">
             <Col className="control" xs={12}>
-              <label htmlFor={"exerciseFilter"}>Filter Exercises</label>
+              <label htmlFor={"exerciseFilter"}>
+                Filter Exercises by Muscle Group
+              </label>
               <select
                 type={"datalist"}
                 required
