@@ -2,6 +2,7 @@ import Head from "next/head";
 import { dbConnect } from "../../lib/db-connect";
 import Profile from "../../models/userProfile";
 import User from "../../models/user";
+import TrainingPlan from "../../models/trainingPlan";
 import ProfileForm from "../../components/forms/ProfilePageForms/ProfileForm";
 import GenerateProfileForm from "../../components/forms/ProfilePageForms/ProfileGenerationForm";
 import { useRouter } from "next/router";
@@ -13,18 +14,31 @@ import DarkerDiv from "../../components/ui/DarkerDiv";
 import ExercisesAtDateSection from "../../components/forms/TrackingForm/ExercisesAtDateSection";
 import Card from "../../components/ui/Card";
 import { useLoadingStore } from "../../context/loadingScreen";
+import ChangeView from "../../components/form-components/Common/Views/ChangeView";
+import TrainingPlansView from "../../components/form-components/Common/Views/TrainingPlansView";
+import { useStore } from "../../context";
+import { getValue } from "../../utils/common";
 
 function ProfileView(props) {
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
+  const [currentView, setCurrentView] = useState("Exercise History");
   const [errorMessage, setErrorMessage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
+  const [state] = useStore();
+  const user = getValue(state, ["user"], null);
 
   const listOfExerciseHistoryDates = [];
   if (props.exerciseHistoryDates)
     props.exerciseHistoryDates.map((exercise) =>
       listOfExerciseHistoryDates.push(new Date(exercise.dateOfExercise))
     );
+
+  async function handleLoader(URL) {
+    showLoadingScreen({ type: true });
+    await router.push(URL);
+    showLoadingScreen({ type: false });
+  }
 
   function setSelectedDateInfo(date) {
     setSelectedDate(date.toDateString());
@@ -61,6 +75,28 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  async function handleRemoveTrainingPlan(trainingPlanId) {
+    showLoadingScreen({ type: true });
+    const bodyData = {
+      trainingPlanId: trainingPlanId,
+      username: user.username,
+    };
+
+    const response = await fetch("/api/exerciseTracking/training_plans", {
+      method: "DELETE",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+    } else {
+      setErrorMessage(null);
+    }
+    await router.push("/tracking");
+    showLoadingScreen({ type: false });
+  }
+
   return (
     <>
       <Head>
@@ -88,29 +124,52 @@ function ProfileView(props) {
             <ProfileForm user={props.user} userprofile={props.userprofile} />
           </LighterDiv>
           <DarkerDiv>
-            <h2 className="center">
-              Exercise History for date: {selectedDate}
-            </h2>
-            <Calendar
-              listOfDates={listOfExerciseHistoryDates}
-              setTitleSelectedDate={setSelectedDateInfo}
-            />
-          </DarkerDiv>
-          <LighterDiv>
-            {props.exerciseHistory && props.exerciseHistory.length ? (
-              <ExercisesAtDateSection
-                username={props.user.username}
-                exercises={props.exerciseHistory}
-                selectedDate={selectedDate}
-              />
-            ) : (
-              <Card>
-                <h3 className="center" style={{ padding: "15px" }}>
-                  No Exercises Have been added
-                </h3>
-              </Card>
+            <h1 className="center" style={{ paddingBottom: "25px" }}>
+              Currently viewing: {currentView}
+            </h1>
+            <ChangeView setCurrentView={setCurrentView} profileView={true} />
+            {currentView == "Exercise History" && (
+              <>
+                <h2 className="center">
+                  Exercise History for date: {selectedDate}
+                </h2>
+                <Calendar
+                  listOfDates={listOfExerciseHistoryDates}
+                  setTitleSelectedDate={setSelectedDateInfo}
+                />
+              </>
             )}
-          </LighterDiv>
+            {currentView == "Training Plans" &&
+              (props.user.username == user.username ? (
+                <TrainingPlansView
+                  trainingPlans={props.trainingPlansList}
+                  handleLoader={handleLoader}
+                  handleRemoveTrainingPlan={handleRemoveTrainingPlan}
+                />
+              ) : (
+                <TrainingPlansView
+                  trainingPlans={props.trainingPlansList}
+                  handleLoader={handleLoader}
+                />
+              ))}
+          </DarkerDiv>
+          {currentView == "Exercise History" && (
+            <LighterDiv>
+              {props.exerciseHistory && props.exerciseHistory.length ? (
+                <ExercisesAtDateSection
+                  username={props.user.username}
+                  exercises={props.exerciseHistory}
+                  selectedDate={selectedDate}
+                />
+              ) : (
+                <Card>
+                  <h3 className="center" style={{ padding: "15px" }}>
+                    No Exercises Have been added
+                  </h3>
+                </Card>
+              )}
+            </LighterDiv>
+          )}
         </>
       )}
     </>
@@ -142,6 +201,10 @@ export async function getServerSideProps(context) {
       username: username,
     }).sort({ dateOfExercise: 1 });
 
+    const trainingPlansList = await TrainingPlan.find({
+      username: username,
+    }).sort({ _id: 1 });
+
     return {
       // Returns User and Profile details
       props: {
@@ -167,6 +230,12 @@ export async function getServerSideProps(context) {
         })),
         exerciseHistoryDates: exerciseHistory.map((exercise) => ({
           dateOfExercise: exercise.dateOfExercise.toString(),
+        })),
+        trainingPlansList: trainingPlansList.map((plan) => ({
+          id: plan._id.toString(),
+          username: plan.username,
+          trainingPlanName: plan.trainingPlanName,
+          numberOfExercises: plan.listOfExercises.length,
         })),
       },
     };

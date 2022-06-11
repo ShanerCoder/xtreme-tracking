@@ -14,10 +14,24 @@
 .addedExercisesFormatting {
   text-align: center;
   padding-bottom: 15px;
+  font-size: 30px;
+}
+
+.nonOwnerExerciseFormatting {
+  text-align: center;
+  padding-bottom: 15px;
+  font-size: 45px;
 }
 
 @media (max-width: 1000px) {
   .columnPadding {
     padding-bottom: 25px;
   }
+
+  .addedExercisesFormatting, .nonOwnerExerciseFormatting {
+    text-align: center;
+    padding-bottom: 15px;
+    font-size: 25px;
+  }
+  
 }

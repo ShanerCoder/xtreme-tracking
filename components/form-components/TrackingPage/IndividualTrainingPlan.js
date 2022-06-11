@@ -7,6 +7,7 @@ import { useLoadingStore } from "../../../context/loadingScreen";
 function IndividualTrainingPlan(props) {
   const router = useRouter();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
+  const spacing = props.handleRemoveTrainingPlan ? 4 : 6;
 
   async function handleLoader(URL) {
     showLoadingScreen({ type: true });
@@ -18,7 +19,7 @@ function IndividualTrainingPlan(props) {
     <li style={{ paddingBottom: "15px" }}>
       <Card>
         <Row className={classes.trainingPlanRowFormatting}>
-          <Col xs={12} lg={4}>
+          <Col xs={12} lg={spacing}>
             <label
               className={"linkLabel " + classes.labelFormatting}
               onClick={() => {
@@ -33,16 +34,23 @@ function IndividualTrainingPlan(props) {
               {props.trainingPlanName}
             </label>
           </Col>
-          <Col xs={12} lg={4}>
+          <Col xs={12} lg={spacing}>
             <label className={classes.labelFormatting}>
               Number of Exercises: {props.numberOfExercises}
             </label>
           </Col>
-          <Col xs={12} lg={4} className={classes.columnPadding}>
-            <button className={classes.buttonFormatting}>
-              Delete Training Plan
-            </button>
-          </Col>
+          {props.handleRemoveTrainingPlan && (
+            <Col xs={12} lg={4} className={classes.columnPadding}>
+              <button
+                className={classes.buttonFormatting}
+                onClick={() => {
+                  props.handleRemoveTrainingPlan(props.id);
+                }}
+              >
+                Delete Training Plan
+              </button>
+            </Col>
+          )}
         </Row>
       </Card>
     </li>

@@ -17,8 +17,8 @@ import { Row } from "react-bootstrap";
 import { useLoadingStore } from "../../context/loadingScreen";
 import ExerciseHistoryView from "../../components/forms/TrackingForm/Views/ExerciseHistoryView";
 import GoalsView from "../../components/forms/TrackingForm/Views/GoalsView";
-import ChangeView from "../../components/forms/TrackingForm/Views/ChangeView";
-import TrainingPlansView from "../../components/forms/TrackingForm/Views/TrainingPlansView";
+import ChangeView from "../../components/form-components/Common/Views/ChangeView";
+import TrainingPlansView from "../../components/form-components/Common/Views/TrainingPlansView";
 
 function ViewTrackingProgress(props) {
   const router = useRouter();
@@ -150,6 +150,30 @@ function ViewTrackingProgress(props) {
     showLoadingScreen({ type: false });
   }
 
+  async function handleRemoveTrainingPlan(trainingPlanId) {
+    showLoadingScreen({ type: true });
+    const bodyData = {
+      trainingPlanId: trainingPlanId,
+      username: user.username,
+    };
+
+    const response = await fetch("/api/exerciseTracking/training_plans", {
+      method: "DELETE",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Training Plan Successfully Removed!");
+      setErrorMessage(null);
+    }
+    await router.push("/tracking");
+    showLoadingScreen({ type: false });
+  }
+
   return (
     <>
       <Head>
@@ -210,6 +234,7 @@ function ViewTrackingProgress(props) {
               <TrainingPlansView
                 trainingPlans={props.trainingPlansList}
                 handleLoader={handleLoader}
+                handleRemoveTrainingPlan={handleRemoveTrainingPlan}
               />
             )}
           </DarkerDiv>

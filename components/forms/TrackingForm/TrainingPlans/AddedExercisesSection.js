@@ -1,19 +1,39 @@
 import { Col, Row } from "react-bootstrap";
-import classes from "./NewTrainingPlanSection.module.css";
+import classes from "./TrainingPlanSection.module.css";
 
 function AddedExercisesSection(props) {
   return props.addedExercises.map((exerciseName) => (
     <Row key={exerciseName}>
-      <Col xs={12} sm={7}>
-        <h3 className={classes.addedExercisesFormatting}>
+      <Col
+        xs={12}
+        sm={props.removeExerciseFromPlan ? 7 : 12}
+        className="center"
+      >
+        <label
+          className={
+            "linkLabel " +
+            (props.removeExerciseFromPlan
+              ? classes.addedExercisesFormatting
+              : classes.nonOwnerExerciseFormatting)
+          }
+          onClick={() => {
+            props.handleLoader(exerciseName);
+          }}
+        >
           {exerciseName}
-        </h3>
+        </label>
       </Col>
-      <Col xs={12} sm={5} className="control center">
-        <button onClick={() => {
-          props.removeExerciseFromPlan(exerciseName);
-        }}>Remove Exercise</button>
-      </Col>
+      {props.removeExerciseFromPlan && (
+        <Col xs={12} sm={5} className="control center">
+          <button
+            onClick={() => {
+              props.removeExerciseFromPlan(exerciseName);
+            }}
+          >
+            Remove Exercise
+          </button>
+        </Col>
+      )}
     </Row>
   ));
 }

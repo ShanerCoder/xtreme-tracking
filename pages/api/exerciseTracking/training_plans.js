@@ -39,6 +39,21 @@ async function handler(req, res) {
       console.log(error);
       errorHandler("An error has occurred creating this Training Plan", res);
     }
+  } else if (req.method === "PUT") {
+    try {
+      await dbConnect();
+
+      const updateTrainingPlanResult = await TrainingPlan.findById(
+        req.body.id,
+      ).updateOne({
+        listOfExercises: req.body.listOfExercises,
+      });
+
+      if (updateTrainingPlanResult)
+        responseHandler(updateTrainingPlanResult, res, 200);
+    } catch (error) {
+      errorHandler("Failed to update this Training Plan", res);
+    }
   } else if (req.method === "DELETE") {
     try {
       await dbConnect();

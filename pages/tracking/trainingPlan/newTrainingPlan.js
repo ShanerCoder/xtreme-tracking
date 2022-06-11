@@ -2,7 +2,7 @@ import { getSession } from "next-auth/client";
 import { dbConnect } from "../../../lib/db-connect";
 import ExerciseList from "../../../models/exerciseList";
 import CommonExerciseList from "../../../models/commonExerciseList";
-import NewTrainingPlanSection from "../../../components/forms/TrackingForm/TrainingPlans/NewTrainingPlanSection";
+import TrainingPlanSection from "../../../components/forms/TrackingForm/TrainingPlans/TrainingPlanSection";
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useLoadingStore } from "../../../context/loadingScreen";
@@ -16,7 +16,13 @@ function NewTrainingPlan(props) {
   const router = useRouter();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
 
-  async function addNewTrainingPlan(postData) {
+  async function handleLoader(exerciseName) {
+    showLoadingScreen({ type: true });
+    await router.push("/tracking/exerciseHistory/" + exerciseName + "?username=" + user.username);
+    showLoadingScreen({ type: false });
+  }
+
+  async function addTrainingPlan(postData) {
     showLoadingScreen({ type: true });
     if (!postData.listOfExercises.length) {
       setErrorMessage("No Exercises Added!");
@@ -48,10 +54,12 @@ function NewTrainingPlan(props) {
   return (
     <>
       {errorMessage && <p className="errorMessage">{errorMessage}</p>}
-      <NewTrainingPlanSection
+      <TrainingPlanSection
         exerciseList={props.exerciseList}
         commonExerciseList={props.commonExerciseList}
-        addNewTrainingPlan={addNewTrainingPlan}
+        addTrainingPlan={addTrainingPlan}
+        view={"AddPlan"}
+        handleLoader={handleLoader}
       />
     </>
   );
