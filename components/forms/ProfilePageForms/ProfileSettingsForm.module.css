@@ -28,6 +28,7 @@
 .changeProfilePictureButton {
   width: 88%;
   margin-left: 10%;
+  margin-top: 2%;
 }
 
 @media (max-width: 1000px) {
