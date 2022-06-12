@@ -1,4 +1,3 @@
-import classes from "./ExercisesAtDateSection.module.css";
 import ExerciseDetails from "./ExerciseDetails";
 import React from "react";
 

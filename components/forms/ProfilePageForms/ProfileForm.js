@@ -5,10 +5,11 @@ import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useRouter } from "next/router";
 import ProfileImageAndName from "../../form-components/ProfilePage/ProfileComponents/ProfileImageAndName";
-import FourButtonProfile from "../../form-components/ProfilePage/ProfileComponents/FourButtonProfile";
-import ThreeButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ThreeButtonProfile";
-import TwoButtonProfile from "../../form-components/ProfilePage/ProfileComponents/TwoButtonProfile";
-import OneButtonProfile from "../../form-components/ProfilePage/ProfileComponents/OneButtonProfile";
+import FiveButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/FiveButtonProfile"
+import FourButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/FourButtonProfile";
+import ThreeButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/ThreeButtonProfile";
+import TwoButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/TwoButtonProfile";
+import OneButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/OneButtonProfile";
 import { useLoadingStore } from "../../../context/loadingScreen";
 
 function ProfileForm(props) {
@@ -53,6 +54,10 @@ function ProfileForm(props) {
     handleLoader("/userProfile/challenges/viewChallenges/");
   }
 
+  function handleViewGymVisitation() {
+    handleLoader("/");
+  }
+
   return (
     <>
       <h2 className="center">{props.user.username.toLowerCase()}'s Profile</h2>
@@ -86,7 +91,7 @@ function ProfileForm(props) {
                 //Viewing your own profile, as a personal trainer
               }
               {ownProfilePage && props.userprofile.personalTrainerProfile && (
-                <FourButtonProfile
+                <FiveButtonProfile
                   handleButtonOne={handleViewConsultationRequests}
                   buttonOneText={"View Incoming Consultation Requests"}
                   handleButtonTwo={handleViewConsultationSchedule}
@@ -95,6 +100,8 @@ function ProfileForm(props) {
                   buttonThreeText={"View List of Clients"}
                   handleButtonFour={handleViewChallenges}
                   buttonFourText={"View Challenges Assigned"}
+                  handleButtonFive={handleViewGymVisitation}
+                  buttonFiveText={"Gym Visitation"}
                 />
               )}
               {
