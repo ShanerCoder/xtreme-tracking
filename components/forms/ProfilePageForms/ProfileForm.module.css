@@ -35,6 +35,11 @@
 }
 
 @media (max-width: 576px) {
+  .profileDescription {
+    width: 90%;
+    margin-left: 5%;
+  }
+
   .columnPadding {
     padding-bottom: 25px;
   }

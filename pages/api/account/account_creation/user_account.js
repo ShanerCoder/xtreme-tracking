@@ -15,6 +15,9 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      const streakCount = 0;
+      const streakDate = new Date().setHours(1, 0, 0, 0);
+
       const hashPassword = await bcrypt.hash(req.body.password, 8);
 
       const user = new User({
@@ -23,6 +26,8 @@ async function handler(req, res) {
         email,
         forename,
         surname,
+        streakCount,
+        streakDate,
       });
       const userResult = await user.save();
       if (userResult) {

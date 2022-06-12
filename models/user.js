@@ -26,6 +26,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  streakCount: {
+    type: Number,
+    required: true,
+  },
+  streakDate: {
+    type: Date,
+    required: true,
+  },
 });
 
 mongoose.models = {};

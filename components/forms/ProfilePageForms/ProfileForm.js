@@ -63,6 +63,7 @@ function ProfileForm(props) {
               pictureId={props.userprofile.profilePictureId}
               forename={props.user.forename}
               surname={props.user.surname}
+              streakCount={props.user.streakCount}
             />
           </Col>
           <Col xs={12} sm={8}>
