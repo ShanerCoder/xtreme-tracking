@@ -213,6 +213,7 @@ export async function getServerSideProps(context) {
           username: selectedUser.username,
           forename: selectedUser.forename,
           surname: selectedUser.surname,
+          streakCount: selectedUser.streakCount,
         },
         userprofile: {
           profilePictureId: selectedProfile.profilePictureId,
