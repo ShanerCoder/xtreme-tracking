@@ -54,8 +54,8 @@ function ProfileForm(props) {
     handleLoader("/userProfile/challenges/viewChallenges/");
   }
 
-  function handleViewGymVisitation() {
-    handleLoader("/");
+  function handleGymVisitation() {
+    handleLoader("/userProfile/gymVisitation/" + props.user.username);
   }
 
   return (
@@ -100,7 +100,7 @@ function ProfileForm(props) {
                   buttonThreeText={"View List of Clients"}
                   handleButtonFour={handleViewChallenges}
                   buttonFourText={"View Challenges Assigned"}
-                  handleButtonFive={handleViewGymVisitation}
+                  handleButtonFive={handleGymVisitation}
                   buttonFiveText={"Gym Visitation"}
                 />
               )}
@@ -119,9 +119,11 @@ function ProfileForm(props) {
                 //Viewing a client user profile
               }
               {!ownProfilePage && !props.userprofile.personalTrainerProfile && (
-                <OneButtonProfile
+                <TwoButtonProfile
                   handleButtonOne={handlePrivateMessage}
                   buttonOneText={"Send A Private Message"}
+                  handleButtonTwo={handleGymVisitation}
+                  buttonTwoText={"Gym Visitation"}
                 />
               )}
             </Row>

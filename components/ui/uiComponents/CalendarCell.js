@@ -1,4 +1,4 @@
-import { format, isSameMonth, isSameDay, monthStart } from "date-fns";
+import { format, isSameMonth, isSameDay } from "date-fns";
 import classes from "./CalendarCell.module.css";
 
 function CalendarCell(props) {
@@ -7,6 +7,7 @@ function CalendarCell(props) {
   let formattedDate = format(day, "d");
   const monthStart = props.monthStart;
   const selectedDate = props.selectedDate;
+  const imagesrc = props.imagesrc ? props.imagesrc : "dumbbell.png";
   return (
     <div
       className={`col cell ${
@@ -19,11 +20,11 @@ function CalendarCell(props) {
       key={day}
       onClick={() => {
         props.setSelectedDate(day);
-        props.setTitleSelectedDate(day);
+        props.setTitleSelectedDate(new Date(day).toDateString());
       }}
     >
       {datesOfConsultations.indexOf(day.getDate()) != -1 && (
-        <img src="/icons/dumbbell.png" className={classes.icon}></img>
+        <img src={"/icons/" + imagesrc} className={classes.icon}></img>
       )}
       <span className="number">{formattedDate}</span>
       <span className="bg">{formattedDate}</span>

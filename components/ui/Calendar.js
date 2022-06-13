@@ -80,7 +80,10 @@ function Calendar(props) {
     if (props.listOfDates) {
       const currentMonthNumber = currentMonth.getMonth();
       props.listOfDates.forEach((date) => {
-        if (date.getMonth() == currentMonthNumber)
+        if (
+          date.getMonth() == currentMonthNumber &&
+          date.getFullYear() == currentMonth.getFullYear()
+        )
           datesOfConsultations.push(date.getDate());
       });
     }
@@ -109,6 +112,7 @@ function Calendar(props) {
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
             setTitleSelectedDate={props.setTitleSelectedDate}
+            imagesrc={props.imagesrc}
           />
         );
         day = addDays(day, 1);
