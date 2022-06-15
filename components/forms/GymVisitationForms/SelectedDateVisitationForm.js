@@ -1,12 +1,18 @@
 import React from "react";
+import CheckedInView from "./CheckedInForm";
+import NotCheckedInView from "./NotCheckedInForm";
+import OwnViewForm from "./OwnViewForm";
 
 function SelectedDateVisitationForm(props) {
-  let noExercises = (
-    <h3 className="center">No Exercises Recorded on this Date</h3>
-  );
+  let checkedInOnDate = false;
+  let photoId = null;
 
-  console.log(props.gymAttendanceDates[0].toDateString());
-  console.log(props.selectedDate);
+  function checkInTrue(attendance) {
+    checkedInOnDate = true;
+    const index = props.gymAttendanceDates.indexOf(attendance);
+    photoId = props.checkInList[index].photoId;
+  }
+
   return (
     <>
       <h1 className="center">
@@ -15,14 +21,23 @@ function SelectedDateVisitationForm(props) {
       {props.gymAttendanceDates.map((attendance) => (
         <React.Fragment key={attendance}>
           {new Date(attendance).toDateString() == props.selectedDate && (
-            <>
-              {(noExercises = null)}
-              <h2 className="center">User has checked in on this day</h2>
-            </>
+            <>{checkInTrue(attendance)}</>
           )}
         </React.Fragment>
       ))}
-      {noExercises}
+
+      {checkedInOnDate ? (
+        <CheckedInView photoId={photoId} />
+      ) : (
+        <NotCheckedInView />
+      )}
+      {props.ownProfile && (
+        <OwnViewForm
+          selectedDate={props.selectedDate}
+          checkedIn={checkedInOnDate}
+          handleCheckIn={props.handleCheckIn}
+        />
+      )}
     </>
   );
 }

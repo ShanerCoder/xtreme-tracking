@@ -3,6 +3,7 @@ import classes from "./CalendarCell.module.css";
 
 function CalendarCell(props) {
   const day = props.day;
+  const greaterThanToday = props.disableGreaterThanToday ? (day > new Date()) : false;
   let datesOfConsultations = props.datesOfConsultations;
   let formattedDate = format(day, "d");
   const monthStart = props.monthStart;
@@ -11,7 +12,7 @@ function CalendarCell(props) {
   return (
     <div
       className={`col cell ${
-        !isSameMonth(day, monthStart)
+        (!isSameMonth(day, monthStart) || greaterThanToday)
           ? "disabled"
           : isSameDay(day, selectedDate)
           ? "selected"

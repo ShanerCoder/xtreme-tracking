@@ -113,6 +113,7 @@ function Calendar(props) {
             setSelectedDate={setSelectedDate}
             setTitleSelectedDate={props.setTitleSelectedDate}
             imagesrc={props.imagesrc}
+            disableGreaterThanToday={props.disableGreaterThanToday}
           />
         );
         day = addDays(day, 1);

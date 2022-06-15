@@ -5,7 +5,7 @@ import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useRouter } from "next/router";
 import ProfileImageAndName from "../../form-components/ProfilePage/ProfileComponents/ProfileImageAndName";
-import FiveButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/FiveButtonProfile"
+import FiveButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/FiveButtonProfile";
 import FourButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/FourButtonProfile";
 import ThreeButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/ThreeButtonProfile";
 import TwoButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/TwoButtonProfile";
@@ -80,11 +80,13 @@ function ProfileForm(props) {
                 //Viewing a personal trainer profile
               }
               {!ownProfilePage && props.userprofile.personalTrainerProfile && (
-                <TwoButtonProfile
+                <ThreeButtonProfile
                   handleButtonOne={handlePrivateMessage}
                   buttonOneText={"Send A Private Message"}
                   handleButtonTwo={handleConsultationRequest}
                   buttonTwoText={"Request A Consultation"}
+                  handleButtonThree={handleGymVisitation}
+                  buttonThreeText={"Gym Visitation"}
                 />
               )}
               {
@@ -108,11 +110,13 @@ function ProfileForm(props) {
                 //Viewing your own profile, as a client user
               }
               {ownProfilePage && !props.userprofile.personalTrainerProfile && (
-                <TwoButtonProfile
+                <ThreeButtonProfile
                   handleButtonOne={handleViewMessages}
                   buttonOneText={"View Messages"}
                   handleButtonTwo={handleViewChallenges}
                   buttonTwoText={"View Challenges Assigned"}
+                  handleButtonThree={handleGymVisitation}
+                  buttonThreeText={"Gym Visitation"}
                 />
               )}
               {

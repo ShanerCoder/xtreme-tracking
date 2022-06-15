@@ -11,10 +11,6 @@ function ProfileViews(props) {
   const [currentView, setCurrentView] = useState("Exercise History");
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
 
-  function setSelectedDateInfo(date) {
-    setSelectedDate(date.toDateString());
-  }
-
   async function handleLoader(URL) {
     showLoadingScreen({ type: true });
     await router.push(URL);
@@ -35,7 +31,7 @@ function ProfileViews(props) {
             </h2>
             <Calendar
               listOfDates={props.listOfExerciseHistoryDates}
-              setTitleSelectedDate={setSelectedDateInfo}
+              setTitleSelectedDate={setSelectedDate}
             />
           </>
         )}
