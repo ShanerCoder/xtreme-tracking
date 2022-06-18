@@ -197,7 +197,7 @@ export async function getServerSideProps(context) {
       checkedInToday = true;
     } else checkedInToday = false;
 
-    if (session.user.username == username) {
+    if (session && session.user.username == username) {
       return {
         props: {
           username: username,
@@ -242,6 +242,7 @@ export async function getServerSideProps(context) {
         },
       };
   } catch (error) {
+    console.log(error);
     return {
       notFound: true,
     };
