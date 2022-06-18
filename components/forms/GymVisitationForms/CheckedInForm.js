@@ -4,7 +4,7 @@ import classes from "./GymVisitationForms.module.css";
 function CheckedInView(props) {
   return (
     <>
-      <h2 className="center">User has Checked In this day</h2>
+      <h2 className="center">Checked In this day</h2>
       {props.photoId && (
         <Image
           className={classes.checkInPhoto}
