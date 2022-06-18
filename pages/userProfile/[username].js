@@ -8,23 +8,16 @@ import GenerateProfileForm from "../../components/forms/ProfilePageForms/Profile
 import { useRouter } from "next/router";
 import { useState } from "react";
 import ExerciseHistory from "../../models/exerciseHistory";
-import Calendar from "../../components/ui/Calendar";
 import LighterDiv from "../../components/ui/LighterDiv";
-import DarkerDiv from "../../components/ui/DarkerDiv";
-import ExercisesAtDateSection from "../../components/forms/TrackingForm/ExercisesAtDateSection";
-import Card from "../../components/ui/Card";
 import { useLoadingStore } from "../../context/loadingScreen";
-import ChangeView from "../../components/form-components/Common/Views/ChangeView";
-import TrainingPlansView from "../../components/form-components/Common/Views/TrainingPlansView";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
+import ProfileViews from "../../components/forms/ProfilePageForms/ProfileViews";
 
 function ProfileView(props) {
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
-  const [currentView, setCurrentView] = useState("Exercise History");
   const [errorMessage, setErrorMessage] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
@@ -33,16 +26,6 @@ function ProfileView(props) {
     props.exerciseHistoryDates.map((exercise) =>
       listOfExerciseHistoryDates.push(new Date(exercise.dateOfExercise))
     );
-
-  async function handleLoader(URL) {
-    showLoadingScreen({ type: true });
-    await router.push(URL);
-    showLoadingScreen({ type: false });
-  }
-
-  function setSelectedDateInfo(date) {
-    setSelectedDate(date.toDateString());
-  }
 
   async function generateProfile() {
     showLoadingScreen({ type: true });
@@ -121,55 +104,18 @@ function ProfileView(props) {
       ) : (
         <>
           <LighterDiv>
-            <ProfileForm user={props.user} userprofile={props.userprofile} />
+            <ProfileForm
+              user={props.user}
+              userprofile={props.userprofile}
+              ownProfile={props.user.username == user.username}
+            />
           </LighterDiv>
-          <DarkerDiv>
-            <h1 className="center" style={{ paddingBottom: "25px" }}>
-              Currently viewing: {currentView}
-            </h1>
-            <ChangeView setCurrentView={setCurrentView} profileView={true} />
-            {currentView == "Exercise History" && (
-              <>
-                <h2 className="center">
-                  Exercise History for date: {selectedDate}
-                </h2>
-                <Calendar
-                  listOfDates={listOfExerciseHistoryDates}
-                  setTitleSelectedDate={setSelectedDateInfo}
-                />
-              </>
-            )}
-            {currentView == "Training Plans" &&
-              (props.user.username == user.username ? (
-                <TrainingPlansView
-                  trainingPlans={props.trainingPlansList}
-                  handleLoader={handleLoader}
-                  handleRemoveTrainingPlan={handleRemoveTrainingPlan}
-                />
-              ) : (
-                <TrainingPlansView
-                  trainingPlans={props.trainingPlansList}
-                  handleLoader={handleLoader}
-                />
-              ))}
-          </DarkerDiv>
-          {currentView == "Exercise History" && (
-            <LighterDiv>
-              {props.exerciseHistory && props.exerciseHistory.length ? (
-                <ExercisesAtDateSection
-                  username={props.user.username}
-                  exercises={props.exerciseHistory}
-                  selectedDate={selectedDate}
-                />
-              ) : (
-                <Card>
-                  <h3 className="center" style={{ padding: "15px" }}>
-                    No Exercises Have been added
-                  </h3>
-                </Card>
-              )}
-            </LighterDiv>
-          )}
+          <ProfileViews
+            exerciseHistory={props.exerciseHistory}
+            listOfExerciseHistoryDates={listOfExerciseHistoryDates}
+            trainingPlansList={props.trainingPlansList}
+            user={props.user}
+          />
         </>
       )}
     </>

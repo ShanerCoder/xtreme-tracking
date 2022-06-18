@@ -1,0 +1,65 @@
+.checkInPhoto {
+  width:40%;
+  margin-left: 30%;
+  height: 100%;
+  max-height: 550px;
+  padding: 5px;
+  border-radius: 10%;
+  min-width: 80px;
+}
+
+.emptyPhoto {
+  background-color: white;
+  height: 200px;
+  max-height: 350px;
+  padding: 20px;
+  border-radius: 5%;
+  min-width: 80px;
+}
+
+.checkInButton, .emptyPhoto {
+  width: 50%;
+  margin-left: 25%;
+  margin-bottom: 20px;
+}
+
+.checkInFileUpload {
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.buttonText {
+  font-size: 50px;
+  transition: all 1s ease-in-out;
+}
+
+
+@media (min-width: 1000px) {
+  .emptyPhoto {
+    height: 1000px;
+  }
+}
+
+@media (max-width: 572px) {
+  .checkInButton {
+    width: 90%;
+    margin-left: 5%;
+  }
+
+  .checkInPhoto {
+    width:90%;
+    margin-left: 5%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .buttonText {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 700px) {
+  .buttonText {
+    font-size: 20px;
+  }
+}

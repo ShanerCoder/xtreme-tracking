@@ -5,10 +5,11 @@ import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useRouter } from "next/router";
 import ProfileImageAndName from "../../form-components/ProfilePage/ProfileComponents/ProfileImageAndName";
-import FourButtonProfile from "../../form-components/ProfilePage/ProfileComponents/FourButtonProfile";
-import ThreeButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ThreeButtonProfile";
-import TwoButtonProfile from "../../form-components/ProfilePage/ProfileComponents/TwoButtonProfile";
-import OneButtonProfile from "../../form-components/ProfilePage/ProfileComponents/OneButtonProfile";
+import FiveButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/FiveButtonProfile";
+import FourButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/FourButtonProfile";
+import ThreeButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/ThreeButtonProfile";
+import TwoButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/TwoButtonProfile";
+import OneButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/OneButtonProfile";
 import { useLoadingStore } from "../../../context/loadingScreen";
 
 function ProfileForm(props) {
@@ -53,6 +54,10 @@ function ProfileForm(props) {
     handleLoader("/userProfile/challenges/viewChallenges/");
   }
 
+  function handleGymVisitation() {
+    handleLoader("/userProfile/gymVisitation/" + props.user.username);
+  }
+
   return (
     <>
       <h2 className="center">{props.user.username.toLowerCase()}'s Profile</h2>
@@ -75,18 +80,20 @@ function ProfileForm(props) {
                 //Viewing a personal trainer profile
               }
               {!ownProfilePage && props.userprofile.personalTrainerProfile && (
-                <TwoButtonProfile
+                <ThreeButtonProfile
                   handleButtonOne={handlePrivateMessage}
                   buttonOneText={"Send A Private Message"}
                   handleButtonTwo={handleConsultationRequest}
                   buttonTwoText={"Request A Consultation"}
+                  handleButtonThree={handleGymVisitation}
+                  buttonThreeText={"Gym Visitation"}
                 />
               )}
               {
                 //Viewing your own profile, as a personal trainer
               }
               {ownProfilePage && props.userprofile.personalTrainerProfile && (
-                <FourButtonProfile
+                <FiveButtonProfile
                   handleButtonOne={handleViewConsultationRequests}
                   buttonOneText={"View Incoming Consultation Requests"}
                   handleButtonTwo={handleViewConsultationSchedule}
@@ -95,26 +102,32 @@ function ProfileForm(props) {
                   buttonThreeText={"View List of Clients"}
                   handleButtonFour={handleViewChallenges}
                   buttonFourText={"View Challenges Assigned"}
+                  handleButtonFive={handleGymVisitation}
+                  buttonFiveText={"Gym Visitation"}
                 />
               )}
               {
                 //Viewing your own profile, as a client user
               }
               {ownProfilePage && !props.userprofile.personalTrainerProfile && (
-                <TwoButtonProfile
+                <ThreeButtonProfile
                   handleButtonOne={handleViewMessages}
                   buttonOneText={"View Messages"}
                   handleButtonTwo={handleViewChallenges}
                   buttonTwoText={"View Challenges Assigned"}
+                  handleButtonThree={handleGymVisitation}
+                  buttonThreeText={"Gym Visitation"}
                 />
               )}
               {
                 //Viewing a client user profile
               }
               {!ownProfilePage && !props.userprofile.personalTrainerProfile && (
-                <OneButtonProfile
+                <TwoButtonProfile
                   handleButtonOne={handlePrivateMessage}
                   buttonOneText={"Send A Private Message"}
+                  handleButtonTwo={handleGymVisitation}
+                  buttonTwoText={"Gym Visitation"}
                 />
               )}
             </Row>

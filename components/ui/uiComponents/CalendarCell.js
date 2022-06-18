@@ -1,16 +1,30 @@
-import { format, isSameMonth, isSameDay, monthStart } from "date-fns";
+import { format, isSameMonth, isSameDay } from "date-fns";
 import classes from "./CalendarCell.module.css";
 
 function CalendarCell(props) {
   const day = props.day;
+  const greaterThanMax = props.maximumDate ? day > props.maximumDate : false;
   let datesOfConsultations = props.datesOfConsultations;
   let formattedDate = format(day, "d");
   const monthStart = props.monthStart;
   const selectedDate = props.selectedDate;
+
+  function imageSource() {
+    const greaterThanToday = day > new Date() ? true : false;
+    const includeToday = props.includeTodayForImgSrcPastToday
+      ? isSameDay(new Date(), day)
+      : false;
+    let imagesrc = props.imagesrc ? props.imagesrc : "dumbbell.png";
+    if (props.imageSrcPastToday && (greaterThanToday || includeToday)) {
+      imagesrc = props.imageSrcPastToday;
+    }
+    return imagesrc;
+  }
+
   return (
     <div
       className={`col cell ${
-        !isSameMonth(day, monthStart)
+        !isSameMonth(day, monthStart) || greaterThanMax
           ? "disabled"
           : isSameDay(day, selectedDate)
           ? "selected"
@@ -19,11 +33,11 @@ function CalendarCell(props) {
       key={day}
       onClick={() => {
         props.setSelectedDate(day);
-        props.setTitleSelectedDate(day);
+        props.setTitleSelectedDate(new Date(day).toDateString());
       }}
     >
       {datesOfConsultations.indexOf(day.getDate()) != -1 && (
-        <img src="/icons/dumbbell.png" className={classes.icon}></img>
+        <img src={"/icons/" + imageSource()} className={classes.icon}></img>
       )}
       <span className="number">{formattedDate}</span>
       <span className="bg">{formattedDate}</span>

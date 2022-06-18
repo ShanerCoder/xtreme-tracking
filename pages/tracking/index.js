@@ -48,10 +48,6 @@ function ViewTrackingProgress(props) {
     router.push("/tracking/");
   }
 
-  function setSelectedDateInfo(date) {
-    setSelectedDate(date.toDateString());
-  }
-
   async function handleAddExercise(postData) {
     showLoadingScreen({ type: true });
     const bodyData = {
@@ -194,8 +190,9 @@ function ViewTrackingProgress(props) {
 
             <Calendar
               listOfDates={listOfExerciseHistoryDates}
-              setTitleSelectedDate={setSelectedDateInfo}
+              setTitleSelectedDate={setSelectedDate}
               selectedDate={selectedDate}
+              maximumDate={new Date()}
             />
           </LighterDiv>
 

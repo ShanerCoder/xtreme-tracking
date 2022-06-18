@@ -29,10 +29,6 @@ function ViewConsultationSchedule(props) {
     listOfConsultationDates.push(new Date(consultation.datetimeOfConsultation))
   );
 
-  function setSelectedDateInfo(date) {
-    setSelectedDate(date.toDateString());
-  }
-
   async function handleAddConsultation(postData) {
     showLoadingScreen({ type: true });
     const bodyData = {
@@ -106,7 +102,7 @@ function ViewConsultationSchedule(props) {
 
         <Calendar
           listOfDates={listOfConsultationDates}
-          setTitleSelectedDate={setSelectedDateInfo}
+          setTitleSelectedDate={setSelectedDate}
           selectedDate={selectedDate}
         />
       </LighterDiv>
