@@ -192,7 +192,7 @@ function ViewTrackingProgress(props) {
               listOfDates={listOfExerciseHistoryDates}
               setTitleSelectedDate={setSelectedDate}
               selectedDate={selectedDate}
-              disableGreaterThanToday={true}
+              maximumDate={new Date()}
             />
           </LighterDiv>
 

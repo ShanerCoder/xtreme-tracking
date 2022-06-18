@@ -29,13 +29,17 @@ function SelectedDateVisitationForm(props) {
       {checkedInOnDate ? (
         <CheckedInView photoId={photoId} />
       ) : (
-        <NotCheckedInView />
+        <NotCheckedInView
+          selectedDate={props.selectedDate}
+          plannedVisitationDates={props.plannedVisitationDates}
+        />
       )}
       {props.ownProfile && (
         <OwnViewForm
           selectedDate={props.selectedDate}
           checkedIn={checkedInOnDate}
           handleCheckIn={props.handleCheckIn}
+          handleSetVisition={props.handleSetVisition}
         />
       )}
     </>
