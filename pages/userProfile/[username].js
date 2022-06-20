@@ -1,8 +1,10 @@
 import Head from "next/head";
 import { dbConnect } from "../../lib/db-connect";
+import { getSession } from "next-auth/client";
 import Profile from "../../models/userProfile";
 import User from "../../models/user";
 import TrainingPlan from "../../models/trainingPlan";
+import GalleryPhotos from "../../models/galleryPhotos";
 import ProfileForm from "../../components/forms/ProfilePageForms/ProfileForm";
 import GenerateProfileForm from "../../components/forms/ProfilePageForms/ProfileGenerationForm";
 import { useRouter } from "next/router";
@@ -76,7 +78,52 @@ function ProfileView(props) {
     } else {
       setErrorMessage(null);
     }
-    await router.push("/tracking");
+    await router.push("/userProfile/" + props.user.username);
+    showLoadingScreen({ type: false });
+  }
+
+  async function handleUpdatePrivacyOfPhoto(postData) {
+    showLoadingScreen({ type: true });
+    const bodyData = {
+      galleryPhotoId: postData.id,
+      username: user.username,
+      privatePhoto: postData.privatePhoto,
+    };
+
+    const response = await fetch("/api/account/account_profile/gallery", {
+      method: "PUT",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+    } else {
+      setErrorMessage(null);
+    }
+    await router.push("/userProfile/" + props.user.username);
+    showLoadingScreen({ type: false });
+  }
+
+  async function handleRemovePhoto(id) {
+    showLoadingScreen({ type: true });
+    const bodyData = {
+      galleryPhotoId: id,
+      username: user.username,
+    };
+
+    const response = await fetch("/api/account/account_profile/gallery", {
+      method: "DELETE",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+    } else {
+      setErrorMessage(null);
+    }
+    await router.push("/userProfile/" + props.user.username);
     showLoadingScreen({ type: false });
   }
 
@@ -114,6 +161,11 @@ function ProfileView(props) {
             exerciseHistory={props.exerciseHistory}
             listOfExerciseHistoryDates={listOfExerciseHistoryDates}
             trainingPlansList={props.trainingPlansList}
+            handleRemoveTrainingPlan={handleRemoveTrainingPlan}
+            galleryPhotoList={props.galleryPhotoList}
+            handleUpdatePrivacyOfPhoto={handleUpdatePrivacyOfPhoto}
+            handleRemovePhoto={handleRemovePhoto}
+            ownProfile={props.user.username == user.username}
             user={props.user}
           />
         </>
@@ -128,6 +180,9 @@ export async function getServerSideProps(context) {
   try {
     const username = context.query.username.toLowerCase();
     await dbConnect();
+
+    const req = context.req;
+    const session = await getSession({ req });
 
     // Finding user account details and profile details
     const usernameFilter = { username: username };
@@ -150,6 +205,18 @@ export async function getServerSideProps(context) {
     const trainingPlansList = await TrainingPlan.find({
       username: username,
     }).sort({ _id: 1 });
+
+    let galleryPhotoList;
+    if (session && session.user.username == username) {
+      galleryPhotoList = await GalleryPhotos.find({
+        username: username,
+      }).sort({ createdAt: -1 });
+    } else {
+      galleryPhotoList = await GalleryPhotos.find({
+        username: username,
+        privatePhoto: false,
+      }).sort({ createdAt: -1 });
+    }
 
     return {
       // Returns User and Profile details
@@ -183,6 +250,13 @@ export async function getServerSideProps(context) {
           username: plan.username,
           trainingPlanName: plan.trainingPlanName,
           numberOfExercises: plan.listOfExercises.length,
+        })),
+        galleryPhotoList: galleryPhotoList.map((photo) => ({
+          id: photo._id.toString(),
+          photoId: photo.photoId,
+          photoDescription: photo.photoDescription,
+          privatePhoto: photo.privatePhoto,
+          createdAt: photo.createdAt.toString(),
         })),
       },
     };

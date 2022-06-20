@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useLoadingStore } from "../../../context/loadingScreen";
 import ChangeView from "../../form-components/Common/Views/ChangeView";
 import TrainingPlansView from "../../form-components/Common/Views/TrainingPlansView";
 import Calendar from "../../ui/Calendar";
@@ -6,8 +8,11 @@ import Card from "../../ui/Card";
 import DarkerDiv from "../../ui/DarkerDiv";
 import LighterDiv from "../../ui/LighterDiv";
 import ExercisesAtDateSection from "../TrackingForm/ExercisesAtDateSection";
+import GalleryView from "./Views/GalleryView";
 
 function ProfileViews(props) {
+  const [loadingScreen, showLoadingScreen] = useLoadingStore();
+  const router = useRouter();
   const [currentView, setCurrentView] = useState("Exercise History");
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
 
@@ -35,12 +40,26 @@ function ProfileViews(props) {
             />
           </>
         )}
+        {currentView == "Gallery" &&
+          (props.ownProfile ? (
+            <GalleryView
+              galleryPhotoList={props.galleryPhotoList}
+              handleLoader={handleLoader}
+              handleUpdatePrivacyOfPhoto={props.handleUpdatePrivacyOfPhoto}
+              handleRemovePhoto={props.handleRemovePhoto}
+            />
+          ) : (
+            <GalleryView
+              galleryPhotoList={props.galleryPhotoList}
+              handleLoader={handleLoader}
+            />
+          ))}
         {currentView == "Training Plans" &&
           (props.ownProfile ? (
             <TrainingPlansView
               trainingPlans={props.trainingPlansList}
               handleLoader={handleLoader}
-              handleRemoveTrainingPlan={handleRemoveTrainingPlan}
+              handleRemoveTrainingPlan={props.handleRemoveTrainingPlan}
             />
           ) : (
             <TrainingPlansView
