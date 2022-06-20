@@ -1,4 +1,4 @@
-.checkInPhoto {
+.filledInPhoto {
   width:40%;
   margin-left: 30%;
   height: 100%;
@@ -15,24 +15,19 @@
   padding: 20px;
   border-radius: 5%;
   min-width: 80px;
-}
-
-.checkInButton, .emptyPhoto {
   width: 50%;
   margin-left: 25%;
   margin-bottom: 20px;
 }
 
-.checkInFileUpload {
+.addFileUpload {
   margin-top: 1%;
   margin-bottom: 1%;
 }
 
-.buttonText {
-  font-size: 50px;
-  transition: all 1s ease-in-out;
+.radioButtonFormatting {
+  font-size: 20px;
 }
-
 
 @media (min-width: 1000px) {
   .emptyPhoto {
@@ -41,25 +36,13 @@
 }
 
 @media (max-width: 572px) {
-  .checkInButton {
+  .addButton {
     width: 90%;
     margin-left: 5%;
   }
 
-  .checkInPhoto {
+  .filledPhoto {
     width:90%;
     margin-left: 5%;
-  }
-}
-
-@media (max-width: 1100px) {
-  .buttonText {
-    font-size: 30px;
-  }
-}
-
-@media (max-width: 700px) {
-  .buttonText {
-    font-size: 20px;
   }
 }

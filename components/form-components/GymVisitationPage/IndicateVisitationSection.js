@@ -1,5 +1,3 @@
-import classes from "./IndicateVisitationSection.module.css";
-
 function IndicateVisitationSection(props) {
   function handleSetVisition() {
     props.handleSetVisition();
@@ -8,7 +6,7 @@ function IndicateVisitationSection(props) {
   return (
     <>
       <button
-        className={"lowerWidth " + classes.buttonText}
+        className={"lowerWidth bigButtonText"}
         onClick={handleSetVisition}
       >
         Change Visitation Status

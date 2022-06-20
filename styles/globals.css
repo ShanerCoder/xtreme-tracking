@@ -41,6 +41,23 @@ button {
     border-color: #a50e48;
   }
 
+  .bigButtonText {
+    font-size: 50px;
+    transition: all 1s ease-in-out;
+  }
+
+  @media (max-width: 1000px) {
+    .bigButtonText {
+      font-size: 35px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .bigButtonText {
+      font-size: 20px;
+    }
+  }
+
   .center {
     text-align: center;
   }

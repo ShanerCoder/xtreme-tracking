@@ -1,4 +1,4 @@
-import CheckInSection from "../../form-components/GymVisitationPage/CheckInSection";
+import AddNewPhoto from "../../form-components/Common/AddNewPhoto";
 import IndicateVisitationSection from "../../form-components/GymVisitationPage/IndicateVisitationSection";
 
 function OwnViewForm(props) {
@@ -8,7 +8,11 @@ function OwnViewForm(props) {
   return (
     <>
       {isToday && !props.checkedIn && (
-        <CheckInSection handleCheckIn={props.handleCheckIn} />
+        <AddNewPhoto
+          handleAddPhoto={props.handleCheckIn}
+          title={"Add a Photo"}
+          buttonText={"Check In"}
+        />
       )}
       {isGreaterThanToday && (
         <IndicateVisitationSection
