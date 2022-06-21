@@ -6,10 +6,8 @@ import { getValue } from "../../../utils/common";
 import { useRouter } from "next/router";
 import ProfileImageAndName from "../../form-components/ProfilePage/ProfileComponents/ProfileImageAndName";
 import FiveButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/FiveButtonProfile";
-import FourButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/FourButtonProfile";
 import ThreeButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/ThreeButtonProfile";
 import TwoButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/TwoButtonProfile";
-import OneButtonProfile from "../../form-components/ProfilePage/ProfileComponents/ButtonProfiles/OneButtonProfile";
 import { useLoadingStore } from "../../../context/loadingScreen";
 
 function ProfileForm(props) {
