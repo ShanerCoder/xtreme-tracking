@@ -31,13 +31,14 @@ function NewExerciseSection(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-
+    const selectedDate = new Date(props.selectedDate);
+    selectedDate.setHours(1, 0, 0, 0);
     const postData = {
       exerciseName: exerciseDropdownRef.current.value,
       weightUsed: weightUsedRef.current.value,
       numberOfReps: numberOfRepsRef.current.value,
       numberOfSets: numberOfSetsRef.current.value,
-      dateOfExercise: new Date(props.selectedDate),
+      dateOfExercise: selectedDate,
     };
     props.addExercise(postData);
   }
