@@ -44,8 +44,7 @@ function IndividualGalleryPhoto(props) {
           style={{ marginBottom: "25px", marginTop: "-10px" }}
           onClick={handleUpdatePrivacy}
         >
-          Set Photo Privacy Level to:{" "}
-          {props.privatePhoto ? "Public" : "Private"}
+          {props.privatePhoto ? "Private Photo" : "Public Photo"}
         </button>
       )}
 

@@ -44,12 +44,12 @@ function GymVisitation(props) {
     );
   }
 
-  async function handleCheckIn(newImage) {
+  async function handleCheckIn(postData) {
     showLoadingScreen({ type: true });
 
     // Save Image
     const formData = new FormData();
-    formData.append("file", newImage[0]);
+    formData.append("file", postData.uploadData[0]);
     formData.append("upload_preset", "xtreme_tracking_preset");
     const uploadPhotoResponse = await fetch(
       "https://api.cloudinary.com/v1_1/multishane999/image/upload",
@@ -67,11 +67,18 @@ function GymVisitation(props) {
       // Save Check In
       const dateOfCheckIn = new Date(selectedDate).setHours(1, 0, 0, 0);
 
-      const bodyData = {
-        username: user.username,
-        dateOfCheckIn: dateOfCheckIn,
-        photoId: uploadPhotoData.public_id,
-      };
+      const bodyData = postData.numberInput
+        ? {
+            username: user.username,
+            dateOfCheckIn: dateOfCheckIn,
+            photoId: uploadPhotoData.public_id,
+            weight: postData.numberInput,
+          }
+        : {
+            username: user.username,
+            dateOfCheckIn: dateOfCheckIn,
+            photoId: uploadPhotoData.public_id,
+          };
       const response = await fetch(
         "/api/exerciseTracking/gymVisitation/check_in",
         {
@@ -205,6 +212,7 @@ export async function getServerSideProps(context) {
           checkInList: checkInList.map((checkIn) => ({
             dateOfCheckIn: checkIn.dateOfCheckIn.toString(),
             photoId: checkIn.photoId,
+            weight: checkIn.weight ? checkIn.weight : "N/A",
           })),
           checkInDates: checkInList.map((checkIn) => ({
             dateOfCheckIn: checkIn.dateOfCheckIn.toString(),
@@ -227,6 +235,7 @@ export async function getServerSideProps(context) {
           checkInList: checkInList.map((checkIn) => ({
             dateOfCheckIn: checkIn.dateOfCheckIn.toString(),
             photoId: checkIn.photoId,
+            weight: checkIn.weight ? checkIn.weight : "N/A",
           })),
           checkInDates: checkInList.map((checkIn) => ({
             dateOfCheckIn: checkIn.dateOfCheckIn.toString(),

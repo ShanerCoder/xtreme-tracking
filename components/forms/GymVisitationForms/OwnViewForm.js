@@ -12,6 +12,7 @@ function OwnViewForm(props) {
           handleAddPhoto={props.handleCheckIn}
           title={"Add a Photo"}
           buttonText={"Check In"}
+          numberInput={"Enter your Weight for today (kg):"}
         />
       )}
       {isGreaterThanToday && (
