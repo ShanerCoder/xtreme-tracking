@@ -175,6 +175,33 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  async function handleUpdateWeightView(hideWeightOnCheckIn) {
+    showLoadingScreen({ type: true });
+    const personalTrainerWeightViewChange = {
+      hideWeightOnCheckIn: hideWeightOnCheckIn,
+      username: props.user.username,
+    };
+
+    const response = await fetch("/api/account/account_profile/weight_view", {
+      method: "PUT",
+      body: JSON.stringify(personalTrainerWeightViewChange),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Weight View Successfully Updated!");
+      setErrorMessage(null);
+    }
+    await router.push("/userProfile/settings");
+    showLoadingScreen({ type: false });
+  }
+
   return (
     <>
       <Head>
@@ -214,6 +241,7 @@ function ProfileView(props) {
               handleUpdatePersonalTrainerProfile={
                 handleUpdatePersonalTrainerProfile
               }
+              handleUpdateWeightView={handleUpdateWeightView}
             />
           </LighterDiv>
           <DarkerDiv>
@@ -258,11 +286,13 @@ export async function getServerSideProps({ req }) {
           profilePictureId: selectedProfile.profilePictureId,
           profileDescription: selectedProfile.profileDescription,
           personalTrainerProfile: selectedProfile.personalTrainerProfile,
+          hideWeightOnCheckIn: selectedProfile.hideWeightOnCheckIn
+            ? selectedProfile.hideWeightOnCheckIn
+            : false,
         },
       },
     };
   } catch (error) {
-    console.log(error);
     return {
       props: {
         errorMessage: "Make an account to set up your profile here!",

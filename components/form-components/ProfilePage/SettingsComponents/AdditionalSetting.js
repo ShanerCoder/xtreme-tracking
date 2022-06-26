@@ -1,5 +1,4 @@
 import classes from "./AdditionalSetting.module.css";
-import { Col, Row } from "react-bootstrap";
 
 function AdditionalSetting(props) {
   let checkBoxValue = props.defaultChecked;
@@ -11,34 +10,26 @@ function AdditionalSetting(props) {
   }
 
   return (
-    <>
-      <Row className={classes.additionalProfileSettings}>
-        <Col sm={{ span: 4, offset: 7 }}>
-          <h3>{props.label}</h3>
-        </Col>
-        <Col sm={1}>
-          <input
-            id="checkBox"
-            className={classes.additionalProfileSettingsInput}
-            type="checkbox"
-            defaultChecked={props.defaultChecked}
-            onChange={() => {
-              checkBoxValue = !checkBoxValue;
-            }}
-          />
-        </Col>
-      </Row>
-      <Row className={classes.rowPadding}>
-        <Col sm={{ span: 5, offset: 7 }}>
-          <button
-            className={classes.additionalSettingButton}
-            onClick={handleSubmit}
-          >
-            {props.buttonLabel}
-          </button>
-        </Col>
-      </Row>
-    </>
+    <div className={classes.divFormatting + " lowerWidth"}>
+      <h3 className={classes.headerFormatting}>
+        {props.label}
+        <input
+          id="checkBox"
+          className={classes.additionalProfileSettingsInput}
+          type="checkbox"
+          defaultChecked={props.defaultChecked}
+          onChange={() => {
+            checkBoxValue = !checkBoxValue;
+          }}
+        />
+      </h3>
+      <button
+        className={classes.additionalSettingButton + " lowerWidth"}
+        onClick={handleSubmit}
+      >
+        {props.buttonLabel}
+      </button>
+    </div>
   );
 }
 

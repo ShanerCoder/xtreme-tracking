@@ -10,6 +10,8 @@ import { useStore } from "../../../context";
 import { useState } from "react";
 import { useLoadingStore } from "../../../context/loadingScreen";
 import CheckInList from "../../../models/checkInList";
+import User from "../../../models/user";
+import UserProfile from "../../../models/userProfile";
 import PlannedVisitationDates from "../../../models/plannedVisitationDates";
 import startOfDay from "date-fns/startOfDay";
 import endOfDay from "date-fns/endOfDay";
@@ -186,6 +188,10 @@ export async function getServerSideProps(context) {
       username: username,
     });
 
+    const user = await User.findOne({ username: username });
+    const userProfile = await UserProfile.findOne({ _id: user._id });
+    const hideWeight = userProfile.hideWeightOnCheckIn;
+
     if (visitationStreak && visitationStreak.streakCount) {
       visitationStreak = visitationStreak.streakCount;
     } else {
@@ -204,52 +210,33 @@ export async function getServerSideProps(context) {
       checkedInToday = true;
     } else checkedInToday = false;
 
-    if (session && session.user.username == username) {
-      return {
-        props: {
-          username: username,
-          ownProfile: true,
-          checkInList: checkInList.map((checkIn) => ({
-            dateOfCheckIn: checkIn.dateOfCheckIn.toString(),
-            photoId: checkIn.photoId,
-            weight: checkIn.weight ? checkIn.weight : "N/A",
-          })),
-          checkInDates: checkInList.map((checkIn) => ({
-            dateOfCheckIn: checkIn.dateOfCheckIn.toString(),
-          })),
-          plannedVisitationDates: plannedVisitationsList.map(
-            (visitationDate) => ({
-              dateOfPlannedVisitation:
-                visitationDate.dateOfPlannedVisitation.toString(),
-            })
-          ),
-          checkedInToday: checkedInToday,
-          visitationStreak: visitationStreak,
-        },
-      };
-    } else
-      return {
-        props: {
-          username: username,
-          ownProfile: false,
-          checkInList: checkInList.map((checkIn) => ({
-            dateOfCheckIn: checkIn.dateOfCheckIn.toString(),
-            photoId: checkIn.photoId,
-            weight: checkIn.weight ? checkIn.weight : "N/A",
-          })),
-          checkInDates: checkInList.map((checkIn) => ({
-            dateOfCheckIn: checkIn.dateOfCheckIn.toString(),
-          })),
-          plannedVisitationDates: plannedVisitationsList.map(
-            (visitationDate) => ({
-              dateOfPlannedVisitation:
-                visitationDate.dateOfPlannedVisitation.toString(),
-            })
-          ),
-          checkedInToday: checkedInToday,
-          visitationStreak: visitationStreak,
-        },
-      };
+    const ownProfile = session && session.user.username == username;
+
+    return {
+      props: {
+        username: username,
+        ownProfile: ownProfile,
+        checkInList: checkInList.map((checkIn) => ({
+          dateOfCheckIn: checkIn.dateOfCheckIn.toString(),
+          photoId: checkIn.photoId,
+          weight:
+            checkIn.weight && (!hideWeight || ownProfile)
+              ? checkIn.weight
+              : "N/A",
+        })),
+        checkInDates: checkInList.map((checkIn) => ({
+          dateOfCheckIn: checkIn.dateOfCheckIn.toString(),
+        })),
+        plannedVisitationDates: plannedVisitationsList.map(
+          (visitationDate) => ({
+            dateOfPlannedVisitation:
+              visitationDate.dateOfPlannedVisitation.toString(),
+          })
+        ),
+        checkedInToday: checkedInToday,
+        visitationStreak: visitationStreak,
+      },
+    };
   } catch (error) {
     return {
       notFound: true,

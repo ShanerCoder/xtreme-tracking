@@ -29,7 +29,10 @@ function SelectedDateVisitationForm(props) {
       ))}
 
       {checkedInOnDate ? (
-        <CheckedInView photoId={photoId} weight={weight}/>
+        <CheckedInView
+          photoId={photoId}
+          weight={weight}
+        />
       ) : (
         <NotCheckedInView
           selectedDate={props.selectedDate}

@@ -85,13 +85,23 @@ function ProfileForm(props) {
                 </button>
               </div>
             </div>
-            <Row className={classes.additionalProfileSettings}>
-              <AdditionalSetting
-                label="Personal Trainer Profile:"
-                defaultChecked={props.userprofile.personalTrainerProfile}
-                handleSubmit={props.handleUpdatePersonalTrainerProfile}
-                buttonLabel="Update Profile"
-              />
+            <Row>
+              <Col xs={12} lg={6}>
+                <AdditionalSetting
+                  label="Hide Weight on Check In:"
+                  defaultChecked={props.userprofile.hideWeightOnCheckIn}
+                  handleSubmit={props.handleUpdateWeightView}
+                  buttonLabel="Update Profile"
+                />
+              </Col>
+              <Col xs={12} lg={6}>
+                <AdditionalSetting
+                  label="Personal Trainer Profile:"
+                  defaultChecked={props.userprofile.personalTrainerProfile}
+                  handleSubmit={props.handleUpdatePersonalTrainerProfile}
+                  buttonLabel="Update Profile"
+                />
+              </Col>
             </Row>
           </Col>
           <Col xs={12} sm={1}></Col>
