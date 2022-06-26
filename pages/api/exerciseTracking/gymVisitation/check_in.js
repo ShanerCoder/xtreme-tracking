@@ -27,11 +27,21 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
-      const checkIn = new CheckIn({
-        username,
-        dateOfCheckIn,
-        photoId,
-      });
+      let checkIn;
+      const weight = req.body.weight;
+      if (weight)
+        checkIn = new CheckIn({
+          username,
+          dateOfCheckIn,
+          photoId,
+          weight,
+        });
+      else
+        checkIn = new CheckIn({
+          username,
+          dateOfCheckIn,
+          photoId,
+        });
 
       const checkInResult = await checkIn.save();
       const plannedVisitation = await PlannedVisitationDates.find({

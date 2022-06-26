@@ -7,6 +7,7 @@ function AddNewPhoto(props) {
   const [uploadData, setUploadData] = useState(null);
   const photoDescriptionRef = useRef();
   const privatePhotoRef = useRef();
+  const numberInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
 
@@ -20,12 +21,18 @@ function AddNewPhoto(props) {
           privatePhoto: privatePhotoRef.current.checked,
         };
         props.handleAddPhoto(postData);
+      } else if (props.numberInput && numberInputRef.current.value != null) {
+        const postData = {
+          uploadData: uploadData,
+          numberInput: numberInputRef.current.value,
+        };
+        props.handleAddPhoto(postData);
       } else {
         props.handleAddPhoto(uploadData);
       }
       setUploadData(null);
       setImageSrc(null);
-      photoDescriptionRef.current.value = null;
+      if (photoDescriptionRef.current) photoDescriptionRef.current.value = null;
       setErrorMessage(null);
     } else setErrorMessage("No image has been selected!");
   }
@@ -89,6 +96,20 @@ function AddNewPhoto(props) {
             rows="5"
             maxLength={400}
             ref={photoDescriptionRef}
+          />
+        </div>
+      )}
+      {props.numberInput && (
+        <div className={classes.numberInputFormatting + " control"}>
+          <label htmlFor={"numberInput"}>{props.numberInput}</label>
+          <input
+            type="number"
+            id="numberInput"
+            className="center"
+            step="0.01"
+            min="25"
+            max="636"
+            ref={numberInputRef}
           />
         </div>
       )}

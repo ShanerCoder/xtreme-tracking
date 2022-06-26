@@ -29,6 +29,12 @@
   font-size: 20px;
 }
 
+.numberInputFormatting {
+  width: 50%;
+  margin-left: 25%;
+  text-align: center;
+}
+
 @media (min-width: 1000px) {
   .emptyPhoto {
     height: 1000px;

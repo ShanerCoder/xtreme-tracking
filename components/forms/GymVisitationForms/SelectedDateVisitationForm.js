@@ -6,11 +6,13 @@ import OwnViewForm from "./OwnViewForm";
 function SelectedDateVisitationForm(props) {
   let checkedInOnDate = false;
   let photoId = null;
+  let weight = null;
 
   function checkInTrue(attendance) {
     checkedInOnDate = true;
     const index = props.gymAttendanceDates.indexOf(attendance);
     photoId = props.checkInList[index].photoId;
+    weight = props.checkInList[index].weight;
   }
 
   return (
@@ -27,7 +29,10 @@ function SelectedDateVisitationForm(props) {
       ))}
 
       {checkedInOnDate ? (
-        <CheckedInView photoId={photoId} />
+        <CheckedInView
+          photoId={photoId}
+          weight={weight}
+        />
       ) : (
         <NotCheckedInView
           selectedDate={props.selectedDate}

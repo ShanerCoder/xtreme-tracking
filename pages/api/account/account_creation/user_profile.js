@@ -19,6 +19,7 @@ async function handler(req, res) {
           profilePictureId: null,
           profileDescription: null,
           personalTrainerProfile: req.body.personalTrainerProfile,
+          hideWeightOnCheckIn: false,
         });
         const profileResult = await userProfile.save();
         if (profileResult) {

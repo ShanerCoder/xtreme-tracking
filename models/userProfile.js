@@ -16,6 +16,10 @@ const UserProfileSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  hideWeightOnCheckIn: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 mongoose.models = {};
