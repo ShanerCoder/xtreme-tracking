@@ -5,6 +5,7 @@ import CommonExerciseList from "../../models/commonExerciseList";
 import ExerciseHistory from "../../models/exerciseHistory";
 import Goal from "../../models/goal";
 import TrainingPlan from "../../models/trainingPlan";
+import CheckInList from "../../models/checkInList";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../lib/db-connect";
@@ -19,8 +20,10 @@ import ExerciseHistoryView from "../../components/forms/TrackingForm/Views/Exerc
 import GoalsView from "../../components/forms/TrackingForm/Views/GoalsView";
 import ChangeView from "../../components/form-components/Common/Views/ChangeView";
 import TrainingPlansView from "../../components/form-components/Common/Views/TrainingPlansView";
+import { endOfDay, startOfDay } from "date-fns";
 
 function ViewTrackingProgress(props) {
+  console.log(props);
   const router = useRouter();
   const [state] = useStore();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
@@ -197,6 +200,23 @@ function ViewTrackingProgress(props) {
           </LighterDiv>
 
           <DarkerDiv>
+            {!props.checkedInToday &&
+              selectedDate == new Date().toDateString() && (
+                <Row>
+                  <label
+                    className="center linkLabel"
+                    style={{ fontSize: "40px" }}
+                    onClick={() => {
+                      handleLoader(
+                        "/userProfile/gymVisitation/" + user.username
+                      );
+                    }}
+                  >
+                    Don't forget to Check In Today!
+                  </label>
+                  <hr className="solid" />
+                </Row>
+              )}
             <Row>
               <h1 className="center" style={{ paddingBottom: "25px" }}>
                 Currently viewing: {currentView}
@@ -266,8 +286,21 @@ export async function getServerSideProps({ req }) {
       username: session.user.username,
     }).sort({ _id: 1 });
 
+    let checkedInToday = await CheckInList.findOne({
+      username: session.user.username,
+      dateOfCheckIn: {
+        $gte: startOfDay(new Date()),
+        $lte: endOfDay(new Date()),
+      },
+    });
+
+    if (checkedInToday) {
+      checkedInToday = true;
+    } else checkedInToday = false;
+
     return {
       props: {
+        checkedInToday: checkedInToday,
         exerciseHistory: exerciseHistory.map((exercise) => ({
           id: exercise._id.toString(),
           username: exercise.username,
