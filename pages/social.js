@@ -71,6 +71,7 @@ function SocialPage(props) {
       {
         <SocialForm
           userposts={props.userposts}
+          article={props.article}
           onAddPost={addPostHandler}
           handleLike={handleLikePost}
           user={user}
@@ -93,6 +94,17 @@ export async function getServerSideProps(context) {
   const allPosts = await PostLikedBy.find({}).select({ postId: 1, _id: 0 });
   const allComments = await PostComment.find({}).select({ postId: 1, _id: 0 });
 
+  const response = await fetch(
+    " https://newsdata.io/api/1/news?apikey=pub_8706df797678363bc63e0933e2f89f0ede80&q=exercise&language=en&category=health "
+  );
+  const articles = await response.json();
+
+  function randomArticle(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
+  const selectedArticle = randomArticle(articles.results);
+
   function handleLikedPostsIds(post) {
     arrayOfAllLikedPosts.push(post.postId.toString());
   }
@@ -106,9 +118,11 @@ export async function getServerSideProps(context) {
 
   const req = context.req;
   const session = await getSession({ req });
+
   if (!session)
     return {
       props: {
+        article: selectedArticle ? selectedArticle : null,
         userposts: userpostList.map((post) => ({
           id: post._id.toString(),
           username: post.username,
@@ -148,6 +162,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
+      article: selectedArticle ? selectedArticle : null,
       userposts: userpostList.map((post) => ({
         id: post._id.toString(),
         username: post.username,

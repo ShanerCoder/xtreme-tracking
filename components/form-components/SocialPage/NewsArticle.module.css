@@ -1,0 +1,37 @@
+.divFormatting label:hover {
+  color: darkblue
+}
+
+.imageFormatting {
+  width: 100%;
+  max-height: 500px;
+  padding-bottom: 10px;
+  padding-top: 20px;
+  cursor: pointer;
+}
+
+.titleFormatting {
+  cursor: pointer;
+  font-size: x-large;
+  padding-top: 20px;
+}
+
+.descriptionFormatting {
+  cursor: pointer;
+  font-size: medium;
+  padding-top: 20px;
+}
+
+.dateTimeFormatting {
+  padding-top: 2%;
+  font-size: larger;
+  color: mediumaquamarine;
+  padding-bottom: 20px;
+  cursor: pointer;
+}
+
+@media (max-width: 576px) {
+  .titleFormatting {
+    text-align: center;
+  }
+}

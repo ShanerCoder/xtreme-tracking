@@ -23,7 +23,6 @@ import TrainingPlansView from "../../components/form-components/Common/Views/Tra
 import { endOfDay, startOfDay } from "date-fns";
 
 function ViewTrackingProgress(props) {
-  console.log(props);
   const router = useRouter();
   const [state] = useStore();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
