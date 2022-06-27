@@ -21,7 +21,7 @@ function NewPost(props) {
 
   return (
     <>
-      <p>{props.title}</p>
+      <p style={{ fontSize: "20px" }}>{props.title}</p>
       <Card>
         <div className="control">
           <textarea

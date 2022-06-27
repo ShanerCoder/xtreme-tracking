@@ -2,6 +2,7 @@ import DarkerDiv from "../ui/DarkerDiv";
 import LighterDiv from "../ui/LighterDiv";
 import UserPost from "../form-components/SocialPage/UserPost";
 import NewPost from "../form-components/Common/NewPost";
+import NewsArticle from "../form-components/SocialPage/NewsArticle";
 
 function SocialForm(props) {
   return (
@@ -19,6 +20,16 @@ function SocialForm(props) {
       </DarkerDiv>
 
       <LighterDiv>
+        {props.article ? (
+          <>
+            <p style={{ fontSize: "20px" }}>Featured News</p>
+            <NewsArticle article={props.article} />
+          </>
+        ) : (
+          <h1>No Article Available</h1>
+        )}
+      </LighterDiv>
+      <DarkerDiv>
         <h2 className="center">User Posts</h2>
         <ul className="list">
           {props.userposts.map((post) => (
@@ -30,13 +41,13 @@ function SocialForm(props) {
               dateAdded={post.dateAdded}
               postLikedByUser={post.postLikedByUser}
               numberOfLikes={post.numberOfLikes}
-              handleLike={props.user.authenticated ? (props.handleLike) : (null)}
+              handleLike={props.user.authenticated ? props.handleLike : null}
               numberOfComments={post.numberOfComments}
               title={"Post By: "}
             />
           ))}
         </ul>
-      </LighterDiv>
+      </DarkerDiv>
     </>
   );
 }
