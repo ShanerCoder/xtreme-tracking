@@ -1,4 +1,4 @@
-import { dbConnect } from "../../../lib/db-connect";
+/*import { dbConnect } from "../../../lib/db-connect";
 import {
   errorHandler,
   responseHandler,
@@ -27,3 +27,4 @@ async function handler(req, res) {
 }
 
 export default handler;
+*/
