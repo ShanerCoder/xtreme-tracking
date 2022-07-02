@@ -61,12 +61,14 @@ function NewsArticle(props) {
             {props.article.pubDate}
           </label>
         </div>
-        <button
-          style={{ width: "95%", marginLeft: "2.5%", marginBottom: "20px" }}
-          onClick={shareArticle}
-        >
-          Share This Article
-        </button>
+        {props.shareArticle && (
+          <button
+            style={{ width: "95%", marginLeft: "2.5%", marginBottom: "20px" }}
+            onClick={shareArticle}
+          >
+            Share This Article
+          </button>
+        )}
       </div>
     </Card>
   );
