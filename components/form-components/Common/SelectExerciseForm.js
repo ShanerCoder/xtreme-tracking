@@ -1,6 +1,6 @@
 import { Col, Row } from "react-bootstrap";
 import { useRef, useState } from "react";
-import { getDate } from "date-fns";
+import classes from "./SelectExerciseForm.module.css";
 
 function SelectExerciseForm(props) {
   const exerciseDropdownRef = useRef();
@@ -11,7 +11,7 @@ function SelectExerciseForm(props) {
   const [muscleGroupFilter, setMuscleGroupFilter] = useState("All");
   const listOfMuscleGroups = [];
 
-  props.commonExerciseList.map(
+  props.exerciseList.map(
     (exercise) =>
       !listOfMuscleGroups.includes(exercise.muscleGroup) &&
       listOfMuscleGroups.push(exercise.muscleGroup)
@@ -43,7 +43,7 @@ function SelectExerciseForm(props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ padding: "10px" }}>
+    <form onSubmit={handleSubmit}>
       <Row className="lowerWidth">
         <Col className="control" xs={12}>
           <label htmlFor={"exerciseInput"}>Name of Exercise</label>
@@ -54,18 +54,6 @@ function SelectExerciseForm(props) {
             ref={exerciseDropdownRef}
           >
             {props.exerciseList.map(
-              (exercise) =>
-                (exercise.muscleGroup == muscleGroupFilter ||
-                  muscleGroupFilter == "All") && (
-                  <option
-                    key={exercise.exerciseName}
-                    value={exercise.exerciseName}
-                  >
-                    {exercise.exerciseName}
-                  </option>
-                )
-            )}
-            {props.commonExerciseList.map(
               (exercise) =>
                 (exercise.muscleGroup == muscleGroupFilter ||
                   muscleGroupFilter == "All") && (
@@ -96,6 +84,32 @@ function SelectExerciseForm(props) {
               </option>
             ))}
           </select>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="control" xs={12}>
+          <button
+            type="button"
+            className={classes.buttonPadding}
+            style={{ width: "80%", marginLeft: "10%" }}
+            onClick={() => {
+              let randomExerciseFound = false;
+              while (!randomExerciseFound) {
+                const randomExercise =
+                  props.exerciseList[Math.floor(Math.random() * props.exerciseList.length)];
+                if (
+                  randomExercise.muscleGroup == muscleGroupFilter ||
+                  muscleGroupFilter == "All"
+                ) {
+                  exerciseDropdownRef.current.value =
+                    randomExercise.exerciseName;
+                  randomExerciseFound = true;
+                }
+              }
+            }}
+          >
+            Random Exercise
+          </button>
         </Col>
       </Row>
       <Row className="lowerWidth">
@@ -148,7 +162,9 @@ function SelectExerciseForm(props) {
         </Col>
       </Row>
       <div className="lowerWidth">
-        <button className={"lowerWidth"}>{props.submitButtonText}</button>
+        <button className={classes.buttonPadding + " lowerWidth"}>
+          {props.submitButtonText}
+        </button>
       </div>
     </form>
   );
