@@ -3,8 +3,19 @@ import LighterDiv from "../ui/LighterDiv";
 import UserPost from "../form-components/SocialPage/UserPost";
 import NewPost from "../form-components/Common/NewPost";
 import NewsArticle from "../form-components/SocialPage/NewsArticle";
+import { useRef } from "react";
 
 function SocialForm(props) {
+  const updatePostTextFunction = useRef(null);
+
+  function handleShare(postData) {
+    const postText =
+      postData.content +
+      (postData.id ? "http://" + props.host + "/userPosts/" + postData.id : "");
+    updatePostTextFunction.current(postText);
+    console.log(postData.content);
+  }
+
   return (
     <>
       <DarkerDiv>
@@ -13,6 +24,7 @@ function SocialForm(props) {
             onAddPost={props.onAddPost}
             currentUser={props.user.username}
             title="Create a New Post:"
+            updatePostTextFunction={updatePostTextFunction}
           />
         ) : (
           <h3 className="center">Create a Free Account to create new posts!</h3>
@@ -23,7 +35,10 @@ function SocialForm(props) {
         {props.article ? (
           <>
             <p style={{ fontSize: "20px" }}>Featured News</p>
-            <NewsArticle article={props.article} />
+            <NewsArticle
+              article={props.article}
+              shareArticle={props.user.authenticated ? handleShare : null}
+            />
           </>
         ) : (
           <h1>No Article Available</h1>
@@ -43,6 +58,7 @@ function SocialForm(props) {
               numberOfLikes={post.numberOfLikes}
               handleLike={props.user.authenticated ? props.handleLike : null}
               numberOfComments={post.numberOfComments}
+              sharePost={props.user.authenticated ? handleShare : null}
               title={"Post By: "}
             />
           ))}
