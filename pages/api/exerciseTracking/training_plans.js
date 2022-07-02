@@ -21,6 +21,11 @@ async function handler(req, res) {
     try {
       const { username, trainingPlanName, listOfExercises } = req.body;
       validateAllFields(req.body);
+      if (
+        trainingPlanName.indexOf("/") > -1 ||
+        trainingPlanName.indexOf("\\") > -1
+      )
+        throw `\\ or / cannot be in Training Plan Name`;
       await dbConnect();
 
       const trainingPlan = new TrainingPlan({
@@ -36,15 +41,17 @@ async function handler(req, res) {
         errorHandler("Training Plan Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
-      errorHandler("An error has occurred creating this Training Plan", res);
+      if (error === "\\ or / cannot be in Training Plan Name") {
+        errorHandler("\\ or / cannot be contained in Training Plan Name", res);
+      } else
+        errorHandler("An error has occurred creating this Training Plan", res);
     }
   } else if (req.method === "PUT") {
     try {
       await dbConnect();
 
       const updateTrainingPlanResult = await TrainingPlan.findById(
-        req.body.id,
+        req.body.id
       ).updateOne({
         listOfExercises: req.body.listOfExercises,
       });

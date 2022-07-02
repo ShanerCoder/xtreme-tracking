@@ -43,7 +43,7 @@ function NewTrainingPlan(props) {
     const data = await response.json();
     if (data.hasError) {
       setErrorMessage(data.errorMessage);
-      await router.push("/tracking/newTrainingPlan/");
+      await router.push("/tracking/trainingPlan/newTrainingPlan/");
     } else {
       setErrorMessage(null);
       await router.push("/tracking/");

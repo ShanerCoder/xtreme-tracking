@@ -19,6 +19,12 @@ function TrainingPlanSection(props) {
   const ownerViewing = props.view != "OtherUserView";
   const newTrainingPlan = props.view == "AddPlan";
 
+  function handlePreventBackslash(event) {
+    if (event.key === "\\" || event.key === "/") {
+      event.preventDefault();
+    }
+  }
+
   {
     ownerViewing &&
       props.commonExerciseList.map(
@@ -199,6 +205,7 @@ function TrainingPlanSection(props) {
                 id={"trainingPlanName"}
                 style={{ textAlign: "center" }}
                 required
+                onKeyDown={handlePreventBackslash}
                 disabled={newTrainingPlan ? false : true}
                 defaultValue={
                   newTrainingPlan ? null : props.trainingPlan.trainingPlanName
