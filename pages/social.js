@@ -75,6 +75,7 @@ function SocialPage(props) {
           onAddPost={addPostHandler}
           handleLike={handleLikePost}
           user={user}
+          host={props.host}
         />
       }
     </>
@@ -174,6 +175,7 @@ export async function getServerSideProps(context) {
         numberOfLikes: countLikes(post._id.toString()),
         numberOfComments: countComments(post._id.toString()),
       })),
+      host: req.headers.host,
     },
   };
 }

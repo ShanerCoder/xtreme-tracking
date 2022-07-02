@@ -1,8 +1,17 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Card from "../../ui/Card";
 
 function NewPost(props) {
+  useEffect(() => {
+    if (props.updatePostTextFunction)
+      props.updatePostTextFunction.current = updatePostText;
+  }, []);
+
   const postTextRef = useRef();
+
+  function updatePostText(textToAdd) {
+    postTextRef.current.value = textToAdd;
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
