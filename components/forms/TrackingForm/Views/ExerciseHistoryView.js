@@ -7,7 +7,6 @@ function ExerciseHistoryView(props) {
     <Col style={{ paddingBottom: "25px" }} xs={12} lg={4}>
       <NewExerciseSection
         exerciseList={props.exerciseList}
-        commonExerciseList={props.commonExerciseList}
         selectedDate={props.selectedDate}
         addExercise={props.handleAddExercise}
       />

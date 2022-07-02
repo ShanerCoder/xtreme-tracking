@@ -13,7 +13,6 @@ function GoalsView(props) {
           </h2>
           <SelectExerciseForm
             exerciseList={props.exerciseList}
-            commonExerciseList={props.commonExerciseList}
             handleSubmit={props.handleAddGoal}
             setErrorMessage={props.handleSetErrorMessage}
             submitButtonText={"Add Goal"}

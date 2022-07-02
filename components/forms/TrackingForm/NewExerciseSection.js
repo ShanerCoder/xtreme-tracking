@@ -12,12 +12,12 @@ function NewExerciseSection(props) {
   const weightUsedRef = useRef();
   const numberOfRepsRef = useRef();
   const numberOfSetsRef = useRef();
+
   const exerciseList = props.exerciseList;
-  const commonExerciseList = props.commonExerciseList;
   const [muscleGroupFilter, setMuscleGroupFilter] = useState("All");
   const listOfMuscleGroups = [];
 
-  commonExerciseList.map(
+  exerciseList.map(
     (exercise) =>
       !listOfMuscleGroups.includes(exercise.muscleGroup) &&
       listOfMuscleGroups.push(exercise.muscleGroup)
@@ -78,18 +78,6 @@ function NewExerciseSection(props) {
                       </option>
                     )
                 )}
-                {commonExerciseList.map(
-                  (exercise) =>
-                    (exercise.muscleGroup == muscleGroupFilter ||
-                      muscleGroupFilter == "All") && (
-                      <option
-                        key={exercise.exerciseName}
-                        value={exercise.exerciseName}
-                      >
-                        {exercise.exerciseName}
-                      </option>
-                    )
-                )}
               </select>
             </Col>
           </Row>
@@ -111,6 +99,34 @@ function NewExerciseSection(props) {
                   </option>
                 ))}
               </select>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="control" xs={12}>
+              <button
+                type="button"
+                className={classes.buttonPadding}
+                style={{ width: "80%", marginLeft: "10%" }}
+                onClick={() => {
+                  let randomExerciseFound = false;
+                  while (!randomExerciseFound) {
+                    const randomExercise =
+                      exerciseList[
+                        Math.floor(Math.random() * exerciseList.length)
+                      ];
+                    if (
+                      randomExercise.muscleGroup == muscleGroupFilter ||
+                      muscleGroupFilter == "All"
+                    ) {
+                      exerciseDropdownRef.current.value =
+                        randomExercise.exerciseName;
+                      randomExerciseFound = true;
+                    }
+                  }
+                }}
+              >
+                Random Exercise
+              </button>
             </Col>
           </Row>
           <Row className="lowerWidth">

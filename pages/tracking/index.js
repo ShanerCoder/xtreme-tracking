@@ -229,7 +229,6 @@ function ViewTrackingProgress(props) {
               <ExerciseHistoryView
                 exerciseList={props.exerciseList}
                 exerciseHistory={props.exerciseHistory}
-                commonExerciseList={props.commonExerciseList}
                 selectedDate={selectedDate}
                 handleAddExercise={handleAddExercise}
                 handleRemoveExerciseRecord={handleRemoveExerciseRecord}
@@ -238,7 +237,6 @@ function ViewTrackingProgress(props) {
             {currentView == "Goals" && (
               <GoalsView
                 exerciseList={props.exerciseList}
-                commonExerciseList={props.commonExerciseList}
                 goalsList={props.goalsList}
                 handleAddGoal={handleAddGoal}
                 handleRemoveGoal={handleRemoveGoal}
@@ -278,6 +276,7 @@ export async function getServerSideProps({ req }) {
     const commonExerciseList = await CommonExerciseList.find({}).sort({
       exerciseName: 1,
     });
+    const fullExerciseList = exerciseList.concat(commonExerciseList);
     const goalsList = await Goal.find({ username: session.user.username }).sort(
       { dateToAchieveBy: 1 }
     );
@@ -312,11 +311,7 @@ export async function getServerSideProps({ req }) {
         exerciseHistoryDates: exerciseHistory.map((exercise) => ({
           dateOfExercise: exercise.dateOfExercise.toString(),
         })),
-        exerciseList: exerciseList.map((exercise) => ({
-          exerciseName: exercise.exerciseName,
-          muscleGroup: exercise.muscleGroup,
-        })),
-        commonExerciseList: commonExerciseList.map((exercise) => ({
+        exerciseList: fullExerciseList.map((exercise) => ({
           exerciseName: exercise.exerciseName,
           muscleGroup: exercise.muscleGroup,
         })),
