@@ -23,11 +23,13 @@ function IndividualTrainingPlan(props) {
             <label
               className={"linkLabel " + classes.labelFormatting}
               onClick={() => {
+                const usernameParam = props.username
+                  ? "?username=" + props.username
+                  : "";
                 handleLoader(
                   "/tracking/trainingPlan/" +
                     props.trainingPlanName +
-                    "?username=" +
-                    props.username
+                    usernameParam
                 );
               }}
             >

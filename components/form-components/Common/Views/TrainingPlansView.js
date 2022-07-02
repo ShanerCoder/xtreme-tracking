@@ -1,4 +1,5 @@
 import React from "react";
+import { Col, Row } from "react-bootstrap";
 import IndividualTrainingPlan from "../../../form-components/TrackingPage/IndividualTrainingPlan";
 
 function TrainingPlansView(props) {
@@ -21,16 +22,30 @@ function TrainingPlansView(props) {
         <h2 className="center">No Training Plans created</h2>
       )}
       {props.handleRemoveTrainingPlan && (
-        <div>
-          <button
-            className="lowerWidth"
-            onClick={() => {
-              props.handleLoader("/tracking/trainingPlan/newTrainingPlan");
-            }}
-          >
-            Create New Training Plan
-          </button>
-        </div>
+        <Row>
+          <Col xs={12} lg={6} style={{ marginBottom: "15px" }}>
+            <button
+              className="lowerWidth"
+              onClick={() => {
+                props.handleLoader("/tracking/trainingPlan/newTrainingPlan");
+              }}
+            >
+              Create New Training Plan
+            </button>
+          </Col>
+          <Col xs={12} lg={6}>
+            <button
+              className="lowerWidth"
+              onClick={() => {
+                props.handleLoader(
+                  "/tracking/trainingPlan/exampleTrainingPlans"
+                );
+              }}
+            >
+              View Example Training Plans
+            </button>
+          </Col>
+        </Row>
       )}
     </>
   );

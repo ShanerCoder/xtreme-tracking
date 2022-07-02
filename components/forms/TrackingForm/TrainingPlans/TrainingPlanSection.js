@@ -19,6 +19,12 @@ function TrainingPlanSection(props) {
   const ownerViewing = props.view != "OtherUserView";
   const newTrainingPlan = props.view == "AddPlan";
 
+  function handlePreventBackslash(event) {
+    if (event.key === "\\" || event.key === "/") {
+      event.preventDefault();
+    }
+  }
+
   {
     ownerViewing &&
       props.commonExerciseList.map(
@@ -57,7 +63,9 @@ function TrainingPlanSection(props) {
       trainingPlanName: trainingPlanName.current.value,
       listOfExercises: addedExercises,
     };
-    props.addTrainingPlan(postData);
+    if (props.addTrainingPlanToOwnList)
+      props.addTrainingPlanToOwnList(postData);
+    else props.addTrainingPlan(postData);
   }
 
   function handleFilterChange(event) {
@@ -197,6 +205,7 @@ function TrainingPlanSection(props) {
                 id={"trainingPlanName"}
                 style={{ textAlign: "center" }}
                 required
+                onKeyDown={handlePreventBackslash}
                 disabled={newTrainingPlan ? false : true}
                 defaultValue={
                   newTrainingPlan ? null : props.trainingPlan.trainingPlanName
@@ -207,11 +216,20 @@ function TrainingPlanSection(props) {
           {ownerViewing && (
             <Row>
               <Col xs={12} className={"control"}>
-                <button className="lowerWidth">
+                <button className="lowerWidth bigButtonText">
                   {(ownerViewing &&
                     newTrainingPlan &&
                     "Create Training Plan") ||
                     (ownerViewing && "Update Training Plan")}
+                </button>
+              </Col>
+            </Row>
+          )}
+          {!ownerViewing && props.addTrainingPlanToOwnList && (
+            <Row>
+              <Col xs={12} className={"control"}>
+                <button className="lowerWidth bigButtonText">
+                  Add Training Plan to Own List
                 </button>
               </Col>
             </Row>

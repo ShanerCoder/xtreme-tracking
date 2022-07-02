@@ -1,9 +1,9 @@
 import TrainingPlan from "../../../models/trainingPlan";
+import ExampleTrainingPlan from "../../../models/exampleTrainingPlan";
 import ExerciseList from "../../../models/exerciseList";
 import CommonExerciseList from "../../../models/commonExerciseList";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../../lib/db-connect";
-import LighterDiv from "../../../components/ui/LighterDiv";
 import TrainingPlanSection from "../../../components/forms/TrackingForm/TrainingPlans/TrainingPlanSection";
 import { useLoadingStore } from "../../../context/loadingScreen";
 import { useRouter } from "next/router";
@@ -56,13 +56,48 @@ function TrainingPlanPage(props) {
     showLoadingScreen({ type: false });
   }
 
+  async function addTrainingPlanToOwnList(postData) {
+    showLoadingScreen({ type: true });
+    if (!postData.listOfExercises.length) {
+      setErrorMessage("No Exercises Added!");
+      await router.push(
+        "/tracking/trainingPlan/" + props.trainingPlan.trainingPlanName
+      );
+      showLoadingScreen({ type: false });
+      return null;
+    }
+
+    const bodyData = {
+      username: props.trainingPlan.ownUsername,
+      ...postData,
+    };
+    const response = await fetch("/api/exerciseTracking/training_plans", {
+      method: "POST",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      await router.push(
+        "/tracking/trainingPlan/" + props.trainingPlan.trainingPlanName
+      );
+    } else {
+      setErrorMessage(null);
+      await router.back();
+    }
+    showLoadingScreen({ type: false });
+  }
+
   async function handleLoader(exerciseName) {
     showLoadingScreen({ type: true });
     await router.push(
       "/tracking/exerciseHistory/" +
         exerciseName +
         "?username=" +
-        props.trainingPlan.username
+        (props.trainingPlan.username
+          ? props.trainingPlan.username
+          : props.trainingPlan.ownUsername)
     );
     showLoadingScreen({ type: false });
   }
@@ -88,6 +123,11 @@ function TrainingPlanPage(props) {
           addTrainingPlan={updateTrainingPlan}
           view={"OtherUserView"}
           handleLoader={handleLoader}
+          addTrainingPlanToOwnList={
+            props.trainingPlan.exampleTrainingPlan
+              ? addTrainingPlanToOwnList
+              : null
+          }
         />
       )}
     </>
@@ -104,14 +144,29 @@ export async function getServerSideProps(context) {
     const session = await getSession({ req });
     await dbConnect();
 
-    if (!username) throw new Error("No Username");
-    if (!username && session) username = session.user.username;
-    if (session) {
+    if (session && !username) {
+      const exampleTrainingPlan = await ExampleTrainingPlan.findOne({
+        trainingPlanName: trainingPlanName,
+      });
+
+      return {
+        props: {
+          trainingPlan: {
+            id: exampleTrainingPlan._id.toString(),
+            ownUsername: session.user.username,
+            trainingPlanName: exampleTrainingPlan.trainingPlanName,
+            listOfExercises: exampleTrainingPlan.listOfExercises,
+            exampleTrainingPlan: true,
+          },
+          ownView: false,
+        },
+      };
+    } else if (session) {
       if (username == session.user.username) ownUsername = true;
       exerciseList = await ExerciseList.find({
         username: session.user.username,
       }).sort({ exerciseName: 1 });
-    }
+    } else throw new Error("No Session");
 
     const trainingPlan = await TrainingPlan.findOne({
       username: username,

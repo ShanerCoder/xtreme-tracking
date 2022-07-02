@@ -1,0 +1,49 @@
+import { getSession } from "next-auth/client";
+import ExampleTrainingPlansSection from "../../../components/form-components/TrackingPage/ExampleTrainingPlansSection";
+import IndividualTrainingPlan from "../../../components/form-components/TrackingPage/IndividualTrainingPlan";
+import { dbConnect } from "../../../lib/db-connect";
+import ExampleTrainingPlansList from "../../../models/exampleTrainingPlan";
+import LighterDiv from "../../../components/ui/LighterDiv";
+
+function ExampleTrainingPlans(props) {
+  return (
+    <LighterDiv>
+      <h1 className="center">Example Training Plans</h1>
+      <ExampleTrainingPlansSection trainingPlans={props.exampleTrainingPlans} />
+    </LighterDiv>
+  );
+}
+
+export async function getServerSideProps({ req }) {
+  try {
+    const session = await getSession({ req });
+    if (!session) {
+      throw new Error("Session not found");
+    }
+
+    await dbConnect();
+
+    const exampleTrainingPlans = await ExampleTrainingPlansList.find({}).sort({
+      trainingPlanName: 1,
+    });
+
+    return {
+      props: {
+        exampleTrainingPlans: exampleTrainingPlans.map((trainingPlan) => ({
+          id: trainingPlan._id.toString(),
+          trainingPlanName: trainingPlan.trainingPlanName,
+          listOfExercises: trainingPlan.listOfExercises,
+          numberOfExercises: trainingPlan.listOfExercises.length,
+        })),
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        errorMessage: "Make an account to view example training plans!",
+      },
+    };
+  }
+}
+
+export default ExampleTrainingPlans;
