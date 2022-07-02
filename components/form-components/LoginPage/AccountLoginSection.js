@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useLoadingStore } from "../../../context/loadingScreen";
 import { useRouter } from "next/router";
 
-function AccountCreationSection(props) {
+function AccountLoginSection(props) {
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
   const usernameInputRef = useRef();
@@ -68,7 +68,7 @@ function AccountCreationSection(props) {
           />
         </div>
         <div className="actions">
-          <button className={classes.buttonFormatting}>Log In</button>
+          <button className={classes.buttonFormatting}>LOG IN</button>
         </div>
         <div className={classes.additionalInfoFormatting}>
           <p>By continuing, you agree to accept our</p>
@@ -98,4 +98,4 @@ function AccountCreationSection(props) {
   );
 }
 
-export default AccountCreationSection;
+export default AccountLoginSection;

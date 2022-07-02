@@ -13,8 +13,9 @@
 
 .imageOne {
   padding-left: 15%;
-  padding-top: 10%;
+  padding-top: 5%;
   max-width: 80%;
+  max-height: 720px;
 }
 
 .whiteText {
