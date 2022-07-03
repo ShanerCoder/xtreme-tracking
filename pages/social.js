@@ -137,7 +137,6 @@ export async function getServerSideProps(context) {
     paginateOptions,
     function (err, result) {
       result.hasNextPage;
-      console.log(result);
     }
   );
 
