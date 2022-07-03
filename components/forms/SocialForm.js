@@ -4,6 +4,7 @@ import UserPost from "../form-components/SocialPage/UserPost";
 import NewPost from "../form-components/Common/NewPost";
 import NewsArticle from "../form-components/SocialPage/NewsArticle";
 import { useRef } from "react";
+import PageNavigators from "../form-components/Common/PageNavigators";
 
 function SocialForm(props) {
   const updatePostTextFunction = useRef(null);
@@ -63,6 +64,11 @@ function SocialForm(props) {
             />
           ))}
         </ul>
+        <PageNavigators
+        pageNumber={props.pageNumber}
+          handleNextPageNavigation={props.handleNextPageNavigation}
+          handlePrevPageNavigation={props.handlePrevPageNavigation}
+        />
       </DarkerDiv>
     </>
   );

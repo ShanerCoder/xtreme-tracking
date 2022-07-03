@@ -12,12 +12,37 @@ import { useStore } from "../context";
 import { getValue } from "../utils/common";
 import { getSession } from "next-auth/client";
 import { useLoadingStore } from "../context/loadingScreen";
+import PageNavigators from "../components/form-components/Common/PageNavigators";
 
 function SocialPage(props) {
   const router = useRouter();
   const [state] = useStore();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const user = getValue(state, ["user"], null);
+
+  async function handleNextPageNavigation() {
+    showLoadingScreen({ type: true });
+    await router.push(
+      "/social?pageNumber=" + (Number(props.pageNumber) + Number(1))
+    );
+    showLoadingScreen({ type: false });
+    window.scrollTo({
+      bottom: 0,
+      behavior: "smooth",
+    });
+  }
+
+  async function handlePrevPageNavigation() {
+    showLoadingScreen({ type: true });
+    await router.push(
+      "/social?pageNumber=" + (Number(props.pageNumber) - Number(1))
+    );
+    showLoadingScreen({ type: false });
+    window.scrollTo({
+      bottom: 0,
+      behavior: "smooth",
+    });
+  }
 
   async function handleLikePost(postData) {
     const bodyData = {
@@ -69,14 +94,23 @@ function SocialPage(props) {
         </Card>
       </LighterDiv>
       {
-        <SocialForm
-          userposts={props.userposts}
-          article={props.article}
-          onAddPost={addPostHandler}
-          handleLike={handleLikePost}
-          user={user}
-          host={props.host}
-        />
+        <>
+          <SocialForm
+            userposts={props.userposts}
+            article={props.article}
+            onAddPost={addPostHandler}
+            handleLike={handleLikePost}
+            pageNumber={props.pageNumber}
+            handleNextPageNavigation={
+              props.hasNextPage ? handleNextPageNavigation : null
+            }
+            handlePrevPageNavigation={
+              props.hasPrevPage ? handlePrevPageNavigation : null
+            }
+            user={user}
+            host={props.host}
+          />
+        </>
       }
     </>
   );
@@ -85,16 +119,43 @@ function SocialPage(props) {
 export async function getServerSideProps(context) {
   // Connecting to DB and finding posts
   await dbConnect();
-  const post = Post.find();
-  const filter = {};
-  const userpostList = await post.find(filter).sort({ _id: -1 });
-  const arrayOfAllLikedPosts = [];
-  const arrayOfLikedPostIdsByUser = [];
-  const arrayOfAllComments = [];
 
-  const allPosts = await PostLikedBy.find({}).select({ postId: 1, _id: 0 });
+  const req = context.req;
+  const session = await getSession({ req });
+
+  // PAGINATION INFORMATION
+  const pageNumber = context.query.pageNumber || 1;
+  const paginateOptions = {
+    page: pageNumber,
+    limit: 3,
+    collation: {
+      locale: "en",
+    },
+    sort: { _id: -1 },
+  };
+  const userpostList = await Post.paginate(
+    {},
+    paginateOptions,
+    function (err, result) {
+      result.hasNextPage;
+      console.log(result);
+    }
+  );
+
+  const hasNextPage = pageNumber < userpostList.pages;
+  const hasPrevPage = pageNumber > 1;
+  // END OF PAGINATION INFORMATION
+
+  //const userpostList = await post.find(filter).sort({ _id: -1 }).paginate();
+  const arrayOfLikedPostIdsByUser = [];
+
+  const allPostsLiked = await PostLikedBy.find({}).select({
+    postId: 1,
+    _id: 0,
+  });
   const allComments = await PostComment.find({}).select({ postId: 1, _id: 0 });
 
+  // ARTICLE INFORMATION
   const response = await fetch(
     " https://newsdata.io/api/1/news?apikey=pub_8706df797678363bc63e0933e2f89f0ede80&q=exercise&language=en&category=health "
   );
@@ -105,6 +166,11 @@ export async function getServerSideProps(context) {
   }
 
   const selectedArticle = randomArticle(articles.results);
+  // END OF ARTICLE INFORMATION
+
+  // LIKES AND COMMENTS INFORMATION
+  const arrayOfAllLikedPosts = [];
+  const arrayOfAllComments = [];
 
   function handleLikedPostsIds(post) {
     arrayOfAllLikedPosts.push(post.postId.toString());
@@ -114,35 +180,10 @@ export async function getServerSideProps(context) {
     arrayOfAllComments.push(post.postId.toString());
   }
 
-  allPosts.forEach(handleLikedPostsIds);
+  allPostsLiked.forEach(handleLikedPostsIds);
   allComments.forEach(handleCommentPostsIds);
 
-  const req = context.req;
-  const session = await getSession({ req });
-
-  if (!session)
-    return {
-      props: {
-        article: selectedArticle ? selectedArticle : null,
-        userposts: userpostList.map((post) => ({
-          id: post._id.toString(),
-          username: post.username,
-          postText: post.postText,
-          dateAdded: post.createdAt.toString(),
-          numberOfLikes: countLikes(post._id.toString()),
-          numberOfComments: countComments(post._id.toString()),
-        })),
-      },
-    };
-
-  const postsLiked = await PostLikedBy.find({
-    usernameLikingPost: session.user.username,
-  }).select({ postId: 1, _id: 0 });
-
-  function handleUserLikedPostIds(post) {
-    arrayOfLikedPostIdsByUser.push(post.postId.toString());
-  }
-
+  // Counts number of likes for a specific post
   function countLikes(postId) {
     let number = 0;
     for (const num of arrayOfAllLikedPosts) {
@@ -151,6 +192,7 @@ export async function getServerSideProps(context) {
     return number;
   }
 
+  // Counts number of comments for a specific post
   function countComments(postId) {
     let number = 0;
     for (const num of arrayOfAllComments) {
@@ -158,13 +200,42 @@ export async function getServerSideProps(context) {
     }
     return number;
   }
+  // END OF LIKES AND COMMENTS INFROMATION
+
+  if (!session)
+    return {
+      props: {
+        article: selectedArticle ? selectedArticle : null,
+        userposts: userpostList.docs.map((post) => ({
+          id: post._id.toString(),
+          username: post.username,
+          postText: post.postText,
+          dateAdded: post.createdAt.toString(),
+          numberOfLikes: countLikes(post._id.toString()),
+          numberOfComments: countComments(post._id.toString()),
+        })),
+        hasNextPage: hasNextPage,
+        hasPrevPage: hasPrevPage,
+        pageNumber: pageNumber,
+      },
+    };
+
+  // POSTS LIKED BY USER INFORMATION
+  const postsLiked = await PostLikedBy.find({
+    usernameLikingPost: session.user.username,
+  }).select({ postId: 1, _id: 0 });
+
+  function handleUserLikedPostIds(post) {
+    arrayOfLikedPostIdsByUser.push(post.postId.toString());
+  }
 
   postsLiked.forEach(handleUserLikedPostIds);
+  // END OF POSTS LIKED BY USER INFORMATION
 
   return {
     props: {
       article: selectedArticle ? selectedArticle : null,
-      userposts: userpostList.map((post) => ({
+      userposts: userpostList.docs.map((post) => ({
         id: post._id.toString(),
         username: post.username,
         postText: post.postText,
@@ -175,6 +246,9 @@ export async function getServerSideProps(context) {
         numberOfLikes: countLikes(post._id.toString()),
         numberOfComments: countComments(post._id.toString()),
       })),
+      hasNextPage: hasNextPage,
+      hasPrevPage: hasPrevPage,
+      pageNumber: pageNumber,
       host: req.headers.host,
     },
   };

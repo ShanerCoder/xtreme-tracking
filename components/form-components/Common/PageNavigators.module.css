@@ -1,0 +1,14 @@
+.pageNavigatorIcons {
+scale: 3;
+}
+
+.pageNavigatorIconsDivs {
+  text-align: center;
+}
+
+.pageNavigatorIconsDivs :hover{
+  cursor: pointer;
+  transform: scale(1.75);
+  color: #F5D834;
+  transition: all 0.25s ease-in-out;
+}
