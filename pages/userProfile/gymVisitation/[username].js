@@ -1,3 +1,4 @@
+import Head from "next/head";
 import SelectedDateVisitationForm from "../../../components/forms/GymVisitationForms/SelectedDateVisitationForm";
 import Calendar from "../../../components/ui/Calendar";
 import DarkerDiv from "../../../components/ui/DarkerDiv";
@@ -131,6 +132,13 @@ function GymVisitation(props) {
 
   return (
     <>
+      <Head>
+        <title>Gym Visitation</title>
+        <meta
+          name="Xtreme Tracking Gym Visitation Page"
+          content="You can check in and view previous check in's here!"
+        />
+      </Head>
       <LighterDiv>
         {errorMessage && <p className="errorMessage">{errorMessage}</p>}
         <h1 className="center">Gym Visitation for {props.username}</h1>

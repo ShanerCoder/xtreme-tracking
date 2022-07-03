@@ -1,16 +1,27 @@
+import Head from "next/head";
 import { getSession } from "next-auth/client";
 import ExampleTrainingPlansSection from "../../../components/form-components/TrackingPage/ExampleTrainingPlansSection";
-import IndividualTrainingPlan from "../../../components/form-components/TrackingPage/IndividualTrainingPlan";
 import { dbConnect } from "../../../lib/db-connect";
 import ExampleTrainingPlansList from "../../../models/exampleTrainingPlan";
 import LighterDiv from "../../../components/ui/LighterDiv";
 
 function ExampleTrainingPlans(props) {
   return (
-    <LighterDiv>
-      <h1 className="center">Example Training Plans</h1>
-      <ExampleTrainingPlansSection trainingPlans={props.exampleTrainingPlans} />
-    </LighterDiv>
+    <>
+      <Head>
+        <title>Example Training Plans</title>
+        <meta
+          name="Xtreme Tracking Example Training Plans Page"
+          content="Example Training Plans can be viewed here!"
+        />
+      </Head>
+      <LighterDiv>
+        <h1 className="center">Example Training Plans</h1>
+        <ExampleTrainingPlansSection
+          trainingPlans={props.exampleTrainingPlans}
+        />
+      </LighterDiv>
+    </>
   );
 }
 

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import TrainingPlan from "../../../models/trainingPlan";
 import ExampleTrainingPlan from "../../../models/exampleTrainingPlan";
 import ExerciseList from "../../../models/exerciseList";
@@ -104,6 +105,13 @@ function TrainingPlanPage(props) {
 
   return (
     <>
+      <Head>
+        <title>{props.trainingPlan.trainingPlanName} Training Plan</title>
+        <meta
+          name="Xtreme Tracking Training Plan Page"
+          content="A Selected Training Plan can be viewed here!"
+        />
+      </Head>
       {successMessage && <p className="successMessage">{successMessage}</p>}
       {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       {props.ownView ? (

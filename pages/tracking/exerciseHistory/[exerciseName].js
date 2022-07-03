@@ -1,3 +1,4 @@
+import Head from "next/head";
 import ExerciseHistory from "../../../models/exerciseHistory";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../../lib/db-connect";
@@ -28,28 +29,46 @@ function exerciseHistory(props) {
   }
 
   return props.errorMessage ? (
-    <h2 className="center" style={{ paddingTop: "20px" }}>
-      {props.errorMessage}
-    </h2>
+    <>
+      <Head>
+        <title>Exercise Not Tracked</title>
+        <meta
+          name="Xtreme Tracking Exercise Not Tracked Page"
+          content="Information about an exercise not being tracked can be viewed here!"
+        />
+      </Head>
+      <h2 className="center" style={{ paddingTop: "20px" }}>
+        {props.errorMessage}
+      </h2>
+    </>
   ) : (
-    <LighterDiv>
-      <h1 className="center">
-        Viewing {props.usernameOfExerciseHistory}'s Exercise History
-      </h1>
-      {props.ownUsername &&
-      props.ownUsername == props.usernameOfExerciseHistory ? (
-        <ExerciseHistorySection
-          exerciseName={props.exerciseName}
-          exerciseHistory={props.exerciseHistory}
-          removeExerciseRecord={handleRemoveExerciseRecord}
+    <>
+      <Head>
+        <title>{props.exerciseName} Tracking Page</title>
+        <meta
+          name="Selected Exercise Tracking Page"
+          content="Browse the history of a selected exercise here!"
         />
-      ) : (
-        <ExerciseHistorySection
-          exerciseName={props.exerciseName}
-          exerciseHistory={props.exerciseHistory}
-        />
-      )}
-    </LighterDiv>
+      </Head>
+      <LighterDiv>
+        <h1 className="center">
+          Viewing {props.usernameOfExerciseHistory}'s Exercise History
+        </h1>
+        {props.ownUsername &&
+        props.ownUsername == props.usernameOfExerciseHistory ? (
+          <ExerciseHistorySection
+            exerciseName={props.exerciseName}
+            exerciseHistory={props.exerciseHistory}
+            removeExerciseRecord={handleRemoveExerciseRecord}
+          />
+        ) : (
+          <ExerciseHistorySection
+            exerciseName={props.exerciseName}
+            exerciseHistory={props.exerciseHistory}
+          />
+        )}
+      </LighterDiv>
+    </>
   );
 }
 
@@ -97,6 +116,7 @@ export async function getServerSideProps(context) {
       throw new Error("Exercise Not Found");
     }
   } catch (error) {
+    console.log(error);
     return {
       notFound: true,
     };
