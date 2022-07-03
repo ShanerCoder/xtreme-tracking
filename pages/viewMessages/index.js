@@ -2,7 +2,7 @@ import Head from "next/head";
 import ViewIncomingDetailsForm from "../../components/form-components/Common/ViewIncomingDetailsForm";
 import LighterDiv from "../../components/ui/LighterDiv";
 import { dbConnect } from "../../lib/db-connect";
-import PrivateMessage from "../../models/privateMessage";
+import PrivateMessage from "../../models/accountProfile/privateMessage";
 import { getSession } from "next-auth/client";
 
 function ViewMessages(props) {

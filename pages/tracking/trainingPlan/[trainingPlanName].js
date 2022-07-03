@@ -1,8 +1,8 @@
 import Head from "next/head";
-import TrainingPlan from "../../../models/trainingPlan";
-import ExampleTrainingPlan from "../../../models/exampleTrainingPlan";
-import ExerciseList from "../../../models/exerciseList";
-import CommonExerciseList from "../../../models/commonExerciseList";
+import TrainingPlan from "../../../models/exerciseTracking/trainingPlan";
+import ExampleTrainingPlan from "../../../models/exerciseTracking/exampleTrainingPlan";
+import ExerciseList from "../../../models/exerciseTracking/exerciseList";
+import CommonExerciseList from "../../../models/exerciseTracking/commonExerciseList";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../../lib/db-connect";
 import TrainingPlanSection from "../../../components/forms/TrackingForm/TrainingPlans/TrainingPlanSection";

@@ -5,7 +5,7 @@ import {
   validateAllFields,
 } from "../../../../utils/common";
 import { getSession } from "next-auth/client";
-import ConsultationList from "../../../../models/consultationLists";
+import ConsultationList from "../../../../models/personalTrainer/consultationLists";
 
 async function handler(req, res) {
   const session = await getSession({ req });

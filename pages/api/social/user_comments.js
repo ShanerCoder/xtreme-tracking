@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import PostComment from "../../../models/postComment";
+import PostComment from "../../../models/social/postComment";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {

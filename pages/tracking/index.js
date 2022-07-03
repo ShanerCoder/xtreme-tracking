@@ -1,11 +1,11 @@
 import Head from "next/head";
 import Calendar from "../../components/ui/Calendar";
-import ExerciseList from "../../models/exerciseList";
-import CommonExerciseList from "../../models/commonExerciseList";
-import ExerciseHistory from "../../models/exerciseHistory";
-import Goal from "../../models/goal";
-import TrainingPlan from "../../models/trainingPlan";
-import CheckInList from "../../models/checkInList";
+import ExerciseList from "../../models/exerciseTracking/exerciseList";
+import CommonExerciseList from "../../models/exerciseTracking/commonExerciseList";
+import ExerciseHistory from "../../models/exerciseTracking/exerciseHistory";
+import Goal from "../../models/exerciseTracking/goal";
+import TrainingPlan from "../../models/exerciseTracking/trainingPlan";
+import CheckInList from "../../models/visitation/checkInList";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../lib/db-connect";

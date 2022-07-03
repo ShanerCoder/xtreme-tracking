@@ -1,9 +1,9 @@
 import Head from "next/head";
 import PostDetails from "../../components/form-components/SocialPage/PostDetails";
 import { dbConnect } from "../../lib/db-connect";
-import Post from "../../models/post";
-import PostLikedBy from "../../models/postLikedBy";
-import PostComment from "../../models/postComment";
+import Post from "../../models/social/post";
+import PostLikedBy from "../../models/social/postLikedBy";
+import PostComment from "../../models/social/postComment";
 import mongoose from "mongoose";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../components/ui/LighterDiv";

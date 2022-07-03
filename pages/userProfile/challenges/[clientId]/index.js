@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { dbConnect } from "../../../../lib/db-connect";
 import mongoose from "mongoose";
-import ExerciseList from "../../../../models/exerciseList";
-import CommonExerciseList from "../../../../models/commonExerciseList";
-import ClientList from "../../../../models/clientList";
+import ExerciseList from "../../../../models/exerciseTracking/exerciseList";
+import CommonExerciseList from "../../../../models/exerciseTracking/commonExerciseList";
+import ClientList from "../../../../models/personalTrainer/clientList";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../../components/ui/LighterDiv";
 import { useState } from "react";

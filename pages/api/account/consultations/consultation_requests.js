@@ -6,7 +6,7 @@ import {
 } from "../../../../utils/common";
 import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
-import ConsultationRequest from "../../../../models/consultationRequest";
+import ConsultationRequest from "../../../../models/personalTrainer/consultationRequest";
 
 async function handler(req, res) {
   const session = await getSession({ req });

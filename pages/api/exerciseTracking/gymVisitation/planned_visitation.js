@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import PlannedVisitation from "../../../../models/plannedVisitationDates";
+import PlannedVisitation from "../../../../models/visitation/plannedVisitationDates";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {

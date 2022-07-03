@@ -4,8 +4,8 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import UserProfile from "../../../../models/userProfile";
-import User from "../../../../models/user";
+import UserProfile from "../../../../models/accountProfile/userProfile";
+import User from "../../../../models/account/user";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {

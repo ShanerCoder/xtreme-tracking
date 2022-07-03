@@ -4,8 +4,8 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import PrivateMessage from "../../../../models/privateMessage";
-import ClientList from "../../../../models/clientList";
+import PrivateMessage from "../../../../models/accountProfile/privateMessage";
+import ClientList from "../../../../models/personalTrainer/clientList";
 import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
 

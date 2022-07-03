@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import GalleryPhotos from "../../../../models/galleryPhotos";
+import GalleryPhotos from "../../../../models/accountProfile/galleryPhotos";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {

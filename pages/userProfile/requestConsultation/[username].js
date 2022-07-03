@@ -1,10 +1,10 @@
 import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
-import User from "../../../models/user";
-import Profile from "../../../models/userProfile";
+import User from "../../../models/account/user";
+import Profile from "../../../models/accountProfile/userProfile";
 import SingleMessageForm from "../../../components/form-components/Common/SingleMessageForm";
-import ConsultationRequest from "../../../models/consultationRequest";
-import ClientList from "../../../models/clientList";
+import ConsultationRequest from "../../../models/personalTrainer/consultationRequest";
+import ClientList from "../../../models/personalTrainer/clientList";
 import { getSession } from "next-auth/client";
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";

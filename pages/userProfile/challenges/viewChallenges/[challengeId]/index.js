@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../../../../../context";
 import { getValue } from "../../../../../utils/common";
-import Challenge from "../../../../../models/challenge";
+import Challenge from "../../../../../models/exerciseTracking/challenge";
 import ExerciseDetails from "../../../../../components/forms/TrackingForm/ExerciseDetails";
 import DarkerDiv from "../../../../../components/ui/DarkerDiv";
 import { useLoadingStore } from "../../../../../context/loadingScreen";

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import ResetPasswordForm from "../../components/forms/SignInForms/ForgotPasswordForms/ResetPasswordForm";
 import { dbConnect } from "../../lib/db-connect";
-import Token from "../../models/token";
+import Token from "../../models/account/token";
 import bcrypt from "bcrypt";
 import { useState } from "react";
 import { useRouter } from "next/router";

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
-import Profile from "../../../models/userProfile";
-import User from "../../../models/user";
+import Profile from "../../../models/accountProfile/userProfile";
+import User from "../../../models/account/user";
 import ProfileSettingsForm from "../../../components/forms/ProfilePageForms/ProfileSettingsForm";
 import AccountSettingsForm from "../../../components/forms/ProfilePageForms/AccountSettingsForm";
 import { useState } from "react";

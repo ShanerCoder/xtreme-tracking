@@ -10,13 +10,13 @@ import { getValue } from "../../../utils/common";
 import { useStore } from "../../../context";
 import { useState } from "react";
 import { useLoadingStore } from "../../../context/loadingScreen";
-import CheckInList from "../../../models/checkInList";
-import User from "../../../models/user";
-import UserProfile from "../../../models/userProfile";
-import PlannedVisitationDates from "../../../models/plannedVisitationDates";
+import CheckInList from "../../../models/visitation/checkInList";
+import User from "../../../models/account/user";
+import UserProfile from "../../../models/accountProfile/userProfile";
+import PlannedVisitationDates from "../../../models/visitation/plannedVisitationDates";
 import startOfDay from "date-fns/startOfDay";
 import endOfDay from "date-fns/endOfDay";
-import GymVisitationStreak from "../../../models/gymVisitationStreak";
+import GymVisitationStreak from "../../../models/visitation/gymVisitationStreak";
 
 function GymVisitation(props) {
   const router = useRouter();

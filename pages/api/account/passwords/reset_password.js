@@ -5,8 +5,8 @@ import {
   validateAllFields,
 } from "../../../../utils/common";
 import bcrypt from "bcrypt";
-import User from "../../../../models/user";
-import Token from "../../../../models/token";
+import User from "../../../../models/account/user";
+import Token from "../../../../models/account/token";
 
 async function handler(req, res) {
   if (req.method === "PUT") {

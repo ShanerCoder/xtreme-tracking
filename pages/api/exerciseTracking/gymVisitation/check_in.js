@@ -4,9 +4,9 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import CheckIn from "../../../../models/checkInList";
-import PlannedVisitationDates from "../../../../models/plannedVisitationDates";
-import GymVisitationStreak from "../../../../models/gymVisitationStreak";
+import CheckIn from "../../../../models/visitation/checkInList";
+import PlannedVisitationDates from "../../../../models/visitation/plannedVisitationDates";
+import GymVisitationStreak from "../../../../models/visitation/gymVisitationStreak";
 import { getSession } from "next-auth/client";
 import { endOfDay, startOfDay } from "date-fns";
 

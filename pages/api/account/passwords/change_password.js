@@ -5,7 +5,7 @@ import {
   validateAllFields,
 } from "../../../../utils/common";
 import bcrypt from "bcrypt";
-import User from "../../../../models/user";
+import User from "../../../../models/account/user";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {

@@ -1,11 +1,10 @@
 import classes from "./TrainingPlanSection.module.css";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useReducer, useRef, useState } from "react";
 import Card from "../../../ui/Card";
 import { Col, Row } from "react-bootstrap";
 import LighterDiv from "../../../ui/LighterDiv";
 import DarkerDiv from "../../../ui/DarkerDiv";
 import AddedExercisesSection from "./AddedExercisesSection";
-import trainingPlan from "../../../../models/trainingPlan";
 
 function TrainingPlanSection(props) {
   const exerciseDropdownRef = useRef();

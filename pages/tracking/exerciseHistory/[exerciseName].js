@@ -1,5 +1,5 @@
 import Head from "next/head";
-import ExerciseHistory from "../../../models/exerciseHistory";
+import ExerciseHistory from "../../../models/exerciseTracking/exerciseHistory";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../../lib/db-connect";
 import ExerciseHistorySection from "../../../components/forms/TrackingForm/ExerciseList/ExerciseHistory/ExerciseHistorySection";
