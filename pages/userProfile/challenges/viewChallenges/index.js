@@ -72,7 +72,6 @@ export async function getServerSideProps({ req }) {
       },
     };
   } catch (error) {
-    console.log(error);
     return {
       notFound: true,
     };

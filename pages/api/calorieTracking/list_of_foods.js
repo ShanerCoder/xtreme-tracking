@@ -4,8 +4,8 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import ExerciseHistory from "../../../models/exerciseHistory";
 import { getSession } from "next-auth/client";
+import FoodList from "../../../models/calorieTracking/foodList";
 
 async function handler(req, res) {
   const session = await getSession({ req });
@@ -20,34 +20,34 @@ async function handler(req, res) {
         return null;
       }
 
-      const {
-        username,
-        exerciseName,
-        weightUsed,
-        numberOfReps,
-        numberOfSets,
-        dateOfExercise,
-      } = req.body;
+      const { username, foodName, caloriesPer100 } = req.body;
       validateAllFields(req.body);
       await dbConnect();
 
-      const exercise = new ExerciseHistory({
-        username,
-        exerciseName,
-        weightUsed,
-        numberOfReps,
-        numberOfSets,
-        dateOfExercise,
+      const foodAlreadyExistsByUser = await FoodList.find({
+        username: username,
+        foodName: foodName,
       });
 
-      const exerciseResult = await exercise.save();
-      if (exerciseResult) {
-        responseHandler(exerciseResult, res, 201);
+      if (foodAlreadyExistsByUser.length) {
+        errorHandler("Food Item already exists!", res);
+        return null;
+      }
+
+      const food = new FoodList({
+        username,
+        foodName,
+        caloriesPer100,
+      });
+
+      const foodResult = await food.save();
+      if (foodResult) {
+        responseHandler(foodResult, res, 201);
       } else {
-        errorHandler("Exercise Failed to be created", res);
+        errorHandler("Food Item Failed to be created", res);
       }
     } catch (error) {
-      errorHandler("An error has occurred creating this exercise", res);
+      errorHandler("An error has occurred creating this food item", res);
     }
   } else if (req.method === "DELETE") {
     try {
@@ -56,13 +56,13 @@ async function handler(req, res) {
         return null;
       }
       await dbConnect();
-      const deleteExerciseResult = await ExerciseHistory.deleteOne({
-        _id: req.body.exerciseRecordId,
+      const deleteFoodResult = await FoodList.deleteOne({
+        foodName: req.body.foodName,
         username: session.user.username,
       });
-      if (deleteExerciseResult) responseHandler(deleteExerciseResult, res, 200);
+      if (deleteFoodResult) responseHandler(deleteFoodResult, res, 200);
     } catch (error) {
-      errorHandler("Failed to delete this Exercise", res);
+      errorHandler("Failed to delete this Food Item", res);
     }
   } else errorHandler("Invalid Request Type", res);
 }

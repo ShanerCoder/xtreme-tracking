@@ -223,7 +223,6 @@ export async function getServerSideProps(context) {
       throw new Error("Training Plan Not Found");
     }
   } catch (error) {
-    console.log(error);
     return {
       notFound: true,
     };

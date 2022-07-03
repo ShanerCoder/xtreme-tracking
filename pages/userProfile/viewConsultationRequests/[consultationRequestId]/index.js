@@ -168,7 +168,6 @@ export async function getServerSideProps(context) {
         notFound: true,
       };
   } catch (error) {
-    console.log(error);
     return {
       notFound: true,
     };

@@ -34,7 +34,6 @@ async function handler(req, res) {
         errorHandler("Description Failed to Update", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred when updating the profile description",
         res

@@ -38,11 +38,9 @@ async function handler(req, res) {
       if (consultationResult) {
         responseHandler(consultationResult, res, 201);
       } else {
-        console.log(error);
         errorHandler("Consultation Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred creating this Consultation", res);
     }
   } else if (req.method === "DELETE") {

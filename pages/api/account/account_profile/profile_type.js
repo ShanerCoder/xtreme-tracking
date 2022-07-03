@@ -34,7 +34,6 @@ async function handler(req, res) {
         errorHandler("Profile Type Failed to Update", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred when updating the profile type", res);
     }
   } else errorHandler("Invalid Request Type", res);

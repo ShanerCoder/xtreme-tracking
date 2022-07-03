@@ -32,7 +32,6 @@ async function handler(req, res) {
       if (error.name === "MongoServerError" && error.code === 11000) {
         errorHandler("This ID already has a profile!", res);
       } else {
-        console.log(error);
         errorHandler("An error has occurred creating the user profile", res);
       }
     }

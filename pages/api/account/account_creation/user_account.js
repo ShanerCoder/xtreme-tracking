@@ -41,7 +41,6 @@ async function handler(req, res) {
       if (error.name === "MongoServerError" && error.code === 11000) {
         errorHandler("This Username or Email is already in use!", res);
       } else {
-        console.log(error);
         errorHandler("An error has occurred creating a user account", res);
       }
     }

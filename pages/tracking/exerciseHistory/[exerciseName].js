@@ -116,7 +116,6 @@ export async function getServerSideProps(context) {
       throw new Error("Exercise Not Found");
     }
   } catch (error) {
-    console.log(error);
     return {
       notFound: true,
     };

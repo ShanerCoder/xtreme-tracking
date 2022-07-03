@@ -21,6 +21,7 @@ import GoalsView from "../../components/forms/TrackingForm/Views/GoalsView";
 import ChangeView from "../../components/form-components/Common/Views/ChangeView";
 import TrainingPlansView from "../../components/form-components/Common/Views/TrainingPlansView";
 import { endOfDay, startOfDay } from "date-fns";
+import CalorieHistoryView from "../../components/forms/TrackingForm/Views/CalorieHistoryView";
 
 function ViewTrackingProgress(props) {
   const router = useRouter();
@@ -233,6 +234,9 @@ function ViewTrackingProgress(props) {
                 handleAddExercise={handleAddExercise}
                 handleRemoveExerciseRecord={handleRemoveExerciseRecord}
               />
+            )}
+            {currentView == "Calorie History" && (
+              <CalorieHistoryView selectedDate={selectedDate} />
             )}
             {currentView == "Goals" && (
               <GoalsView

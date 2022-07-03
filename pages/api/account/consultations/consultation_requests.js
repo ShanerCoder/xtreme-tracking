@@ -40,11 +40,9 @@ async function handler(req, res) {
         delete ConsultationRequestDoc.consultationRequest;
         responseHandler(consultationRequestResult, res, 201);
       } else {
-        console.log(error);
         errorHandler("Consultation Request Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred creating this Consultation Request",
         res

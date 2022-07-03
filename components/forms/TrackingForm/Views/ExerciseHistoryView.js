@@ -1,6 +1,6 @@
 import { Col, Row } from "react-bootstrap";
-import ExercisesAtDateSection from "../ExercisesAtDateSection";
-import NewExerciseSection from "../NewExerciseSection";
+import ExercisesAtDateSection from "../ExerciseHistoryAtDate/ExercisesAtDateSection";
+import NewExerciseSection from "../ExerciseHistoryAtDate/NewExerciseSection";
 
 function ExerciseHistoryView(props) {
   return ( <Row>

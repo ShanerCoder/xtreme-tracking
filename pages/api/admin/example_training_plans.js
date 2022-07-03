@@ -25,7 +25,6 @@ async function handler(req, res) {
         errorHandler("Example Training Plan Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred creating this Example Training Plan",
         res

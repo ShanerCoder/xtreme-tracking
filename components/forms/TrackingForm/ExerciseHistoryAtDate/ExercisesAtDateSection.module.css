@@ -1,0 +1,31 @@
+.messageBubble {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  padding: 5px;
+  white-space: pre-line;
+  word-wrap: break-word;
+}
+
+.messageSection {
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.messageButtonsSection, .additionalContextSection {
+  padding-top: 4%;
+  padding-bottom: 1%;
+}
+
+.messageButtonsSection button {
+  width: 98%;
+  margin-left: 1%;
+  border-radius: 10px;
+}
+
+@media (max-width: 576px) {
+  .columnPadding {
+    padding-bottom: 25px;
+  }
+}

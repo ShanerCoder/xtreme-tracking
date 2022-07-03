@@ -1,6 +1,5 @@
 import Head from "next/head";
-import ExerciseList from "../../models/exerciseTracking/exerciseList";
-import CommonExerciseList from "../../models/exerciseTracking/commonExerciseList";
+import FoodList from "../../models/calorieTracking/foodList";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../lib/db-connect";
 import LighterDiv from "../../components/ui/LighterDiv";
@@ -9,9 +8,9 @@ import { useStore } from "../../context";
 import { useState } from "react";
 import { getValue } from "../../utils/common";
 import { useRouter } from "next/router";
-import NewCustomExerciseSection from "../../components/forms/TrackingForm/ExerciseList/NewCustomExerciseSection";
-import FullListOfExercises from "../../components/forms/TrackingForm/ExerciseList/FullListOfExercises";
 import { useLoadingStore } from "../../context/loadingScreen";
+import NewFoodSection from "../../components/forms/TrackingForm/FoodList/NewFoodSection";
+import ListOfFoods from "../../components/forms/TrackingForm/FoodList/ListOfFoods";
 
 function ExerciseListPage(props) {
   const router = useRouter();
@@ -20,22 +19,15 @@ function ExerciseListPage(props) {
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const user = getValue(state, ["user"], null);
-  const listOfMuscleGroups = [];
 
-  props.commonExerciseList.map(
-    (exercise) =>
-      !listOfMuscleGroups.includes(exercise.muscleGroup) &&
-      listOfMuscleGroups.push(exercise.muscleGroup)
-  );
-
-  async function handleAddNewExercise(postData) {
+  async function handleAddNewFood(postData) {
     showLoadingScreen({ type: true });
     const bodyData = {
       username: user.username,
       ...postData,
     };
 
-    const response = await fetch("/api/exerciseTracking/list_of_exercises", {
+    const response = await fetch("/api/calorieTracking/list_of_foods", {
       method: "POST",
       body: JSON.stringify(bodyData),
       headers: { "Content-Type": "application/json" },
@@ -46,21 +38,21 @@ function ExerciseListPage(props) {
       setErrorMessage(data.errorMessage);
       setSuccessMessage(null);
     } else {
-      setSuccessMessage("Exercise Successfully Created!");
+      setSuccessMessage("Food Successfully Created!");
       setErrorMessage(null);
     }
-    await router.push("/tracking/exerciseList");
+    await router.push("/tracking/foodList");
     showLoadingScreen({ type: false });
   }
 
-  async function handleRemoveExercise(exerciseName) {
+  async function handleRemoveFood(foodName) {
     showLoadingScreen({ type: true });
     const bodyData = {
-      exerciseName: exerciseName,
+      foodName: foodName,
       username: user.username,
     };
 
-    const response = await fetch("/api/exerciseTracking/list_of_exercises", {
+    const response = await fetch("/api/calorieTracking/list_of_foods", {
       method: "DELETE",
       body: JSON.stringify(bodyData),
       headers: { "Content-Type": "application/json" },
@@ -70,20 +62,20 @@ function ExerciseListPage(props) {
       setErrorMessage(data.errorMessage);
       setSuccessMessage(null);
     } else {
-      setSuccessMessage("Exercise Successfully Removed!");
+      setSuccessMessage(foodName + " Successfully Removed!");
       setErrorMessage(null);
     }
-    await router.push("/tracking/exerciseList");
+    await router.push("/tracking/foodList");
     showLoadingScreen({ type: false });
   }
 
   return (
     <>
       <Head>
-        <title>Exercise List</title>
+        <title>Food List</title>
         <meta
-          name="Xtreme Tracking Exercise List Page"
-          content="View the list of all your exercises here!"
+          name="Xtreme Tracking Food List Page"
+          content="View the list of all your created Foods here!"
         />
       </Head>
       {successMessage && <p className="successMessage">{successMessage}</p>}
@@ -93,18 +85,14 @@ function ExerciseListPage(props) {
       ) : (
         <>
           <LighterDiv>
-            <h1 className="center">Exercise List</h1>
-            <NewCustomExerciseSection
-              muscleGroups={listOfMuscleGroups}
-              addExercise={handleAddNewExercise}
-            />
+            <h1 className="center">Food List</h1>
+            <NewFoodSection addFood={handleAddNewFood} />
           </LighterDiv>
           <DarkerDiv>
-            <FullListOfExercises
-              exerciseList={props.exerciseList}
-              commonExerciseList={props.commonExerciseList}
-              listOfMuscleGroups={listOfMuscleGroups}
-              removeExercise={handleRemoveExercise}
+            <h2 className="center">List of Added Foods</h2>
+            <ListOfFoods
+              foodList={props.foodList}
+              removeFood={handleRemoveFood}
             />
           </DarkerDiv>
         </>
@@ -122,29 +110,22 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
-    const exerciseList = await ExerciseList.find({
+    const foodList = await FoodList.find({
       username: session.user.username,
-    }).sort({ muscleGroup: 1 });
-    const commonExerciseList = await CommonExerciseList.find({}).sort({
-      muscleGroup: 1,
-    });
+    }).sort({ foodName: 1 });
 
     return {
       props: {
-        exerciseList: exerciseList.map((exercise) => ({
-          exerciseName: exercise.exerciseName,
-          muscleGroup: exercise.muscleGroup,
-        })),
-        commonExerciseList: commonExerciseList.map((exercise) => ({
-          exerciseName: exercise.exerciseName,
-          muscleGroup: exercise.muscleGroup,
+        foodList: foodList.map((food) => ({
+          foodName: food.foodName,
+          caloriesPer100: food.caloriesPer100,
         })),
       },
     };
   } catch (error) {
     return {
       props: {
-        errorMessage: "Make an account to view the list of your exercises!",
+        errorMessage: "Make an account to view the list of your foods created!",
       },
     };
   }

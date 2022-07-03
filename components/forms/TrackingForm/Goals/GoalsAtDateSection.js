@@ -1,5 +1,5 @@
 import React from "react";
-import ExerciseDetails from "../ExerciseDetails";
+import ExerciseDetails from "../ExerciseHistoryAtDate/ExerciseDetails";
 import classes from "./GoalsAtDateSection.module.css";
 
 function GoalsAtDateSection(props) {

@@ -35,7 +35,6 @@ async function handler(req, res) {
         errorHandler("Client Failed to be removed", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred removing this client", res);
     }
   }

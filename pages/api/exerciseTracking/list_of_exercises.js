@@ -55,7 +55,6 @@ async function handler(req, res) {
         errorHandler("Exercise Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred creating this exercise", res);
     }
   } else if (req.method === "DELETE") {
@@ -71,7 +70,6 @@ async function handler(req, res) {
       });
       if (deleteExerciseResult) responseHandler(deleteExerciseResult, res, 200);
     } catch (error) {
-      console.log(error);
       errorHandler("Failed to delete this Exercise", res);
     }
   } else errorHandler("Invalid Request Type", res);

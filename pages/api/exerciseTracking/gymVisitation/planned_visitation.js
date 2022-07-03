@@ -48,7 +48,6 @@ async function handler(req, res) {
         errorHandler("Updating Visitation Status Failed", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred updating the Gym Visitation Status. Please try again later!",
         res

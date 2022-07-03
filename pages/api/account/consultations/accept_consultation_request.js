@@ -59,7 +59,6 @@ async function handler(req, res) {
         }
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred creating this message", res);
     }
   }

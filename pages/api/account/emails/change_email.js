@@ -45,7 +45,6 @@ async function handler(req, res) {
       if (!emailUpdated) errorHandler("Email failed to be updated", res);
       else responseHandler("Email Successfully Changed!", res, 200);
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred when updating this user account",
         res

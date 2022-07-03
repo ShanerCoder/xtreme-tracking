@@ -44,7 +44,6 @@ async function handler(req, res) {
         //verify connection configuration
         transporter.verify(function (error, success) {
           if (error) {
-            console.log(error);
             reject(error);
           } else {
             resolve(success);

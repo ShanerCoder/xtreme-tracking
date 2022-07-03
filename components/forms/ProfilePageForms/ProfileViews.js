@@ -7,7 +7,7 @@ import Calendar from "../../ui/Calendar";
 import Card from "../../ui/Card";
 import DarkerDiv from "../../ui/DarkerDiv";
 import LighterDiv from "../../ui/LighterDiv";
-import ExercisesAtDateSection from "../TrackingForm/ExercisesAtDateSection";
+import ExercisesAtDateSection from "../TrackingForm/ExerciseHistoryAtDate/ExercisesAtDateSection";
 import GalleryView from "./Views/GalleryView";
 
 function ProfileViews(props) {

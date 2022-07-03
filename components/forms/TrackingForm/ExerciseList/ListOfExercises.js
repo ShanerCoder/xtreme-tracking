@@ -20,7 +20,7 @@ function ListOfExercises(props) {
         </div>
       </li>
       {props.exercises.map((exercise) => (
-        <React.Fragment key={exercise.id}>
+        <React.Fragment key={exercise.exerciseName}>
           {(props.muscleGroupFilter == exercise.muscleGroup ||
             props.muscleGroupFilter == "All") && (
             <SingleExerciseDetails

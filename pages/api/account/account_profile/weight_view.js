@@ -34,7 +34,6 @@ async function handler(req, res) {
         errorHandler("Weight View Failed to Update", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred when updating the weight view", res);
     }
   } else errorHandler("Invalid Request Type", res);
