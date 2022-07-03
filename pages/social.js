@@ -12,7 +12,6 @@ import { useStore } from "../context";
 import { getValue } from "../utils/common";
 import { getSession } from "next-auth/client";
 import { useLoadingStore } from "../context/loadingScreen";
-import PageNavigators from "../components/form-components/Common/PageNavigators";
 
 function SocialPage(props) {
   const router = useRouter();

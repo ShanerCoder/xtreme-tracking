@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";
 import { useLoadingStore } from "../../../context/loadingScreen";
@@ -43,14 +44,11 @@ function AddPhotoToGallery() {
         photoDescription: postData.photoDescription,
         privatePhoto: postData.privatePhoto,
       };
-      const response = await fetch(
-        "/api/account/account_profile/gallery",
-        {
-          method: "POST",
-          body: JSON.stringify(bodyData),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const response = await fetch("/api/account/account_profile/gallery", {
+        method: "POST",
+        body: JSON.stringify(bodyData),
+        headers: { "Content-Type": "application/json" },
+      });
       const data = await response.json();
       if (data.hasError) {
         setErrorMessage(data.errorMessage);
@@ -64,6 +62,13 @@ function AddPhotoToGallery() {
 
   return (
     <>
+      <Head>
+        <title>Add Photo To Gallery</title>
+        <meta
+          name="Xtreme Tracking Add Photo To Gallery Page"
+          content="A Photo can be added to your Gallery here!"
+        />
+      </Head>
       {successMessage && <p className="successMessage">{successMessage}</p>}
       {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       <LighterDiv>

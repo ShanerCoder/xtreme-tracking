@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../../lib/db-connect";
 import ExerciseList from "../../../models/exerciseList";
@@ -18,7 +19,9 @@ function NewTrainingPlan(props) {
 
   async function handleLoader(exerciseName) {
     showLoadingScreen({ type: true });
-    await router.push("/tracking/exerciseHistory/" + exerciseName + "?username=" + user.username);
+    await router.push(
+      "/tracking/exerciseHistory/" + exerciseName + "?username=" + user.username
+    );
     showLoadingScreen({ type: false });
   }
 
@@ -53,6 +56,13 @@ function NewTrainingPlan(props) {
 
   return (
     <>
+      <Head>
+        <title>New Training Plan</title>
+        <meta
+          name="Xtreme Tracking New Training Plan Page"
+          content="A New Training Plan can be created here!"
+        />
+      </Head>
       {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       <TrainingPlanSection
         exerciseList={props.exerciseList}
