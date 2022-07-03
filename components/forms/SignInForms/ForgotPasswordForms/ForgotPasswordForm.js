@@ -1,5 +1,7 @@
 import { useRef } from "react";
-import Card from "../../../ui/Card";
+import { Col, Row } from "react-bootstrap";
+import ForgotPasswordSection from "../../../form-components/ForgotPasswordPage/ForgotPasswordSection";
+import classes from "./ForgotPasswordForm.module.css";
 
 function ForgotPasswordForm(props) {
   const emailInputRef = useRef();
@@ -12,23 +14,27 @@ function ForgotPasswordForm(props) {
   }
 
   return (
-    <Card>
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="control">
-          <label htmlFor="title">Email</label>
-          <input
-            type="email"
-            required
-            id="email"
-            placeholder="Email"
-            ref={emailInputRef}
+    <Row className={classes.rowFormatting}>
+      <Col xs={12} lg={6} className={classes.rejoinTheClubColumn}>
+        <Row>
+          <p className={`${classes.whiteText} ${classes.headerText}`}>
+            Re-Join The Club
+          </p>
+          <p className={classes.whiteText}>
+            Write in your Email and get back on Track!
+          </p>
+        </Row>
+        <Row>
+          <img
+            className={classes.imageOne}
+            src="/forgotPasswordPage/imageOne.png"
           />
-        </div>
-        <div className="actions">
-          <button>Submit Forgot Password</button>
-        </div>
-      </form>
-    </Card>
+        </Row>
+      </Col>
+      <Col xs={12} lg={6} className={classes.forgotPasswordColumn}>
+        <ForgotPasswordSection onSubmit={props.onSubmit} />
+      </Col>
+    </Row>
   );
 }
 

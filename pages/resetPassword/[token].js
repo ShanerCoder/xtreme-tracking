@@ -50,7 +50,6 @@ function ResetPasswordView(props) {
           content="Reset your account's password here!"
         />
       </Head>
-      <h1 className="center">Reset your Password</h1>
       {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       {props.validToken ? (
         <ResetPasswordForm

@@ -13,7 +13,7 @@ function MessageForm(props) {
   return (
     <LighterDiv>
       <h1 className="center">{props.messageTitle}</h1>
-      <p>{props.messageSubject}</p>
+      <p style={{ fontSize: "18px" }}>{props.messageSubject}</p>
       <Card>
         <form className="form" onSubmit={handleSubmit}>
           <div className="control">

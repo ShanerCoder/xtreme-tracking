@@ -55,10 +55,7 @@ function ForgotPasswordPage() {
       <section>
         {successMessage && <p className="successMessage">{successMessage}</p>}
         {errorMessage && <p className="errorMessage">{errorMessage}</p>}
-        <LighterDiv>
-          <h1 className="center">Forgot Password</h1>
-          <ForgotPasswordForm onSubmit={forgotPasswordSubmitHandler} />
-        </LighterDiv>
+        <ForgotPasswordForm onSubmit={forgotPasswordSubmitHandler} />
       </section>
     </>
   );
