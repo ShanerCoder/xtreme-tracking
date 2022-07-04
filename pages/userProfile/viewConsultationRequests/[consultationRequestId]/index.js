@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { dbConnect } from "../../../../lib/db-connect";
 import Cryptr from "cryptr";
-import ConsultationRequest from "../../../../models/consultationRequest";
+import ConsultationRequest from "../../../../models/personalTrainer/consultationRequest";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../../components/ui/LighterDiv";
 import ViewSelectedDetailForm from "../../../../components/form-components/Common/ViewSelectedDetailForm";
