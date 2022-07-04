@@ -289,6 +289,9 @@ export async function getServerSideProps(context) {
     const hasPrevPage = pageNumber > 1;
     // END OF GALLERY PAGINATION INFORMATION
 
+    console.log(hasNextPage);
+    console.log(pageNumber);
+
     // FOOD INFORMATION
     const foodHistory = await FoodHistory.find({
       username: username,
