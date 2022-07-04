@@ -135,13 +135,7 @@ export async function getServerSideProps(context) {
     },
     sort: { _id: -1 },
   };
-  const userpostList = await Post.paginate(
-    {},
-    paginateOptions,
-    function (err, result) {
-      result.hasNextPage;
-    }
-  );
+  const userpostList = await Post.paginate({}, paginateOptions);
 
   const hasNextPage = pageNumber < userpostList.pages;
   const hasPrevPage = pageNumber > 1;

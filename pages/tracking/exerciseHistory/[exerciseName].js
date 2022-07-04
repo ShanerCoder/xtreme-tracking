@@ -6,10 +6,41 @@ import ExerciseHistorySection from "../../../components/forms/TrackingForm/Exerc
 import { useRouter } from "next/router";
 import LighterDiv from "../../../components/ui/LighterDiv";
 import { useLoadingStore } from "../../../context/loadingScreen";
+import PageNavigators from "../../../components/form-components/Common/PageNavigators";
 
 function exerciseHistory(props) {
   const router = useRouter();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
+
+  async function handleNextPageNavigation() {
+    showLoadingScreen({ type: true });
+    await router.push(
+      "/tracking/exerciseHistory/" +
+        props.exerciseName +
+        "?pageNumber=" +
+        (Number(props.pageNumber) + Number(1))
+    );
+    showLoadingScreen({ type: false });
+    window.scrollTo({
+      bottom: 0,
+      behavior: "smooth",
+    });
+  }
+
+  async function handlePrevPageNavigation() {
+    showLoadingScreen({ type: true });
+    await router.push(
+      "/tracking/exerciseHistory/" +
+        props.exerciseName +
+        "?pageNumber=" +
+        (Number(props.pageNumber) - Number(1))
+    );
+    showLoadingScreen({ type: false });
+    window.scrollTo({
+      bottom: 0,
+      behavior: "smooth",
+    });
+  }
 
   async function handleRemoveExerciseRecord(exerciseRecordId) {
     showLoadingScreen({ type: true });
@@ -67,6 +98,15 @@ function exerciseHistory(props) {
             exerciseHistory={props.exerciseHistory}
           />
         )}
+        <PageNavigators
+          pageNumber={props.pageNumber}
+          handleNextPageNavigation={
+            props.hasNextPage ? handleNextPageNavigation : null
+          }
+          handlePrevPageNavigation={
+            props.hasPrevPage ? handlePrevPageNavigation : null
+          }
+        />
       </LighterDiv>
     </>
   );
@@ -84,24 +124,51 @@ export async function getServerSideProps(context) {
     if (!username && session) username = session.user.username;
     if (session) ownUsername = session.user.username;
     if (!username) throw new Error("No Username");
-    const exerciseHistory = await ExerciseHistory.find({
+
+    // PAGINATION INFORMATION
+    const pageNumber =
+      context.query.pageNumber && context.query.pageNumber > 0
+        ? context.query.pageNumber
+        : 1;
+    const paginateQuery = {
       username: username,
       exerciseName: exerciseName,
-    }).sort({ dateOfExercise: -1 });
+    };
+    const paginateOptions = {
+      page: pageNumber,
+      limit: 4,
+      collation: {
+        locale: "en",
+      },
+      sort: { dateOfExercise: -1 },
+    };
 
-    if (exerciseHistory.length) {
+    const exerciseHistory = await ExerciseHistory.paginate(
+      paginateQuery,
+      paginateOptions
+    );
+
+    console.log(exerciseHistory);
+    const hasNextPage = pageNumber < exerciseHistory.pages;
+    const hasPrevPage = pageNumber > 1;
+    // END OF PAGINATION INFORMATION
+
+    if (exerciseHistory.docs.length) {
       return {
         props: {
           ownUsername: ownUsername,
           usernameOfExerciseHistory: username,
           exerciseName: exerciseName,
-          exerciseHistory: exerciseHistory.map((exercise) => ({
+          exerciseHistory: exerciseHistory.docs.map((exercise) => ({
             id: exercise._id.toString(),
             weightUsed: exercise.weightUsed,
             numberOfReps: exercise.numberOfReps,
             numberOfSets: exercise.numberOfSets,
             dateOfExercise: exercise.dateOfExercise.toDateString(),
           })),
+          pageNumber: pageNumber,
+          hasNextPage: hasNextPage,
+          hasPrevPage: hasPrevPage,
         },
       };
     } else if (exerciseHistory) {
