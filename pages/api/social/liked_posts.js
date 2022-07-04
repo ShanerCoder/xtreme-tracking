@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import PostLiked from "../../../models/postLikedBy";
+import PostLiked from "../../../models/social/postLikedBy";
 import { getSession } from "next-auth/client";
 import mongoose from "mongoose";
 

@@ -116,6 +116,7 @@ export async function getServerSideProps(context) {
     const commonExerciseList = await CommonExerciseList.find({}).sort({
       muscleGroup: 1,
     });
+    const fullExerciseList = exerciseList.concat(commonExerciseList);
 
     return {
       props: {
@@ -123,11 +124,7 @@ export async function getServerSideProps(context) {
           clientId: clientId,
           clientUsername: clientUsername,
         },
-        exerciseList: exerciseList.map((exercise) => ({
-          exerciseName: exercise.exerciseName,
-          muscleGroup: exercise.muscleGroup,
-        })),
-        commonExerciseList: commonExerciseList.map((exercise) => ({
+        exerciseList: fullExerciseList.map((exercise) => ({
           exerciseName: exercise.exerciseName,
           muscleGroup: exercise.muscleGroup,
         })),

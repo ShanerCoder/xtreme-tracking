@@ -9,6 +9,7 @@ import DarkerDiv from "../../ui/DarkerDiv";
 import LighterDiv from "../../ui/LighterDiv";
 import ExercisesAtDateSection from "../TrackingForm/ExerciseHistoryAtDate/ExercisesAtDateSection";
 import GalleryView from "./Views/GalleryView";
+import FoodsAtDateSection from "../TrackingForm/FoodHistoryAtDate/FoodAtDateSection";
 
 function ProfileViews(props) {
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
@@ -37,6 +38,16 @@ function ProfileViews(props) {
             <Calendar
               listOfDates={props.listOfExerciseHistoryDates}
               setTitleSelectedDate={setSelectedDate}
+            />
+          </>
+        )}
+        {currentView == "Food History" && (
+          <>
+            <h2 className="center">Food History for date: {selectedDate}</h2>
+            <Calendar
+              listOfDates={props.listOfFoodHistoryDates}
+              setTitleSelectedDate={setSelectedDate}
+              imagesrc={"apple.png"}
             />
           </>
         )}
@@ -85,7 +96,23 @@ function ProfileViews(props) {
           )}
         </LighterDiv>
       )}
-      ;
+      {currentView == "Food History" && (
+        <LighterDiv>
+          {props.exerciseHistory && props.exerciseHistory.length ? (
+            <FoodsAtDateSection
+              username={props.user.username}
+              foods={props.foodHistory}
+              selectedDate={selectedDate}
+            />
+          ) : (
+            <Card>
+              <h3 className="center" style={{ padding: "15px" }}>
+                No Foods Have been added
+              </h3>
+            </Card>
+          )}
+        </LighterDiv>
+      )}
     </>
   );
 }

@@ -16,6 +16,11 @@ const ExerciseHistorySchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  totalCalories: {
+    type: Number,
+    required: true,
+    trim: true,
+  },
   dateEaten: {
     type: Date,
     required: true,
@@ -24,4 +29,4 @@ const ExerciseHistorySchema = new mongoose.Schema({
 
 mongoose.models = {};
 
-export default mongoose.model("exercise_history", ExerciseHistorySchema);
+export default mongoose.model("food_history", ExerciseHistorySchema);

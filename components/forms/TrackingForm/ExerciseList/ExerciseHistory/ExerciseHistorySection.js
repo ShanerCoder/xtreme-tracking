@@ -1,8 +1,6 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import Card from "../../../../ui/Card";
-import LighterDiv from "../../../../ui/LighterDiv";
-import ExerciseDetails from "../../ExerciseDetails";
+import ExerciseDetails from "../../ExerciseHistoryAtDate/ExerciseDetails";
 import classes from "./ExerciseHistorySection.module.css";
 
 function ExerciseHistorySection(props) {

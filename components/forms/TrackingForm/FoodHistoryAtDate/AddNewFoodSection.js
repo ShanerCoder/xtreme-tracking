@@ -21,12 +21,12 @@ function AddNewFoodSection(props) {
     event.preventDefault();
     const selectedDate = new Date(props.selectedDate);
     selectedDate.setHours(1, 0, 0, 0);
-    // const postData = {
-    //   foodName: foodDropdownRef.current.value,
-    //   gramsEaten: gramsEatenRef.current.value,
-    //   dateEaten: selectedDate,
-    // };
-    // props.addFood(postData);
+    const postData = {
+      foodName: foodDropdownRef.current.value,
+      gramsEaten: gramsEatenRef.current.value,
+      dateEaten: selectedDate,
+    };
+    props.handleAddFood(postData);
   }
 
   return (

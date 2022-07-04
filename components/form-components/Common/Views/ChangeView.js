@@ -17,10 +17,10 @@ function ChangeView(props) {
         <button
           className="lowerWidth"
           onClick={() => {
-            props.setCurrentView("Calorie History");
+            props.setCurrentView("Food History");
           }}
         >
-          View Calorie History
+          View Food History
         </button>
       </Col>
       {!props.profileView ? (

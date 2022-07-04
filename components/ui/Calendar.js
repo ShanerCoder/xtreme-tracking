@@ -76,6 +76,7 @@ function Calendar(props) {
 
   function renderCells() {
     let datesOfConsultations = [];
+    let datesOfSecondaryConsultations = [];
 
     if (props.listOfDates) {
       const currentMonthNumber = currentMonth.getMonth();
@@ -86,6 +87,14 @@ function Calendar(props) {
         )
           datesOfConsultations.push(date.getDate());
       });
+      props.listOfSecondaryDates &&
+        props.listOfSecondaryDates.forEach((date) => {
+          if (
+            date.getMonth() == currentMonthNumber &&
+            date.getFullYear() == currentMonth.getFullYear()
+          )
+            datesOfSecondaryConsultations.push(date.getDate());
+        });
     }
 
     const monthStart = startOfMonth(currentMonth);
@@ -108,14 +117,19 @@ function Calendar(props) {
             key={day}
             day={day}
             datesOfConsultations={datesOfConsultations}
+            datesOfSecondaryConsultations={datesOfSecondaryConsultations}
             monthStart={monthStart}
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
             setTitleSelectedDate={props.setTitleSelectedDate}
             imagesrc={props.imagesrc}
+            secondImagesrc={props.secondImagesrc}
+            thirdImagesrc={props.thirdImagesrc}
             imageSrcPastToday={props.imageSrcPastToday}
             maximumDate={props.maximumDate}
-            includeTodayForImgSrcPastToday={props.includeTodayForImgSrcPastToday}
+            includeTodayForImgSrcPastToday={
+              props.includeTodayForImgSrcPastToday
+            }
           />
         );
         day = addDays(day, 1);

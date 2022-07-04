@@ -5,6 +5,7 @@ function CalendarCell(props) {
   const day = props.day;
   const greaterThanMax = props.maximumDate ? day > props.maximumDate : false;
   let datesOfConsultations = props.datesOfConsultations;
+  let datesOfSecondaryConsultations = props.datesOfSecondaryConsultations;
   let formattedDate = format(day, "d");
   const monthStart = props.monthStart;
   const selectedDate = props.selectedDate;
@@ -17,7 +18,17 @@ function CalendarCell(props) {
     let imagesrc = props.imagesrc ? props.imagesrc : "dumbbell.png";
     if (props.imageSrcPastToday && (greaterThanToday || includeToday)) {
       imagesrc = props.imageSrcPastToday;
+    } else if (datesOfSecondaryConsultations.length > 0) {
+      if (
+        datesOfConsultations.indexOf(day.getDate()) != -1 &&
+        datesOfSecondaryConsultations.indexOf(day.getDate()) != -1
+      ) {
+        imagesrc = props.thirdImagesrc;
+      } else if (datesOfSecondaryConsultations.indexOf(day.getDate()) != -1) {
+        imagesrc = props.secondImagesrc;
+      }
     }
+
     return imagesrc;
   }
 
@@ -36,9 +47,11 @@ function CalendarCell(props) {
         props.setTitleSelectedDate(new Date(day).toDateString());
       }}
     >
-      {datesOfConsultations.indexOf(day.getDate()) != -1 && (
-        <img src={"/icons/" + imageSource()} className={classes.icon}></img>
-      )}
+      {(datesOfConsultations.indexOf(day.getDate()) != -1 ||
+        datesOfSecondaryConsultations.indexOf(day.getDate()) != -1) &&
+        isSameMonth(day, monthStart) && (
+          <img src={"/icons/" + imageSource()} className={classes.icon}></img>
+        )}
       <span className="number">{formattedDate}</span>
       <span className="bg">{formattedDate}</span>
     </div>
