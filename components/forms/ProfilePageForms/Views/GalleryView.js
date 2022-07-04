@@ -1,6 +1,7 @@
 import React from "react";
 import IndividualGalleryPhoto from "../../../form-components/ProfilePage/GalleryComponents/IndividualGalleryPhoto";
 import { Col, Row } from "react-bootstrap";
+import PageNavigators from "../../../form-components/Common/PageNavigators";
 
 function GalleryView(props) {
   return (
@@ -40,6 +41,11 @@ function GalleryView(props) {
           ))}
         </Row>
       )}
+      <PageNavigators
+        pageNumber={props.pageNumber}
+        handleNextPageNavigation={props.handleNextPageNavigation}
+        handlePrevPageNavigation={props.handlePrevPageNavigation}
+      />
       {(!props.galleryPhotoList || !props.galleryPhotoList.length) && (
         <h2 className="center">No Photos Added to Gallery</h2>
       )}

@@ -135,6 +135,36 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  async function handleNextPageNavigation() {
+    showLoadingScreen({ type: true });
+    await router.push(
+      "/userProfile/" +
+        props.user.username +
+        "?pageNumber=" +
+        (Number(props.pageNumber) + Number(1))
+    );
+    showLoadingScreen({ type: false });
+    window.scrollTo({
+      bottom: 0,
+      behavior: "auto",
+    });
+  }
+
+  async function handlePrevPageNavigation() {
+    showLoadingScreen({ type: true });
+    await router.push(
+      "/userProfile/" +
+        props.user.username +
+        "?pageNumber=" +
+        (Number(props.pageNumber) - Number(1))
+    );
+    showLoadingScreen({ type: false });
+    window.scrollTo({
+      bottom: 0,
+      behavior: "auto",
+    });
+  }
+
   return (
     <>
       <Head>
@@ -177,6 +207,13 @@ function ProfileView(props) {
             handleRemovePhoto={handleRemovePhoto}
             ownProfile={props.user.username == user.username}
             user={props.user}
+            pageNumber={props.pageNumber}
+            handleNextPageNavigation={
+              props.hasNextPage ? handleNextPageNavigation : null
+            }
+            handlePrevPageNavigation={
+              props.hasPrevPage ? handlePrevPageNavigation : null
+            }
           />
         </>
       )}
@@ -215,19 +252,42 @@ export async function getServerSideProps(context) {
     const trainingPlansList = await TrainingPlan.find({
       username: username,
     }).sort({ _id: 1 });
+    // END OF EXERCISE HISTORY INFORMATION
 
-    let galleryPhotoList;
+    // GALLERY PAGINATION INFORMATION
+    const pageNumber =
+      context.query.pageNumber && context.query.pageNumber > 0
+        ? context.query.pageNumber
+        : 1;
+    let paginateQuery;
     if (session && session.user.username == username) {
-      galleryPhotoList = await GalleryPhotos.find({
+      paginateQuery = {
         username: username,
-      }).sort({ createdAt: -1 });
+      };
     } else {
-      galleryPhotoList = await GalleryPhotos.find({
+      paginateQuery = {
         username: username,
         privatePhoto: false,
-      }).sort({ createdAt: -1 });
+      };
     }
-    // END OF EXERCISE HISTORY INFORMATION
+
+    const paginateOptions = {
+      page: pageNumber,
+      limit: 3,
+      collation: {
+        locale: "en",
+      },
+      sort: { createdAt: -1 },
+    };
+
+    const galleryPhotoList = await GalleryPhotos.paginate(
+      paginateQuery,
+      paginateOptions
+    );
+
+    const hasNextPage = pageNumber < galleryPhotoList.pages;
+    const hasPrevPage = pageNumber > 1;
+    // END OF GALLERY PAGINATION INFORMATION
 
     // FOOD INFORMATION
     const foodHistory = await FoodHistory.find({
@@ -278,13 +338,16 @@ export async function getServerSideProps(context) {
           trainingPlanName: plan.trainingPlanName,
           numberOfExercises: plan.listOfExercises.length,
         })),
-        galleryPhotoList: galleryPhotoList.map((photo) => ({
+        galleryPhotoList: galleryPhotoList.docs.map((photo) => ({
           id: photo._id.toString(),
           photoId: photo.photoId,
           photoDescription: photo.photoDescription,
           privatePhoto: photo.privatePhoto,
           createdAt: photo.createdAt.toString(),
         })),
+        pageNumber: pageNumber,
+        hasNextPage: hasNextPage,
+        hasPrevPage: hasPrevPage,
       },
     };
   } catch (error) {

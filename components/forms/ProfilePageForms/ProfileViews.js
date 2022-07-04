@@ -58,11 +58,17 @@ function ProfileViews(props) {
               handleLoader={handleLoader}
               handleUpdatePrivacyOfPhoto={props.handleUpdatePrivacyOfPhoto}
               handleRemovePhoto={props.handleRemovePhoto}
+              pageNumber={props.pageNumber}
+              handleNextPageNavigation={props.handleNextPageNavigation}
+              handlePrevPageNavigation={props.handlePrevPageNavigation}
             />
           ) : (
             <GalleryView
               galleryPhotoList={props.galleryPhotoList}
               handleLoader={handleLoader}
+              pageNumber={props.pageNumber}
+              handleNextPageNavigation={props.handleNextPageNavigation}
+              handlePrevPageNavigation={props.handlePrevPageNavigation}
             />
           ))}
         {currentView == "Training Plans" &&
