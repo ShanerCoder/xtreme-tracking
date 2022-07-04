@@ -4,8 +4,8 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import UserProfile from "../../../../models/userProfile";
-import User from "../../../../models/user";
+import UserProfile from "../../../../models/accountProfile/userProfile";
+import User from "../../../../models/account/user";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
@@ -31,7 +31,6 @@ async function handler(req, res) {
           streakCount > -1 &&
           new Date(streakDate).toDateString() === yesterdayDate.toDateString()
         ) {
-          console.log("Incrementing Streak");
           await User.findOneAndUpdate(usernameFilter, {
             streakCount: streakCount + 1,
             streakDate: todayDate,
@@ -44,7 +43,6 @@ async function handler(req, res) {
           (streakDate &&
             new Date(streakDate).toDateString() != todayDate.toDateString())
         ) {
-          console.log("Resetting Streak");
           await User.findOneAndUpdate(usernameFilter, {
             streakCount: 0,
             streakDate: todayDate,
@@ -74,7 +72,6 @@ async function handler(req, res) {
         errorHandler(process.env.DEFAULT_PROFILE_PICTURE_ID, res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler(process.env.DEFAULT_PROFILE_PICTURE_ID, res);
     }
   } else if (req.method === "PUT") {
@@ -103,7 +100,6 @@ async function handler(req, res) {
         errorHandler("Image Id Failed to Update", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred when updating the profile description",
         res

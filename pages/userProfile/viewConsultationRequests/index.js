@@ -2,7 +2,7 @@ import Head from "next/head";
 import ViewIncomingDetailsForm from "../../../components/form-components/Common/ViewIncomingDetailsForm";
 import LighterDiv from "../../../components/ui/LighterDiv";
 import { dbConnect } from "../../../lib/db-connect";
-import ConsultationRequest from "../../../models/consultationRequest";
+import ConsultationRequest from "../../../models/personalTrainer/consultationRequest";
 import { getSession } from "next-auth/client";
 
 function ViewConsultationRequests(props) {

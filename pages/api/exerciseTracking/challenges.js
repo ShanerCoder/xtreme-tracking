@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import Challenge from "../../../models/challenge";
+import Challenge from "../../../models/exerciseTracking/challenge";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
@@ -48,7 +48,6 @@ async function handler(req, res) {
         errorHandler("Challenge Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred creating this challenge", res);
     }
   } else if (req.method === "DELETE") {

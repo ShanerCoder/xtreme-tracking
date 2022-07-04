@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Calendar from "../../../components/ui/Calendar";
-import ClientList from "../../../models/clientList";
-import ConsultationLists from "../../../models/consultationLists";
-import UserProfile from "../../../models/userProfile";
+import ClientList from "../../../models/personalTrainer/clientList";
+import ConsultationLists from "../../../models/personalTrainer/consultationLists";
+import UserProfile from "../../../models/accountProfile/userProfile";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../../lib/db-connect";

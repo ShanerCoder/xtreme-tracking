@@ -57,7 +57,7 @@ function NewCustomExerciseSection(props) {
             </Col>
           </Row>
           <div className="lowerWidth">
-            <button className="lowerWidth" style={{ marginBottom: "1%" }}>
+            <button className="lowerWidth" style={{ marginBottom: "15px" }}>
               Add Exercise
             </button>
           </div>

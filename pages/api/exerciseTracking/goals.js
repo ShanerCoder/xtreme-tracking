@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import Goal from "../../../models/goal";
+import Goal from "../../../models/exerciseTracking/goal";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
@@ -46,7 +46,6 @@ async function handler(req, res) {
         errorHandler("Goal Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred creating this goal", res);
     }
   } else if (req.method === "DELETE") {

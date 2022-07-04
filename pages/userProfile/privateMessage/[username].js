@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
-import User from "../../../models/user";
+import User from "../../../models/account/user";
 import SingleMessageForm from "../../../components/form-components/Common/SingleMessageForm";
 import { useStore } from "../../../context";
 import { getValue } from "../../../utils/common";

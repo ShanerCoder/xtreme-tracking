@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import CommonExerciseList from "../../../models/commonExerciseList";
+import CommonExerciseList from "../../../models/exerciseTracking/commonExerciseList";
 
 async function handler(req, res) {
   if (req.method === "POST") {

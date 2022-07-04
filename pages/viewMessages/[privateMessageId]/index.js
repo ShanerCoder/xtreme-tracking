@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { dbConnect } from "../../../lib/db-connect";
 import Cryptr from "cryptr";
-import PrivateMessage from "../../../models/privateMessage";
+import PrivateMessage from "../../../models/accountProfile/privateMessage";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../components/ui/LighterDiv";
 import ViewSelectedDetailForm from "../../../components/form-components/Common/ViewSelectedDetailForm";

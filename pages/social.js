@@ -5,9 +5,9 @@ import LighterDiv from "../components/ui/LighterDiv";
 import BannerImage from "../components/ui/BannerImage";
 import { useRouter } from "next/router";
 import { dbConnect } from "../lib/db-connect";
-import Post from "../models/post";
-import PostLikedBy from "../models/postLikedBy";
-import PostComment from "../models/postComment";
+import Post from "../models/social/post";
+import PostLikedBy from "../models/social/postLikedBy";
+import PostComment from "../models/social/postComment";
 import { useStore } from "../context";
 import { getValue } from "../utils/common";
 import { getSession } from "next-auth/client";
@@ -123,7 +123,10 @@ export async function getServerSideProps(context) {
   const session = await getSession({ req });
 
   // PAGINATION INFORMATION
-  const pageNumber = context.query.pageNumber || 1;
+  const pageNumber =
+    context.query.pageNumber && context.query.pageNumber > 0
+      ? context.query.pageNumber
+      : 1;
   const paginateOptions = {
     page: pageNumber,
     limit: 3,

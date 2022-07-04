@@ -1,15 +1,17 @@
 import Head from "next/head";
 import { dbConnect } from "../../lib/db-connect";
 import { getSession } from "next-auth/client";
-import Profile from "../../models/userProfile";
-import User from "../../models/user";
-import TrainingPlan from "../../models/trainingPlan";
-import GalleryPhotos from "../../models/galleryPhotos";
+import Profile from "../../models/accountProfile/userProfile";
+import User from "../../models/account/user";
+import TrainingPlan from "../../models/exerciseTracking/trainingPlan";
+import GalleryPhotos from "../../models/accountProfile/galleryPhotos";
 import ProfileForm from "../../components/forms/ProfilePageForms/ProfileForm";
 import GenerateProfileForm from "../../components/forms/ProfilePageForms/ProfileGenerationForm";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import ExerciseHistory from "../../models/exerciseHistory";
+import ExerciseHistory from "../../models/exerciseTracking/exerciseHistory";
+import FoodList from "../../models/calorieTracking/foodList";
+import FoodHistory from "../../models/calorieTracking/foodHistory";
 import LighterDiv from "../../components/ui/LighterDiv";
 import { useLoadingStore } from "../../context/loadingScreen";
 import { useStore } from "../../context";
@@ -27,6 +29,12 @@ function ProfileView(props) {
   if (props.exerciseHistoryDates)
     props.exerciseHistoryDates.map((exercise) =>
       listOfExerciseHistoryDates.push(new Date(exercise.dateOfExercise))
+    );
+
+  const listOfFoodHistoryDates = [];
+  if (props.foodHistoryDates)
+    props.foodHistoryDates.map((food) =>
+      listOfFoodHistoryDates.push(new Date(food.dateEaten))
     );
 
   async function generateProfile() {
@@ -160,6 +168,8 @@ function ProfileView(props) {
           <ProfileViews
             exerciseHistory={props.exerciseHistory}
             listOfExerciseHistoryDates={listOfExerciseHistoryDates}
+            foodHistory={props.foodHistory}
+            listOfFoodHistoryDates={listOfFoodHistoryDates}
             trainingPlansList={props.trainingPlansList}
             handleRemoveTrainingPlan={handleRemoveTrainingPlan}
             galleryPhotoList={props.galleryPhotoList}
@@ -197,7 +207,7 @@ export async function getServerSideProps(context) {
         process.env.DEFAULT_PROFILE_PICTURE_ID)
     );
 
-    // Finds user exercise history
+    // EXERCISE HISTORY INFORMATION
     const exerciseHistory = await ExerciseHistory.find({
       username: username,
     }).sort({ dateOfExercise: 1 });
@@ -217,6 +227,13 @@ export async function getServerSideProps(context) {
         privatePhoto: false,
       }).sort({ createdAt: -1 });
     }
+    // END OF EXERCISE HISTORY INFORMATION
+
+    // FOOD INFORMATION
+    const foodHistory = await FoodHistory.find({
+      username: username,
+    }).sort({ gramsEaten: 1 });
+    // END OF FOOD INFORMATION
 
     return {
       // Returns User and Profile details
@@ -244,6 +261,16 @@ export async function getServerSideProps(context) {
         })),
         exerciseHistoryDates: exerciseHistory.map((exercise) => ({
           dateOfExercise: exercise.dateOfExercise.toString(),
+        })),
+        foodHistory: foodHistory.map((food) => ({
+          id: food._id.toString(),
+          foodName: food.foodName,
+          gramsEaten: food.gramsEaten,
+          totalCalories: food.totalCalories,
+          dateEaten: food.dateEaten.toString(),
+        })),
+        foodHistoryDates: foodHistory.map((food) => ({
+          dateEaten: food.dateEaten.toString(),
         })),
         trainingPlansList: trainingPlansList.map((plan) => ({
           id: plan._id.toString(),

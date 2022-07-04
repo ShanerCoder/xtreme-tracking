@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import ExerciseHistory from "../../../models/exerciseHistory";
+import ExerciseHistory from "../../../models/exerciseTracking/exerciseHistory";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
@@ -47,7 +47,6 @@ async function handler(req, res) {
         errorHandler("Exercise Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred creating this exercise", res);
     }
   } else if (req.method === "DELETE") {

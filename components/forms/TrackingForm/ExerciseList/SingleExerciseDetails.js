@@ -17,7 +17,7 @@ function SingleExerciseDetails(props) {
     <li key={props.exerciseName} className={classes.detailSection}>
       <div className={classes.detailBubble}>
         <Row className={classes.detailButtonsSection}>
-          <Col xs={props.columnSpacing} sm={props.columnSpacing}>
+          <Col xs={6}>
             <label
               className="linkLabel"
               onClick={() => {
@@ -27,7 +27,7 @@ function SingleExerciseDetails(props) {
               {props.exerciseName}
             </label>
           </Col>
-          <Col xs={props.columnSpacing} sm={props.columnSpacing}>
+          <Col xs={6}>
             <label>{props.muscleGroup}</label>
           </Col>
         </Row>

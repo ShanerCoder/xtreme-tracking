@@ -14,7 +14,6 @@ function SocialForm(props) {
       postData.content +
       (postData.id ? "http://" + props.host + "/userPosts/" + postData.id : "");
     updatePostTextFunction.current(postText);
-    console.log(postData.content);
   }
 
   return (

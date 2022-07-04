@@ -5,8 +5,8 @@ import {
   validateAllFields,
 } from "../../../../utils/common";
 import bcrypt from "bcrypt";
-import User from "../../../../models/user";
-import UserProfile from "../../../../models/userProfile";
+import User from "../../../../models/account/user";
+import UserProfile from "../../../../models/accountProfile/userProfile";
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -41,7 +41,6 @@ async function handler(req, res) {
       if (error.name === "MongoServerError" && error.code === 11000) {
         errorHandler("This Username or Email is already in use!", res);
       } else {
-        console.log(error);
         errorHandler("An error has occurred creating a user account", res);
       }
     }

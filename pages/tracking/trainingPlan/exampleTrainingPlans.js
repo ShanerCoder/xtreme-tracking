@@ -2,7 +2,7 @@ import Head from "next/head";
 import { getSession } from "next-auth/client";
 import ExampleTrainingPlansSection from "../../../components/form-components/TrackingPage/ExampleTrainingPlansSection";
 import { dbConnect } from "../../../lib/db-connect";
-import ExampleTrainingPlansList from "../../../models/exampleTrainingPlan";
+import ExampleTrainingPlansList from "../../../models/exerciseTracking/exampleTrainingPlan";
 import LighterDiv from "../../../components/ui/LighterDiv";
 
 function ExampleTrainingPlans(props) {

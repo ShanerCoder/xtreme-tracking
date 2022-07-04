@@ -1,7 +1,7 @@
 import classes from "./ExerciseDetails.module.css";
 import { Col, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
-import { useLoadingStore } from "../../../context/loadingScreen";
+import { useLoadingStore } from "../../../../context/loadingScreen";
 
 function ExerciseDetails(props) {
   const router = useRouter();

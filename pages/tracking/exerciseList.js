@@ -1,6 +1,6 @@
 import Head from "next/head";
-import ExerciseList from "../../models/exerciseList";
-import CommonExerciseList from "../../models/commonExerciseList";
+import ExerciseList from "../../models/exerciseTracking/exerciseList";
+import CommonExerciseList from "../../models/exerciseTracking/commonExerciseList";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../lib/db-connect";
 import LighterDiv from "../../components/ui/LighterDiv";
@@ -94,21 +94,19 @@ function ExerciseListPage(props) {
         <>
           <LighterDiv>
             <h1 className="center">Exercise List</h1>
-          </LighterDiv>
-          <DarkerDiv>
             <NewCustomExerciseSection
               muscleGroups={listOfMuscleGroups}
               addExercise={handleAddNewExercise}
             />
-          </DarkerDiv>
-          <LighterDiv>
+          </LighterDiv>
+          <DarkerDiv>
             <FullListOfExercises
               exerciseList={props.exerciseList}
               commonExerciseList={props.commonExerciseList}
               listOfMuscleGroups={listOfMuscleGroups}
               removeExercise={handleRemoveExercise}
             />
-          </LighterDiv>
+          </DarkerDiv>
         </>
       )}
     </>

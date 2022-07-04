@@ -96,7 +96,9 @@ function SelectExerciseForm(props) {
               let randomExerciseFound = false;
               while (!randomExerciseFound) {
                 const randomExercise =
-                  props.exerciseList[Math.floor(Math.random() * props.exerciseList.length)];
+                  props.exerciseList[
+                    Math.floor(Math.random() * props.exerciseList.length)
+                  ];
                 if (
                   randomExercise.muscleGroup == muscleGroupFilter ||
                   muscleGroupFilter == "All"
@@ -119,6 +121,7 @@ function SelectExerciseForm(props) {
             type={"number"}
             step="0.01"
             max={1000}
+            min={1}
             ref={weightUsedRef}
             id={"weightUsed"}
             required
@@ -132,6 +135,7 @@ function SelectExerciseForm(props) {
             type={"number"}
             step="1"
             max={1000}
+            min={1}
             ref={numberOfRepsRef}
             id={"noOfReps"}
             required
@@ -143,6 +147,7 @@ function SelectExerciseForm(props) {
             type={"number"}
             step="1"
             max={1000}
+            min={1}
             ref={numberOfSetsRef}
             id={"noOfSets"}
             required

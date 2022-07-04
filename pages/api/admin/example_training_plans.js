@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../utils/common";
-import ExampleTrainingPlan from "../../../models/exampleTrainingPlan";
+import ExampleTrainingPlan from "../../../models/exerciseTracking/exampleTrainingPlan";
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -25,7 +25,6 @@ async function handler(req, res) {
         errorHandler("Example Training Plan Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred creating this Example Training Plan",
         res

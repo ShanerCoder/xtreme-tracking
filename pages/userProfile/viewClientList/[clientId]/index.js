@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { dbConnect } from "../../../../lib/db-connect";
-import ClientList from "../../../../models/clientList";
-import ConsultationLists from "../../../../models/consultationLists";
+import ClientList from "../../../../models/personalTrainer/clientList";
+import ConsultationLists from "../../../../models/personalTrainer/consultationLists";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../../components/ui/LighterDiv";
 import { useState } from "react";

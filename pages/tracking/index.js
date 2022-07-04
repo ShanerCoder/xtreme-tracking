@@ -1,11 +1,13 @@
 import Head from "next/head";
 import Calendar from "../../components/ui/Calendar";
-import ExerciseList from "../../models/exerciseList";
-import CommonExerciseList from "../../models/commonExerciseList";
-import ExerciseHistory from "../../models/exerciseHistory";
-import Goal from "../../models/goal";
-import TrainingPlan from "../../models/trainingPlan";
-import CheckInList from "../../models/checkInList";
+import ExerciseList from "../../models/exerciseTracking/exerciseList";
+import CommonExerciseList from "../../models/exerciseTracking/commonExerciseList";
+import FoodList from "../../models/calorieTracking/foodList";
+import FoodHistory from "../../models/calorieTracking/foodHistory";
+import ExerciseHistory from "../../models/exerciseTracking/exerciseHistory";
+import Goal from "../../models/exerciseTracking/goal";
+import TrainingPlan from "../../models/exerciseTracking/trainingPlan";
+import CheckInList from "../../models/visitation/checkInList";
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import { dbConnect } from "../../lib/db-connect";
@@ -21,6 +23,7 @@ import GoalsView from "../../components/forms/TrackingForm/Views/GoalsView";
 import ChangeView from "../../components/form-components/Common/Views/ChangeView";
 import TrainingPlansView from "../../components/form-components/Common/Views/TrainingPlansView";
 import { endOfDay, startOfDay } from "date-fns";
+import FoodHistoryView from "../../components/forms/TrackingForm/Views/FoodHistoryView";
 
 function ViewTrackingProgress(props) {
   const router = useRouter();
@@ -33,9 +36,14 @@ function ViewTrackingProgress(props) {
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
 
   const listOfExerciseHistoryDates = [];
+  const listOfFoodHistoryDates = [];
   if (props.exerciseHistoryDates)
     props.exerciseHistoryDates.map((exercise) =>
       listOfExerciseHistoryDates.push(new Date(exercise.dateOfExercise))
+    );
+  if (props.foodHistoryDates)
+    props.foodHistoryDates.map((food) =>
+      listOfFoodHistoryDates.push(new Date(food.dateEaten))
     );
 
   async function handleLoader(URL) {
@@ -93,6 +101,55 @@ function ViewTrackingProgress(props) {
       setSuccessMessage(null);
     } else {
       setSuccessMessage("Exercise Successfully Removed!");
+      setErrorMessage(null);
+    }
+    await router.push("/tracking");
+    showLoadingScreen({ type: false });
+  }
+
+  async function handleAddFood(postData) {
+    showLoadingScreen({ type: true });
+    const bodyData = {
+      username: user.username,
+      ...postData,
+    };
+
+    const response = await fetch("/api/calorieTracking/food_history", {
+      method: "POST",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Food Successfully Added!");
+      setErrorMessage(null);
+    }
+    await router.push("/tracking");
+    showLoadingScreen({ type: false });
+  }
+
+  async function handleRemoveFoodRecord(foodRecordId) {
+    showLoadingScreen({ type: true });
+    const bodyData = {
+      foodRecordId: foodRecordId,
+      username: user.username,
+    };
+
+    const response = await fetch("/api/calorieTracking/food_history", {
+      method: "DELETE",
+      body: JSON.stringify(bodyData),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    if (data.hasError) {
+      setErrorMessage(data.errorMessage);
+      setSuccessMessage(null);
+    } else {
+      setSuccessMessage("Food Successfully Removed!");
       setErrorMessage(null);
     }
     await router.push("/tracking");
@@ -192,6 +249,9 @@ function ViewTrackingProgress(props) {
 
             <Calendar
               listOfDates={listOfExerciseHistoryDates}
+              listOfSecondaryDates={listOfFoodHistoryDates}
+              secondImagesrc={"apple.png"}
+              thirdImagesrc={"appleAndDumbbell.png"}
               setTitleSelectedDate={setSelectedDate}
               selectedDate={selectedDate}
               maximumDate={new Date()}
@@ -234,6 +294,15 @@ function ViewTrackingProgress(props) {
                 handleRemoveExerciseRecord={handleRemoveExerciseRecord}
               />
             )}
+            {currentView == "Food History" && (
+              <FoodHistoryView
+                foodList={props.foodList}
+                foodHistory={props.foodHistory}
+                selectedDate={selectedDate}
+                handleAddFood={handleAddFood}
+                handleRemoveFoodRecord={handleRemoveFoodRecord}
+              />
+            )}
             {currentView == "Goals" && (
               <GoalsView
                 exerciseList={props.exerciseList}
@@ -267,6 +336,7 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // EXERCISE INFORMATION
     const exerciseHistory = await ExerciseHistory.find({
       username: session.user.username,
     }).sort({ dateOfExercise: 1 });
@@ -277,13 +347,31 @@ export async function getServerSideProps({ req }) {
       exerciseName: 1,
     });
     const fullExerciseList = exerciseList.concat(commonExerciseList);
+    // END OF EXERCISE INFORMATION
+
+    // FOOD INFORMATION
+    const foodList = await FoodList.find({
+      username: session.user.username,
+    }).sort({ foodName: 1 });
+
+    const foodHistory = await FoodHistory.find({
+      username: session.user.username,
+    }).sort({ gramsEaten: 1 });
+    // END OF FOOD INFORMATION
+
+    // GOAL INFORMATION
     const goalsList = await Goal.find({ username: session.user.username }).sort(
       { dateToAchieveBy: 1 }
     );
+    // END OF GOAL INFORMATION
+
+    // TRAINING PLAN INFORMATION
     const trainingPlansList = await TrainingPlan.find({
       username: session.user.username,
     }).sort({ _id: 1 });
+    // END OF TRAINING PLAN INFORMATION
 
+    // CHECKED IN TODAY INFORMATION
     let checkedInToday = await CheckInList.findOne({
       username: session.user.username,
       dateOfCheckIn: {
@@ -295,6 +383,7 @@ export async function getServerSideProps({ req }) {
     if (checkedInToday) {
       checkedInToday = true;
     } else checkedInToday = false;
+    // END OF CHECKED IN TODAY INFORMATION
 
     return {
       props: {
@@ -314,6 +403,19 @@ export async function getServerSideProps({ req }) {
         exerciseList: fullExerciseList.map((exercise) => ({
           exerciseName: exercise.exerciseName,
           muscleGroup: exercise.muscleGroup,
+        })),
+        foodHistory: foodHistory.map((food) => ({
+          id: food._id.toString(),
+          foodName: food.foodName,
+          gramsEaten: food.gramsEaten,
+          totalCalories: food.totalCalories,
+          dateEaten: food.dateEaten.toString(),
+        })),
+        foodHistoryDates: foodHistory.map((food) => ({
+          dateEaten: food.dateEaten.toString(),
+        })),
+        foodList: foodList.map((food) => ({
+          foodName: food.foodName,
         })),
         goalsList: goalsList.map((goal) => ({
           id: goal._id.toString(),

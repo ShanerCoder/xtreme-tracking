@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 function ChangeView(props) {
   return (
     <Row>
-      <Col xs={12} sm={4} style={{ paddingBottom: "25px" }}>
+      <Col xs={12} sm={3} style={{ paddingBottom: "25px" }}>
         <button
           className="lowerWidth"
           onClick={() => {
@@ -13,8 +13,18 @@ function ChangeView(props) {
           View Exercise History
         </button>
       </Col>
+      <Col xs={12} sm={3} style={{ paddingBottom: "25px" }}>
+        <button
+          className="lowerWidth"
+          onClick={() => {
+            props.setCurrentView("Food History");
+          }}
+        >
+          View Food History
+        </button>
+      </Col>
       {!props.profileView ? (
-        <Col xs={12} sm={4} style={{ paddingBottom: "25px" }}>
+        <Col xs={12} sm={3} style={{ paddingBottom: "25px" }}>
           <button
             className="lowerWidth"
             onClick={() => {
@@ -25,7 +35,7 @@ function ChangeView(props) {
           </button>
         </Col>
       ) : (
-        <Col xs={12} sm={4} style={{ paddingBottom: "25px" }}>
+        <Col xs={12} sm={3} style={{ paddingBottom: "25px" }}>
           <button
             className="lowerWidth"
             onClick={() => {
@@ -37,7 +47,7 @@ function ChangeView(props) {
         </Col>
       )}
 
-      <Col xs={12} sm={4} style={{ paddingBottom: "25px" }}>
+      <Col xs={12} sm={3} style={{ paddingBottom: "25px" }}>
         <button
           className="lowerWidth"
           onClick={() => {

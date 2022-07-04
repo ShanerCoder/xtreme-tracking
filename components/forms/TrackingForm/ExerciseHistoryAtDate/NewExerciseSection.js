@@ -1,9 +1,9 @@
 import classes from "./NewExerciseSection.module.css";
 import { useRef, useState } from "react";
-import Card from "../../ui/Card";
+import Card from "../../../ui/Card";
 import { Col, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
-import { useLoadingStore } from "../../../context/loadingScreen";
+import { useLoadingStore } from "../../../../context/loadingScreen";
 
 function NewExerciseSection(props) {
   const router = useRouter();

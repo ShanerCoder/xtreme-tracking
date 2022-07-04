@@ -5,7 +5,7 @@ import {
   validateAllFields,
 } from "../../../../utils/common";
 import bcrypt from "bcrypt";
-import User from "../../../../models/user";
+import User from "../../../../models/account/user";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
@@ -42,7 +42,6 @@ async function handler(req, res) {
       if (!passwordUpdated) errorHandler("Password failed to be updated", res);
       else responseHandler("Password Successfully Changed!", res, 200);
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred when updating this user account",
         res

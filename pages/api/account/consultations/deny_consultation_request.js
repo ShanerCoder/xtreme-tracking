@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import PrivateMessage from "../../../../models/privateMessage";
+import PrivateMessage from "../../../../models/accountProfile/privateMessage";
 import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
 
@@ -47,7 +47,6 @@ async function handler(req, res) {
         errorHandler("Message Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred creating this message", res);
     }
   }

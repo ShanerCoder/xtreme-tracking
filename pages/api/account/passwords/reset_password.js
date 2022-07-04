@@ -5,8 +5,8 @@ import {
   validateAllFields,
 } from "../../../../utils/common";
 import bcrypt from "bcrypt";
-import User from "../../../../models/user";
-import Token from "../../../../models/token";
+import User from "../../../../models/account/user";
+import Token from "../../../../models/account/token";
 
 async function handler(req, res) {
   if (req.method === "PUT") {
@@ -28,7 +28,6 @@ async function handler(req, res) {
       if (!userResult) errorHandler("Password failed to be updated", res);
       responseHandler("Password Successfully Changed!", res, 200);
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred when updating this user account",
         res

@@ -4,9 +4,9 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import User from "../../../../models/user";
+import User from "../../../../models/account/user";
 import nodemailer from "nodemailer";
-import Token from "../../../../models/token";
+import Token from "../../../../models/account/token";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 
@@ -42,7 +42,6 @@ async function handler(req, res) {
           //verify connection configuration
           transporter.verify(function (error, success) {
             if (error) {
-              console.log(error);
               reject(error);
             } else {
               resolve(success);

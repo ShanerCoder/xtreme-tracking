@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import PlannedVisitation from "../../../../models/plannedVisitationDates";
+import PlannedVisitation from "../../../../models/visitation/plannedVisitationDates";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
@@ -48,7 +48,6 @@ async function handler(req, res) {
         errorHandler("Updating Visitation Status Failed", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred updating the Gym Visitation Status. Please try again later!",
         res

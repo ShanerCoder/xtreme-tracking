@@ -4,7 +4,7 @@ import {
   responseHandler,
   validateAllFields,
 } from "../../../../utils/common";
-import UserProfile from "../../../../models/userProfile";
+import UserProfile from "../../../../models/accountProfile/userProfile";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
@@ -34,7 +34,6 @@ async function handler(req, res) {
         errorHandler("Profile Type Failed to Update", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler("An error has occurred when updating the profile type", res);
     }
   } else errorHandler("Invalid Request Type", res);

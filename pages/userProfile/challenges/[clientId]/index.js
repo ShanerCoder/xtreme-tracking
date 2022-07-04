@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { dbConnect } from "../../../../lib/db-connect";
 import mongoose from "mongoose";
-import ExerciseList from "../../../../models/exerciseList";
-import CommonExerciseList from "../../../../models/commonExerciseList";
-import ClientList from "../../../../models/clientList";
+import ExerciseList from "../../../../models/exerciseTracking/exerciseList";
+import CommonExerciseList from "../../../../models/exerciseTracking/commonExerciseList";
+import ClientList from "../../../../models/personalTrainer/clientList";
 import { getSession } from "next-auth/client";
 import LighterDiv from "../../../../components/ui/LighterDiv";
 import { useState } from "react";
@@ -116,6 +116,7 @@ export async function getServerSideProps(context) {
     const commonExerciseList = await CommonExerciseList.find({}).sort({
       muscleGroup: 1,
     });
+    const fullExerciseList = exerciseList.concat(commonExerciseList);
 
     return {
       props: {
@@ -123,18 +124,13 @@ export async function getServerSideProps(context) {
           clientId: clientId,
           clientUsername: clientUsername,
         },
-        exerciseList: exerciseList.map((exercise) => ({
-          exerciseName: exercise.exerciseName,
-          muscleGroup: exercise.muscleGroup,
-        })),
-        commonExerciseList: commonExerciseList.map((exercise) => ({
+        exerciseList: fullExerciseList.map((exercise) => ({
           exerciseName: exercise.exerciseName,
           muscleGroup: exercise.muscleGroup,
         })),
       },
     };
   } catch (error) {
-    console.log(error);
     return {
       notFound: true,
     };

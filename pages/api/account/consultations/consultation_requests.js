@@ -6,7 +6,7 @@ import {
 } from "../../../../utils/common";
 import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
-import ConsultationRequest from "../../../../models/consultationRequest";
+import ConsultationRequest from "../../../../models/personalTrainer/consultationRequest";
 
 async function handler(req, res) {
   const session = await getSession({ req });
@@ -40,11 +40,9 @@ async function handler(req, res) {
         delete ConsultationRequestDoc.consultationRequest;
         responseHandler(consultationRequestResult, res, 201);
       } else {
-        console.log(error);
         errorHandler("Consultation Request Failed to be created", res);
       }
     } catch (error) {
-      console.log(error);
       errorHandler(
         "An error has occurred creating this Consultation Request",
         res
