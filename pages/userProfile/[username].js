@@ -145,8 +145,8 @@ function ProfileView(props) {
     );
     showLoadingScreen({ type: false });
     window.scrollTo({
-      bottom: 1000,
-      behavior: "smooth",
+      bottom: 0,
+      behavior: "auto",
     });
   }
 
@@ -160,8 +160,8 @@ function ProfileView(props) {
     );
     showLoadingScreen({ type: false });
     window.scrollTo({
-      bottom: 1000,
-      behavior: "smooth",
+      bottom: 0,
+      behavior: "auto",
     });
   }
 
