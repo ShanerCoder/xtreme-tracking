@@ -148,7 +148,6 @@ export async function getServerSideProps(context) {
       paginateOptions
     );
 
-    console.log(exerciseHistory);
     const hasNextPage = pageNumber < exerciseHistory.pages;
     const hasPrevPage = pageNumber > 1;
     // END OF PAGINATION INFORMATION

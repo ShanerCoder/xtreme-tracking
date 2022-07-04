@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate";
 
 const GalleryPhotosSchema = new mongoose.Schema(
   {
@@ -24,6 +25,8 @@ const GalleryPhotosSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+GalleryPhotosSchema.plugin(mongoosePaginate);
 
 mongoose.models = {};
 
