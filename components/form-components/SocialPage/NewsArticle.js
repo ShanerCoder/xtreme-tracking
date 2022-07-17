@@ -37,6 +37,7 @@ function NewsArticle(props) {
             <img
               className={classes.imageFormatting}
               src={props.article.image_url}
+              alt="News Article Icon"
               onClick={viewArticle}
             />
           </div>

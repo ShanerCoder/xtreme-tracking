@@ -6,7 +6,6 @@ import {
 } from "../../../../utils/common";
 import bcrypt from "bcrypt";
 import User from "../../../../models/account/user";
-import UserProfile from "../../../../models/accountProfile/userProfile";
 
 async function handler(req, res) {
   if (req.method === "POST") {

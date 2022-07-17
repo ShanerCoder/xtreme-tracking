@@ -21,6 +21,7 @@ function ProfileImageAndName(props) {
         <label className={classes.labelFormatting}>
           <img
             src="/icons/fire.png"
+            alt="streakIcon"
             title="Streak Count"
             className={classes.icon}
           />

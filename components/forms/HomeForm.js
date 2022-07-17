@@ -72,7 +72,11 @@ function HomeForm() {
   return (
     <>
       <div className="d-none d-lg-block">
-        <img src="/homepage/imageOne.jpg" className={classes.imageOne}></img>
+        <img
+          src="/homepage/imageOne.png"
+          alt="Image One"
+          className={classes.imageOne}
+        ></img>
         <div className={`${classes.imageOneText} ${classes.whiteText}`}>
           {firstBlockOfText()}
         </div>
@@ -85,7 +89,8 @@ function HomeForm() {
         <Row className={classes.rowFormatting}>
           <Col lg={6}>
             <img
-              src="/homepage/imageTwo.jpg"
+              src="/homepage/imageTwo.png"
+              alt="Image Two"
               className={classes.imageTwo}
             ></img>
           </Col>
@@ -109,7 +114,8 @@ function HomeForm() {
           </Col>
           <Col lg={6}>
             <img
-              src="/homepage/imageThree.jpg"
+              src="/homepage/imageThree.png"
+              alt="Image Three"
               className={classes.imageThree}
             ></img>
           </Col>

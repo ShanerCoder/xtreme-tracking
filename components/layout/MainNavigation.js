@@ -40,6 +40,7 @@ function MainNavigation() {
           <img
             className={classes.logo}
             src="/navbar/Xtreme Tracking Transparent.png"
+            alt="Logo"
             onClick={() => {
               handleLoader("/");
             }}
@@ -50,6 +51,7 @@ function MainNavigation() {
             <img
               className={classes.icon}
               src="/icons/magnifyingGlass.png"
+              alt="Magnifying Glass"
               onClick={() => {
                 setToggle(!toggle);
               }}
@@ -163,7 +165,14 @@ function MainNavigation() {
                             handleLoader("/viewMessages");
                           }}
                         >
-                          <p className={classes.dropdownLink}>View Messages</p>
+                          <p className={classes.dropdownLnnk}>View Messages</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            handleLoader("/userProfile/settings");
+                          }}
+                        >
+                          <p className={classes.dropdownLink}>Settings</p>
                         </div>
                         <button
                           className={classes.signOutButton}

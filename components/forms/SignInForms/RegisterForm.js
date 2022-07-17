@@ -19,6 +19,7 @@ function RegisterForm(props) {
             <img
               className={classes.imageOne}
               src="/registerPage/imageOne.png"
+              alt="Image One"
             />
           </Row>
         </Col>

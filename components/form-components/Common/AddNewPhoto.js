@@ -43,9 +43,13 @@ function AddNewPhoto(props) {
         {props.title}
       </h4>
       {!imageSrc ? (
-        <img src={null} className={classes.emptyPhoto} />
+        <img src={null} alt="emptyImg" className={classes.emptyPhoto} />
       ) : (
-        <img src={imageSrc} className={classes.filledInPhoto} />
+        <img
+          src={imageSrc}
+          alt="filledInPhoto"
+          className={classes.filledInPhoto}
+        />
       )}
       <div className="center">
         <input

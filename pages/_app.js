@@ -10,6 +10,10 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
+        <meta
+          name="xtremeTracking"
+          content="initial-scale=1.0, width=device-width"
+        />
         <link rel="shortcut icon" href="/images/favicon.ico" />
         <link
           rel="stylesheet"

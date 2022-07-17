@@ -11,13 +11,19 @@ export default NextAuth({
       async authorize(credentials, req) {
         const { username, password } = credentials;
         await dbConnect();
+
+        // Check to see if user does not exist
         const user = await User.findOne({ username });
         if (!user) throw new Error("User not found");
         const userDoc = user._doc;
+
+        // Check to see if password entered matches the encrypted value stored in the database
         const isMatched = await bcrypt.compare(password, userDoc.password);
         if (user && isMatched) {
           // Any object returned will be saved in `user` property of the JWT
           delete userDoc.password;
+
+          // Removes any existing tokens created from the Forgot Password functionality for this user
           await Token.find({ userId: user._id }).deleteMany();
           return userDoc;
         } else {
@@ -30,6 +36,7 @@ export default NextAuth({
     }),
   ],
   callbacks: {
+    // Session is returned, with the values assigned
     async session(session, user) {
       if (user && user) {
         session.user.id = user.id;

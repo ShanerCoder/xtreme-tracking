@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 import UserIcon from "../../ui/UserIcon";
 import { useState } from "react";
 import { useLoadingStore } from "../../../context/loadingScreen";
-import Linkify from "react-linkify"
+import Linkify from "react-linkify";
 
 function PostDetails(props) {
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
@@ -80,7 +80,9 @@ function PostDetails(props) {
           <Col xs={8} sm={11} className={classes.postPadding}>
             <Row>
               <Col xs={12}>
-                <div className={classes.postBubble}><Linkify>{props.postText}</Linkify></div>
+                <div className={classes.postBubble}>
+                  <Linkify>{props.postText}</Linkify>
+                </div>
               </Col>
             </Row>
             {!props.comment && (
@@ -102,6 +104,7 @@ function PostDetails(props) {
                       <img
                         className={classes.icon}
                         src={imageSource}
+                        alt="Heart Icon"
                         onClick={() => {
                           setLiked((liked) => !liked);
                           handleClick();

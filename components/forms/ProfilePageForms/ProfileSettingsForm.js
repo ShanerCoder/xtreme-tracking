@@ -29,7 +29,7 @@ function ProfileForm(props) {
 
   return (
     <>
-      <h2 className="center">Profile Settings</h2>
+      <h1 className="center">Profile Settings</h1>
       <Card>
         <Row className={classes.rowPadding}>
           <Col xs={12} sm={3}>
@@ -41,7 +41,11 @@ function ProfileForm(props) {
                   publicId={props.userprofile.profilePictureId}
                 />
               ) : (
-                <img src={imageSrc} className={classes.profilePicture} />
+                <img
+                  src={imageSrc}
+                  alt="Profile Picture Icon"
+                  className={classes.profilePicture}
+                />
               )}
             </Row>
             <Row>

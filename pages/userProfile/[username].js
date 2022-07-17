@@ -181,10 +181,12 @@ function ProfileView(props) {
       {!props.userprofile ? (
         <>
           {errorMessage && <p className="errorMessage">{errorMessage}</p>}
-          <GenerateProfileForm
-            username={props.user.username}
-            handleGeneration={generateProfile}
-          />
+          <LighterDiv>
+            <GenerateProfileForm
+              username={props.user.username}
+              handleGeneration={generateProfile}
+            />
+          </LighterDiv>
         </>
       ) : (
         <>

@@ -20,6 +20,7 @@ function ResetPasswordForm(props) {
           <img
             className={classes.imageOne}
             src="/forgotPasswordPage/imageOne.png"
+            alt="Image One"
           />
         </Row>
       </Col>

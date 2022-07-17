@@ -50,7 +50,7 @@ function CalendarCell(props) {
       {(datesOfConsultations.indexOf(day.getDate()) != -1 ||
         datesOfSecondaryConsultations.indexOf(day.getDate()) != -1) &&
         isSameMonth(day, monthStart) && (
-          <img src={"/icons/" + imageSource()} className={classes.icon}></img>
+          <img src={"/icons/" + imageSource()} alt="Calendar Image" className={classes.icon}></img>
         )}
       <span className="number">{formattedDate}</span>
       <span className="bg">{formattedDate}</span>

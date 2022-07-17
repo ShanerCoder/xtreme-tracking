@@ -16,7 +16,11 @@ function LoginForm(props) {
             </p>
           </Row>
           <Row>
-            <img className={classes.imageOne} src="/loginPage/imageOne.png" />
+            <img
+              className={classes.imageOne}
+              alt="Image One"
+              src="/loginPage/imageOne.png"
+            />
           </Row>
         </Col>
         <Col xs={12} lg={6} className={classes.loginColumn}>

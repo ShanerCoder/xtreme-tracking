@@ -10,7 +10,7 @@ function NavbarButton(props) {
     >
       <Row>
         <Col xs={3} lg={3}>
-          <img className={classes.icon} src={props.imgsrc} />
+          <img className={classes.icon} src={props.imgsrc} alt="Button Image" />
         </Col>
         <Col xs={9} lg={{ span: 6, offset: 1 }}>
           <p className={classes.text}>{props.text}</p>

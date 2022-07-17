@@ -22,8 +22,11 @@ function AddPhotoToGallery() {
 
     // Save Image
     const formData = new FormData();
+    // Prepares upload data
     formData.append("file", postData.uploadData[0]);
     formData.append("upload_preset", "xtreme_tracking_preset");
+
+    // Uploads the photo
     const uploadPhotoResponse = await fetch(
       "https://api.cloudinary.com/v1_1/multishane999/image/upload",
       {
@@ -32,8 +35,10 @@ function AddPhotoToGallery() {
       }
     );
 
+    // Return data
     const uploadPhotoData = await uploadPhotoResponse.json();
 
+    // Checks return data is valid
     if (uploadPhotoData.hasError) {
       setErrorMessage(uploadPhotoData.errorMessage);
     } else {

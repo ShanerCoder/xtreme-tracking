@@ -144,6 +144,7 @@ function ProfileForm(props) {
                   <img
                     className={classes.profileSettingsButton}
                     src="/icons/gear.png"
+                    alt="Settings Icon"
                   />
                 </div>
               </div>
