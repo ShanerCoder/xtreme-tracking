@@ -165,7 +165,7 @@ function MainNavigation() {
                             handleLoader("/viewMessages");
                           }}
                         >
-                          <p className={classes.dropdownLnnk}>View Messages</p>
+                          <p className={classes.dropdownLink}>View Messages</p>
                         </div>
                         <div
                           onClick={() => {
