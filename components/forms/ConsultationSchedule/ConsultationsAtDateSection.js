@@ -1,7 +1,7 @@
-import classes from "./ConsultationsAtDateSection.module.css";
 import ConsultationDetails from "./ConsultationDetails";
 
 function ConsultationsAtDateSection(props) {
+  // Variable that is shown if there are no consultations for the selected day
   let noConsultations = (
     <h3 className="center">No Consultations for this Day</h3>
   );

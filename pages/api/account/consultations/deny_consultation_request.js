@@ -9,12 +9,14 @@ import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
       if (session.user.username != req.body.usernameWhoSent) {
         errorHandler("Username does not match with Session", res);
@@ -32,12 +34,14 @@ async function handler(req, res) {
         consultationRequestDeniedMessage
       );
 
+      // New Private Message Created
       const privateMessage = new PrivateMessage({
         usernameToReceive,
         usernameWhoSent,
         privateMessage: encryptedPrivateMessage,
       });
 
+      // Private Message is saved
       const privateMessageResult = await privateMessage.save();
       if (privateMessageResult) {
         const privateMessageDoc = privateMessageResult._doc;

@@ -9,6 +9,7 @@ import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
   if (req.method === "PUT") {
+    // Put Request
     try {
       const session = await getSession({ req });
       if (!session) {
@@ -21,8 +22,10 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // Finds User
       const userResult = await User.findOne({ username: req.body.username });
 
+      // Checks email matches current address
       const emailMatches = userResult.email == req.body.currentEmail;
 
       if (!emailMatches) {
@@ -30,6 +33,7 @@ async function handler(req, res) {
         return null;
       }
 
+      // Checks email is not already in use
       const emailAlreadyInUse = await User.findOne({
         email: req.body.newEmail,
       });
@@ -38,6 +42,7 @@ async function handler(req, res) {
         return null;
       }
 
+      // Updates email to new entry
       const emailUpdated = await userResult.updateOne({
         email: req.body.newEmail,
       });

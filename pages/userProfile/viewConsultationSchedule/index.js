@@ -29,6 +29,7 @@ function ViewConsultationSchedule(props) {
     listOfConsultationDates.push(new Date(consultation.datetimeOfConsultation))
   );
 
+  // Function to add consultation
   async function handleAddConsultation(postData) {
     showLoadingScreen({ type: true });
     const bodyData = {
@@ -57,6 +58,7 @@ function ViewConsultationSchedule(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to remove consultation
   async function handleRemoveConsultation(consultationId) {
     showLoadingScreen({ type: true });
     const bodyData = {
@@ -145,13 +147,17 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // Finds list of consultations
     const consultationsList = await ConsultationLists.find({
       personalTrainerUsername: session.user.username,
     }).sort({ datetimeOfConsultation: 1 });
+
+    // Finds list of clients
     const clientsList = await ClientList.find({
       personalTrainerUsername: session.user.username,
     });
 
+    // Returns list of clients and consultations
     return {
       props: {
         consultationsList: consultationsList.map((consultation) => ({

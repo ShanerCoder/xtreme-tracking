@@ -15,6 +15,7 @@ function AccountLoginSection(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function submits all entered data to parent
   function handleSubmit(event) {
     event.preventDefault();
 

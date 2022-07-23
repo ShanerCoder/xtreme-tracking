@@ -8,6 +8,7 @@ function ViewDetailForm(props) {
   const router = useRouter();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
 
+  // Redirect Function
   async function handleLoader(URL) {
     showLoadingScreen({ type: true });
     await router.push(URL);

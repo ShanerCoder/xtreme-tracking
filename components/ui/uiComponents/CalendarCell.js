@@ -3,6 +3,8 @@ import classes from "./CalendarCell.module.css";
 
 function CalendarCell(props) {
   const day = props.day;
+
+  // Const to identify if the date is greater than the maximum date allowed
   const greaterThanMax = props.maximumDate ? day > props.maximumDate : false;
   let datesOfConsultations = props.datesOfConsultations;
   let datesOfSecondaryConsultations = props.datesOfSecondaryConsultations;
@@ -10,6 +12,7 @@ function CalendarCell(props) {
   const monthStart = props.monthStart;
   const selectedDate = props.selectedDate;
 
+  // Function to identify which image source should be displayed on the cell
   function imageSource() {
     const greaterThanToday = day > new Date() ? true : false;
     const includeToday = props.includeTodayForImgSrcPastToday
@@ -50,7 +53,11 @@ function CalendarCell(props) {
       {(datesOfConsultations.indexOf(day.getDate()) != -1 ||
         datesOfSecondaryConsultations.indexOf(day.getDate()) != -1) &&
         isSameMonth(day, monthStart) && (
-          <img src={"/icons/" + imageSource()} alt="Calendar Image" className={classes.icon}></img>
+          <img
+            src={"/icons/" + imageSource()}
+            alt="Calendar Image"
+            className={classes.icon}
+          ></img>
         )}
       <span className="number">{formattedDate}</span>
       <span className="bg">{formattedDate}</span>

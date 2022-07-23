@@ -58,8 +58,11 @@ export async function getServerSideProps({ req }) {
         $gte: new Date(),
       },
     };
+
+    // Finds all challenges assigned to user
     const challengeList = await Challenge.find(filter).sort({ _id: -1 });
 
+    // Returns all challenges assigned to user
     return {
       props: {
         challenges: challengeList.map((challenge) => ({

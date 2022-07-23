@@ -11,16 +11,19 @@ function SelectExerciseForm(props) {
   const [muscleGroupFilter, setMuscleGroupFilter] = useState("All");
   const listOfMuscleGroups = [];
 
+  // maps all the muscle groups to the listOfMuscleGroups Array
   props.exerciseList.map(
     (exercise) =>
       !listOfMuscleGroups.includes(exercise.muscleGroup) &&
       listOfMuscleGroups.push(exercise.muscleGroup)
   );
 
+  // Updates the muscle group filter
   function handleFilterChange(event) {
     setMuscleGroupFilter(event.target.value);
   }
 
+  // Function that submits the data entered by the user if valid
   function handleSubmit(event) {
     event.preventDefault();
 

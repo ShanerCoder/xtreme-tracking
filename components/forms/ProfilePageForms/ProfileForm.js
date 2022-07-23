@@ -15,6 +15,7 @@ function ProfileForm(props) {
   const [state] = useStore();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
 
+  // Const which stores the value of the current user state
   const user = getValue(state, ["user"], null);
   let ownProfilePage = user.id == props.user.id;
 
@@ -24,6 +25,7 @@ function ProfileForm(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Functions to redirect users to the appropriate pages
   function handlePrivateMessage() {
     handleLoader("/userProfile/privateMessage/" + props.user.username);
   }

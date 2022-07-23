@@ -52,12 +52,14 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // Finds list of private messages
     const privateMessage = PrivateMessage.find();
     const filter = { usernameToReceive: session.user.username };
     const privateMessageList = await privateMessage
       .find(filter)
       .sort({ _id: -1 });
 
+    // Returns list of private messages
     return {
       props: {
         privateMessages: privateMessageList.map((message) => ({

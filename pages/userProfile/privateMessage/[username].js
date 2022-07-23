@@ -15,6 +15,7 @@ function PrivateMessage(props) {
   const router = useRouter();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
 
+  // Function to create new message
   async function submitHandler(messageData) {
     showLoadingScreen({ type: true });
     const privateMessage = {
@@ -85,7 +86,11 @@ export async function getServerSideProps(context) {
     await dbConnect();
 
     const usernameFilter = { username: username };
+
+    // Finds selected user
     const selectedUser = await User.findOne(usernameFilter);
+
+    // Returns selected user information
     return {
       props: {
         user: {

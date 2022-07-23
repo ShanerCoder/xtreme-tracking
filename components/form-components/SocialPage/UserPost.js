@@ -14,6 +14,7 @@ function UserPost(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function that updates the postText field
   function sharePostHandler() {
     const postData = {
       id: props.id,

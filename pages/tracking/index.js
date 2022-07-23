@@ -385,6 +385,7 @@ export async function getServerSideProps({ req }) {
     } else checkedInToday = false;
     // END OF CHECKED IN TODAY INFORMATION
 
+    // Returns all relevant information found
     return {
       props: {
         checkedInToday: checkedInToday,

@@ -22,6 +22,8 @@ function PostDetails(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function that occurs when the like button is clicked
+  // Either likes or unlikes the post depending on if the post has been liked already or not
   function handleClick() {
     const likePost = imageSource == emptyHeartImageSource;
     const postData = {
@@ -35,6 +37,7 @@ function PostDetails(props) {
     props.handleLike(postData);
   }
 
+  // Function that obtains how many users have liked a post
   function obtainLikedByString() {
     let likedByString = "Liked By: ";
     const numberOfLikes = props.postLikedByUser

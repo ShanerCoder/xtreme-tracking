@@ -26,6 +26,7 @@ function MainNavigation() {
     showLoadingScreen({ type: false });
   }
 
+  // Function which hides or shows the search input
   function handleSearch(event) {
     event.preventDefault();
     const userToSearch = searchInputRef.current.value;

@@ -12,6 +12,7 @@ function ResetPasswordView(props) {
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const router = useRouter();
 
+  // Submits the passwords entered
   async function resetPasswordSubmitHandler(newPassword) {
     showLoadingScreen({ type: true });
     const resetPassword = {
@@ -76,6 +77,7 @@ export async function getServerSideProps(context) {
 
     const isValid = await bcrypt.compare(queryToken, token.token);
 
+    // Returns if the token is valid or not
     if (isValid) {
       return {
         props: {

@@ -22,6 +22,7 @@ function selectedChallenge(props) {
   );
   let confirmDelete = false;
 
+  // Deletes Challenge
   async function handleDelete() {
     showLoadingScreen({ type: true });
     const deleteChallenge = {
@@ -49,6 +50,7 @@ function selectedChallenge(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to handle the confirmation of deletion
   function handleDeleteButton() {
     if (!confirmDelete) {
       confirmDelete = true;
@@ -107,8 +109,11 @@ export async function getServerSideProps(context) {
     await dbConnect();
 
     const filter = { _id: challengeId };
+
+    // Finds selected challenge
     const challenge = await Challenge.findOne(filter);
 
+    // Returns relevant information from challenge
     if (user.username == challenge.clientUsername)
       return {
         props: {

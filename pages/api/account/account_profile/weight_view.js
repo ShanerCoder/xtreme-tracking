@@ -9,7 +9,9 @@ import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
   if (req.method === "PUT") {
+    // Put Request
     try {
+      // Session Check
       const session = await getSession({ req });
       if (!session) {
         errorHandler("Session does not exist", res);
@@ -22,6 +24,7 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // Updates User Profile 'hideWeightOnCheckIn' value
       const userProfileResult = await UserProfile.findOne({
         _id: session.user.id,
       }).updateOne({

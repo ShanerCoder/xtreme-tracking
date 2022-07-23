@@ -11,12 +11,14 @@ import { getSession } from "next-auth/client";
 import { endOfDay, startOfDay } from "date-fns";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
@@ -29,6 +31,8 @@ async function handler(req, res) {
 
       let checkIn;
       const weight = req.body.weight;
+      // Adds weight if it exists into new CheckIn, otherwise does not
+      // New CheckIn is Created
       if (weight)
         checkIn = new CheckIn({
           username,
@@ -43,7 +47,10 @@ async function handler(req, res) {
           photoId,
         });
 
+      // CheckIn is saved
       const checkInResult = await checkIn.save();
+
+      // Checks if the user planned to visit this day
       const plannedVisitation = await PlannedVisitationDates.find({
         username: username,
         dateOfPlannedVisitation: {
@@ -52,7 +59,7 @@ async function handler(req, res) {
         },
       });
 
-      // Increment Gym Visitation Streak
+      // Increment Gym Visitation Streak if user planned to visit this day
       if (plannedVisitation.length) {
         const gymVisitationUserExists = await GymVisitationStreak.findOne({
           username: username,
@@ -94,6 +101,7 @@ async function handler(req, res) {
         }
       } else {
         if (checkInResult) {
+          // Removes any planned visitations from current date or before
           await PlannedVisitationDates.deleteMany({
             username: username,
             dateOfPlannedVisitation: {

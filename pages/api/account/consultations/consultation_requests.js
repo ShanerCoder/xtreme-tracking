@@ -9,12 +9,14 @@ import { getSession } from "next-auth/client";
 import ConsultationRequest from "../../../../models/personalTrainer/consultationRequest";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
       if (session.user.username != req.body.usernameWhoSent) {
         errorHandler("Username does not match with Session", res);
@@ -24,16 +26,20 @@ async function handler(req, res) {
       const { usernameToReceive, usernameWhoSent } = req.body;
       validateAllFields(req.body);
       await dbConnect();
+
+      // Encrypts consultation request message
       const encryptedConsultationRequest = await cryptr.encrypt(
         req.body.consultationRequest
       );
 
+      // Creates a new Consultation Request
       const consultationRequest = new ConsultationRequest({
         usernameToReceive,
         usernameWhoSent,
         consultationRequest: encryptedConsultationRequest,
       });
 
+      // Saves Consultation Request
       const consultationRequestResult = await consultationRequest.save();
       if (consultationRequestResult) {
         const ConsultationRequestDoc = consultationRequestResult._doc;
@@ -49,12 +55,16 @@ async function handler(req, res) {
       );
     }
   } else if (req.method === "DELETE") {
+    // Delete Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
+
+      // Deletes Consultation Request
       const deleteConsultationRequest = await ConsultationRequest.deleteOne({
         _id: req.body.consultationRequestId,
         usernameToReceive: session.user.username,

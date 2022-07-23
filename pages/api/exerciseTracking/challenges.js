@@ -8,12 +8,14 @@ import Challenge from "../../../models/exerciseTracking/challenge";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
       if (session.user.username != req.body.personalTrainerUsername) {
         errorHandler("Username does not match with Session", res);
@@ -31,6 +33,7 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // New Challenge Created
       const challenge = new Challenge({
         personalTrainerUsername,
         clientUsername,
@@ -41,6 +44,7 @@ async function handler(req, res) {
         dateToAchieveBy,
       });
 
+      // Challenge Saved
       const challengeResult = await challenge.save();
       if (challengeResult) {
         responseHandler(challengeResult, res, 201);
@@ -51,12 +55,16 @@ async function handler(req, res) {
       errorHandler("An error has occurred creating this challenge", res);
     }
   } else if (req.method === "DELETE") {
+    // Delete Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.clientUsername) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
+
+      // Removes Challenge
       const deleteChallengeResult = await Challenge.deleteOne({
         _id: req.body.challengeRecordId,
         clientUsername: session.user.username,

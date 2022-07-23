@@ -21,6 +21,7 @@ function AccountCreationSection(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function that occurs on submission, sends off new user data
   function handleSubmit(event) {
     event.preventDefault();
 

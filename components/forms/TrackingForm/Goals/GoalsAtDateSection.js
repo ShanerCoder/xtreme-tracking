@@ -3,6 +3,7 @@ import ExerciseDetails from "../ExerciseHistoryAtDate/ExerciseDetails";
 import classes from "./GoalsAtDateSection.module.css";
 
 function GoalsAtDateSection(props) {
+  // Variable that shows html if there are no active goals for the date selected
   let noGoals = <h3 className="center">No active goals from this date</h3>;
   return (
     <>
@@ -11,7 +12,10 @@ function GoalsAtDateSection(props) {
           <React.Fragment key={goal.id}>
             {new Date(goal.dateToAchieveBy) >= new Date(props.selectedDate) && (
               <>
-                {(noGoals = null)}
+                {
+                  // Sets noGoals variable to null if there is an active goal for the date selected
+                  (noGoals = null)
+                }
                 <h3 className={classes.header}>
                   To Achieve By: {new Date(goal.dateToAchieveBy).toDateString()}
                 </h3>

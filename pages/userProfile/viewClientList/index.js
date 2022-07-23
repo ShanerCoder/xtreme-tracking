@@ -54,10 +54,12 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // Finds client list
     const clientList = ClientList.find();
     const filter = { personalTrainerUsername: session.user.username };
     const ListOfClients = await clientList.find(filter).sort({ _id: -1 });
 
+    // Returns list of clients
     return {
       props: {
         clientList: ListOfClients.map((client) => ({

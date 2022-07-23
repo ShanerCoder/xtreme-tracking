@@ -8,13 +8,16 @@ import Goal from "../../../models/exerciseTracking/goal";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
@@ -30,6 +33,7 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // New Goal Created
       const goal = new Goal({
         username,
         exerciseName,
@@ -39,6 +43,7 @@ async function handler(req, res) {
         dateToAchieveBy,
       });
 
+      // New Goal Saved
       const goalResult = await goal.save();
       if (goalResult) {
         responseHandler(goalResult, res, 201);
@@ -49,18 +54,21 @@ async function handler(req, res) {
       errorHandler("An error has occurred creating this goal", res);
     }
   } else if (req.method === "DELETE") {
+    // Delete Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
+
+      // Goal Entry Removed
       const deleteGoalResult = await Goal.deleteOne({
         _id: req.body.goalRecordId,
         username: session.user.username,
       });
-      if (deleteGoalResult)
-        responseHandler(deleteGoalResult, res, 200);
+      if (deleteGoalResult) responseHandler(deleteGoalResult, res, 200);
     } catch (error) {
       errorHandler("Failed to delete this Goal", res);
     }

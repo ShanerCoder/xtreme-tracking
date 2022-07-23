@@ -8,13 +8,16 @@ import ExerciseHistory from "../../../models/exerciseTracking/exerciseHistory";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
@@ -31,6 +34,7 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // New Exercise Record Created
       const exercise = new ExerciseHistory({
         username,
         exerciseName,
@@ -40,6 +44,7 @@ async function handler(req, res) {
         dateOfExercise,
       });
 
+      // New Exercise Record Saved
       const exerciseResult = await exercise.save();
       if (exerciseResult) {
         responseHandler(exerciseResult, res, 201);
@@ -50,12 +55,16 @@ async function handler(req, res) {
       errorHandler("An error has occurred creating this exercise", res);
     }
   } else if (req.method === "DELETE") {
+    // Delete Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
+
+      // Removes Exercise Record
       const deleteExerciseResult = await ExerciseHistory.deleteOne({
         _id: req.body.exerciseRecordId,
         username: session.user.username,

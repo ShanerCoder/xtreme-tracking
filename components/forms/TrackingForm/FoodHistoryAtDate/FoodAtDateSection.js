@@ -3,13 +3,19 @@ import React, { useEffect, useState } from "react";
 import Card from "../../../ui/Card";
 
 function FoodsAtDateSection(props) {
+  // State to store the number of total calories
   const [totalCalories, setTotalCalories] = useState(0);
+
+  // Variable that displays html if there are no foods added for the selected day
   let noFoods = <h3 className="center">No Foods Recorded on this Date</h3>;
 
+  // UseEffect that runs upon code execution
+  // Counts the total number of calories for the selected day
   useEffect(() => {
     calorieCount();
   }, [props.selectedDate]);
 
+  // Function to count the number of calories for the selected day
   function calorieCount() {
     let calorieCount = 0;
     props.foods.forEach((food) => {

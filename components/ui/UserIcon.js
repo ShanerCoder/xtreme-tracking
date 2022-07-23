@@ -16,6 +16,7 @@ function UserIcon(props) {
     showLoadingScreen({ type: false });
   }
 
+  // useEffect to get the user's profile picture
   React.useEffect(() => {
     const response = fetch(
       "/api/account/account_profile/profile_image?username=" + props.username,

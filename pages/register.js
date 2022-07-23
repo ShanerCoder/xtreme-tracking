@@ -13,6 +13,7 @@ function RegisterPage() {
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
+  // Function to create new user
   async function addUserHandler(newUserData) {
     showLoadingScreen({ type: true });
     const userAccountResponse = await fetch(

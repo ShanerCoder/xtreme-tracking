@@ -12,6 +12,7 @@ function exerciseHistory(props) {
   const router = useRouter();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
 
+  // Function which redirects to next page
   async function handleNextPageNavigation() {
     showLoadingScreen({ type: true });
     await router.push(
@@ -27,6 +28,7 @@ function exerciseHistory(props) {
     });
   }
 
+  // Function which redirects to previous page
   async function handlePrevPageNavigation() {
     showLoadingScreen({ type: true });
     await router.push(
@@ -42,6 +44,7 @@ function exerciseHistory(props) {
     });
   }
 
+  // Removes Exercise Record
   async function handleRemoveExerciseRecord(exerciseRecordId) {
     showLoadingScreen({ type: true });
     const bodyData = {
@@ -152,6 +155,7 @@ export async function getServerSideProps(context) {
     const hasPrevPage = pageNumber > 1;
     // END OF PAGINATION INFORMATION
 
+    // Returns information about username, exercise history and page information
     if (exerciseHistory.docs.length) {
       return {
         props: {

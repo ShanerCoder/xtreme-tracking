@@ -8,20 +8,26 @@ import nodemailer from "nodemailer";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
       if (session.user.username != req.body.usernameWhoSent) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
+
+      // Variable for new email
       const email = req.body.email;
       validateAllFields(email);
       await dbConnect();
+
+      // Creation of Transporter
       let transporter = nodemailer.createTransport({
         service: "Gmail",
         auth: {
@@ -40,6 +46,7 @@ async function handler(req, res) {
         },
       });
 
+      // Verifies Transporter
       await new Promise((resolve, reject) => {
         //verify connection configuration
         transporter.verify(function (error, success) {
@@ -51,6 +58,7 @@ async function handler(req, res) {
         });
       });
 
+      // New Mail is set
       var mail = {
         from: "Xtreme Tracking Team <from@gmail.com>",
         to: "xtremetrackingemailer@gmail.com",
@@ -58,6 +66,7 @@ async function handler(req, res) {
         text: email + "\n\nReach out at: " + session.user.email,
       };
 
+      // Sends Email
       await new Promise((resolve, reject) => {
         // sending mail
         transporter.sendMail(mail, (err, info) => {

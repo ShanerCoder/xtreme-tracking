@@ -6,6 +6,7 @@ function IndividualGalleryPhoto(props) {
   const [removeButtonText, setRemoveButtonText] = useState("Remove Photo");
   let confirmDelete = false;
 
+  // Function to update viewing privacy of a photo
   function handleUpdatePrivacy() {
     const postData = {
       id: props.id,
@@ -14,6 +15,7 @@ function IndividualGalleryPhoto(props) {
     props.handleUpdatePrivacyOfPhoto(postData);
   }
 
+  // Function that occurs when remove photo button is pressed
   function handleRemovePhotoButton() {
     if (!confirmDelete) {
       confirmDelete = true;

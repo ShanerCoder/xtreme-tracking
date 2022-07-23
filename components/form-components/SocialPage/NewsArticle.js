@@ -1,19 +1,18 @@
 import Card from "../../ui/Card";
-import { useRouter } from "next/router";
 import classes from "./NewsArticle.module.css";
 import { useLoadingStore } from "../../../context/loadingScreen";
-import { Col, Row } from "react-bootstrap";
 
 function NewsArticle(props) {
-  const router = useRouter();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
 
+  // Function that redirects user to the article's URL
   async function viewArticle() {
     showLoadingScreen({ type: true });
     window.location.href = props.article.link;
     showLoadingScreen({ type: false });
   }
 
+  // Function that puts article information into the Post Text
   function shareArticle() {
     const postData = {
       content:

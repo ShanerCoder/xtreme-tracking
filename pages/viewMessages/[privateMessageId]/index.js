@@ -22,6 +22,7 @@ function selectedMessage(props) {
   );
   let confirmDelete = false;
 
+  // Function to delete private message
   async function handleDelete() {
     showLoadingScreen({ type: true });
     const deleteMessage = {
@@ -50,6 +51,7 @@ function selectedMessage(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to handle confirmation of delete
   function handleDeleteButton() {
     if (!confirmDelete) {
       confirmDelete = true;
@@ -59,6 +61,7 @@ function selectedMessage(props) {
     }
   }
 
+  // Function to redirect user to write a response
   async function handleWriteResponse() {
     showLoadingScreen({ type: true });
     await router.push(
@@ -109,9 +112,12 @@ export async function getServerSideProps(context) {
     const cryptr = new Cryptr(process.env.SECRET_KEY);
 
     const filter = { _id: privateMessageId };
+
+    // Finds private message
     const message = await PrivateMessage.findOne(filter);
 
     if (user.username == message.usernameToReceive)
+      // Returns private message details
       return {
         props: {
           privateMessage: {

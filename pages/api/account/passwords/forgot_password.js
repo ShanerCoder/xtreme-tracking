@@ -11,14 +11,19 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 
 async function handler(req, res) {
+  // Generates a random UUID, used for the unique token email
   crypto.randomUUID;
   if (req.method === "POST") {
+    // Post Request
     try {
       const email = req.body;
       validateAllFields(req.body);
       await dbConnect();
       const filter = { email: email };
+      // Finds User Email
       const userAccount = await User.findOne(filter);
+
+      // If Email exists create nodemailer transport
       if (userAccount) {
         let transporter = nodemailer.createTransport({
           service: "Gmail",
@@ -38,6 +43,7 @@ async function handler(req, res) {
           },
         });
 
+        // Confirms that transport is valid
         await new Promise((resolve, reject) => {
           //verify connection configuration
           transporter.verify(function (error, success) {
@@ -49,10 +55,14 @@ async function handler(req, res) {
           });
         });
 
+        // Removes any existing tokens for the user account
         await Token.find({ userId: userAccount._id }).deleteMany();
+
+        // Creates new reset token
         let resetToken = crypto.randomBytes(32).toString("hex");
         const hash = await bcrypt.hash(resetToken, Number(8));
 
+        // Sends out email to reset password
         await new Token({
           userId: userAccount._id,
           token: hash,

@@ -1,5 +1,4 @@
 import MainNavigation from "./MainNavigation";
-import classes from "./Layout.module.css";
 import { useStore } from "../../context";
 import { getValue } from "../../utils/common";
 import { getSession } from "next-auth/client";
@@ -10,6 +9,8 @@ import { useLoadingStore } from "../../context/loadingScreen";
 function Layout(props) {
   const [state, dispatch] = useStore();
   const [loadingScreen] = useLoadingStore();
+
+  // UseEffect which identifies if the user has logged in or not
   useEffect(async () => {
     const authenticated = getValue(state, ["user", "authenticated"], false);
     if (!authenticated) {
@@ -26,7 +27,7 @@ function Layout(props) {
   return (
     <>
       <MainNavigation/>
-      <main className={classes.main}>{props.children}</main>
+      <main>{props.children}</main>
       {loadingScreen}
     </>
   );

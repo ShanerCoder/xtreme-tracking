@@ -17,6 +17,7 @@ function NewExerciseSection(props) {
   const [muscleGroupFilter, setMuscleGroupFilter] = useState("All");
   const listOfMuscleGroups = [];
 
+  // Maps the muscle groups to the listOfMuscleGroups array
   exerciseList.map(
     (exercise) =>
       !listOfMuscleGroups.includes(exercise.muscleGroup) &&
@@ -29,6 +30,7 @@ function NewExerciseSection(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function which passes on the entered data to the parent class
   function handleSubmit(event) {
     event.preventDefault();
     const selectedDate = new Date(props.selectedDate);
@@ -43,6 +45,7 @@ function NewExerciseSection(props) {
     props.addExercise(postData);
   }
 
+  // Function which handles a filter change of muscle group
   function handleFilterChange(event) {
     setMuscleGroupFilter(event.target.value);
   }

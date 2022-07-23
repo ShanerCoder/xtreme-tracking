@@ -12,7 +12,7 @@ import { useLoadingStore } from "../../context/loadingScreen";
 import NewFoodSection from "../../components/forms/TrackingForm/FoodList/NewFoodSection";
 import ListOfFoods from "../../components/forms/TrackingForm/FoodList/ListOfFoods";
 
-function ExerciseListPage(props) {
+function FoodListPage(props) {
   const router = useRouter();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const [state] = useStore();
@@ -110,10 +110,12 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // Finds food items created by the user
     const foodList = await FoodList.find({
       username: session.user.username,
     }).sort({ foodName: 1 });
 
+    // Returns food items created by the user
     return {
       props: {
         foodList: foodList.map((food) => ({
@@ -131,4 +133,4 @@ export async function getServerSideProps({ req }) {
   }
 }
 
-export default ExerciseListPage;
+export default FoodListPage;

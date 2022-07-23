@@ -10,6 +10,7 @@ function ProfileForm(props) {
   const [uploadData, setUploadData] = useState(null);
   const descriptionInputRef = useRef();
 
+  // Function which handles the new description when the user attempts to save
   function handleSaveDescription() {
     const newDescription = descriptionInputRef.current.value;
     if (newDescription == props.userprofile.profileDescription) {
@@ -20,6 +21,7 @@ function ProfileForm(props) {
     props.handleSaveDescription(newDescription);
   }
 
+  // Function which handles the new image when the user attempts to save
   function handleSaveImage() {
     if (uploadData) {
       props.handleSaveImage(uploadData);

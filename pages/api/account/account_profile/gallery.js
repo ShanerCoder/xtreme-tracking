@@ -8,13 +8,16 @@ import GalleryPhotos from "../../../../models/accountProfile/galleryPhotos";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Checks for active session
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
+      // Username of session check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
@@ -24,6 +27,7 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // Creates new GalleryPhotos
       const galleryPhotos = new GalleryPhotos({
         username,
         photoId,
@@ -31,6 +35,7 @@ async function handler(req, res) {
         privatePhoto,
       });
 
+      // Saves new GalleryPhotos
       const galleryPhotoResult = await galleryPhotos.save();
 
       if (galleryPhotoResult) {
@@ -42,12 +47,16 @@ async function handler(req, res) {
       errorHandler("An error has occurred. Please try again later!", res);
     }
   } else if (req.method === "PUT") {
+    // Put Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
+
+      // Updates existing GalleryPhoto entry
       const galleryPhotoResult = await GalleryPhotos.findOneAndUpdate(
         {
           _id: req.body.galleryPhotoId,
@@ -60,12 +69,16 @@ async function handler(req, res) {
       errorHandler("Failed to update the privacy of this Photo", res);
     }
   } else if (req.method === "DELETE") {
+    // Delete request
     try {
+      // Session username check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
+
+      // Removes GalleryPhotos entry
       const galleryPhotoResult = await GalleryPhotos.deleteOne({
         _id: req.body.galleryPhotoId,
         usernameToReceive: session.user.username,

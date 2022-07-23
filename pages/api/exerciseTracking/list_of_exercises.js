@@ -9,13 +9,16 @@ import CommonExerciseList from "../../../models/exerciseTracking/commonExerciseL
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
@@ -25,11 +28,13 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // Checks if Exercise already has been created by User
       const exerciseAlreadyExistsByUser = await ExerciseList.find({
         username: username,
         exerciseName: exerciseName,
       });
 
+      // Checks if Exercise is already created by default
       const exerciseAlreadyExistsByDefault = await CommonExerciseList.find({
         exerciseName: exerciseName,
       });
@@ -42,12 +47,14 @@ async function handler(req, res) {
         return null;
       }
 
+      // New Exercise Created
       const exercise = new ExerciseList({
         username,
         exerciseName,
         muscleGroup,
       });
 
+      // New Exercise Saved
       const exerciseResult = await exercise.save();
       if (exerciseResult) {
         responseHandler(exerciseResult, res, 201);
@@ -58,12 +65,16 @@ async function handler(req, res) {
       errorHandler("An error has occurred creating this exercise", res);
     }
   } else if (req.method === "DELETE") {
+    // Delete Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
+
+      // Removes Exercise Entry
       const deleteExerciseResult = await ExerciseList.deleteOne({
         exerciseName: req.body.exerciseName,
         username: session.user.username,

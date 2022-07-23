@@ -11,8 +11,11 @@ function AddNewPhoto(props) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
 
+  // Function to add photo
   function handleAddPhoto(event) {
     event.preventDefault();
+
+    // Checks if there is upload data
     if (uploadData) {
       if (props.photoDescription && props.privatePublicToggle) {
         const postData = {

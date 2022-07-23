@@ -15,6 +15,7 @@ function ForgotPasswordPage() {
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
+  // Function to send email with reset password link
   async function forgotPasswordSubmitHandler(email) {
     showLoadingScreen({ type: true });
     const response = await fetch("/api/account/passwords/forgot_password", {

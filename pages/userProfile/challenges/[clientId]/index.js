@@ -22,6 +22,7 @@ function SendAChallenge(props) {
   const [errorMessage, setErrorMessage] = useState(null);
   const user = getValue(state, ["user"], null);
 
+  // Submit Function which creates new challenge
   async function handleSubmit(postData) {
     showLoadingScreen({ type: true });
     const bodyData = {
@@ -47,6 +48,7 @@ function SendAChallenge(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function which sets the current error message
   function handleSetErrorMessage(errorMessage) {
     setErrorMessage(errorMessage);
     setSuccessMessage(null);
@@ -101,6 +103,7 @@ export async function getServerSideProps(context) {
 
     await dbConnect();
 
+    // Finds client username
     let clientUsername = await ClientList.findOne({
       _id: mongoose.Types.ObjectId(clientId),
     }).select({
@@ -110,6 +113,7 @@ export async function getServerSideProps(context) {
 
     clientUsername = clientUsername.clientUsername;
 
+    // Finds exercises and adds these to a full exercise list
     const exerciseList = await ExerciseList.find({
       username: clientUsername,
     }).sort({ muscleGroup: 1 });
@@ -118,6 +122,7 @@ export async function getServerSideProps(context) {
     });
     const fullExerciseList = exerciseList.concat(commonExerciseList);
 
+    // Returns relevant information found previously
     return {
       props: {
         client: {

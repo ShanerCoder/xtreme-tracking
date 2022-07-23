@@ -9,12 +9,14 @@ import FoodHistory from "../../../models/calorieTracking/foodHistory";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
@@ -25,14 +27,18 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // Finds food item
       const foodDetails = await FoodList.findOne({
         username: username,
         foodName: foodName,
       });
+
+      // Calculates total calories for the food eaten
       const totalCalories = Math.round(
         foodDetails.caloriesPer100 * (gramsEaten / 100)
       );
 
+      // Creates new food listing
       const food = new FoodHistory({
         username,
         foodName,
@@ -41,6 +47,7 @@ async function handler(req, res) {
         dateEaten,
       });
 
+      // Saves new food listing
       const foodResult = await food.save();
       if (foodResult) {
         responseHandler(foodResult, res, 201);
@@ -51,12 +58,15 @@ async function handler(req, res) {
       errorHandler("An error has occurred adding this food to history", res);
     }
   } else if (req.method === "DELETE") {
+    // Delete Request
     try {
       if (session.user.username != req.body.username) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
+
+      // Removes food entry
       const deleteFoodResult = await FoodHistory.deleteOne({
         _id: req.body.foodRecordId,
         username: session.user.username,

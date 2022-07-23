@@ -122,6 +122,7 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // Finds exercises and common exercises
     const exerciseList = await ExerciseList.find({
       username: session.user.username,
     }).sort({ muscleGroup: 1 });
@@ -129,6 +130,7 @@ export async function getServerSideProps({ req }) {
       muscleGroup: 1,
     });
 
+    // Returns exercises and common exercises
     return {
       props: {
         exerciseList: exerciseList.map((exercise) => ({

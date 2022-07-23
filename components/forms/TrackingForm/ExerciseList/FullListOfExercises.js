@@ -6,8 +6,10 @@ import classes from "./FullListOfExercises.module.css";
 import { useState } from "react";
 
 function FullListOfExercises(props) {
+  // State to hold the current muscle group filter
   const [muscleGroupFilter, setMuscleGroupFilter] = useState("All");
 
+  // Function to update the muscle group filter
   function handleFilterChange(event) {
     setMuscleGroupFilter(event.target.value);
   }

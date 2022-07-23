@@ -5,6 +5,7 @@ import { useRef } from "react";
 function ViewMessagesForm(props) {
   const additionalInfoRef = useRef();
 
+  // Function to execute option one if selected
   function handleOptionOne() {
     if (props.additionalContext) {
       props.handleOptionOne(additionalInfoRef.current.value);
@@ -12,6 +13,7 @@ function ViewMessagesForm(props) {
     } else props.handleOptionOne();
   }
 
+  // Function to execute option two if selected
   function handleOptionTwo() {
     if (props.additionalContext) {
       props.handleOptionTwo(additionalInfoRef.current.value);

@@ -19,6 +19,7 @@ function SocialPage(props) {
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
   const user = getValue(state, ["user"], null);
 
+  // Function to redirect to next page
   async function handleNextPageNavigation() {
     showLoadingScreen({ type: true });
     await router.push(
@@ -31,6 +32,7 @@ function SocialPage(props) {
     });
   }
 
+  // Function to redirect to previous page
   async function handlePrevPageNavigation() {
     showLoadingScreen({ type: true });
     await router.push(
@@ -43,6 +45,7 @@ function SocialPage(props) {
     });
   }
 
+  // Function to like or unlike a post
   async function handleLikePost(postData) {
     const bodyData = {
       postId: postData.postId,
@@ -59,6 +62,7 @@ function SocialPage(props) {
     await response.json();
   }
 
+  // Function to add a new post
   async function addPostHandler(NewPostData) {
     showLoadingScreen({ type: true });
     const response = await fetch("/api/social/user_posts", {
@@ -197,6 +201,7 @@ export async function getServerSideProps(context) {
   }
   // END OF LIKES AND COMMENTS INFROMATION
 
+  // Returns all relevant information for a user not signed in
   if (!session)
     return {
       props: {
@@ -227,6 +232,7 @@ export async function getServerSideProps(context) {
   postsLiked.forEach(handleUserLikedPostIds);
   // END OF POSTS LIKED BY USER INFORMATION
 
+  // Returns all relevant information found
   return {
     props: {
       article: selectedArticle ? selectedArticle : null,

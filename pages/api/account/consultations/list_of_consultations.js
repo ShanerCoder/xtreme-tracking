@@ -8,12 +8,14 @@ import { getSession } from "next-auth/client";
 import ConsultationList from "../../../../models/personalTrainer/consultationLists";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
       if (session.user.username != req.body.personalTrainerUsername) {
         errorHandler("Username does not match with Session", res);
@@ -28,12 +30,14 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // New Consultation Created
       const consultation = new ConsultationList({
         personalTrainerUsername,
         clientUsername,
         datetimeOfConsultation,
       });
 
+      // Consultation Saved
       const consultationResult = await consultation.save();
       if (consultationResult) {
         responseHandler(consultationResult, res, 201);
@@ -44,12 +48,15 @@ async function handler(req, res) {
       errorHandler("An error has occurred creating this Consultation", res);
     }
   } else if (req.method === "DELETE") {
+    // Delete Request
     try {
       if (session.user.username != req.body.personalTrainerUsername) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
       await dbConnect();
+
+      // Consultation entry is removed
       const deleteConsultation = await ConsultationList.deleteOne({
         _id: req.body.consultationId,
         personalTrainerUsername: session.user.username,

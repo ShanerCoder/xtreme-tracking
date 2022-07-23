@@ -20,6 +20,7 @@ function selectedClient(props) {
   const user = getValue(state, ["user"], null);
   const consultationsArray = props.clientConsultations; //NOTICE try pass in props clientconsultations instead of this
 
+  // Function to add consultation
   async function handleAddConsultation(datetimeOfConsultation) {
     showLoadingScreen({ type: true });
     const date = new Date(datetimeOfConsultation);
@@ -54,6 +55,7 @@ function selectedClient(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to remove consultation
   async function handleRemoveConsultation(id) {
     showLoadingScreen({ type: true });
     const removeConsultation = {
@@ -86,6 +88,7 @@ function selectedClient(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to remove client from clientsList
   async function handleRemoveClient(additionalContext) {
     showLoadingScreen({ type: true });
     const clientUsername = props.clientDetails.clientUsername;
@@ -188,14 +191,20 @@ export async function getServerSideProps(context) {
     await dbConnect();
 
     const clientFilter = { _id: clientId };
+
+    // Finds client details
     const clientDetails = await ClientList.findOne(clientFilter);
     const consultationsFilter = {
       personalTrainerUsername: clientDetails.personalTrainerUsername,
       clientUsername: clientDetails.clientUsername,
     };
+
+    // Finds consultations with selected client
     const clientConsultations = await ConsultationLists.find(
       consultationsFilter
     ).sort({ datetimeOfConsultation: 1 });
+
+    // Returns client details and consultations
     if (user == clientDetails.personalTrainerUsername && clientConsultations)
       return {
         props: {
@@ -212,6 +221,7 @@ export async function getServerSideProps(context) {
         },
       };
     else if (user == clientDetails.personalTrainerUsername) {
+      // Returns client details
       return {
         props: {
           clientDetails: {

@@ -18,6 +18,7 @@ function selectedMessage(props) {
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
+  // Function to accept consultation request
   async function handleAcceptRequest(additionalContext) {
     showLoadingScreen({ type: true });
     const acceptedConsultationRequest = {
@@ -26,7 +27,8 @@ function selectedMessage(props) {
       usernameWhoSent: user.username,
       usernameToReceive: props.consultationRequest.usernameFrom,
     };
-    // send a message to user telling them their request has been accepted, and any additional context
+
+    // Accepts request
     const acceptresponse = await fetch(
       "/api/account/consultations/accept_consultation_request",
       {
@@ -38,6 +40,7 @@ function selectedMessage(props) {
     const acceptdata = await acceptresponse.json();
     if (acceptdata.hasError) setErrorMessage(acceptdata.errorMessage);
     else {
+      // Deletes the request that was made
       const deleteRequest = {
         consultationRequestId: props.consultationRequest.id,
         username: user.username,
@@ -57,6 +60,7 @@ function selectedMessage(props) {
     }
   }
 
+  // Function to deny consultation request
   async function handleDenyRequest(additionalContext) {
     showLoadingScreen({ type: true });
     const deniedConsultationRequest = {
@@ -65,7 +69,8 @@ function selectedMessage(props) {
       usernameWhoSent: user.username,
       usernameToReceive: props.consultationRequest.usernameFrom,
     };
-    // send a message to user telling them their request has been accepted, and any additional context
+
+    // Denies request made
     const denyresponse = await fetch(
       "/api/account/consultations/deny_consultation_request",
       {
@@ -77,6 +82,7 @@ function selectedMessage(props) {
     const denydata = await denyresponse.json();
     if (denydata.hasError) setErrorMessage(denydata.errorMessage);
     else {
+      // Deletes request made
       const deleteRequest = {
         consultationRequestId: props.consultationRequest.id,
         username: user.username,
@@ -150,8 +156,11 @@ export async function getServerSideProps(context) {
     const cryptr = new Cryptr(process.env.SECRET_KEY);
 
     const filter = { _id: consultationRequestId };
+
+    // Finds the selected consultation request
     const request = await ConsultationRequest.findOne(filter);
     if (user == request.usernameToReceive)
+      // Returns request details
       return {
         props: {
           consultationRequest: {

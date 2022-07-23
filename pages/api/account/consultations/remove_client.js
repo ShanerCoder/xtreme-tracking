@@ -8,12 +8,14 @@ import ClientList from "../../../../models/personalTrainer/clientList";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "DELETE") {
+    // Delete Request
     try {
       if (session.user.username != req.body.personalTrainerUsername) {
         errorHandler("Username does not match with Session", res);
@@ -24,6 +26,7 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // Client List Entry is removed
       const clientListRemovalResult = await ClientList.deleteOne({
         personalTrainerUsername: personalTrainerUsername,
         clientUsername: clientUsername,

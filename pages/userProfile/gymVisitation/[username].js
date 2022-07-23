@@ -183,29 +183,38 @@ export async function getServerSideProps(context) {
     const session = await getSession({ req });
 
     await dbConnect();
+
+    // Finds check ins from user
     const checkInList = await CheckInList.find({ username: username }).sort({
       dateOfCheckIn: 1,
     });
+
+    // Finds dates the user plans to visit the gym
     const plannedVisitationsList = await PlannedVisitationDates.find({
       username: username,
       dateOfPlannedVisitation: { $gte: startOfDay(new Date()) },
     }).sort({
       dateOfPlannedVisitation: 1,
     });
+
+    // Finds visitation streak count
     let visitationStreak = await GymVisitationStreak.findOne({
       username: username,
     });
 
+    // Finds hide weight variable
     const user = await User.findOne({ username: username });
     const userProfile = await UserProfile.findOne({ _id: user._id });
     const hideWeight = userProfile.hideWeightOnCheckIn;
 
+    // Error handling if user does not have a streak
     if (visitationStreak && visitationStreak.streakCount) {
       visitationStreak = visitationStreak.streakCount;
     } else {
       visitationStreak = 0;
     }
 
+    // Finds if user checked in on current day
     let checkedInToday = await CheckInList.findOne({
       username: username,
       dateOfCheckIn: {
@@ -220,6 +229,7 @@ export async function getServerSideProps(context) {
 
     const ownProfile = session && session.user.username == username;
 
+    // Returns relevant information found
     return {
       props: {
         username: username,

@@ -17,6 +17,7 @@ function ProfileView(props) {
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // Function to save new description
   async function saveDescription(newDescription) {
     showLoadingScreen({ type: true });
     const description = {
@@ -46,6 +47,7 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to save new image
   async function saveImage(newImage) {
     showLoadingScreen({ type: true });
     const formData = new FormData();
@@ -92,6 +94,7 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to save new password
   async function savePassword(newPassword) {
     showLoadingScreen({ type: true });
     const enteredPasswordDetails = {
@@ -120,6 +123,7 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to save new email
   async function saveEmail(newEmail) {
     showLoadingScreen({ type: true });
     const enteredEmailDetails = {
@@ -148,6 +152,7 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to update if the account is a personal trainer profile or not
   async function handleUpdatePersonalTrainerProfile(personalTrainerProfile) {
     showLoadingScreen({ type: true });
     const personalTrainerProfileChange = {
@@ -175,6 +180,7 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to update if weight should be hidden for other users or not
   async function handleUpdateWeightView(hideWeightOnCheckIn) {
     showLoadingScreen({ type: true });
     const personalTrainerWeightViewChange = {
@@ -264,16 +270,21 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // Finds user details
     const selectedUser = await User.findOne({
       username: session.user.username,
     });
     const userId = selectedUser.id;
+
+    // Finds user profile details
     const selectedProfile = await Profile.findOne({ _id: userId });
     if (
       !selectedProfile.profilePictureId &&
       (selectedProfile.profilePictureId =
         process.env.DEFAULT_PROFILE_PICTURE_ID)
     );
+
+    // Returns user and user profile details
     return {
       props: {
         user: {

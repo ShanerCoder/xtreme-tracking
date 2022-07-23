@@ -9,9 +9,11 @@ import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
   if (req.method === "POST") {
+    // Post Request
     try {
       validateAllFields(req.body);
       await dbConnect();
+      // Session Check
       const session = await getSession({ req });
       if (!session) {
         errorHandler("Session does not exist", res);
@@ -20,9 +22,11 @@ async function handler(req, res) {
         errorHandler("Username does not match with Session", res);
         return null;
       }
-      
+
+      // New Comment Created
       const comment = new PostComment(req.body);
 
+      // New Comment Saved
       const result = await comment.save();
 
       if (result) responseHandler(result, res, 201);

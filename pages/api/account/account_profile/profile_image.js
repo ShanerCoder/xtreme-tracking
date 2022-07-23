@@ -10,6 +10,7 @@ import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
   if (req.method === "GET") {
+    // GET Request
     try {
       const session = await getSession({ req });
       validateAllFields(req.query.username);
@@ -50,6 +51,7 @@ async function handler(req, res) {
         }
       }
 
+      // Finds User Profile
       const userProfileResult = await UserProfile.findOne({
         _id: user._id,
       });
@@ -59,6 +61,7 @@ async function handler(req, res) {
         return null;
       }
 
+      // Returns User Profile Picture ID
       if (userProfileResult) {
         var profilePictureId = userProfileResult.profilePictureId;
         if (
@@ -75,7 +78,9 @@ async function handler(req, res) {
       errorHandler(process.env.DEFAULT_PROFILE_PICTURE_ID, res);
     }
   } else if (req.method === "PUT") {
+    // Put Request
     try {
+      // Session Check
       const session = await getSession({ req });
       if (!session) {
         errorHandler("Session does not exist", res);
@@ -88,6 +93,7 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // Updates User Profile Picture ID
       const userProfileResult = await UserProfile.findOne({
         _id: session.user.id,
       }).updateOne({

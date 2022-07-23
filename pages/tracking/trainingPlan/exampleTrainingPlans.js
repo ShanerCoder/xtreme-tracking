@@ -34,10 +34,12 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // Finds example training plans
     const exampleTrainingPlans = await ExampleTrainingPlansList.find({}).sort({
       trainingPlanName: 1,
     });
 
+    // Returns example training plans
     return {
       props: {
         exampleTrainingPlans: exampleTrainingPlans.map((trainingPlan) => ({

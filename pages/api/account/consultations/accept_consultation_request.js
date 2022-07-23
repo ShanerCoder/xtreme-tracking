@@ -10,13 +10,16 @@ import Cryptr from "cryptr";
 import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
     return null;
   }
   if (req.method === "POST") {
+    // Post Request
     try {
+      // Username Session Check
       if (session.user.username != req.body.usernameWhoSent) {
         errorHandler("Username does not match with Session", res);
         return null;
@@ -27,10 +30,13 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // New Client List Entry
       const clientListEntry = new ClientList({
         personalTrainerUsername: usernameWhoSent,
         clientUsername: usernameToReceive,
       });
+
+      // Save new Client List Entry
       const clientListResult = await clientListEntry.save();
 
       if (clientListResult) {
@@ -39,16 +45,19 @@ async function handler(req, res) {
           " has accepted your Consultation Request! \n\nAdditional Context:\n" +
           req.body.additionalContext;
 
+        // Sends a new private message, this is encrypted
         const encryptedPrivateMessage = await cryptr.encrypt(
           consultationRequestAcceptedMessage
         );
 
+        // New Private Message Created
         const privateMessage = new PrivateMessage({
           usernameToReceive,
           usernameWhoSent,
           privateMessage: encryptedPrivateMessage,
         });
 
+        // Private Message is saved
         const privateMessageResult = await privateMessage.save();
         if (privateMessageResult) {
           const privateMessageDoc = privateMessageResult._doc;

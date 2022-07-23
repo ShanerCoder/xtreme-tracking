@@ -10,7 +10,6 @@ import GenerateProfileForm from "../../components/forms/ProfilePageForms/Profile
 import { useRouter } from "next/router";
 import { useState } from "react";
 import ExerciseHistory from "../../models/exerciseTracking/exerciseHistory";
-import FoodList from "../../models/calorieTracking/foodList";
 import FoodHistory from "../../models/calorieTracking/foodHistory";
 import LighterDiv from "../../components/ui/LighterDiv";
 import { useLoadingStore } from "../../context/loadingScreen";
@@ -25,18 +24,21 @@ function ProfileView(props) {
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
+  // List of Exercise History Dates
   const listOfExerciseHistoryDates = [];
   if (props.exerciseHistoryDates)
     props.exerciseHistoryDates.map((exercise) =>
       listOfExerciseHistoryDates.push(new Date(exercise.dateOfExercise))
     );
 
+  // List of Food History Dates
   const listOfFoodHistoryDates = [];
   if (props.foodHistoryDates)
     props.foodHistoryDates.map((food) =>
       listOfFoodHistoryDates.push(new Date(food.dateEaten))
     );
 
+  // Function to generate profile if it has not been created properly
   async function generateProfile() {
     showLoadingScreen({ type: true });
     const newUserProfile = {
@@ -68,6 +70,7 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to remove training plan
   async function handleRemoveTrainingPlan(trainingPlanId) {
     showLoadingScreen({ type: true });
     const bodyData = {
@@ -90,6 +93,7 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to update privacy level of a photo
   async function handleUpdatePrivacyOfPhoto(postData) {
     showLoadingScreen({ type: true });
     const bodyData = {
@@ -113,6 +117,7 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to remove a photo
   async function handleRemovePhoto(id) {
     showLoadingScreen({ type: true });
     const bodyData = {
@@ -135,6 +140,7 @@ function ProfileView(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to redirect to next page
   async function handleNextPageNavigation() {
     showLoadingScreen({ type: true });
     await router.push(
@@ -150,6 +156,7 @@ function ProfileView(props) {
     });
   }
 
+  // Function to redirect to previous page
   async function handlePrevPageNavigation() {
     showLoadingScreen({ type: true });
     await router.push(
@@ -297,8 +304,8 @@ export async function getServerSideProps(context) {
     }).sort({ gramsEaten: 1 });
     // END OF FOOD INFORMATION
 
+    // Returns relevant information found
     return {
-      // Returns User and Profile details
       props: {
         user: {
           id: selectedUser.id,

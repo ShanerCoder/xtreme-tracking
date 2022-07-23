@@ -15,9 +15,11 @@ import classes from "./Calendar.module.css";
 import { Col, Row } from "react-bootstrap";
 
 function Calendar(props) {
+  // States to hold the currently selected month and dates
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  // Function which renders the header of the calendar
   function renderHeader() {
     const dateFormat = "MMMM yyyy";
 
@@ -52,6 +54,7 @@ function Calendar(props) {
     );
   }
 
+  // Function to render the text of the days of the calendar
   function renderDays() {
     const dateFormat = "EE";
     const days = [];
@@ -74,10 +77,12 @@ function Calendar(props) {
     return <div className="days row">{days}</div>;
   }
 
+  // Function to render the cells of the calendar
   function renderCells() {
     let datesOfConsultations = [];
     let datesOfSecondaryConsultations = [];
 
+    // Pushes dates that should have an icon into the empty arrays stored above
     if (props.listOfDates) {
       const currentMonthNumber = currentMonth.getMonth();
       props.listOfDates.forEach((date) => {
@@ -109,6 +114,7 @@ function Calendar(props) {
     let day = startDate;
     let formattedDate = "";
 
+    // Renders cells for each week of the selected month
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, dateFormat);

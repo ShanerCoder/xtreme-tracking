@@ -10,14 +10,17 @@ function TrainingPlanSection(props) {
   const exerciseDropdownRef = useRef();
   const trainingPlanName = useRef();
   const [muscleGroupFilter, setMuscleGroupFilter] = useState("All");
+  // State of added exercises, prefilled if its an existing training plan or empty if not
   const [addedExercises, setAddedExercises] = useState(
     props.trainingPlan ? props.trainingPlan.listOfExercises : []
   );
+  // Const to force update of other states, used to refresh the current list of added exercises
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const listOfMuscleGroups = [];
   const ownerViewing = props.view != "OtherUserView";
   const newTrainingPlan = props.view == "AddPlan";
 
+  // Prevents user entering backslashes in the training plan name
   function handlePreventBackslash(event) {
     if (event.key === "\\" || event.key === "/") {
       event.preventDefault();

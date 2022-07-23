@@ -103,18 +103,22 @@ export async function getServerSideProps(context) {
     const req = context.req;
     const session = await getSession({ req });
 
+    // Finds all comments for selected post
     const comments = await PostComment.find({
       postId: mongoose.Types.ObjectId(postId),
     }).sort({ _id: -1 });
 
+    // Finds number of likes for selected post
     const numberOfLikes = await PostLikedBy.find({
       postId: mongoose.Types.ObjectId(postId),
     }).count();
 
+    // Counts number of comments for selected post
     const numberOfComments = await PostComment.find({
       postId: mongoose.Types.ObjectId(postId),
     }).count();
 
+    // Checks if user has liked post previously
     let postLiked;
     if (session)
       postLiked = await PostLikedBy.find({
@@ -123,7 +127,11 @@ export async function getServerSideProps(context) {
       }).count();
 
     const filter = { _id: postId };
+
+    // Finds selected post
     const selectedPost = await Post.findOne(filter);
+    
+    // Returns relevant information found
     return {
       props: {
         userposts: {

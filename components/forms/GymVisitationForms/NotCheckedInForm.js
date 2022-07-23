@@ -1,8 +1,10 @@
 import React from "react";
 
 function NotCheckedInView(props) {
+  // Const that stores the value of if the selected date is greater than the current date
   const isGreaterThanToday = new Date(props.selectedDate) > new Date();
 
+  // Function that returns the html if a user has planned to visit on the selected date
   function planToVisit() {
     let planToVisit = false;
     props.plannedVisitationDates.map((plannedVisitation) => (

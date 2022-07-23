@@ -16,6 +16,7 @@ function TrainingPlanPage(props) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
+  // Function to update training plan
   async function updateTrainingPlan(postData) {
     showLoadingScreen({ type: true });
     if (!postData.listOfExercises.length) {
@@ -57,6 +58,7 @@ function TrainingPlanPage(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to add example training plan to users own training plan list
   async function addTrainingPlanToOwnList(postData) {
     showLoadingScreen({ type: true });
     if (!postData.listOfExercises.length) {
@@ -152,11 +154,13 @@ export async function getServerSideProps(context) {
     const session = await getSession({ req });
     await dbConnect();
 
+    // Finds example training plans
     if (session && !username) {
       const exampleTrainingPlan = await ExampleTrainingPlan.findOne({
         trainingPlanName: trainingPlanName,
       });
 
+      // Returns example training plan information
       return {
         props: {
           trainingPlan: {
@@ -176,15 +180,18 @@ export async function getServerSideProps(context) {
       }).sort({ exerciseName: 1 });
     } else throw new Error("No Session");
 
+    // Finds training plan information from an existing user
     const trainingPlan = await TrainingPlan.findOne({
       username: username,
       trainingPlanName: trainingPlanName,
     });
 
+    // Finds common exercises
     const commonExerciseList = await CommonExerciseList.find({}).sort({
       exerciseName: 1,
     });
 
+    // Returns own username training plans
     if (trainingPlan && ownUsername) {
       return {
         props: {
@@ -207,6 +214,7 @@ export async function getServerSideProps(context) {
         },
       };
     } else if (trainingPlan) {
+      // Returns other users training plans
       return {
         props: {
           trainingPlan: {

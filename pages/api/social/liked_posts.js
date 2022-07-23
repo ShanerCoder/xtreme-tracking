@@ -9,6 +9,7 @@ import { getSession } from "next-auth/client";
 import mongoose from "mongoose";
 
 async function handler(req, res) {
+  // Session Check
   const session = await getSession({ req });
   if (!session) {
     errorHandler("Session does not exist", res);
@@ -19,12 +20,15 @@ async function handler(req, res) {
   }
 
   if (req.method === "POST") {
+    // Post Request
     try {
       validateAllFields(req.body);
       await dbConnect();
 
+      // New Liked Post
       const likedPost = new PostLiked(req.body);
 
+      // Saves new Liked Post
       const result = await likedPost.save();
       if (result) responseHandler(result, res, 201);
       else {
@@ -34,10 +38,12 @@ async function handler(req, res) {
       errorHandler("Post failed to be liked", res);
     }
   } else if (req.method === "DELETE") {
+    // Delete Request
     try {
       validateAllFields(req.body);
       await dbConnect();
 
+      // Removes the liked post from the user
       const result = await PostLiked.deleteMany({
         postId: mongoose.Types.ObjectId(req.body.postId),
         usernameLikingPost: session.user.username,

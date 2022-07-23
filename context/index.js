@@ -3,9 +3,8 @@ import { authConstants } from "./constants";
 
 const Store = createContext();
 
+// Reducer to identify if the user is authenticating, logged in or failed to log in
 const reducer = (state, action) => {
-
-
   switch (action.type) {
     case authConstants.LOGIN_REQUEST: {
       return {

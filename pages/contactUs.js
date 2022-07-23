@@ -14,6 +14,7 @@ function ContactUsPage() {
   const [state] = useStore();
   const user = getValue(state, ["user"], null);
 
+  // Function to submit contact us email
   async function submitHandler(email) {
     showLoadingScreen({ type: true });
     const newEmail = {

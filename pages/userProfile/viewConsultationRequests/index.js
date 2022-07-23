@@ -52,12 +52,14 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // Finds all incoming consultation requests
     const consultationRequest = ConsultationRequest.find();
     const filter = { usernameToReceive: session.user.username };
     const consultationRequestList = await consultationRequest
       .find(filter)
       .sort({ _id: -1 });
 
+    // Returns incoming consultation requests
     return {
       props: {
         consultationRequests: consultationRequestList.map((request) => ({

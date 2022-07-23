@@ -19,6 +19,7 @@ function RequestConsultation(props) {
   const router = useRouter();
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
 
+  // Function to create new requested consultation
   async function submitHandler(messageData) {
     showLoadingScreen({ type: true });
     const consultationRequest = {
@@ -96,6 +97,7 @@ export async function getServerSideProps(context) {
     const personalTrainerUsername = context.query.username;
     await dbConnect();
 
+    // Session Check
     const req = context.req;
     const session = await getSession({ req });
     if (!session) {
@@ -114,6 +116,8 @@ export async function getServerSideProps(context) {
       throw new Error("Attempting to send request to their own Profile");
 
     const usernameFilter = { username: personalTrainerUsername };
+
+    // Finds selected user profile
     const selectedUser = await User.findOne(usernameFilter);
     const userId = selectedUser.id;
     const selectedProfile = await Profile.findOne({ _id: userId });
@@ -129,6 +133,7 @@ export async function getServerSideProps(context) {
         },
       };
 
+    // Checks if user is already a client
     const userAlreadyAClient = await ClientList.find({
       personalTrainerUsername: personalTrainerUsername,
       clientUsername: clientUsername,
@@ -144,6 +149,7 @@ export async function getServerSideProps(context) {
         },
       };
 
+    // Checks if user already has a request to be reviewed
     const userHasMadePriorRequest = await ConsultationRequest.find({
       usernameToReceive: personalTrainerUsername,
       usernameWhoSent: clientUsername,
@@ -161,6 +167,7 @@ export async function getServerSideProps(context) {
         },
       };
 
+    // Returns relevant information found
     return {
       props: {
         user: {

@@ -3,6 +3,7 @@ import FullPageLoader from "../components/layout/FullPageLoader";
 
 const Store = createContext();
 
+// Reducer to show the loading screen or not depending on the action passed in
 const reducer = (state, action) => {
   switch (action.type) {
     case true: {

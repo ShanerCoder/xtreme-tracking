@@ -9,9 +9,12 @@ import UserProfile from "../../../../models/accountProfile/userProfile";
 
 async function handler(req, res) {
   if (req.method === "POST") {
+    // Post Request
     try {
       validateAllFields(req.body);
       await dbConnect();
+
+      // Attempts to find user
       const selectedUser = await User.findOne({ username: req.body.username });
       if (selectedUser) {
         const userProfile = new UserProfile({
@@ -21,6 +24,8 @@ async function handler(req, res) {
           personalTrainerProfile: req.body.personalTrainerProfile,
           hideWeightOnCheckIn: false,
         });
+
+        // Saves new user profile
         const profileResult = await userProfile.save();
         if (profileResult) {
           responseHandler(profileResult, res, 201);

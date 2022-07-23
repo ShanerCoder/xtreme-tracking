@@ -1,3 +1,4 @@
+// Error Handler
 export const errorHandler = (data, res, code = 400) => {
   res.status(code).json({
     hasError: true,
@@ -5,6 +6,7 @@ export const errorHandler = (data, res, code = 400) => {
   });
 };
 
+// Response Handler
 export const responseHandler = (data, res, code = 200) => {
   res.status(code).json({
     hasError: false,
@@ -12,6 +14,7 @@ export const responseHandler = (data, res, code = 200) => {
   });
 };
 
+// Validate all fields
 export const validateAllFields = (fields) => {
   for (let key in fields) {
     if (fields[key] === "") {
@@ -20,6 +23,7 @@ export const validateAllFields = (fields) => {
   }
 };
 
+// Function to get value from an array
 export const getValue = (obj, path, defaultValue) => {
   try {
     if (!(obj instanceof Array)) {

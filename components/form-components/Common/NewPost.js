@@ -2,6 +2,10 @@ import { useEffect, useRef } from "react";
 import Card from "../../ui/Card";
 
 function NewPost(props) {
+
+  // useEffect runs once upon the start of the file execution
+  // Set to update the variable stored in the props to equal the functtion updatePostText stored in this file
+  // This allows for the updatePostText function to be called from its parent
   useEffect(() => {
     if (props.updatePostTextFunction)
       props.updatePostTextFunction.current = updatePostText;
@@ -9,6 +13,7 @@ function NewPost(props) {
 
   const postTextRef = useRef();
 
+  // Function that updates the post text field
   function updatePostText(textToAdd) {
     postTextRef.current.value = textToAdd;
   }

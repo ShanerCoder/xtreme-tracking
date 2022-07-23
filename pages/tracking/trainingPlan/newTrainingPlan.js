@@ -25,6 +25,7 @@ function NewTrainingPlan(props) {
     showLoadingScreen({ type: false });
   }
 
+  // Function to add training plan
   async function addTrainingPlan(postData) {
     showLoadingScreen({ type: true });
     if (!postData.listOfExercises.length) {
@@ -84,6 +85,7 @@ export async function getServerSideProps({ req }) {
 
     await dbConnect();
 
+    // Finds exercises and common exercises
     const exerciseList = await ExerciseList.find({
       username: session.user.username,
     }).sort({ exerciseName: 1 });
@@ -91,6 +93,7 @@ export async function getServerSideProps({ req }) {
       exerciseName: 1,
     });
 
+    // Returns exercises and common exercises
     return {
       props: {
         exerciseList: exerciseList.map((exercise) => ({

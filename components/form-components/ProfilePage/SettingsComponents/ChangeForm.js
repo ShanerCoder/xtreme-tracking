@@ -8,12 +8,14 @@ function AdditionalSetting(props) {
   const confirmNewValueRef = useRef();
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // Function which occurs on submission
   function handleSubmit(event) {
     event.preventDefault();
 
     const enteredCurrentValue = currentValueRef.current.value;
     const enteredNewValue = newValueRef.current.value;
     const enteredConfirmNewValue = confirmNewValueRef.current.value;
+    // Checks that new and confirm new values match
     if (enteredNewValue != enteredConfirmNewValue) {
       setErrorMessage("Both fields do not match!");
     } else if (enteredNewValue == enteredCurrentValue) {

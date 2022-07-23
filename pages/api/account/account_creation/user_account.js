@@ -9,6 +9,7 @@ import User from "../../../../models/account/user";
 
 async function handler(req, res) {
   if (req.method === "POST") {
+    // Post Request
     try {
       const { username, email, forename, surname } = req.body;
       validateAllFields(req.body);
@@ -17,8 +18,10 @@ async function handler(req, res) {
       const streakCount = 0;
       const streakDate = new Date().setHours(1, 0, 0, 0);
 
+      // Encrypts inputted password
       const hashPassword = await bcrypt.hash(req.body.password, 8);
 
+      // Creates new user
       const user = new User({
         username,
         password: hashPassword,
@@ -28,6 +31,8 @@ async function handler(req, res) {
         streakCount,
         streakDate,
       });
+
+      // Saves new user
       const userResult = await user.save();
       if (userResult) {
         const userDoc = userResult._doc;
@@ -38,6 +43,7 @@ async function handler(req, res) {
       }
     } catch (error) {
       if (error.name === "MongoServerError" && error.code === 11000) {
+        // Values already exist in DB
         errorHandler("This Username or Email is already in use!", res);
       } else {
         errorHandler("An error has occurred creating a user account", res);

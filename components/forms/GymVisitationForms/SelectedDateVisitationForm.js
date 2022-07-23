@@ -8,6 +8,8 @@ function SelectedDateVisitationForm(props) {
   let photoId = null;
   let weight = null;
 
+  // Updates the values if this method is called
+  // This method is called once it is confirmed that the user has checked in on this date
   function checkInTrue(attendance) {
     checkedInOnDate = true;
     const index = props.gymAttendanceDates.indexOf(attendance);
@@ -29,10 +31,7 @@ function SelectedDateVisitationForm(props) {
       ))}
 
       {checkedInOnDate ? (
-        <CheckedInView
-          photoId={photoId}
-          weight={weight}
-        />
+        <CheckedInView photoId={photoId} weight={weight} />
       ) : (
         <NotCheckedInView
           selectedDate={props.selectedDate}

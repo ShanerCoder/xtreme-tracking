@@ -10,6 +10,7 @@ import { getSession } from "next-auth/client";
 
 async function handler(req, res) {
   if (req.method === "PUT") {
+    // Put Request
     try {
       const session = await getSession({ req });
       if (!session) {
@@ -22,8 +23,10 @@ async function handler(req, res) {
       validateAllFields(req.body);
       await dbConnect();
 
+      // Finds User
       const userResult = await User.findOne({ username: req.body.username });
 
+      // Compares the password matches with current password
       const passwordMatches = await bcrypt.compare(
         req.body.currentPassword,
         userResult.password
@@ -33,8 +36,10 @@ async function handler(req, res) {
         return null;
       }
 
+      // Encrypts new password
       const hashPassword = await bcrypt.hash(req.body.newPassword, 8);
 
+      // Updates current password
       const passwordUpdated = await userResult.updateOne({
         password: hashPassword,
       });

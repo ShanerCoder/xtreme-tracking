@@ -15,6 +15,7 @@ function LoginPage() {
   const [state, dispatch] = useStore();
   const user = getValue(state, ["user"], null);
 
+  // Function to authenticate user
   async function authenticateUserHandler(existingUserData) {
     showLoadingScreen({ type: true });
     dispatch({ type: authConstants.LOGIN_REQUEST });

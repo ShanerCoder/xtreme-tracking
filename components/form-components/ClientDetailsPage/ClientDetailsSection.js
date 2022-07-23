@@ -8,14 +8,17 @@ function ClientDetailsSection(props) {
   const dateInputRef = useRef();
   const additionalInfoRef = useRef();
   let confirmDelete = false;
+
+  // State for the delete button text
   const [deleteButtonText, setDeleteButtonText] = useState("Remove Client");
 
+  // Adds Consultation
   function handleAddConsultation(event) {
     event.preventDefault();
-
     props.addConsultation(dateInputRef.current.value);
   }
 
+  // Removes Client upon clicking button twice
   function handleRemoveClientButton(event) {
     event.preventDefault();
 
