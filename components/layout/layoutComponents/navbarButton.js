@@ -1,5 +1,6 @@
 import { Col, Row } from "react-bootstrap";
-import classes from "./NavbarButton.module.css";
+import classes from "./navbarButton.module.css";
+
 function NavbarButton(props) {
   return (
     <div
