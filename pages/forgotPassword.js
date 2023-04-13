@@ -5,7 +5,6 @@ import { useStore } from "../context";
 import { getValue } from "../utils/common";
 import ForgotPasswordForm from "../components/forms/SignInForms/ForgotPasswordForms/ForgotPasswordForm";
 import { useLoadingStore } from "../context/loadingScreen";
-import LighterDiv from "../components/ui/LighterDiv";
 
 function ForgotPasswordPage() {
   const [loadingScreen, showLoadingScreen] = useLoadingStore();
