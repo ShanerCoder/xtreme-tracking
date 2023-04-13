@@ -1,5 +1,5 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-Try out the project: ![image](https://user-images.githubusercontent.com/87833732/231845856-8f20b071-dffe-4c22-a071-bc9d410119b4.png)
+Try out the project: https://xtreme-tracking.vercel.app/
 
 ## Getting Started
 
