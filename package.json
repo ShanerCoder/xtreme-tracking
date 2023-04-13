@@ -1,6 +1,6 @@
 {
   "name": "xtreme-tracking",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -21,9 +21,9 @@
     "next": "^12.1.5",
     "next-auth": "^3.29.0",
     "nodemailer": "^6.7.5",
-    "react": "17.0.1",
+    "react": "18.2.0",
     "react-bootstrap": "^2.3.0",
-    "react-dom": "17.0.1",
+    "react-dom": "18.2.0",
     "react-linkify": "^1.0.0-alpha"
   }
 }
